@@ -1,0 +1,24 @@
+@use "../form.scss";
+
+.select {
+	display: inline-flex;
+	flex: 1;
+	border: 2px solid currentColor;
+	border-radius: var(--unit-1);
+	background: white;
+	padding: var(--unit-4);
+	min-width: 0;
+	color: black;
+
+	@media not (prefers-reduced-motion) {
+		transition: all 0.2s ease;
+	}
+
+	&[aria-invalid="true"] {
+		@include form.invalid;
+	}
+
+	&:disabled {
+		@include form.disabled;
+	}
+}

@@ -1,0 +1,18 @@
+# Vite
+node_modules
+dist
+
+# Editors & OS
+**/.DS_Store
+**/desktop.ini
+
+# Generated files
+src/lib/heyapi
+src/lib/paraglide
+**/*.gen.*
+**/*.tsbuildinfo
+
+# Environment
+*.env*
+!.env.example
+*.local.*

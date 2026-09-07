@@ -1,0 +1,35 @@
+// TODO: Replace this with the colors from your project's design
+
+// Add your base colors here.
+$colors: (
+	/* Royal Blue*/ "primary": #4169e1,
+	/* Salmon*/ "secondary": #ff8e77,
+	/* Tea Green*/ "tertiary": #c7efcf,
+	/* Persian Red*/ "error": #cc3e40,
+	/* Grey*/ "neutral": #808080
+);
+
+// A palette from color-050 to color-950 will be generated.
+:root {
+	@each $name, $color in $colors {
+		--color-#{$name}-050: color-mix(in oklch shorter hue, #{$color}, white 90%);
+		--color-#{$name}-100: color-mix(in oklch shorter hue, #{$color}, white 80%);
+		--color-#{$name}-150: color-mix(in oklch shorter hue, #{$color}, white 70%);
+		--color-#{$name}-200: color-mix(in oklch shorter hue, #{$color}, white 60%);
+		--color-#{$name}-250: color-mix(in oklch shorter hue, #{$color}, white 50%);
+		--color-#{$name}-300: color-mix(in oklch shorter hue, #{$color}, white 40%);
+		--color-#{$name}-350: color-mix(in oklch shorter hue, #{$color}, white 30%);
+		--color-#{$name}-400: color-mix(in oklch shorter hue, #{$color}, white 20%);
+		--color-#{$name}-450: color-mix(in oklch shorter hue, #{$color}, white 10%);
+		--color-#{$name}-500: #{$color};
+		--color-#{$name}-550: color-mix(in oklch shorter hue, #{$color}, black 10%);
+		--color-#{$name}-600: color-mix(in oklch shorter hue, #{$color}, black 20%);
+		--color-#{$name}-650: color-mix(in oklch shorter hue, #{$color}, black 30%);
+		--color-#{$name}-700: color-mix(in oklch shorter hue, #{$color}, black 40%);
+		--color-#{$name}-750: color-mix(in oklch shorter hue, #{$color}, black 50%);
+		--color-#{$name}-800: color-mix(in oklch shorter hue, #{$color}, black 60%);
+		--color-#{$name}-850: color-mix(in oklch shorter hue, #{$color}, black 70%);
+		--color-#{$name}-900: color-mix(in oklch shorter hue, #{$color}, black 80%);
+		--color-#{$name}-950: color-mix(in oklch shorter hue, #{$color}, black 90%);
+	}
+}

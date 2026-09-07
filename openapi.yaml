@@ -1,0 +1,215 @@
+openapi: 3.1.0
+info:
+  title: Example API
+  description: An example API for Igne's vite-react-template
+  version: 2.0.0
+servers:
+  - url: https://localhost.com:5173
+    description: Vite development server with reverse proxy to circumvent CORS.
+components:
+  securitySchemes:
+    auth-cookie:
+      type: apiKey
+      in: cookie
+      name: auth-cookie
+  schemas:
+    GenericError:
+      type: object
+      properties:
+        type:
+          type: string
+          description: URI to error type spec
+        title:
+          type: string
+          description: Error message
+        detail:
+          type: string
+          description: More detailed description of the error
+        status:
+          type: number
+          description: HTML status code
+        code:
+          type: string
+          description: Short code to identify the error.
+      required:
+        - type
+        - title
+        - status
+        - code
+    ValidationError:
+      type: object
+      properties:
+        type:
+          type: string
+          description: URI to error type spec
+        title:
+          type: string
+          description: Error message
+        detail:
+          type: string
+          description: More detailed description of the error
+        status:
+          type: number
+          description: HTML status code
+        code:
+          type: string
+          description: Short code to identify the error.
+        errors:
+          type: object
+          description: >-
+            Map of field names to the validation errors for that field. Keys are
+            the field names, such as "email", "phone", or a nested path like
+            "user.0.name".
+          additionalProperties:
+            type: array
+            items:
+              $ref: "#/components/schemas/FieldError"
+      required:
+        - type
+        - title
+        - status
+        - code
+    FieldError:
+      type: object
+      properties:
+        title:
+          type: string
+        properties:
+          type: object
+          properties:
+            value:
+              type: string
+            size:
+              type: string
+            attribute:
+              type: string
+            min:
+              type: string
+            max:
+              type: string
+            other:
+              type: string
+            values:
+              type: string
+            date:
+              type: string
+            format:
+              type: string
+          required:
+            - attribute
+        code:
+          type: string
+      required:
+        - title
+        - properties
+        - code
+    LoginRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+      required:
+        - email
+        - password
+    ForgotPasswordRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+      required:
+        - email
+    UserDTO:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+      required:
+        - email
+  responses:
+    ValidationException:
+      description: Validation error
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ValidationError"
+    AuthenticationException:
+      description: Unauthenticated
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/GenericError"
+security:
+  - auth-cookie: []
+paths:
+  /api/auth/login:
+    post:
+      responses:
+        "204":
+          description: Logs in and sets cookie on success.
+        "401":
+          $ref: "#/components/responses/AuthenticationException"
+        "422":
+          $ref: "#/components/responses/ValidationException"
+      operationId: postApiAuthLogin
+      tags:
+        - Authentication
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginRequest"
+  /api/auth/logout:
+    post:
+      operationId: postApiAuthLogout
+      tags:
+        - Authentication
+      summary: Logs out the current user by invalidating the auth cookie.
+      responses:
+        "204":
+          description: Logs out and invalidates the auth cookie.
+          headers:
+            Set-Cookie:
+              description: Clears the auth cookie.
+              schema:
+                type: string
+                example: auth-cookie=; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=0
+        "401":
+          $ref: "#/components/responses/AuthenticationException"
+  /api/auth/forgot-password:
+    post:
+      responses:
+        "204":
+          description: If there is a user with the given email address, a recovery email
+            will be sent to that address.
+        "422":
+          $ref: "#/components/responses/ValidationException"
+      operationId: postApiAuthForgotPassword
+      tags:
+        - Authentication
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ForgotPasswordRequest"
+  /api/users/current:
+    get:
+      operationId: getApiUsersCurrent
+      tags:
+        - Users
+      summary: Get the current authenticated user's details.
+      responses:
+        "200":
+          description: Returns the details of the current authenticated user.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserDTO"
+        "401":
+          $ref: "#/components/responses/AuthenticationException"

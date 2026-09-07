@@ -1,0 +1,19 @@
+.field {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	gap: var(--unit-2);
+	width: 100%;
+}
+
+.label {
+	cursor: default;
+}
+
+.optional {
+	color: lch(from currentColor calc(l + 60) c h);
+}
+
+.description {
+	font-style: italic;
+}

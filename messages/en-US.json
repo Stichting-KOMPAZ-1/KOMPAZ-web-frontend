@@ -1,0 +1,28 @@
+{
+	"$schema": "https://inlang.com/schema/inlang-message-format",
+
+	"forms_optional": "Optional",
+
+	"roles_user": "User",
+	"roles_admin": "Administrator",
+
+	"loading_message_0": "Initializing knobs & buttons...",
+	"loading_message_1": "Discombobulating the Metric Accumulator...",
+	"loading_message_2": "Crossing the T's and dotting the I's...",
+	"loading_message_3": "One mississippi, two mississippi...",
+	"loading_message_4": "Pretend we're playing elevator music...",
+
+	"nav_logout": "Log out",
+
+	"home_title": "Home",
+
+	"login_title": "Login",
+	"login_email": "Email address",
+	"login_password": "Password",
+	"login_forgot_password": "Forgot password?",
+	"login_submit": "Login",
+
+	"forgot_password_title": "Forgot password",
+
+	"not_found_title": "Not found"
+}

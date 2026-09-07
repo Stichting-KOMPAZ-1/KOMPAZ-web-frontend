@@ -1,0 +1,6 @@
+pre-commit:
+  parallel: true
+  jobs:
+    - run: bun run biome check --no-errors-on-unmatched --files-ignore-unknown=true {staged_files}
+    - run: bun run prettier --check {staged_files}
+      glob: "**/*.{s,}css"

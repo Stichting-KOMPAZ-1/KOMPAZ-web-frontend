@@ -1,0 +1,28 @@
+@use "../form.scss";
+
+.input {
+	display: inline-flex;
+	border: 2px solid currentColor;
+	border-radius: var(--unit-1);
+	background: white;
+	padding: var(--unit-4);
+	width: 100%;
+	min-width: 0;
+	color: black;
+
+	@media not (prefers-reduced-motion) {
+		transition: all 0.2s ease;
+	}
+
+	&[aria-invalid="true"] {
+		@include form.invalid;
+	}
+
+	&:disabled {
+		@include form.disabled;
+	}
+}
+
+.errorLabel {
+	cursor: default;
+}

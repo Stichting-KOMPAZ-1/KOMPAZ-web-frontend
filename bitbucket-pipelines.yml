@@ -1,0 +1,31 @@
+image: imbios/bun-node:1.2.8-22-slim
+
+definitions:
+  caches:
+    bun: ~/.bun/install/cache
+
+  steps:
+    - step: &fe-checks
+        name: Frontend - formatting + typecheck
+        caches:
+          - bun
+        script:
+          - bun --version
+          - node --version
+          - bun install --frozen-lockfile
+          - bun run lint
+          - bun run build
+          - bun run check-ts
+
+pipelines:
+  pull-requests:
+    "**":
+      - step: *fe-checks
+
+  branches:
+    develop:
+      - step: *fe-checks
+    staging:
+      - step: *fe-checks
+    main:
+      - step: *fe-checks

@@ -1,0 +1,31 @@
+.page {
+	grid-column: main;
+}
+
+.address {
+	display: grid;
+	grid-template-columns: 2fr 1fr 1fr;
+	gap: var(--unit-4);
+}
+
+.addressError {
+	grid-column: span 3;
+}
+
+.devMessage {
+	margin: var(--unit-4) 0;
+	color: grey;
+
+	.code {
+		font-weight: 700;
+		font-family: "Courier New", Courier, monospace;
+	}
+}
+
+.success {
+	margin: var(--unit-4) 0;
+	background-color: chartreuse;
+	color: green;
+	font-weight: 700;
+	text-align: center;
+}

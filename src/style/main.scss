@@ -1,0 +1,21 @@
+@use "/node_modules/the-new-css-reset/css/reset.css";
+
+@use "/src/style/variables/unit.scss";
+@use "/src/style/variables/fonts.scss";
+@use "/src/style/variables/color.scss";
+
+#root {
+	isolation: isolate;
+}
+
+input,
+button,
+textarea {
+	font: inherit;
+}
+
+body {
+	background-color: white;
+	color: black;
+	font: var(--font-body-medium-regular);
+}

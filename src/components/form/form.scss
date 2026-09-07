@@ -1,0 +1,15 @@
+// Shared styles to be used in scss
+//
+// @use "style/variables/mixins.scss"
+// .selector {
+//   @include form.disabled;
+// }
+@mixin disabled {
+	opacity: 0.5;
+	cursor: not-allowed;
+}
+
+@mixin invalid {
+	border-color: currentColor;
+	color: var(--color-error-500);
+}

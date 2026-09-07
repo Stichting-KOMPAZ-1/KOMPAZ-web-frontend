@@ -1,0 +1,28 @@
+{
+	"$schema": "https://inlang.com/schema/inlang-message-format",
+
+	"forms_optional": "Optioneel",
+
+	"roles_user": "Gebruiker",
+	"roles_admin": "Administrator",
+
+	"loading_message_0": "Wie dit leest heeft geen glasvezel...",
+	"loading_message_1": "Dus... Lekker weertje hè?",
+	"loading_message_2": "Bezig met disproportioneren van Multifunctionele Poly-configuratie...",
+	"loading_message_3": "Bezig met Fropskottel brouwen...",
+	"loading_message_4": "Even geduld. Er zijn 236 wachtenden voor u... (grapje)",
+
+	"nav_logout": "Uitloggen",
+
+	"home_title": "Home",
+
+	"login_title": "Inloggen",
+	"login_email": "E-mailadres",
+	"login_password": "Wachtwoord",
+	"login_forgot_password": "Wachtwoord vergeten?",
+	"login_submit": "Inloggen",
+
+	"forgot_password_title": "Wachtwoord vergeten",
+
+	"not_found_title": "Niet gevonden"
+}

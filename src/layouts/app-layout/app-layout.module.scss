@@ -1,0 +1,37 @@
+// Mobile-first grid layout
+.layout {
+	--gutter: calc((100cqi - 500px) / 2);
+	display: grid;
+	grid-template-rows: min-content 1fr;
+	grid-template-columns:
+		var(--gutter)
+		[main-start]
+		repeat(4, 1fr)
+		[main-end]
+		var(--gutter);
+	gap: var(--unit-4);
+	width: 100cqi;
+	min-height: 100cqb;
+
+	@media (min-width: 992px) {
+		--gutter: calc((100cqi - 1440px) / 2);
+		grid-template-columns:
+			var(--gutter)
+			[main-start]
+			repeat(12, 1fr)
+			[main-end]
+			var(--gutter);
+	}
+
+	& > * {
+		display: grid;
+		grid-template-columns: subgrid;
+		grid-column: 1 / -1;
+	}
+}
+
+.gridMain {
+	display: grid;
+	grid-template-columns: subgrid;
+	grid-column: main;
+}
