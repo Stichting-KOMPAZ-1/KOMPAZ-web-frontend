@@ -5,6 +5,7 @@
 	"scripts": {
 		"dev": "bun i && bun vite",
 		"build": "bun i --frozen-lockfile && bun vite build && bun tsc",
+		"gen": "bun tsr generate",
 		"check": "bun tsc --noEmit && bun biome check src && bun prettier --check 'src/**/*.{s,}css'",
 		"fix": "bun biome check --write src && bun prettier --write 'src/**/*.{s,}css' && bun tsc --noEmit"
 	},
@@ -31,6 +32,7 @@
 		"@hey-api/openapi-ts": "0.97.1",
 		"@hey-api/vite-plugin": "0.3.1",
 		"@svgr/plugin-svgo": "8.1.0",
+		"@tanstack/router-cli": "1.167.29",
 		"@tanstack/router-plugin": "1.167.29",
 		"@types/bun": "1.3.13",
 		"@types/react": "19.2.14",

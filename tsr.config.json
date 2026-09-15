@@ -1,0 +1,6 @@
+{
+	"autoCodeSplitting": true,
+	"quoteStyle": "double",
+	"semicolons": true,
+	"routeFileIgnorePattern": "\\.module\\.scss"
+}

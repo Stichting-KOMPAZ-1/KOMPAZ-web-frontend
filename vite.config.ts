@@ -39,12 +39,7 @@ export default defineConfig(({ mode }) => {
 					],
 				},
 			}),
-			tanstackRouter({
-				autoCodeSplitting: true,
-				quoteStyle: "double",
-				semicolons: true,
-				routeFileIgnorePattern: "\\.module\\.scss",
-			}),
+			tanstackRouter(),
 			https(),
 			react({
 				babel: { plugins: ["babel-plugin-react-compiler"] },
