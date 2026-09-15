@@ -1,6 +1,6 @@
 {
-	"name": "vite-react-template",
-	"version": "3.0.0",
+	"name": "kompaz-web-frontend",
+	"version": "0.1.0",
 	"type": "module",
 	"scripts": {
 		"dev": "bun i && bun vite",
