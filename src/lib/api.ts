@@ -7,10 +7,10 @@ import { client } from "./heyapi/client.gen";
 // these based on your specific needs.
 
 client.setConfig({
-	baseUrl: env.apiBaseUrl,
+	baseUrl: env.VITE_API_BASEURL,
 	headers: {
 		Accept: "application/json",
-		ContentType: "application/json",
+		"Content-Type": "application/json",
 	},
 });
 

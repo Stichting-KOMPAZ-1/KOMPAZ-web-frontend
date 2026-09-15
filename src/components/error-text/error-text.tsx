@@ -5,7 +5,7 @@ import style from "./error-text.module.scss";
 export type ErrorProp = string | string[];
 
 type Props = Readonly<
-	Omit<HTMLAttributes<"p">, "children"> & {
+	Omit<HTMLAttributes<HTMLElement>, "children"> & {
 		className?: string;
 		children?: ErrorProp;
 	} & (

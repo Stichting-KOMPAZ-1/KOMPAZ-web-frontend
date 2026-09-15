@@ -123,9 +123,8 @@ export default defineConfig(({ mode }) => {
 		server: {
 			open: true,
 			proxy: {
-				[env.VITE_API_BASEURL]: {
-					// TODO: Change to your actual backend
-					target: "CHANGE_ME",
+				"/api": {
+					target: env.VITE_API_PROXY_TARGET,
 					secure: true,
 					changeOrigin: true,
 				},
