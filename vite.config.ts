@@ -107,12 +107,6 @@ export default defineConfig(({ mode }) => {
 						) {
 							return "vendor-query";
 						}
-						if (
-							id.includes("/node_modules/i18next") ||
-							id.includes("/node_modules/react-i18next")
-						) {
-							return "vendor-i18n";
-						}
 					},
 				},
 			},
