@@ -10,7 +10,7 @@ import {
 	getFieldErrors,
 	mutateAndValidate,
 } from "lib/forms/validation-helpers";
-import type { ValidationError } from "lib/heyapi";
+import type { ValidationProblemDetails } from "lib/heyapi";
 import { makePageTitle } from "lib/title";
 import { useState } from "react";
 import z from "zod";
@@ -40,38 +40,24 @@ const fakeSubmit = async (_value: any, ok = true) =>
 			if (ok) {
 				resolve({ message: "Success" });
 			} else {
-				// Note: this error object mimics the agreed upon format with BE, but the actual
-				// implementation may be slightly different
+				// Note: mirrors what the backend actually returns, including its
+				// PascalCase field names and plain-string messages.
 				reject({
-					type: "ValidationError",
-					code: "invalid_form",
-					status: 422,
-					title: "There was an issue with your input",
+					type: "https://datatracker.ietf.org/doc/html/rfc9110#section-15.5.1",
+					status: 400,
+					title:
+						"Een of meer velden zijn niet correct ingevuld.",
 					errors: {
 						// -- Try out errors on these fields
-						email: [
-							{
-								code: "exists",
-								title: "This email already exists",
-								properties: { attribute: "unique" },
-							},
-							{
-								code: "unimaginative",
-								title:
-									"Your emailaddress is unimaginative 🤪",
-								properties: { attribute: "unimaginative" },
-							},
+						Email: [
+							"This email already exists",
+							"Your emailaddress is unimaginative",
 						],
-						postal_code: [
-							{
-								code: "not_found",
-								title:
-									"Could not find an address with the data you supplied",
-								properties: { attribute: "not_found" },
-							},
+						PostalCode: [
+							"Could not find an address with the data you supplied",
 						],
 					},
-				} satisfies ValidationError);
+				} satisfies ValidationProblemDetails);
 			}
 		}, 500),
 	);

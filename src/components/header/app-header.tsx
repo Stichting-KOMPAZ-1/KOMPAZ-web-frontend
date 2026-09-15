@@ -1,3 +1,4 @@
+import { useQueryClient } from "@tanstack/react-query";
 import {
 	Link,
 	linkOptions,
@@ -6,7 +7,6 @@ import {
 import Logo from "assets/icons/logo.svg?react";
 import clsx from "clsx";
 import { Button, Select } from "components/form";
-import { postApiAuthLogout } from "lib/heyapi";
 import { useLocale } from "lib/i18n";
 import * as m from "lib/paraglide/messages";
 import type { Locale } from "lib/paraglide/runtime";
@@ -29,6 +29,7 @@ const links = linkOptions([
 const AppHeader = () => {
 	const locale = useLocale();
 	const navigate = useNavigate();
+	const queryClient = useQueryClient();
 
 	const languageOptions = locales
 		.toSorted((a, b) => a.localeCompare(b, locale))
@@ -41,8 +42,10 @@ const AppHeader = () => {
 		}));
 
 	const handleLogout = async () => {
-		await postApiAuthLogout();
-		navigate({ to: "/login" });
+		// TODO: also call revokeRefreshToken once token storage exists; the
+		// endpoint needs the refresh token in its body.
+		queryClient.clear();
+		await navigate({ to: "/login" });
 	};
 
 	return (

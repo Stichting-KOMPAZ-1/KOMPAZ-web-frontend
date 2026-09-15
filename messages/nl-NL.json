@@ -18,9 +18,10 @@
 
 	"login_title": "Inloggen",
 	"login_email": "E-mailadres",
-	"login_password": "Wachtwoord",
+	"login_submit": "Stuur inloglink",
+	"login_sent_title": "Check je inbox",
+	"login_sent_body": "Als {email} bij een account hoort, is er een inloglink naartoe gestuurd.",
 	"login_forgot_password": "Wachtwoord vergeten?",
-	"login_submit": "Inloggen",
 
 	"forgot_password_title": "Wachtwoord vergeten",
 

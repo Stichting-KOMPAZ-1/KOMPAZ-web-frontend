@@ -18,9 +18,10 @@
 
 	"login_title": "Login",
 	"login_email": "Email address",
-	"login_password": "Password",
+	"login_submit": "Send login link",
+	"login_sent_title": "Check your inbox",
+	"login_sent_body": "If {email} belongs to an account, a login link has been sent to it.",
 	"login_forgot_password": "Forgot password?",
-	"login_submit": "Login",
 
 	"forgot_password_title": "Forgot password",
 

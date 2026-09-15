@@ -3,7 +3,6 @@ import { useMutation } from "@tanstack/react-query";
 import {
 	createFileRoute,
 	Link,
-	useNavigate,
 } from "@tanstack/react-router";
 import clsx from "clsx";
 import { ErrorText } from "components/error-text/error-text";
@@ -14,15 +13,17 @@ import {
 	mutateAndValidate,
 	normalizeFieldErrors,
 } from "lib/forms/validation-helpers";
-import type { LoginRequest } from "lib/heyapi";
-import { postApiAuthLoginMutation } from "lib/heyapi/@tanstack/react-query.gen";
-import { zLoginRequest } from "lib/heyapi/zod.gen";
+import type { RequestMagicLinkCommand } from "lib/heyapi";
+import { requestMagicLinkMutation } from "lib/heyapi/@tanstack/react-query.gen";
+import { zRequestMagicLinkCommand } from "lib/heyapi/zod.gen";
 import * as m from "lib/paraglide/messages";
 import { makePageTitle } from "lib/title";
 import z from "zod";
 import style from "./login.module.scss";
 
 const loginSearchSchema = z.object({
+	// Set by the _app guard. Carried through redemption once the callback
+	// route lands; the link itself travels by email, so it cannot ride along.
 	redirect: z.optional(
 		z.string().startsWith("/").catch("/"),
 	),
@@ -37,27 +38,37 @@ export const Route = createFileRoute("/_auth/login")({
 });
 
 function LoginPage() {
-	const { redirect } = Route.useSearch();
-	const navigate = useNavigate();
-
 	const mutation = useMutation({
-		...postApiAuthLoginMutation(),
+		...requestMagicLinkMutation(),
 		gcTime: 0,
-		onSuccess: () => navigate({ to: redirect || "/" }),
 	});
 
 	const form = useAppForm({
 		defaultValues: {
 			email: "",
-			password: "",
-		} satisfies LoginRequest,
+		} satisfies RequestMagicLinkCommand,
 		validationLogic: revalidateLogic(),
 		validators: {
-			onDynamic: zLoginRequest,
+			onDynamic: zRequestMagicLinkCommand,
 			onSubmitAsync: ({ value }) =>
 				mutateAndValidate(mutation, { body: value }),
 		},
 	});
+
+	if (mutation.isSuccess) {
+		return (
+			<>
+				<H1 size="medium" className={style.textCenter}>
+					{m.login_sent_title()}
+				</H1>
+				<p className={style.textCenter}>
+					{m.login_sent_body({
+						email: form.state.values.email,
+					})}
+				</p>
+			</>
+		);
+	}
 
 	return (
 		<>
@@ -72,21 +83,13 @@ function LoginPage() {
 				className={style.form}
 				disabled={mutation.isPending}
 			>
-				<form.AppField name="email">
-					{(field) => (
-						<field.Input
-							label={m.login_email()}
-							autoComplete="email"
-						/>
-					)}
-				</form.AppField>
 				<div className={style.label}>
-					<form.AppField name="password">
+					<form.AppField name="email">
 						{(field) => (
 							<field.Input
-								type="password"
-								label={m.login_password()}
-								autoComplete="current-password"
+								label={m.login_email()}
+								autoComplete="email"
+								required
 							/>
 						)}
 					</form.AppField>

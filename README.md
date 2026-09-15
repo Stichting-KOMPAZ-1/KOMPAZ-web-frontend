@@ -36,7 +36,7 @@ bun run gen
 
 This will read the provided openapi spec and generate some files. These files provide typesafe API clients and form validators.
 
-> ⚠️ The provided spec is an example. You should delete `openapi.json` and reference your own OpenAPI specification by changing the `input` in `heyapi.config.ts`
+> ⚠️ The provided spec is an example. You should delete `openapi.json` and reference your own OpenAPI specification by changing the `input` in `openapi-ts.config.ts`
 
 ### 💻 Editor setup
 

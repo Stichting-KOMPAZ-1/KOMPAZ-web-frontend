@@ -5,7 +5,7 @@
 	"scripts": {
 		"dev": "bun i && bun vite",
 		"build": "bun i --frozen-lockfile && bun vite build && bun tsc",
-		"gen": "bun tsr generate",
+		"gen": "bun tsr generate && bun openapi-ts",
 		"check": "bun tsc --noEmit && bun biome check src && bun prettier --check 'src/**/*.{s,}css'",
 		"fix": "bun biome check --write src && bun prettier --write 'src/**/*.{s,}css' && bun tsc --noEmit"
 	},

@@ -1,5 +1,5 @@
 import { parseErrorString } from "lib/api/error-helpers";
-import { zValidationError } from "lib/heyapi/zod.gen";
+import { zValidationProblemDetails } from "lib/heyapi/zod.gen";
 
 /**
  * Field errors can be of multiple types. This transforms to an array of strings.
@@ -44,29 +44,29 @@ export const getFieldErrors = <
 	);
 
 /**
- * Backend uses snake_case, this converts to camelCase
+ * The backend names fields in PascalCase, form fields are camelCase.
+ *
+ * @example
+ * pascalCaseToCamelCase("PostalCode") // "postalCode"
  */
-const snakeCaseToCamelCase = (string: string) => {
-	return string.replace(/_([a-z])/g, (_, letter) =>
-		letter.toUpperCase(),
-	);
-};
+const pascalCaseToCamelCase = (string: string) =>
+	string.charAt(0).toLowerCase() + string.slice(1);
 
 /**
  * Transform api error to form error.
- * TODO: check api error type for your project and adjust as necessary
- *       the template assumes rfc9457: https://datatracker.ietf.org/doc/html/rfc9457#name-the-problem-details-json-ob
+ * The backend returns rfc9457 problem details:
+ * https://datatracker.ietf.org/doc/html/rfc9457#name-the-problem-details-json-ob
  */
 export const apiErrorToFormErrors = (error: unknown) => {
-	const parsed = zValidationError.safeParse(error);
+	const parsed = zValidationProblemDetails.safeParse(error);
 	if (parsed.success) {
 		return {
 			form: parsed.data.title,
 			fields: Object.fromEntries(
 				Object.entries(parsed.data.errors ?? {}).map(
 					([field, fieldErrors]) => [
-						snakeCaseToCamelCase(field),
-						fieldErrors.map(({ title }) => title),
+						pascalCaseToCamelCase(field),
+						fieldErrors,
 					],
 				),
 			),

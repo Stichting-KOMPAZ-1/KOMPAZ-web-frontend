@@ -7,6 +7,7 @@ import { defineConfig, loadEnv } from "vite";
 import https from "vite-plugin-mkcert";
 import svgr from "vite-plugin-svgr";
 import viteTsConfigPaths from "vite-tsconfig-paths";
+import heyApiConfig from "./openapi-ts.config";
 import { name } from "./package.json";
 import { translatedPathnames } from "./router-i18n";
 
@@ -24,21 +25,7 @@ export default defineConfig(({ mode }) => {
 				urlPatterns: translatedPathnames,
 				localStorageKey: `${name}-lang`,
 			}),
-			heyApiPlugin({
-				config: {
-					input: "./openapi.yaml",
-					output: "src/lib/heyapi",
-					plugins: [
-						"@hey-api/typescript",
-						"@tanstack/react-query",
-						{
-							name: "@hey-api/sdk",
-							// validator: true, // optional: https://heyapi.dev/openapi-ts/plugins/sdk#validators
-						},
-						"zod",
-					],
-				},
-			}),
+			heyApiPlugin({ config: heyApiConfig }),
 			tanstackRouter(),
 			https(),
 			react({
