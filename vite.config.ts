@@ -26,7 +26,12 @@ export default defineConfig(({ mode }) => {
 				localStorageKey: `${name}-lang`,
 			}),
 			heyApiPlugin({ config: heyApiConfig }),
-			tanstackRouter(),
+			tanstackRouter({
+				autoCodeSplitting: true,
+				quoteStyle: "double",
+				semicolons: true,
+				routeFileIgnorePattern: "\\.module\\.scss",
+			}),
 			https(),
 			react({
 				babel: { plugins: ["babel-plugin-react-compiler"] },
