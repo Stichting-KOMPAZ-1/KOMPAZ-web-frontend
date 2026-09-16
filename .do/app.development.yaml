@@ -1,0 +1,52 @@
+# App Platform spec for the development frontend.
+#
+# Apply once to create the app:
+#   doctl apps create --spec .do/app.development.yaml
+# Then put the id it prints into the DO_APP_ID_DEVELOPMENT repository secret.
+#
+# After creation DigitalOcean holds the live spec. This file is the bootstrap and
+# the record of which variables an environment needs -- it is not kept in sync
+# automatically, so change both when one of them moves.
+name: kompaz-web-frontend-development
+region: ams
+
+services:
+  - name: web
+    dockerfile_path: Dockerfile
+    http_port: 8080
+    instance_count: 1
+    instance_size_slug: apps-s-1vcpu-0.5gb
+
+    github:
+      repo: Stichting-KOMPAZ-1/KOMPAZ-web-frontend
+      branch: development
+      # CI gates on build, typecheck and lint before it calls
+      # `doctl apps create-deployment`, so DigitalOcean must not also deploy by
+      # itself the moment a commit lands.
+      deploy_on_push: false
+
+    envs:
+      # Inlined into the bundle by Vite, hence BUILD_TIME. A path rather than a
+      # URL: nginx proxies it to the backend on this same origin.
+      - key: VITE_API_BASEURL
+        scope: BUILD_TIME
+        value: /api
+
+      # Read by nginx at container start, hence RUN_TIME.
+      - key: BACKEND_ORIGIN
+        scope: RUN_TIME
+        value: https://CHANGE_ME.frb.io
+      - key: BACKEND_HOST
+        scope: RUN_TIME
+        value: CHANGE_ME.frb.io
+
+    health_check:
+      http_path: /
+
+ingress:
+  rules:
+    - component:
+        name: web
+      match:
+        path:
+          prefix: /

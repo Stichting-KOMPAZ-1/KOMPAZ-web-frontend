@@ -1,0 +1,37 @@
+# Shared reverse-proxy settings for everything the Laravel backend serves.
+#
+# Included from more than one location, so it carries only how to reach the
+# backend -- no add_header and no caching policy, because those differ between
+# the API and the admin panel.
+#
+# Named .inc rather than .conf on purpose: nginx.conf auto-includes
+# /etc/nginx/conf.d/*.conf, and these directives are only valid inside a
+# location.
+
+# No URI part after the host, so the original path arrives unchanged. Laravel
+# mounts its api routes under /api and Nova under /nova, so stripping a prefix
+# here would 404 every one of them.
+proxy_pass ${BACKEND_ORIGIN};
+
+# The backend is routed by Host and terminates its own TLS, so the header and the
+# SNI name both have to be its hostname rather than ours.
+proxy_set_header Host ${BACKEND_HOST};
+proxy_ssl_server_name on;
+proxy_ssl_name ${BACKEND_HOST};
+
+# Host is taken above, so the original client, protocol and hostname survive only
+# in these. The backend trusts X-Forwarded-Host (TRUSTED_PROXIES, set per
+# environment in its bootstrap/app.php), and that is what makes Nova's redirects
+# and generated links point at this domain instead of the backend's.
+proxy_set_header X-Real-IP $remote_addr;
+proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+proxy_set_header X-Forwarded-Proto $scheme;
+proxy_set_header X-Forwarded-Host $host;
+
+proxy_http_version 1.1;
+proxy_connect_timeout 10s;
+proxy_read_timeout 60s;
+
+# Both the API and Nova accept logo uploads. nginx's own default is 1m, which is
+# what would reject them first.
+client_max_body_size 20m;

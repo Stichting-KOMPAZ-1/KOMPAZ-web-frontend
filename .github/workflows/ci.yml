@@ -1,0 +1,77 @@
+name: CI
+
+on:
+  push:
+    branches: [main, development]
+  pull_request:
+    branches: "**"
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  checks:
+    name: Build, typecheck & lint
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.3.10
+
+      - name: Cache Bun dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.bun/install/cache
+          key: bun-${{ hashFiles('bun.lock') }}
+          restore-keys: bun-
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      # Must run before `check`. The API client and the paraglide messages are
+      # emitted by Vite plugins during the build, so on a clean checkout tsc has
+      # nothing to resolve until this has run.
+      - name: Build
+        run: bun run build
+
+      - name: Typecheck & lint
+        run: bun run check
+
+  deploy-development:
+    name: Deploy to App Platform (development)
+    needs: checks
+    if: github.ref == 'refs/heads/development'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+
+      # App Platform builds the Dockerfile itself; --wait makes this job fail if
+      # that build or the health check does, so a red pipeline means a bad deploy
+      # rather than just a failed API call.
+      - name: Trigger deployment
+        run: doctl apps create-deployment "${{ secrets.DO_APP_ID_DEVELOPMENT }}" --wait
+
+  deploy-production:
+    name: Deploy to App Platform (production)
+    needs: checks
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+
+      - name: Trigger deployment
+        run: doctl apps create-deployment "${{ secrets.DO_APP_ID_PRODUCTION }}" --wait
