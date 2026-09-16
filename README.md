@@ -1,11 +1,11 @@
-# Vite React Template
+# KOMPAZ web frontend
 
-A template for quick-starting any React app!
+The web client for KOMPAZ.
 
 <details>
 <summary>Table of Contents</summary>
 
-- [Vite React Template](#vite-react-template)
+- [KOMPAZ web frontend](#kompaz-web-frontend)
   - [🏃‍♂️ Getting started](#️-getting-started)
     - [🟢 OpenAPI](#-openapi)
   - [🚀 Deployments](#-deployments)
@@ -36,7 +36,7 @@ bun run gen
 
 This will read the provided openapi spec and generate some files. These files provide typesafe API clients and form validators.
 
-> ⚠️ The provided spec is an example. You should delete `openapi.json` and reference your own OpenAPI specification by changing the `input` in `openapi-ts.config.ts`
+`openapi.json` is vendored from the backend, which owns the contract. Refresh it from `https://develop.kompaz.igne.link/swagger/v1/swagger.json` and re-run `bun run gen`, so a contract change arrives as a reviewable diff. Never hand-edit it to make the frontend compile.
 
 ### 💻 Editor setup
 
@@ -54,9 +54,9 @@ To overwrite any general settings, create a `settings.local.json` file.
 
 ## 🚀 Deployments
 
-### 🔁 Github Workflows / Bitbucket pipeline (todo)
+### 🔁 Github Workflows
 
-Use the provided Github Workflows, just add the last step in [.github/workflows/deploy_develop.yml](.github/workflows/deploy_develop.yml).
+[.github/workflows/build.yml](.github/workflows/build.yml) builds every pull request against `main`. There is no deploy workflow yet.
 
 ### 🛠️ DIY
 
@@ -71,11 +71,8 @@ bun run build --mode develop
 
 The app is now built in `./dist` and ready to be hosted.
 
-> ⚠️ Note that the web app is configured to send requests to the server it's hosted on. This is to prevent CORS issues while developing our projects.
+> ⚠️ The app sends its requests to the origin it is hosted on. The backend serves no CORS headers, so a cross-origin deployment cannot work.
 >
-> In order to support this, the server must reverse proxy requests according to [the following rules in `vite.config.ts`](./vite.config.ts):
+> The host must therefore reverse proxy `/api` to the backend. In development [`vite.config.ts`](./vite.config.ts) does this, using `VITE_API_PROXY_TARGET` from `.env`.
 >
-> ```
-> "/api": "https://api.example.CHANGE_ME.com/api/v1",
-> "/oauth2": "https://CHANGE_ME.exampleauthservice.com/v3/oauth2"
-> ```
+> `VITE_API_BASEURL` is only for the exception: a deployment where the API is genuinely on another origin. It is prepended to paths that already start with `/api`, so it takes an origin and never a path.
