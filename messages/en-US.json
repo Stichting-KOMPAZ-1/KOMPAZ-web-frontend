@@ -3,14 +3,7 @@
 
 	"forms_optional": "Optional",
 
-	"roles_user": "User",
-	"roles_admin": "Administrator",
-
-	"loading_message_0": "Initializing knobs & buttons...",
-	"loading_message_1": "Discombobulating the Metric Accumulator...",
-	"loading_message_2": "Crossing the T's and dotting the I's...",
-	"loading_message_3": "One mississippi, two mississippi...",
-	"loading_message_4": "Pretend we're playing elevator music...",
+	"loading_message": "Loading...",
 
 	"nav_logout": "Log out",
 
