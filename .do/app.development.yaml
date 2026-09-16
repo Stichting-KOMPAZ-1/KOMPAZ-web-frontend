@@ -35,10 +35,10 @@ services:
       # Read by nginx at container start, hence RUN_TIME.
       - key: BACKEND_ORIGIN
         scope: RUN_TIME
-        value: https://CHANGE_ME.frb.io
+        value: https://backend.kompaz.igne.link
       - key: BACKEND_HOST
         scope: RUN_TIME
-        value: CHANGE_ME.frb.io
+        value: backend.kompaz.igne.link
 
     health_check:
       http_path: /
