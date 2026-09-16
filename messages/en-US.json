@@ -20,5 +20,7 @@
 
 	"forgot_password_title": "Forgot password",
 
+	"error_unknown": "Unknown error.",
+
 	"not_found_title": "Not found"
 }

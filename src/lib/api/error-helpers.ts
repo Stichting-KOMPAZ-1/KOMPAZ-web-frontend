@@ -1,3 +1,5 @@
+import * as m from "lib/paraglide/messages";
+
 /**
  * Try to get an error message from an unknown value
  * Useful for catch situations or poorly typed api's
@@ -7,7 +9,7 @@ export const parseErrorString = (
 	value: unknown,
 	fallback?: string,
 ): string => {
-	const unknownError = fallback || "Onbekende fout.";
+	const unknownError = fallback || m.error_unknown();
 	if (!value) return unknownError;
 	if (typeof value === "string") return value;
 	if (
