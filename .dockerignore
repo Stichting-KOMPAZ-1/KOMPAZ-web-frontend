@@ -1,0 +1,11 @@
+node_modules
+dist
+.env
+.git
+.github
+.vscode
+.claude
+docs
+*.tsbuildinfo
+src/lib/heyapi
+src/lib/paraglide
