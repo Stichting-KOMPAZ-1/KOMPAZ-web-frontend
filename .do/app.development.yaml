@@ -27,9 +27,10 @@ services:
     source_dir: /
     http_port: 8080
     instance_count: 1
-    # Matches the Viqio app. Runtime is only nginx serving static files, so
-    # apps-s-1vcpu-0.5gb would do and halves the cost.
-    instance_size_slug: apps-s-1vcpu-1gb
+    # Runtime is nginx serving static files and proxying, which needs a
+    # fraction of this. The Viqio app runs apps-s-1vcpu-1gb, but that is the
+    # professional tier at $12/month against $5 here for memory nothing uses.
+    instance_size_slug: apps-s-1vcpu-0.5gb
 
     github:
       repo: Stichting-KOMPAZ-1/KOMPAZ-web-frontend

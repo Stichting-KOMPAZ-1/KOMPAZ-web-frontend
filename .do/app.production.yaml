@@ -27,7 +27,8 @@ services:
     source_dir: /
     http_port: 8080
     instance_count: 1
-    instance_size_slug: apps-s-1vcpu-1gb
+    # See the development spec: nginx needs a fraction of this.
+    instance_size_slug: apps-s-1vcpu-0.5gb
 
     github:
       repo: Stichting-KOMPAZ-1/KOMPAZ-web-frontend
