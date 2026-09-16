@@ -34,9 +34,6 @@ Before finishing any task, run in order:
 bun fix   # Auto-fix formatting, then type-check
 ```
 
-On a fresh clone this fails until `bun run gen` has run: `router-i18n.ts`
-imports a type from the generated, gitignored `src/routeTree.gen.ts`.
-
 Never bypass hooks or suggest `--no-verify`.
 
 ---
@@ -53,15 +50,6 @@ Before implementing any interactive widget (dialog, popover, menu, select, check
 - Do not edit generated files.
 - Include new generated files/folders in the gitignore, under the right comment heading.
 - Gitignored files not under the specific generated files heading are not necessarily generated, and thus are exempt from this rule.
-
-`bun run gen` regenerates the route tree and the API client. Paraglide output
-(`src/lib/paraglide`) is **not** covered by it — that still needs `bun run dev`
-or `bun run build` once, because the Paraglide CLI cannot take the
-`urlPatterns` and `localStorageKey` that `vite.config.ts` passes.
-
-`openapi.json` is vendored from the backend, not written here. Refresh it from
-`https://develop.kompaz.igne.link/swagger/v1/swagger.json` and regenerate;
-never hand-edit it to make the frontend compile.
 
 ---
 
