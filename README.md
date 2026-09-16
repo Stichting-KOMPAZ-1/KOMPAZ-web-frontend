@@ -58,10 +58,20 @@ The app is hosted on **DigitalOcean App Platform**, one app per environment, eac
 building this repository's [`Dockerfile`](./Dockerfile) itself. The image is a
 Bun build of the SPA served by nginx on port 8080.
 
-| Branch        | App                               | Repository secret       |
-| ------------- | --------------------------------- | ----------------------- |
-| `development` | `kompaz-web-frontend-development` | `DO_APP_ID_DEVELOPMENT` |
-| `main`        | `kompaz-web-frontend`             | `DO_APP_ID_PRODUCTION`  |
+| Branch        | App                       | Backend                            | Repository secret       |
+| ------------- | ------------------------- | ---------------------------------- | ----------------------- |
+| `development` | `kompaz-web-frontend-dev` | `https://backend.kompaz.igne.link` | `DO_APP_ID_DEVELOPMENT` |
+| `main`        | `kompaz-web-frontend`     | not deployed yet                   | `DO_APP_ID_PRODUCTION`  |
+
+> The production backend has no code deployed — its fortrabbit app answers every
+> path with fortrabbit's own 403 page and has no custom domain — so
+> [`.do/app.production.yaml`](./.do/app.production.yaml) still carries
+> placeholders and must not be applied yet.
+>
+> Point `BACKEND_ORIGIN` at the backend's real public origin, not its
+> `*.frbit.app` default: development's default domain 301-redirects to
+> `backend.kompaz.igne.link`, and proxying to a redirect would send the browser
+> cross-origin on every call.
 
 ### 🔁 The pipeline
 

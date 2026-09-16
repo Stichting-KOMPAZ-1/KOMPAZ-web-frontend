@@ -1,6 +1,10 @@
 # App Platform spec for the production frontend.
 #
-# Apply once to create the app:
+# NOT READY TO APPLY. The production backend has no code deployed: its fortrabbit
+# app (en-j8qfex) answers every path with fortrabbit's own 403 "no code has been
+# deployed yet" page, and it has no custom domain, so there is nothing for
+# BACKEND_ORIGIN to point at yet. Fill in the two values below once it is
+# deployed, then:
 #   doctl apps create --spec .do/app.production.yaml
 # Then put the id it prints into the DO_APP_ID_PRODUCTION repository secret.
 #
@@ -10,12 +14,20 @@
 name: kompaz-web-frontend
 region: ams
 
+alerts:
+  - rule: DEPLOYMENT_FAILED
+  - rule: DOMAIN_FAILED
+
+# No domain yet. Add the production hostname here once it is decided, the way the
+# development app carries kompaz.igne.link.
+
 services:
   - name: web
-    dockerfile_path: Dockerfile
+    dockerfile_path: /Dockerfile
+    source_dir: /
     http_port: 8080
     instance_count: 1
-    instance_size_slug: apps-s-1vcpu-0.5gb
+    instance_size_slug: apps-s-1vcpu-1gb
 
     github:
       repo: Stichting-KOMPAZ-1/KOMPAZ-web-frontend
@@ -32,13 +44,15 @@ services:
         scope: BUILD_TIME
         value: /api
 
-      # Read by nginx at container start, hence RUN_TIME.
+      # Read by nginx at container start, hence RUN_TIME. Use the backend's real
+      # public origin, not its frbit.app default, if that ends up redirecting the
+      # way development's does.
       - key: BACKEND_ORIGIN
         scope: RUN_TIME
-        value: https://CHANGE_ME.frb.io
+        value: https://CHANGE_ME
       - key: BACKEND_HOST
         scope: RUN_TIME
-        value: CHANGE_ME.frb.io
+        value: CHANGE_ME
 
     health_check:
       http_path: /

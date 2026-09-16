@@ -7,15 +7,29 @@
 # After creation DigitalOcean holds the live spec. This file is the bootstrap and
 # the record of which variables an environment needs -- it is not kept in sync
 # automatically, so change both when one of them moves.
-name: kompaz-web-frontend-development
+name: kompaz-web-frontend-dev
 region: ams
+
+# CI calls `doctl apps create-deployment --wait`, so a failed build already fails
+# the workflow. This catches the deploys CI is not watching, and a domain whose
+# certificate stops renewing.
+alerts:
+  - rule: DEPLOYMENT_FAILED
+  - rule: DOMAIN_FAILED
+
+domains:
+  - domain: kompaz.igne.link
+    type: PRIMARY
 
 services:
   - name: web
-    dockerfile_path: Dockerfile
+    dockerfile_path: /Dockerfile
+    source_dir: /
     http_port: 8080
     instance_count: 1
-    instance_size_slug: apps-s-1vcpu-0.5gb
+    # Matches the Viqio app. Runtime is only nginx serving static files, so
+    # apps-s-1vcpu-0.5gb would do and halves the cost.
+    instance_size_slug: apps-s-1vcpu-1gb
 
     github:
       repo: Stichting-KOMPAZ-1/KOMPAZ-web-frontend
@@ -32,7 +46,9 @@ services:
         scope: BUILD_TIME
         value: /api
 
-      # Read by nginx at container start, hence RUN_TIME.
+      # Read by nginx at container start, hence RUN_TIME. The app's own frbit.app
+      # domain 301-redirects here, so pointing at that one instead would turn
+      # every proxied call into a cross-origin redirect.
       - key: BACKEND_ORIGIN
         scope: RUN_TIME
         value: https://backend.kompaz.igne.link
