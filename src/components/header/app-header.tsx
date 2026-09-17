@@ -1,12 +1,7 @@
-import { useQueryClient } from "@tanstack/react-query";
-import {
-	Link,
-	linkOptions,
-	useNavigate,
-} from "@tanstack/react-router";
+import { Link, linkOptions } from "@tanstack/react-router";
 import Logo from "assets/icons/logo.svg?react";
 import clsx from "clsx";
-import { Button, Select } from "components/form";
+import { Select } from "components/form";
 import { useLocale } from "lib/i18n";
 import * as m from "lib/paraglide/messages";
 import type { Locale } from "lib/paraglide/runtime";
@@ -29,8 +24,6 @@ const links = linkOptions([
 
 const AppHeader = () => {
 	const locale = useLocale();
-	const navigate = useNavigate();
-	const queryClient = useQueryClient();
 
 	const languageOptions = locales
 		.toSorted((a, b) => a.localeCompare(b, locale))
@@ -42,23 +35,12 @@ const AppHeader = () => {
 				}).of(lang) ?? "",
 		}));
 
-	const handleLogout = async () => {
-		// TODO: revoke the session server-side once there is one. Nothing is
-		// authenticated today, so this only drops cached data.
-		queryClient.clear();
-		await navigate({ to: "/login" });
-	};
-
 	return (
 		<header>
 			<div className={clsx([style.header, style.row])}>
 				<nav className={style.row}>
 					{links.map((link) => (
-						<Link
-							key={link.to}
-							to={link.to}
-							className={style.link}
-						>
+						<Link key={link.to} to={link.to} className={style.link}>
 							{link.icon}
 							<span>{link.label()}</span>
 						</Link>
@@ -73,9 +55,6 @@ const AppHeader = () => {
 							setLocale(value as Locale)
 						}
 					/>
-					<Button onClick={handleLogout}>
-						{m.nav_logout()}
-					</Button>
 				</div>
 			</div>
 		</header>

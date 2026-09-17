@@ -5,19 +5,7 @@
 
 	"loading_message": "Loading...",
 
-	"nav_logout": "Log out",
-
 	"home_title": "Home",
-
-	"login_title": "Login",
-	"login_email": "Email address",
-	"login_submit": "Send login link",
-	"login_sent_title": "Check your inbox",
-	"login_sent_body": "If {email} belongs to an account, a login link has been sent to it.",
-	"login_forgot_password": "Forgot password?",
-	"login_unavailable": "Signing in is not available yet.",
-
-	"forgot_password_title": "Forgot password",
 
 	"error_unknown": "Unknown error.",
 
