@@ -20,26 +20,20 @@ const TSFCheckbox = ({
 	fieldLabel,
 	description,
 	required,
-	className,
 	...props
 }: Props) => {
 	const field = useFieldContext<boolean>();
 
 	return (
 		<Field.Root className={style.root}>
-			<Field.LabelLike required={required}>
-				{fieldLabel}
-			</Field.LabelLike>
+			<Field.LabelLike required={required}>{fieldLabel}</Field.LabelLike>
 			<BaseField.Label className={style.label}>
 				<Checkbox
 					id={field.name}
 					checked={field.state.value}
-					onCheckedChange={(checked) =>
-						field.handleChange(checked)
-					}
+					onCheckedChange={(checked) => field.handleChange(checked)}
 					onBlur={field.handleBlur}
 					aria-invalid={!field.state.meta.isValid}
-					className={className}
 					{...props}
 				/>
 				{label}
