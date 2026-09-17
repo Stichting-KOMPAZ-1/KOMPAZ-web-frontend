@@ -42,8 +42,8 @@ const AppHeader = () => {
 		}));
 
 	const handleLogout = async () => {
-		// TODO: also call revokeRefreshToken once token storage exists; the
-		// endpoint needs the refresh token in its body.
+		// TODO: revoke the session server-side once there is one. Nothing is
+		// authenticated today, so this only drops cached data.
 		queryClient.clear();
 		await navigate({ to: "/login" });
 	};

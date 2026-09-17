@@ -15,8 +15,7 @@
 	"login_sent_title": "Check je inbox",
 	"login_sent_body": "Als {email} bij een account hoort, is er een inloglink naartoe gestuurd.",
 	"login_forgot_password": "Wachtwoord vergeten?",
-	"login_link_invalid_title": "Deze inloglink werkt niet meer",
-	"login_link_invalid_body": "De link is verlopen of al gebruikt. Vraag een nieuwe aan.",
+	"login_unavailable": "Inloggen is nog niet beschikbaar.",
 
 	"forgot_password_title": "Wachtwoord vergeten",
 

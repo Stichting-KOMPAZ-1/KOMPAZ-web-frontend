@@ -1,5 +1,4 @@
 import { revalidateLogic } from "@tanstack/react-form";
-import { useMutation } from "@tanstack/react-query";
 import {
 	createFileRoute,
 	Link,
@@ -9,21 +8,18 @@ import { ErrorText } from "components/error-text/error-text";
 import { Button, Form } from "components/form";
 import { H1 } from "components/heading/heading";
 import { useAppForm } from "lib/forms";
-import {
-	mutateAndValidate,
-	normalizeFieldErrors,
-} from "lib/forms/validation-helpers";
-import type { RequestMagicLinkCommand } from "lib/heyapi";
-import { requestMagicLinkMutation } from "lib/heyapi/@tanstack/react-query.gen";
-import { zRequestMagicLinkCommand } from "lib/heyapi/zod.gen";
 import * as m from "lib/paraglide/messages";
 import { makePageTitle } from "lib/title";
 import z from "zod";
 import style from "./login.module.scss";
 
+const requestLinkSchema = z.object({
+	email: z.email(),
+});
+
 const loginSearchSchema = z.object({
-	// Set by the _app guard. Carried through redemption once the callback
-	// route lands; the link itself travels by email, so it cannot ride along.
+	// Nothing sets this today — the _app guard that did is gone with the rest of
+	// auth. Kept so the route keeps accepting it when a guard returns.
 	redirect: z.optional(
 		z.string().startsWith("/").catch("/"),
 	),
@@ -38,37 +34,15 @@ export const Route = createFileRoute("/_auth/login")({
 });
 
 function LoginPage() {
-	const mutation = useMutation({
-		...requestMagicLinkMutation(),
-		gcTime: 0,
-	});
-
 	const form = useAppForm({
 		defaultValues: {
 			email: "",
-		} satisfies RequestMagicLinkCommand,
+		},
 		validationLogic: revalidateLogic(),
 		validators: {
-			onDynamic: zRequestMagicLinkCommand,
-			onSubmitAsync: ({ value }) =>
-				mutateAndValidate(mutation, { body: value }),
+			onDynamic: requestLinkSchema,
 		},
 	});
-
-	if (mutation.isSuccess) {
-		return (
-			<>
-				<H1 size="medium" className={style.textCenter}>
-					{m.login_sent_title()}
-				</H1>
-				<p className={style.textCenter}>
-					{m.login_sent_body({
-						email: form.state.values.email,
-					})}
-				</p>
-			</>
-		);
-	}
 
 	return (
 		<>
@@ -76,12 +50,9 @@ function LoginPage() {
 				{m.login_title()}
 			</H1>
 			<Form
-				onSubmit={(evt) => {
-					evt.preventDefault();
-					form.handleSubmit();
-				}}
+				onSubmit={(evt) => evt.preventDefault()}
 				className={style.form}
-				disabled={mutation.isPending}
+				disabled
 			>
 				<div className={style.label}>
 					<form.AppField name="email">
@@ -101,20 +72,7 @@ function LoginPage() {
 					</Link>
 				</div>
 
-				<form.Subscribe
-					selector={(state) => {
-						const errBag = state.errorMap.onSubmit;
-						return typeof errBag === "string"
-							? errBag
-							: errBag?.form;
-					}}
-				>
-					{(formError) => (
-						<ErrorText>
-							{normalizeFieldErrors(formError)}
-						</ErrorText>
-					)}
-				</form.Subscribe>
+				<ErrorText>{m.login_unavailable()}</ErrorText>
 				<Button type="submit">{m.login_submit()}</Button>
 			</Form>
 		</>

@@ -56,10 +56,6 @@ export const translatedPathnames =
 			"en-US": "/forgot-password",
 			"nl-NL": "/wachtwoord-vergeten",
 		},
-		"/auth/callback": {
-			"en-US": "/auth/callback",
-			"nl-NL": "/auth/callback",
-		},
 		"/form-example": {
 			"en-US": "/form-example",
 			"nl-NL": "/formulier-voorbeeld",

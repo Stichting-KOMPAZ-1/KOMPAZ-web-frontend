@@ -15,8 +15,7 @@
 	"login_sent_title": "Check your inbox",
 	"login_sent_body": "If {email} belongs to an account, a login link has been sent to it.",
 	"login_forgot_password": "Forgot password?",
-	"login_link_invalid_title": "This login link no longer works",
-	"login_link_invalid_body": "The link has expired or has already been used. Request a new one.",
+	"login_unavailable": "Signing in is not available yet.",
 
 	"forgot_password_title": "Forgot password",
 
