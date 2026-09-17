@@ -21,22 +21,14 @@ To run this project, [use `bun`](https://bun.sh/):
 ```sh
 # Install dependencies
 bun install
-bun run gen
 bun run dev
 ```
 
 ### 🟢 OpenAPI
 
-If the api endpoints changed, you need to re-generate the api-related files.
+Vite generates the api-related files on every dev and build run, from the openapi spec. These files provide typesafe API clients and form validators.
 
-```sh
-# Run code generators for API schemas and validators
-bun run gen
-```
-
-This will read the provided openapi spec and generate some files. These files provide typesafe API clients and form validators.
-
-`openapi.json` is vendored from the backend, which owns the contract. Refresh it from `https://backend.kompaz.igne.link/docs/api.json` and re-run `bun run gen`, so a contract change arrives as a reviewable diff. Never hand-edit it to make the frontend compile.
+`openapi.json` is vendored from the backend, which owns the contract. Refresh it from `https://backend.kompaz.igne.link/docs/api.json`, so a contract change arrives as a reviewable diff. Never hand-edit it to make the frontend compile.
 
 ### 💻 Editor setup
 

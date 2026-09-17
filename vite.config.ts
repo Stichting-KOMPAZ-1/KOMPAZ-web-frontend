@@ -9,7 +9,6 @@ import https from "vite-plugin-mkcert";
 import svgr from "vite-plugin-svgr";
 import viteTsConfigPaths from "vite-tsconfig-paths";
 
-import heyApiConfig from "./openapi-ts.config";
 import { name } from "./package.json";
 import { translatedPathnames } from "./router-i18n";
 
@@ -27,7 +26,21 @@ export default defineConfig(({ mode }) => {
 				urlPatterns: translatedPathnames,
 				localStorageKey: `${name}-lang`,
 			}),
-			heyApiPlugin({ config: heyApiConfig }),
+			heyApiPlugin({
+				config: {
+					input: "./openapi.json",
+					output: "src/lib/heyapi",
+					plugins: [
+						"@hey-api/typescript",
+						"@tanstack/react-query",
+						{
+							name: "@hey-api/sdk",
+							// validator: true, // optional: https://heyapi.dev/openapi-ts/plugins/sdk#validators
+						},
+						"zod",
+					],
+				},
+			}),
 			tanstackRouter({
 				autoCodeSplitting: true,
 				quoteStyle: "double",
@@ -41,10 +54,7 @@ export default defineConfig(({ mode }) => {
 			viteTsConfigPaths(),
 			svgr({
 				svgrOptions: {
-					plugins: [
-						"@svgr/plugin-svgo",
-						"@svgr/plugin-jsx",
-					],
+					plugins: ["@svgr/plugin-svgo", "@svgr/plugin-jsx"],
 					// svgProps: { fill: "currentColor" }, // enable this with caution, wether it works depends on the icon set used
 					svgoConfig: {
 						multipass: true,
@@ -81,23 +91,15 @@ export default defineConfig(({ mode }) => {
 							return "vendor-react";
 						}
 						if (
-							id.includes(
-								"/node_modules/@tanstack/react-router",
-							) ||
-							id.includes(
-								"/node_modules/@tanstack/router-core",
-							) ||
+							id.includes("/node_modules/@tanstack/react-router") ||
+							id.includes("/node_modules/@tanstack/router-core") ||
 							id.includes("/node_modules/@tanstack/history")
 						) {
 							return "vendor-router";
 						}
 						if (
-							id.includes(
-								"/node_modules/@tanstack/react-query",
-							) ||
-							id.includes(
-								"/node_modules/@tanstack/query-core",
-							)
+							id.includes("/node_modules/@tanstack/react-query") ||
+							id.includes("/node_modules/@tanstack/query-core")
 						) {
 							return "vendor-query";
 						}
