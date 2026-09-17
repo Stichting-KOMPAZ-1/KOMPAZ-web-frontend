@@ -38,7 +38,7 @@
                             }
                         }
                     },
-                    "422": {
+                    "400": {
                         "$ref": "#\/components\/responses\/ValidationException"
                     }
                 }
@@ -210,7 +210,7 @@
                     "401": {
                         "$ref": "#\/components\/responses\/AuthenticationException"
                     },
-                    "422": {
+                    "400": {
                         "$ref": "#\/components\/responses\/ValidationException"
                     }
                 }
@@ -245,7 +245,7 @@
                     "401": {
                         "$ref": "#\/components\/responses\/AuthenticationException"
                     },
-                    "422": {
+                    "400": {
                         "$ref": "#\/components\/responses\/ValidationException"
                     }
                 }
@@ -334,7 +334,7 @@
                     "401": {
                         "$ref": "#\/components\/responses\/AuthenticationException"
                     },
-                    "422": {
+                    "400": {
                         "$ref": "#\/components\/responses\/ValidationException"
                     }
                 }
@@ -461,7 +461,7 @@
                     "401": {
                         "$ref": "#\/components\/responses\/AuthenticationException"
                     },
-                    "422": {
+                    "400": {
                         "$ref": "#\/components\/responses\/ValidationException"
                     }
                 }
@@ -621,7 +621,7 @@
                     "401": {
                         "$ref": "#\/components\/responses\/AuthenticationException"
                     },
-                    "422": {
+                    "400": {
                         "$ref": "#\/components\/responses\/ValidationException"
                     }
                 }
@@ -669,7 +669,7 @@
                     "401": {
                         "$ref": "#\/components\/responses\/AuthenticationException"
                     },
-                    "422": {
+                    "400": {
                         "$ref": "#\/components\/responses\/ValidationException"
                     }
                 }
@@ -780,7 +780,7 @@
                     "401": {
                         "$ref": "#\/components\/responses\/AuthenticationException"
                     },
-                    "422": {
+                    "400": {
                         "$ref": "#\/components\/responses\/ValidationException"
                     }
                 }
@@ -858,7 +858,7 @@
                     "401": {
                         "$ref": "#\/components\/responses\/AuthenticationException"
                     },
-                    "422": {
+                    "400": {
                         "$ref": "#\/components\/responses\/ValidationException"
                     }
                 }
@@ -1256,68 +1256,163 @@
         },
         "responses": {
             "ValidationException": {
-                "description": "Validation error",
+                "description": "Bad Request",
                 "content": {
-                    "application\/json": {
+                    "application\/problem+json": {
                         "schema": {
                             "type": "object",
                             "properties": {
-                                "message": {
+                                "type": {
                                     "type": "string",
-                                    "description": "Errors overview."
+                                    "format": "uri",
+                                    "description": "The section of the HTTP specification that defines this status.",
+                                    "examples": [
+                                        "https:\/\/datatracker.ietf.org\/doc\/html\/rfc9110#section-15.5.1"
+                                    ]
+                                },
+                                "title": {
+                                    "type": "string",
+                                    "description": "The sentence the form shows. Dutch, because a validation failure is the one problem whose title is read by the person filling the form in rather than by whoever is debugging.",
+                                    "examples": [
+                                        "Een of meer velden zijn niet correct ingevuld."
+                                    ]
+                                },
+                                "status": {
+                                    "type": "integer",
+                                    "description": "The HTTP status, repeated in the body so a stored problem still names it.",
+                                    "const": 400
+                                },
+                                "instance": {
+                                    "type": "string",
+                                    "format": "uri-reference",
+                                    "description": "The path of the request that was refused."
                                 },
                                 "errors": {
                                     "type": "object",
-                                    "description": "A detailed description of each field that failed validation.",
+                                    "description": "Every field that failed, and the Dutch messages it failed with.",
                                     "additionalProperties": {
                                         "type": "array",
                                         "items": {
                                             "type": "string"
                                         }
                                     }
+                                },
+                                "traceId": {
+                                    "type": "string",
+                                    "description": "The identifier of this request, echoed in the X-Request-Id response header. A caller-supplied X-Request-Id is kept."
                                 }
                             },
                             "required": [
-                                "message",
-                                "errors"
+                                "type",
+                                "title",
+                                "status",
+                                "instance",
+                                "errors",
+                                "traceId"
                             ]
                         }
                     }
                 }
             },
             "AuthenticationException": {
-                "description": "Unauthenticated",
+                "description": "Unauthorized",
                 "content": {
-                    "application\/json": {
+                    "application\/problem+json": {
                         "schema": {
                             "type": "object",
                             "properties": {
-                                "message": {
+                                "type": {
                                     "type": "string",
-                                    "description": "Error overview."
+                                    "format": "uri",
+                                    "description": "The section of the HTTP specification that defines this status.",
+                                    "examples": [
+                                        "https:\/\/datatracker.ietf.org\/doc\/html\/rfc9110#section-15.5.2"
+                                    ]
+                                },
+                                "title": {
+                                    "type": "string",
+                                    "description": "The English name of the status, from the HTTP specification's own vocabulary.",
+                                    "examples": [
+                                        "Unauthorized"
+                                    ]
+                                },
+                                "status": {
+                                    "type": "integer",
+                                    "description": "The HTTP status, repeated in the body so a stored problem still names it.",
+                                    "const": 401
+                                },
+                                "detail": {
+                                    "type": "string",
+                                    "description": "What went wrong, in Dutch, written for the person using the product. Omitted when the status says everything."
+                                },
+                                "instance": {
+                                    "type": "string",
+                                    "format": "uri-reference",
+                                    "description": "The path of the request that was refused."
+                                },
+                                "traceId": {
+                                    "type": "string",
+                                    "description": "The identifier of this request, echoed in the X-Request-Id response header. A caller-supplied X-Request-Id is kept."
                                 }
                             },
                             "required": [
-                                "message"
+                                "type",
+                                "title",
+                                "status",
+                                "instance",
+                                "traceId"
                             ]
                         }
                     }
                 }
             },
             "ModelNotFoundException": {
-                "description": "Not found",
+                "description": "Not Found",
                 "content": {
-                    "application\/json": {
+                    "application\/problem+json": {
                         "schema": {
                             "type": "object",
                             "properties": {
-                                "message": {
+                                "type": {
                                     "type": "string",
-                                    "description": "Error overview."
+                                    "format": "uri",
+                                    "description": "The section of the HTTP specification that defines this status.",
+                                    "examples": [
+                                        "https:\/\/datatracker.ietf.org\/doc\/html\/rfc9110#section-15.5.5"
+                                    ]
+                                },
+                                "title": {
+                                    "type": "string",
+                                    "description": "The English name of the status, from the HTTP specification's own vocabulary.",
+                                    "examples": [
+                                        "Not Found"
+                                    ]
+                                },
+                                "status": {
+                                    "type": "integer",
+                                    "description": "The HTTP status, repeated in the body so a stored problem still names it.",
+                                    "const": 404
+                                },
+                                "detail": {
+                                    "type": "string",
+                                    "description": "What went wrong, in Dutch, written for the person using the product. Omitted when the status says everything."
+                                },
+                                "instance": {
+                                    "type": "string",
+                                    "format": "uri-reference",
+                                    "description": "The path of the request that was refused."
+                                },
+                                "traceId": {
+                                    "type": "string",
+                                    "description": "The identifier of this request, echoed in the X-Request-Id response header. A caller-supplied X-Request-Id is kept."
                                 }
                             },
                             "required": [
-                                "message"
+                                "type",
+                                "title",
+                                "status",
+                                "instance",
+                                "traceId"
                             ]
                         }
                     }

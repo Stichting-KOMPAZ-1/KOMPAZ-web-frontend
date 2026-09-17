@@ -1,11 +1,6 @@
 import { parseErrorString } from "lib/api/error-helpers";
 import * as z from "zod";
 
-// The backend answers failed validation with RFC 9457 problem details
-// (`application/problem+json`), but its OpenAPI document describes them as
-// Laravel's `{ message, errors }` under status 422 while the running API sends
-// `title` under 400. There is therefore no generated schema to reuse until the
-// contract is corrected, so the shape the API actually sends is written here.
 export const zValidationProblemDetails = z.object({
 	title: z.string(),
 	errors: z.optional(
