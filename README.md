@@ -36,7 +36,7 @@ bun run gen
 
 This will read the provided openapi spec and generate some files. These files provide typesafe API clients and form validators.
 
-`openapi.json` is vendored from the backend, which owns the contract. Refresh it from `https://develop.kompaz.igne.link/swagger/v1/swagger.json` and re-run `bun run gen`, so a contract change arrives as a reviewable diff. Never hand-edit it to make the frontend compile.
+`openapi.json` is vendored from the backend, which owns the contract. Refresh it from `https://backend.kompaz.igne.link/docs/api.json` and re-run `bun run gen`, so a contract change arrives as a reviewable diff. Never hand-edit it to make the frontend compile.
 
 ### 💻 Editor setup
 

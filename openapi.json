@@ -1,465 +1,269 @@
 {
-    "openapi": "3.0.4",
+    "openapi": "3.1.0",
     "info": {
-        "title": "KOMPAZ API (Develop)",
-        "version": "v1"
+        "title": "Laravel",
+        "version": "0.0.1"
     },
+    "servers": [
+        {
+            "url": "https:\/\/backend.kompaz.igne.link\/api"
+        }
+    ],
     "paths": {
-        "/api/auth/magic-link": {
+        "\/auth\/tokens": {
             "post": {
+                "operationId": "auth.redeem",
+                "summary": "Exchanges the single-use secret from a sign-in link for a bearer token, activating an invited\nuser",
                 "tags": [
-                    "auth"
+                    "Auth"
                 ],
-                "summary": "Emails a sign-in link. Always accepted, whether or not the address belongs to an account.",
-                "operationId": "RequestMagicLink",
                 "requestBody": {
+                    "required": true,
                     "content": {
-                        "application/json": {
+                        "application\/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/RequestMagicLinkCommand"
+                                "$ref": "#\/components\/schemas\/RedeemLoginTokenRequest"
                             }
                         }
-                    },
-                    "required": true
+                    }
                 },
                 "responses": {
-                    "202": {
-                        "description": "Accepted"
-                    },
-                    "400": {
-                        "description": "Bad Request",
+                    "200": {
+                        "description": "`AuthenticationResource`",
                         "content": {
-                            "application/problem+json": {
+                            "application\/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/ValidationProblemDetails"
+                                    "$ref": "#\/components\/schemas\/AuthenticationResource"
                                 }
                             }
                         }
                     },
-                    "429": {
-                        "description": "Too Many Requests",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemDetails"
-                                }
-                            }
-                        }
+                    "422": {
+                        "$ref": "#\/components\/responses\/ValidationException"
                     }
                 }
             }
         },
-        "/api/auth/tokens": {
+        "\/auth\/tokens\/refresh": {
             "post": {
+                "operationId": "auth.refresh",
+                "description": "Authenticated, unlike invitation redemption: the credential being renewed is the one the\nrequest carries, so a client whose token has already expired signs in again rather than\nrefreshing.",
+                "summary": "Swaps the token on this request for a fresh one, restarting its lifetime",
                 "tags": [
-                    "auth"
+                    "Auth"
                 ],
-                "summary": "Exchanges the single-use token from a sign-in link for a bearer token, activating an invited user.",
-                "operationId": "RedeemLoginToken",
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/RedeemLoginTokenCommand"
-                            }
-                        }
-                    },
-                    "required": true
-                },
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "`AuthenticationResource`",
                         "content": {
-                            "application/json": {
+                            "application\/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/AuthenticationResultDto"
+                                    "$ref": "#\/components\/schemas\/AuthenticationResource"
                                 }
                             }
                         }
                     },
                     "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemDetails"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ValidationProblemDetails"
-                                }
-                            }
-                        }
-                    },
-                    "429": {
-                        "description": "Too Many Requests",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemDetails"
-                                }
-                            }
-                        }
+                        "$ref": "#\/components\/responses\/AuthenticationException"
                     }
                 }
             }
         },
-        "/api/auth/tokens/refresh": {
-            "post": {
+        "\/auth\/tokens\/current": {
+            "delete": {
+                "operationId": "auth.revoke",
+                "summary": "Signs out, on this device and every other",
                 "tags": [
-                    "auth"
+                    "Auth"
                 ],
-                "summary": "Exchanges a refresh token for a new access token and its successor, sliding the session forward. The refresh\ntoken supplied is spent by this call; replaying it ends the session.",
-                "operationId": "RefreshAccessToken",
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/RefreshAccessTokenCommand"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/AuthenticationResultDto"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemDetails"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ValidationProblemDetails"
-                                }
-                            }
-                        }
-                    },
-                    "429": {
-                        "description": "Too Many Requests",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemDetails"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/api/auth/tokens/revoke": {
-            "post": {
-                "tags": [
-                    "auth"
-                ],
-                "summary": "Signs out by ending the session a refresh token belongs to. Succeeds even for a token that is already gone,\nso a client can always clear its credentials.",
-                "operationId": "RevokeRefreshToken",
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/RevokeRefreshTokenCommand"
-                            }
-                        }
-                    },
-                    "required": true
-                },
                 "responses": {
                     "204": {
-                        "description": "No Content"
+                        "description": "No content"
                     },
-                    "400": {
-                        "description": "Bad Request",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ValidationProblemDetails"
-                                }
-                            }
-                        }
-                    },
-                    "429": {
-                        "description": "Too Many Requests",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemDetails"
-                                }
-                            }
-                        }
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
                     }
                 }
             }
         },
-        "/api/auth/me": {
+        "\/auth\/me": {
             "get": {
+                "operationId": "auth.me",
+                "summary": "Returns the profile behind the bearer token on this request",
                 "tags": [
-                    "auth"
+                    "Auth"
                 ],
-                "summary": "Returns the profile behind the bearer token on this request.",
-                "operationId": "GetCurrentUser",
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "`UserResource`",
                         "content": {
-                            "application/json": {
+                            "application\/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/UserDto"
+                                    "allOf": [
+                                        {
+                                            "$ref": "#\/components\/schemas\/UserResource"
+                                        },
+                                        {
+                                            "type": "object",
+                                            "required": [
+                                                "organizationName",
+                                                "invitationExpiresUtc"
+                                            ]
+                                        }
+                                    ]
                                 }
                             }
                         }
                     },
                     "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemDetails"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemDetails"
-                                }
-                            }
-                        }
-                    },
-                    "429": {
-                        "description": "Too Many Requests",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemDetails"
-                                }
-                            }
-                        }
+                        "$ref": "#\/components\/responses\/AuthenticationException"
                     }
-                },
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ]
+                }
             }
         },
-        "/api/organizations": {
+        "\/organizations": {
             "get": {
+                "operationId": "organization.index",
+                "summary": "Returns a page of organizations",
                 "tags": [
-                    "organizations"
+                    "Organization"
                 ],
-                "summary": "Returns a page of organizations.",
-                "operationId": "GetOrganizations",
                 "parameters": [
                     {
                         "name": "search",
                         "in": "query",
                         "schema": {
-                            "type": "string"
+                            "type": [
+                                "string",
+                                "null"
+                            ],
+                            "maxLength": 200
                         }
                     },
                     {
                         "name": "pageNumber",
                         "in": "query",
                         "schema": {
-                            "type": "integer",
-                            "format": "int32",
-                            "default": 1
+                            "type": [
+                                "integer",
+                                "null"
+                            ],
+                            "minimum": 1
                         }
                     },
                     {
                         "name": "pageSize",
                         "in": "query",
                         "schema": {
-                            "type": "integer",
-                            "format": "int32",
-                            "default": 25
+                            "type": [
+                                "integer",
+                                "null"
+                            ],
+                            "minimum": 1,
+                            "maximum": 100
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "",
                         "content": {
-                            "application/json": {
+                            "application\/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/OrganizationDtoPaginatedList"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ValidationProblemDetails"
+                                    "type": "object",
+                                    "properties": {
+                                        "items": {
+                                            "type": "string"
+                                        },
+                                        "pageNumber": {
+                                            "type": "string"
+                                        },
+                                        "pageSize": {
+                                            "type": "string"
+                                        },
+                                        "totalCount": {
+                                            "type": "string"
+                                        },
+                                        "totalPages": {
+                                            "type": "integer"
+                                        },
+                                        "hasPreviousPage": {
+                                            "type": "boolean"
+                                        },
+                                        "hasNextPage": {
+                                            "type": "boolean"
+                                        }
+                                    },
+                                    "required": [
+                                        "items",
+                                        "pageNumber",
+                                        "pageSize",
+                                        "totalCount",
+                                        "totalPages",
+                                        "hasPreviousPage",
+                                        "hasNextPage"
+                                    ]
                                 }
                             }
                         }
                     },
                     "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemDetails"
-                                }
-                            }
-                        }
+                        "$ref": "#\/components\/responses\/AuthenticationException"
                     },
-                    "403": {
-                        "description": "Forbidden",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemDetails"
-                                }
-                            }
-                        }
-                    },
-                    "429": {
-                        "description": "Too Many Requests",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemDetails"
-                                }
-                            }
-                        }
+                    "422": {
+                        "$ref": "#\/components\/responses\/ValidationException"
                     }
-                },
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ]
+                }
             },
             "post": {
+                "operationId": "organization.store",
+                "summary": "Creates an organization",
                 "tags": [
-                    "organizations"
+                    "Organization"
                 ],
-                "summary": "Creates an organization.",
-                "operationId": "CreateOrganization",
                 "requestBody": {
+                    "required": true,
                     "content": {
-                        "application/json": {
+                        "application\/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/CreateOrganizationCommand"
+                                "$ref": "#\/components\/schemas\/StoreOrganizationRequest"
                             }
                         }
-                    },
-                    "required": true
+                    }
                 },
                 "responses": {
                     "201": {
-                        "description": "Created",
+                        "description": "`OrganizationResource`",
                         "content": {
-                            "application/json": {
+                            "application\/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/OrganizationDto"
-                                }
-                            }
-                        }
-                    },
-                    "409": {
-                        "description": "Conflict",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemDetails"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ValidationProblemDetails"
+                                    "$ref": "#\/components\/schemas\/OrganizationResource"
                                 }
                             }
                         }
                     },
                     "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemDetails"
-                                }
-                            }
-                        }
+                        "$ref": "#\/components\/responses\/AuthenticationException"
                     },
-                    "403": {
-                        "description": "Forbidden",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemDetails"
-                                }
-                            }
-                        }
-                    },
-                    "429": {
-                        "description": "Too Many Requests",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemDetails"
-                                }
-                            }
-                        }
+                    "422": {
+                        "$ref": "#\/components\/responses\/ValidationException"
                     }
-                },
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ]
+                }
             }
         },
-        "/api/organizations/{id}": {
+        "\/organizations\/{organization}": {
             "get": {
+                "operationId": "organization.show",
+                "summary": "Returns a single organization",
                 "tags": [
-                    "organizations"
+                    "Organization"
                 ],
-                "summary": "Returns a single organization.",
-                "operationId": "GetOrganization",
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "organization",
                         "in": "path",
                         "required": true,
+                        "description": "The organization ID",
                         "schema": {
                             "type": "string",
                             "format": "uuid"
@@ -468,83 +272,35 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "`OrganizationResource`",
                         "content": {
-                            "application/json": {
+                            "application\/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/OrganizationDto"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ValidationProblemDetails"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemDetails"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemDetails"
+                                    "$ref": "#\/components\/schemas\/OrganizationResource"
                                 }
                             }
                         }
                     },
                     "404": {
-                        "description": "Not Found",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemDetails"
-                                }
-                            }
-                        }
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
                     },
-                    "429": {
-                        "description": "Too Many Requests",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemDetails"
-                                }
-                            }
-                        }
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
                     }
-                },
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ]
+                }
             },
             "put": {
+                "operationId": "organization.update",
+                "summary": "Renames an organization",
                 "tags": [
-                    "organizations"
+                    "Organization"
                 ],
-                "summary": "Renames an organization.",
-                "operationId": "UpdateOrganization",
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "organization",
                         "in": "path",
                         "required": true,
+                        "description": "The organization ID",
                         "schema": {
                             "type": "string",
                             "format": "uuid"
@@ -552,104 +308,49 @@
                     }
                 ],
                 "requestBody": {
+                    "required": true,
                     "content": {
-                        "application/json": {
+                        "application\/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/UpdateOrganizationRequest"
+                                "$ref": "#\/components\/schemas\/UpdateOrganizationRequest"
                             }
                         }
-                    },
-                    "required": true
+                    }
                 },
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "`OrganizationResource`",
                         "content": {
-                            "application/json": {
+                            "application\/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/OrganizationDto"
-                                }
-                            }
-                        }
-                    },
-                    "409": {
-                        "description": "Conflict",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemDetails"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ValidationProblemDetails"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemDetails"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemDetails"
+                                    "$ref": "#\/components\/schemas\/OrganizationResource"
                                 }
                             }
                         }
                     },
                     "404": {
-                        "description": "Not Found",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemDetails"
-                                }
-                            }
-                        }
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
                     },
-                    "429": {
-                        "description": "Too Many Requests",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemDetails"
-                                }
-                            }
-                        }
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "422": {
+                        "$ref": "#\/components\/responses\/ValidationException"
                     }
-                },
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ]
+                }
             },
             "delete": {
+                "operationId": "organization.destroy",
+                "summary": "Deletes an organization along with its users",
                 "tags": [
-                    "organizations"
+                    "Organization"
                 ],
-                "summary": "Deletes an organization along with its users.",
-                "operationId": "DeleteOrganization",
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "organization",
                         "in": "path",
                         "required": true,
+                        "description": "The organization ID",
                         "schema": {
                             "type": "string",
                             "format": "uuid"
@@ -658,88 +359,31 @@
                 ],
                 "responses": {
                     "204": {
-                        "description": "No Content"
-                    },
-                    "409": {
-                        "description": "Conflict",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemDetails"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ValidationProblemDetails"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemDetails"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemDetails"
-                                }
-                            }
-                        }
+                        "description": "No content"
                     },
                     "404": {
-                        "description": "Not Found",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemDetails"
-                                }
-                            }
-                        }
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
                     },
-                    "429": {
-                        "description": "Too Many Requests",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemDetails"
-                                }
-                            }
-                        }
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
                     }
-                },
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ]
+                }
             }
         },
-        "/api/organizations/{id}/logo": {
+        "\/organizations\/{organization}\/logo": {
             "get": {
+                "operationId": "organizationLogo.show",
+                "description": "Behind the bearer token like everything else here, because which organizations exist is not\npublic. A browser cannot put a token on an `<img src>`, so a client fetches this and hands\nthe response to the element as an object URL.",
+                "summary": "Returns the organization's logo, or the placeholder when it has none",
                 "tags": [
-                    "organizations"
+                    "OrganizationLogo"
                 ],
-                "summary": "Returns the organization's logo, or the placeholder when it has none.\n\nBehind the bearer token like everything else here, because which organizations exist is not public. A\nbrowser cannot put a token on an `<img src>`, so a client fetches this and hands the response to\nthe element as an object URL.",
-                "operationId": "GetOrganizationLogo",
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "organization",
                         "in": "path",
                         "required": true,
+                        "description": "The organization ID",
                         "schema": {
                             "type": "string",
                             "format": "uuid"
@@ -747,277 +391,153 @@
                     }
                 ],
                 "responses": {
-                    "404": {
-                        "description": "Not Found",
-                        "content": {
-                            "application/problem+json": {
+                    "200": {
+                        "description": "",
+                        "headers": {
+                            "Content-Security-Policy": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/ProblemDetails"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ValidationProblemDetails"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemDetails"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemDetails"
-                                }
-                            }
-                        }
-                    },
-                    "429": {
-                        "description": "Too Many Requests",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemDetails"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ]
-            },
-            "delete": {
-                "tags": [
-                    "organizations"
-                ],
-                "summary": "Removes the organization's logo, which puts it back to the placeholder.",
-                "operationId": "DeleteOrganizationLogo",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "format": "uuid"
-                        }
-                    }
-                ],
-                "responses": {
-                    "204": {
-                        "description": "No Content"
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemDetails"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ValidationProblemDetails"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemDetails"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemDetails"
-                                }
-                            }
-                        }
-                    },
-                    "429": {
-                        "description": "Too Many Requests",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemDetails"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ]
-            },
-            "put": {
-                "tags": [
-                    "organizations"
-                ],
-                "summary": "Sets or replaces the organization's logo, and answers with the organization.",
-                "operationId": "UploadOrganizationLogo",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "format": "uuid"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "content": {
-                        "multipart/form-data": {
-                            "schema": {
-                                "required": [
-                                    "logo"
-                                ],
-                                "type": "object",
-                                "properties": {
-                                    "logo": {
-                                        "type": "string",
-                                        "format": "binary"
-                                    }
+                                    "type": "string",
+                                    "const": "default-src 'none'; sandbox"
                                 }
                             },
-                            "encoding": {
-                                "logo": {
-                                    "style": "form"
+                            "X-Content-Type-Options": {
+                                "schema": {
+                                    "type": "string",
+                                    "const": "nosniff"
                                 }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    }
+                }
+            },
+            "put": {
+                "operationId": "organizationLogo.update",
+                "summary": "Sets or replaces the organization's logo, and answers with the organization",
+                "tags": [
+                    "OrganizationLogo"
+                ],
+                "parameters": [
+                    {
+                        "name": "organization",
+                        "in": "path",
+                        "required": true,
+                        "description": "The organization ID",
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart\/form-data": {
+                            "schema": {
+                                "$ref": "#\/components\/schemas\/UploadOrganizationLogoRequest"
                             }
                         }
                     }
                 },
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "`OrganizationResource`",
                         "content": {
-                            "application/json": {
+                            "application\/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/OrganizationDto"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemDetails"
+                                    "$ref": "#\/components\/schemas\/OrganizationResource"
                                 }
                             }
                         }
                     },
                     "404": {
-                        "description": "Not Found",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemDetails"
-                                }
-                            }
-                        }
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
                     },
                     "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemDetails"
-                                }
-                            }
-                        }
+                        "$ref": "#\/components\/responses\/AuthenticationException"
                     },
-                    "403": {
-                        "description": "Forbidden",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemDetails"
-                                }
-                            }
-                        }
-                    },
-                    "429": {
-                        "description": "Too Many Requests",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemDetails"
-                                }
-                            }
-                        }
+                    "422": {
+                        "$ref": "#\/components\/responses\/ValidationException"
                     }
-                },
-                "security": [
+                }
+            },
+            "delete": {
+                "operationId": "organizationLogo.destroy",
+                "summary": "Removes the organization's logo, which puts it back to the placeholder",
+                "tags": [
+                    "OrganizationLogo"
+                ],
+                "parameters": [
                     {
-                        "Bearer": []
+                        "name": "organization",
+                        "in": "path",
+                        "required": true,
+                        "description": "The organization ID",
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
                     }
-                ]
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No content"
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    }
+                }
             }
         },
-        "/api/users": {
+        "\/users": {
             "get": {
+                "operationId": "user.index",
+                "summary": "Returns a page of users, optionally limited to those still invited or already active.\nDeleted users are left out unless `includeDeleted` asks for them, which is how an\nadministrator finds one to restore",
                 "tags": [
-                    "users"
+                    "User"
                 ],
-                "summary": "Returns a page of users, optionally limited to those still invited or already active. Deleted users are left\nout unless `includeDeleted` asks for them, which is how an administrator finds one to restore.",
-                "operationId": "GetUsers",
                 "parameters": [
                     {
                         "name": "status",
                         "in": "query",
                         "schema": {
-                            "$ref": "#/components/schemas/UserStatus"
+                            "anyOf": [
+                                {
+                                    "$ref": "#\/components\/schemas\/UserStatus"
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ]
                         }
                     },
                     {
                         "name": "search",
                         "in": "query",
                         "schema": {
-                            "type": "string"
+                            "type": [
+                                "string",
+                                "null"
+                            ],
+                            "maxLength": 320
                         }
                     },
                     {
                         "name": "organizationId",
                         "in": "query",
                         "schema": {
-                            "type": "string",
+                            "type": [
+                                "string",
+                                "null"
+                            ],
                             "format": "uuid"
                         }
                     },
@@ -1025,100 +545,149 @@
                         "name": "includeDeleted",
                         "in": "query",
                         "schema": {
-                            "type": "boolean",
-                            "default": false
+                            "type": [
+                                "boolean",
+                                "null"
+                            ]
                         }
                     },
                     {
                         "name": "pageNumber",
                         "in": "query",
                         "schema": {
-                            "type": "integer",
-                            "format": "int32",
-                            "default": 1
+                            "type": [
+                                "integer",
+                                "null"
+                            ],
+                            "minimum": 1
                         }
                     },
                     {
                         "name": "pageSize",
                         "in": "query",
                         "schema": {
-                            "type": "integer",
-                            "format": "int32",
-                            "default": 25
+                            "type": [
+                                "integer",
+                                "null"
+                            ],
+                            "minimum": 1,
+                            "maximum": 100
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "",
                         "content": {
-                            "application/json": {
+                            "application\/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/UserDtoPaginatedList"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ValidationProblemDetails"
+                                    "type": "object",
+                                    "properties": {
+                                        "items": {
+                                            "type": "string"
+                                        },
+                                        "pageNumber": {
+                                            "type": "string"
+                                        },
+                                        "pageSize": {
+                                            "type": "string"
+                                        },
+                                        "totalCount": {
+                                            "type": "string"
+                                        },
+                                        "totalPages": {
+                                            "type": "integer"
+                                        },
+                                        "hasPreviousPage": {
+                                            "type": "boolean"
+                                        },
+                                        "hasNextPage": {
+                                            "type": "boolean"
+                                        }
+                                    },
+                                    "required": [
+                                        "items",
+                                        "pageNumber",
+                                        "pageSize",
+                                        "totalCount",
+                                        "totalPages",
+                                        "hasPreviousPage",
+                                        "hasNextPage"
+                                    ]
                                 }
                             }
                         }
                     },
                     "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemDetails"
-                                }
-                            }
-                        }
+                        "$ref": "#\/components\/responses\/AuthenticationException"
                     },
-                    "403": {
-                        "description": "Forbidden",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemDetails"
-                                }
-                            }
-                        }
-                    },
-                    "429": {
-                        "description": "Too Many Requests",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemDetails"
-                                }
+                    "422": {
+                        "$ref": "#\/components\/responses\/ValidationException"
+                    }
+                }
+            }
+        },
+        "\/users\/me": {
+            "put": {
+                "operationId": "user.updateOwnProfile",
+                "summary": "Updates the signed-in user's own profile. Open to any role, unlike the administrator edit",
+                "tags": [
+                    "User"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application\/json": {
+                            "schema": {
+                                "$ref": "#\/components\/schemas\/UpdateOwnProfileRequest"
                             }
                         }
                     }
                 },
-                "security": [
-                    {
-                        "Bearer": []
+                "responses": {
+                    "200": {
+                        "description": "`UserResource`",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#\/components\/schemas\/UserResource"
+                                        },
+                                        {
+                                            "type": "object",
+                                            "required": [
+                                                "organizationName",
+                                                "invitationExpiresUtc"
+                                            ]
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "422": {
+                        "$ref": "#\/components\/responses\/ValidationException"
                     }
-                ]
+                }
             }
         },
-        "/api/users/{id}": {
+        "\/users\/{user}": {
             "get": {
+                "operationId": "user.show",
+                "summary": "Returns a single user. Deleted users are not found here; the roster lists them on request",
                 "tags": [
-                    "users"
+                    "User"
                 ],
-                "summary": "Returns a single user. Deleted users are not found here; they are listed by the roster on request.",
-                "operationId": "GetUser",
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "user",
                         "in": "path",
                         "required": true,
+                        "description": "The user ID",
                         "schema": {
                             "type": "string",
                             "format": "uuid"
@@ -1127,83 +696,46 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "`UserResource`",
                         "content": {
-                            "application/json": {
+                            "application\/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/UserDto"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ValidationProblemDetails"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemDetails"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemDetails"
+                                    "allOf": [
+                                        {
+                                            "$ref": "#\/components\/schemas\/UserResource"
+                                        },
+                                        {
+                                            "type": "object",
+                                            "required": [
+                                                "organizationName",
+                                                "invitationExpiresUtc"
+                                            ]
+                                        }
+                                    ]
                                 }
                             }
                         }
                     },
                     "404": {
-                        "description": "Not Found",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemDetails"
-                                }
-                            }
-                        }
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
                     },
-                    "429": {
-                        "description": "Too Many Requests",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemDetails"
-                                }
-                            }
-                        }
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
                     }
-                },
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ]
+                }
             },
             "put": {
+                "operationId": "user.update",
+                "summary": "Updates a user's name, email address, role and organization, as an administrator. Omitting\n`role` or `organizationId` leaves that field alone, which is the whole request an\norganization administrator can make: changing either is reserved to platform administrators",
                 "tags": [
-                    "users"
+                    "User"
                 ],
-                "summary": "Updates a user's name, email address, role and organization, as an administrator. Omitting `role` or\n`organizationId` leaves that field alone, which is the whole request an organization administrator\ncan make: changing either is reserved to platform administrators.",
-                "operationId": "UpdateUser",
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "user",
                         "in": "path",
                         "required": true,
+                        "description": "The user ID",
                         "schema": {
                             "type": "string",
                             "format": "uuid"
@@ -1211,104 +743,60 @@
                     }
                 ],
                 "requestBody": {
+                    "required": true,
                     "content": {
-                        "application/json": {
+                        "application\/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/UpdateUserRequest"
+                                "$ref": "#\/components\/schemas\/UpdateUserRequest"
                             }
                         }
-                    },
-                    "required": true
+                    }
                 },
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "`UserResource`",
                         "content": {
-                            "application/json": {
+                            "application\/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/UserDto"
-                                }
-                            }
-                        }
-                    },
-                    "409": {
-                        "description": "Conflict",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemDetails"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ValidationProblemDetails"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemDetails"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemDetails"
+                                    "allOf": [
+                                        {
+                                            "$ref": "#\/components\/schemas\/UserResource"
+                                        },
+                                        {
+                                            "type": "object",
+                                            "required": [
+                                                "organizationName",
+                                                "invitationExpiresUtc"
+                                            ]
+                                        }
+                                    ]
                                 }
                             }
                         }
                     },
                     "404": {
-                        "description": "Not Found",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemDetails"
-                                }
-                            }
-                        }
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
                     },
-                    "429": {
-                        "description": "Too Many Requests",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemDetails"
-                                }
-                            }
-                        }
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "422": {
+                        "$ref": "#\/components\/responses\/ValidationException"
                     }
-                },
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ]
+                }
             },
             "delete": {
+                "operationId": "user.destroy",
+                "summary": "Deletes a user. They lose access immediately and are emailed about it; an administrator can\nundo this with the restore endpoint",
                 "tags": [
-                    "users"
+                    "User"
                 ],
-                "summary": "Deletes a user. They lose access immediately and are emailed about it; an administrator can undo this with\nthe restore endpoint.",
-                "operationId": "DeleteUser",
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "user",
                         "in": "path",
                         "required": true,
+                        "description": "The user ID",
                         "schema": {
                             "type": "string",
                             "format": "uuid"
@@ -1317,174 +805,78 @@
                 ],
                 "responses": {
                     "204": {
-                        "description": "No Content"
-                    },
-                    "409": {
-                        "description": "Conflict",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemDetails"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ValidationProblemDetails"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemDetails"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemDetails"
-                                }
-                            }
-                        }
+                        "description": "No content"
                     },
                     "404": {
-                        "description": "Not Found",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemDetails"
-                                }
-                            }
-                        }
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
                     },
-                    "429": {
-                        "description": "Too Many Requests",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemDetails"
-                                }
-                            }
-                        }
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
                     }
-                },
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ]
+                }
             }
         },
-        "/api/users/invitations": {
+        "\/users\/invitations": {
             "post": {
+                "operationId": "user.invite",
+                "summary": "Invites somebody into an organization and emails them a link that accepts the invitation and\nsigns them in",
                 "tags": [
-                    "users"
+                    "User"
                 ],
-                "summary": "Invites someone into an organization and emails them a link that accepts the invitation and signs them in.",
-                "operationId": "InviteUser",
                 "requestBody": {
+                    "required": true,
                     "content": {
-                        "application/json": {
+                        "application\/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/InviteUserCommand"
+                                "$ref": "#\/components\/schemas\/InviteUserRequest"
                             }
                         }
-                    },
-                    "required": true
+                    }
                 },
                 "responses": {
                     "201": {
-                        "description": "Created",
+                        "description": "`UserResource`",
                         "content": {
-                            "application/json": {
+                            "application\/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/UserDto"
-                                }
-                            }
-                        }
-                    },
-                    "409": {
-                        "description": "Conflict",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemDetails"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ValidationProblemDetails"
+                                    "allOf": [
+                                        {
+                                            "$ref": "#\/components\/schemas\/UserResource"
+                                        },
+                                        {
+                                            "type": "object",
+                                            "required": [
+                                                "organizationName",
+                                                "invitationExpiresUtc"
+                                            ]
+                                        }
+                                    ]
                                 }
                             }
                         }
                     },
                     "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemDetails"
-                                }
-                            }
-                        }
+                        "$ref": "#\/components\/responses\/AuthenticationException"
                     },
-                    "403": {
-                        "description": "Forbidden",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemDetails"
-                                }
-                            }
-                        }
-                    },
-                    "429": {
-                        "description": "Too Many Requests",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemDetails"
-                                }
-                            }
-                        }
+                    "422": {
+                        "$ref": "#\/components\/responses\/ValidationException"
                     }
-                },
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ]
+                }
             }
         },
-        "/api/users/{id}/invitations": {
+        "\/users\/{user}\/invitations": {
             "post": {
+                "operationId": "user.resendInvitation",
+                "summary": "Sends a fresh invitation link, retiring the previous one",
                 "tags": [
-                    "users"
+                    "User"
                 ],
-                "summary": "Sends a fresh invitation link, retiring the previous one.",
-                "operationId": "ResendUserInvitation",
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "user",
                         "in": "path",
                         "required": true,
+                        "description": "The user ID",
                         "schema": {
                             "type": "string",
                             "format": "uuid"
@@ -1493,332 +885,132 @@
                 ],
                 "responses": {
                     "202": {
-                        "description": "Accepted"
-                    },
-                    "409": {
-                        "description": "Conflict",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemDetails"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ValidationProblemDetails"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemDetails"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemDetails"
-                                }
-                            }
-                        }
+                        "description": ""
                     },
                     "404": {
-                        "description": "Not Found",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemDetails"
-                                }
-                            }
-                        }
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
                     },
-                    "429": {
-                        "description": "Too Many Requests",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemDetails"
-                                }
-                            }
-                        }
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
                     }
-                },
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ]
+                }
             }
         },
-        "/api/users/{id}/restore": {
+        "\/users\/{user}\/restore": {
             "post": {
+                "operationId": "user.restore",
+                "summary": "Restores a deleted user, leaving one who is not deleted as they are. Their sign-in links and\nsessions are not restored with them, so they sign in again from the login page",
                 "tags": [
-                    "users"
+                    "User"
                 ],
-                "summary": "Restores a deleted user, leaving one who is not deleted as they are. Their sign-in links and sessions are\nnot restored with them, so they sign in again from the login page.",
-                "operationId": "RestoreUser",
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "user",
                         "in": "path",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "format": "uuid"
+                            "type": "string"
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "`UserResource`",
                         "content": {
-                            "application/json": {
+                            "application\/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/UserDto"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ValidationProblemDetails"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemDetails"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemDetails"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemDetails"
-                                }
-                            }
-                        }
-                    },
-                    "429": {
-                        "description": "Too Many Requests",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemDetails"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ]
-            }
-        },
-        "/api/users/me": {
-            "put": {
-                "tags": [
-                    "users"
-                ],
-                "summary": "Updates the signed-in user's own profile. Open to any role, unlike the administrator edit below.",
-                "operationId": "UpdateOwnProfile",
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/UpdateOwnProfileCommand"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/UserDto"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ValidationProblemDetails"
+                                    "allOf": [
+                                        {
+                                            "$ref": "#\/components\/schemas\/UserResource"
+                                        },
+                                        {
+                                            "type": "object",
+                                            "required": [
+                                                "organizationName",
+                                                "invitationExpiresUtc"
+                                            ]
+                                        }
+                                    ]
                                 }
                             }
                         }
                     },
                     "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemDetails"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemDetails"
-                                }
-                            }
-                        }
-                    },
-                    "429": {
-                        "description": "Too Many Requests",
-                        "content": {
-                            "application/problem+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ProblemDetails"
-                                }
-                            }
-                        }
+                        "$ref": "#\/components\/responses\/AuthenticationException"
                     }
-                },
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ]
+                }
             }
         }
     },
     "components": {
         "schemas": {
-            "AuthenticationResultDto": {
-                "required": [
-                    "accessToken",
-                    "expiresUtc",
-                    "refreshToken",
-                    "refreshTokenExpiresUtc",
-                    "tokenType",
-                    "user"
-                ],
+            "AuthenticationResource": {
                 "type": "object",
                 "properties": {
-                    "accessToken": {
+                    "token": {
                         "type": "string"
                     },
                     "tokenType": {
-                        "type": "string"
-                    },
-                    "expiresUtc": {
                         "type": "string",
-                        "format": "date-time"
-                    },
-                    "refreshToken": {
-                        "type": "string"
-                    },
-                    "refreshTokenExpiresUtc": {
-                        "type": "string",
-                        "format": "date-time"
+                        "const": "Bearer"
                     },
                     "user": {
-                        "$ref": "#/components/schemas/UserDto"
+                        "allOf": [
+                            {
+                                "$ref": "#\/components\/schemas\/UserResource"
+                            },
+                            {
+                                "type": "object",
+                                "required": [
+                                    "organizationName",
+                                    "invitationExpiresUtc"
+                                ]
+                            }
+                        ]
                     }
                 },
-                "additionalProperties": false
-            },
-            "CreateOrganizationCommand": {
                 "required": [
-                    "name"
+                    "token",
+                    "tokenType",
+                    "user"
                 ],
+                "title": "AuthenticationResource"
+            },
+            "InviteUserRequest": {
                 "type": "object",
                 "properties": {
+                    "email": {
+                        "type": "string",
+                        "format": "email",
+                        "maxLength": 320
+                    },
                     "name": {
-                        "type": "string"
+                        "type": "string",
+                        "maxLength": 200
+                    },
+                    "role": {
+                        "$ref": "#\/components\/schemas\/UserRole"
+                    },
+                    "organizationId": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "uuid"
                     }
                 },
-                "additionalProperties": false
-            },
-            "InviteUserCommand": {
                 "required": [
                     "email",
                     "name",
                     "role"
                 ],
-                "type": "object",
-                "properties": {
-                    "email": {
-                        "type": "string",
-                        "format": "email"
-                    },
-                    "name": {
-                        "type": "string"
-                    },
-                    "role": {
-                        "$ref": "#/components/schemas/UserRole"
-                    },
-                    "organizationId": {
-                        "type": "string",
-                        "format": "uuid",
-                        "nullable": true
-                    }
-                },
-                "additionalProperties": false
+                "title": "InviteUserRequest"
             },
-            "OrganizationDto": {
-                "required": [
-                    "activeUserCount",
-                    "createdUtc",
-                    "hasLogo",
-                    "id",
-                    "invitedUserCount",
-                    "isPlatform",
-                    "logoUrl",
-                    "name",
-                    "updatedUtc",
-                    "userCount"
-                ],
+            "OrganizationResource": {
                 "type": "object",
                 "properties": {
                     "id": {
-                        "type": "string",
-                        "format": "uuid"
+                        "type": "string"
                     },
                     "name": {
                         "type": "string"
@@ -1830,394 +1022,307 @@
                         "type": "boolean"
                     },
                     "userCount": {
-                        "type": "integer",
-                        "format": "int32"
+                        "type": "integer"
                     },
                     "activeUserCount": {
-                        "type": "integer",
-                        "format": "int32"
+                        "type": "integer"
                     },
                     "invitedUserCount": {
-                        "type": "integer",
-                        "format": "int32"
+                        "type": "integer"
                     },
                     "createdUtc": {
-                        "type": "string",
-                        "format": "date-time"
+                        "type": "string"
                     },
                     "updatedUtc": {
-                        "type": "string",
-                        "format": "date-time"
+                        "type": "string"
                     },
                     "logoUrl": {
                         "type": "string",
-                        "readOnly": true
+                        "description": "Always populated, and always answers: an organization with no uploaded logo is served\nthe placeholder, so a client has one address to point at rather than a branch and a\ncopy of the fallback image. `hasLogo` is for a client that needs to tell the two\napart, such as one offering to replace an image that is really there."
                     }
                 },
-                "additionalProperties": false
-            },
-            "OrganizationDtoPaginatedList": {
                 "required": [
-                    "hasNextPage",
-                    "hasPreviousPage",
-                    "items",
-                    "pageNumber",
-                    "pageSize",
-                    "totalCount",
-                    "totalPages"
+                    "id",
+                    "name",
+                    "isPlatform",
+                    "hasLogo",
+                    "userCount",
+                    "activeUserCount",
+                    "invitedUserCount",
+                    "createdUtc",
+                    "updatedUtc",
+                    "logoUrl"
                 ],
-                "type": "object",
-                "properties": {
-                    "items": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/OrganizationDto"
-                        }
-                    },
-                    "pageNumber": {
-                        "type": "integer",
-                        "format": "int32"
-                    },
-                    "pageSize": {
-                        "type": "integer",
-                        "format": "int32"
-                    },
-                    "totalCount": {
-                        "type": "integer",
-                        "format": "int32"
-                    },
-                    "totalPages": {
-                        "type": "integer",
-                        "format": "int32",
-                        "readOnly": true
-                    },
-                    "hasPreviousPage": {
-                        "type": "boolean",
-                        "readOnly": true
-                    },
-                    "hasNextPage": {
-                        "type": "boolean",
-                        "readOnly": true
-                    }
-                },
-                "additionalProperties": false
+                "title": "OrganizationResource"
             },
-            "ProblemDetails": {
-                "type": "object",
-                "properties": {
-                    "type": {
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "title": {
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "status": {
-                        "type": "integer",
-                        "format": "int32",
-                        "nullable": true
-                    },
-                    "detail": {
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "instance": {
-                        "type": "string",
-                        "nullable": true
-                    }
-                },
-                "additionalProperties": {}
-            },
-            "RedeemLoginTokenCommand": {
-                "required": [
-                    "token"
-                ],
+            "RedeemLoginTokenRequest": {
                 "type": "object",
                 "properties": {
                     "token": {
-                        "type": "string"
-                    }
-                },
-                "additionalProperties": false
-            },
-            "RefreshAccessTokenCommand": {
-                "required": [
-                    "refreshToken"
-                ],
-                "type": "object",
-                "properties": {
-                    "refreshToken": {
-                        "type": "string"
-                    }
-                },
-                "additionalProperties": false
-            },
-            "RequestMagicLinkCommand": {
-                "required": [
-                    "email"
-                ],
-                "type": "object",
-                "properties": {
-                    "email": {
                         "type": "string",
-                        "format": "email"
+                        "maxLength": 200
                     }
                 },
-                "additionalProperties": false
-            },
-            "RevokeRefreshTokenCommand": {
                 "required": [
-                    "refreshToken"
+                    "token"
                 ],
+                "title": "RedeemLoginTokenRequest"
+            },
+            "StoreOrganizationRequest": {
                 "type": "object",
                 "properties": {
-                    "refreshToken": {
-                        "type": "string"
+                    "name": {
+                        "type": "string",
+                        "maxLength": 200
                     }
                 },
-                "additionalProperties": false
+                "required": [
+                    "name"
+                ],
+                "title": "StoreOrganizationRequest"
             },
             "UpdateOrganizationRequest": {
-                "required": [
-                    "name"
-                ],
                 "type": "object",
                 "properties": {
                     "name": {
-                        "type": "string"
+                        "type": "string",
+                        "maxLength": 200
                     }
                 },
-                "additionalProperties": false,
-                "description": "The body of a rename request. The identifier comes from the route."
+                "required": [
+                    "name"
+                ],
+                "title": "UpdateOrganizationRequest"
             },
-            "UpdateOwnProfileCommand": {
+            "UpdateOwnProfileRequest": {
+                "type": "object",
+                "description": "A user's own edit. The name and nothing else.",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "maxLength": 200
+                    }
+                },
                 "required": [
                     "name"
                 ],
-                "type": "object",
-                "properties": {
-                    "name": {
-                        "type": "string"
-                    }
-                },
-                "additionalProperties": false
+                "title": "UpdateOwnProfileRequest"
             },
             "UpdateUserRequest": {
-                "required": [
-                    "email",
-                    "name",
-                    "role"
-                ],
                 "type": "object",
+                "description": "An administrator's edit.\n\n`role` and `organizationId` are optional and mean \"leave this alone\"; the fields every editor can\nchange are always sent.",
                 "properties": {
                     "name": {
-                        "type": "string"
+                        "type": "string",
+                        "maxLength": 200
                     },
                     "email": {
                         "type": "string",
-                        "format": "email"
+                        "format": "email",
+                        "maxLength": 320
                     },
                     "role": {
-                        "$ref": "#/components/schemas/UserRole"
+                        "anyOf": [
+                            {
+                                "$ref": "#\/components\/schemas\/UserRole"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ]
                     },
                     "organizationId": {
-                        "type": "string",
-                        "format": "uuid",
-                        "nullable": true
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "uuid"
                     }
                 },
-                "additionalProperties": false,
-                "description": "The body of a user update. The identifier comes from the route. `Role` and `OrganizationId` are\noptional and mean \"leave this alone\"; the fields every editor can change are always sent."
-            },
-            "UserDto": {
                 "required": [
-                    "createdUtc",
-                    "email",
-                    "id",
                     "name",
-                    "organizationId",
-                    "organizationName",
-                    "role",
-                    "status"
+                    "email"
                 ],
+                "title": "UpdateUserRequest"
+            },
+            "UploadOrganizationLogoRequest": {
+                "type": "object",
+                "description": "The logo upload.\n\nBoth of the upload's own rejections are stated here, so the API answers them the same way whether\nthe caller sent one byte too many or a file that is not an image at all: a 400 naming the field.\n\nThe format is checked by reading the bytes, never by believing the upload's `Content-Type` or its\nfile name. The stored value is what a later response is labelled with, so a media type nothing\nverified would be one an attacker chose.",
+                "properties": {
+                    "logo": {
+                        "type": "string",
+                        "format": "binary",
+                        "contentMediaType": "application\/octet-stream"
+                    }
+                },
+                "required": [
+                    "logo"
+                ],
+                "title": "UploadOrganizationLogoRequest"
+            },
+            "UserResource": {
                 "type": "object",
                 "properties": {
                     "id": {
-                        "type": "string",
-                        "format": "uuid"
+                        "type": "string"
                     },
                     "organizationId": {
-                        "type": "string",
-                        "format": "uuid"
+                        "type": "string"
                     },
                     "organizationName": {
                         "type": "string"
                     },
                     "email": {
-                        "type": "string",
-                        "format": "email"
+                        "type": "string"
                     },
                     "name": {
                         "type": "string"
                     },
                     "role": {
-                        "$ref": "#/components/schemas/UserRole"
+                        "type": "string"
                     },
                     "status": {
-                        "$ref": "#/components/schemas/UserStatus"
+                        "type": "string"
                     },
                     "createdUtc": {
-                        "type": "string",
-                        "format": "date-time"
+                        "type": "string"
                     },
                     "invitedUtc": {
-                        "type": "string",
-                        "format": "date-time",
-                        "nullable": true
+                        "type": [
+                            "string",
+                            "null"
+                        ]
                     },
                     "activatedUtc": {
-                        "type": "string",
-                        "format": "date-time",
-                        "nullable": true
+                        "type": [
+                            "string",
+                            "null"
+                        ]
                     },
                     "lastLoginUtc": {
-                        "type": "string",
-                        "format": "date-time",
-                        "nullable": true
+                        "type": [
+                            "string",
+                            "null"
+                        ]
                     },
                     "invitationExpiresUtc": {
-                        "type": "string",
-                        "format": "date-time",
-                        "nullable": true
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "description": "Read off the outstanding invitation rather than worked out from `invitedUtc` and the\nconfigured lifetime: the link's expiry was fixed when it was issued, so reconfiguring\nthat lifetime cannot retroactively expire or revive one. At most one invitation is\noutstanding per user, because issuing a new one retires the last."
                     },
                     "deletedUtc": {
-                        "type": "string",
-                        "format": "date-time",
-                        "nullable": true
+                        "type": [
+                            "string",
+                            "null"
+                        ]
                     }
                 },
-                "additionalProperties": false
-            },
-            "UserDtoPaginatedList": {
                 "required": [
-                    "hasNextPage",
-                    "hasPreviousPage",
-                    "items",
-                    "pageNumber",
-                    "pageSize",
-                    "totalCount",
-                    "totalPages"
+                    "id",
+                    "organizationId",
+                    "email",
+                    "name",
+                    "role",
+                    "status",
+                    "createdUtc",
+                    "invitedUtc",
+                    "activatedUtc",
+                    "lastLoginUtc",
+                    "deletedUtc"
                 ],
-                "type": "object",
-                "properties": {
-                    "items": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/UserDto"
-                        }
-                    },
-                    "pageNumber": {
-                        "type": "integer",
-                        "format": "int32"
-                    },
-                    "pageSize": {
-                        "type": "integer",
-                        "format": "int32"
-                    },
-                    "totalCount": {
-                        "type": "integer",
-                        "format": "int32"
-                    },
-                    "totalPages": {
-                        "type": "integer",
-                        "format": "int32",
-                        "readOnly": true
-                    },
-                    "hasPreviousPage": {
-                        "type": "boolean",
-                        "readOnly": true
-                    },
-                    "hasNextPage": {
-                        "type": "boolean",
-                        "readOnly": true
-                    }
-                },
-                "additionalProperties": false
+                "title": "UserResource"
             },
             "UserRole": {
+                "type": "string",
+                "description": "The capabilities a user has. Roles are hierarchical: every higher role includes the rights of the lower ones, which is what {@see self::atLeast()} expresses. The backing values are the names the API has always used, so a stored row and a token claim read the same as the JSON a client receives.\n| |\n|---|\n| `Member` <br\/> Can read their own organization and the people in it. |\n| `Administrator` <br\/> Can invite, update and remove users within their own organization, and rename it. |\n| `PlatformAdministrator` <br\/> Can manage every organization and every user in the system. |",
                 "enum": [
                     "Member",
                     "Administrator",
                     "PlatformAdministrator"
                 ],
-                "type": "string"
+                "title": "UserRole"
             },
             "UserStatus": {
+                "type": "string",
+                "description": "Where a user is in the invitation lifecycle. Deliberately separate from deletion, which is recorded by its own timestamp: the status says how far somebody got, and overwriting it on delete would lose the answer a restore has to put back.\n| |\n|---|\n| `Invited` <br\/> Invited, but has not yet signed in for the first time. |\n| `Active` <br\/> Has proven ownership of their email address and can sign in. |",
                 "enum": [
                     "Invited",
                     "Active"
                 ],
-                "type": "string"
-            },
-            "ValidationProblemDetails": {
-                "required": [
-                    "errors"
-                ],
-                "type": "object",
-                "properties": {
-                    "type": {
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "title": {
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "status": {
-                        "type": "integer",
-                        "format": "int32",
-                        "nullable": true
-                    },
-                    "detail": {
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "instance": {
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "errors": {
-                        "type": "object",
-                        "additionalProperties": {
-                            "type": "array",
-                            "items": {
-                                "type": "string"
-                            }
+                "title": "UserStatus"
+            }
+        },
+        "responses": {
+            "ValidationException": {
+                "description": "Validation error",
+                "content": {
+                    "application\/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "message": {
+                                    "type": "string",
+                                    "description": "Errors overview."
+                                },
+                                "errors": {
+                                    "type": "object",
+                                    "description": "A detailed description of each field that failed validation.",
+                                    "additionalProperties": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            },
+                            "required": [
+                                "message",
+                                "errors"
+                            ]
                         }
                     }
-                },
-                "additionalProperties": {}
-            }
-        },
-        "securitySchemes": {
-            "Bearer": {
-                "type": "http",
-                "description": "Enter the access token returned by POST /api/auth/tokens.",
-                "scheme": "bearer",
-                "bearerFormat": "JWT"
+                }
+            },
+            "AuthenticationException": {
+                "description": "Unauthenticated",
+                "content": {
+                    "application\/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "message": {
+                                    "type": "string",
+                                    "description": "Error overview."
+                                }
+                            },
+                            "required": [
+                                "message"
+                            ]
+                        }
+                    }
+                }
+            },
+            "ModelNotFoundException": {
+                "description": "Not found",
+                "content": {
+                    "application\/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "message": {
+                                    "type": "string",
+                                    "description": "Error overview."
+                                }
+                            },
+                            "required": [
+                                "message"
+                            ]
+                        }
+                    }
+                }
             }
         }
-    },
-    "tags": [
-        {
-            "name": "auth"
-        },
-        {
-            "name": "organizations"
-        },
-        {
-            "name": "users"
-        }
-    ]
+    }
 }
