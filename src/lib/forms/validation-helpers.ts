@@ -1,5 +1,21 @@
 import { parseErrorString } from "lib/api/error-helpers";
-import { zValidationProblemDetails } from "lib/heyapi/zod.gen";
+import * as z from "zod";
+
+// The backend answers failed validation with RFC 9457 problem details
+// (`application/problem+json`), but its OpenAPI document describes them as
+// Laravel's `{ message, errors }` under status 422 while the running API sends
+// `title` under 400. There is therefore no generated schema to reuse until the
+// contract is corrected, so the shape the API actually sends is written here.
+export const zValidationProblemDetails = z.object({
+	title: z.string(),
+	errors: z.optional(
+		z.record(z.string(), z.array(z.string())),
+	),
+});
+
+export type ValidationProblemDetails = z.infer<
+	typeof zValidationProblemDetails
+>;
 
 /**
  * Field errors can be of multiple types. This transforms to an array of strings.
@@ -44,15 +60,6 @@ export const getFieldErrors = <
 	);
 
 /**
- * The backend names fields in PascalCase, form fields are camelCase.
- *
- * @example
- * pascalCaseToCamelCase("PostalCode") // "postalCode"
- */
-const pascalCaseToCamelCase = (string: string) =>
-	string.charAt(0).toLowerCase() + string.slice(1);
-
-/**
  * Transform api error to form error.
  * The backend returns rfc9457 problem details:
  * https://datatracker.ietf.org/doc/html/rfc9457#name-the-problem-details-json-ob
@@ -62,14 +69,7 @@ export const apiErrorToFormErrors = (error: unknown) => {
 	if (parsed.success) {
 		return {
 			form: parsed.data.title,
-			fields: Object.fromEntries(
-				Object.entries(parsed.data.errors ?? {}).map(
-					([field, fieldErrors]) => [
-						pascalCaseToCamelCase(field),
-						fieldErrors,
-					],
-				),
-			),
+			fields: parsed.data.errors ?? {},
 		};
 	}
 	return { form: parseErrorString(error) };

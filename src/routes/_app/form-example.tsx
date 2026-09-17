@@ -9,8 +9,8 @@ import { useAppForm } from "lib/forms";
 import {
 	getFieldErrors,
 	mutateAndValidate,
+	type ValidationProblemDetails,
 } from "lib/forms/validation-helpers";
-import type { ValidationProblemDetails } from "lib/heyapi";
 import { makePageTitle } from "lib/title";
 import { useState } from "react";
 import z from "zod";
@@ -40,20 +40,18 @@ const fakeSubmit = async (_value: any, ok = true) =>
 			if (ok) {
 				resolve({ message: "Success" });
 			} else {
-				// Note: mirrors what the backend actually returns, including its
-				// PascalCase field names and plain-string messages.
+				// Note: the fields this app reads out of the backend's rfc9457
+				// problem details, with its camelCase field names.
 				reject({
-					type: "https://datatracker.ietf.org/doc/html/rfc9110#section-15.5.1",
-					status: 400,
 					title:
 						"Een of meer velden zijn niet correct ingevuld.",
 					errors: {
 						// -- Try out errors on these fields
-						Email: [
+						email: [
 							"This email already exists",
 							"Your emailaddress is unimaginative",
 						],
-						PostalCode: [
+						postalCode: [
 							"Could not find an address with the data you supplied",
 						],
 					},
