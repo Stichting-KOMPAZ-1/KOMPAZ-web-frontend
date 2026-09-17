@@ -8,16 +8,10 @@ export type SelectOption = {
 type Props = React.ComponentPropsWithoutRef<"select"> & {
 	name: string;
 	options: SelectOption[];
-	label?: string;
 	isInvalid?: boolean;
 };
 
-function Select({
-	label,
-	options,
-	isInvalid,
-	...props
-}: Props) {
+function Select({ options, isInvalid, ...props }: Props) {
 	return (
 		<select
 			aria-invalid={isInvalid}

@@ -1,7 +1,10 @@
 import { Field as BaseField } from "@base-ui/react/field";
+import clsx from "clsx";
 import { useFieldContext } from "lib/forms";
+
 import Field from "../field/field";
 import Input, { type InputProps } from "./input";
+
 import style from "./input.module.scss";
 
 type Props = InputProps & {
@@ -26,7 +29,7 @@ const TSFInput = ({
 			<Field.Label required={required}>{label}</Field.Label>
 			<Input
 				type={type}
-				className={style.input}
+				className={clsx(style.input, className)}
 				value={field.state.value}
 				onChange={(evt) =>
 					field.handleChange(evt.target.value)

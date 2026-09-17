@@ -1,7 +1,9 @@
 import { Field as BaseField } from "@base-ui/react/field";
 import { useFieldContext } from "lib/forms";
+
 import Field from "../field/field";
 import Checkbox, { type CheckboxProps } from "./checkbox";
+
 import style from "./checkbox.module.scss";
 
 type Props = CheckboxProps & {
@@ -37,6 +39,7 @@ const TSFCheckbox = ({
 					}
 					onBlur={field.handleBlur}
 					aria-invalid={!field.state.meta.isValid}
+					className={className}
 					{...props}
 				/>
 				{label}
