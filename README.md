@@ -56,7 +56,7 @@ To overwrite any general settings, create a `settings.local.json` file.
 
 ### 🔁 Github Workflows
 
-[.github/workflows/build.yml](.github/workflows/build.yml) builds every pull request against `main`. There is no deploy workflow yet.
+[.github/workflows/ci.yml](.github/workflows/ci.yml) lints and builds every pull request against `main`. There is no deploy workflow yet.
 
 ### 🛠️ DIY
 

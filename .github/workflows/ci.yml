@@ -1,15 +1,19 @@
-name: Build
+name: CI
 
 on:
   pull_request:
     branches:
       - main
 jobs:
-  build:
-    timeout-minutes: 5
+  ci:
+    timeout-minutes: 10
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
       - run: bun i --frozen-lockfile
+
+      - run: bun oxlint
+      - run: bun oxfmt --check
+
       - run: bun run build

@@ -5,6 +5,7 @@
 	"scripts": {
 		"dev": "bun i && bun vite",
 		"build": "bun i --frozen-lockfile && bun vite build && bun tsc",
+		"prepare": "lefthook install",
 		"gen": "bun openapi-ts",
 		"check": "bun tsc --noEmit && bun oxlint && bun oxfmt --check",
 		"fix": "bun oxlint --fix && bun oxfmt && bun tsc --noEmit"
