@@ -1,0 +1,83 @@
+# Cache policy by path.
+#   /assets/*  -> Vite content-hashed files: cache forever, never revalidate.
+#   everything else (index.html, SPA routes, unhashed public/ files) -> always
+#   revalidate. nginx emits ETag/Last-Modified, so unchanged files come back 304.
+# Without an explicit header browsers fall back to heuristic caching of
+# index.html, which is how users end up on an old entry point requesting chunks
+# that no longer exist. Keyed on status as well so a 404 for a missing chunk is
+# never cached long-term.
+map "$status $uri" $cache_control {
+    default                 "no-cache";
+    # Proxied API responses keep whatever the backend decided. An empty value
+    # makes add_header a no-op, which is the only way to opt a location out of a
+    # server-level add_header without also dropping the headers above.
+    # The Nova location needs no entry here: it sets its own add_header, which
+    # suppresses every inherited one anyway.
+    "~^\d+ /api/"           "";
+    "~^(200|304) /assets/"  "public, max-age=31536000, immutable";
+}
+
+server {
+    listen 8080;
+    server_name _;
+    root /usr/share/nginx/html;
+    index index.html;
+
+    # Security headers (the `always` flag keeps them on error/404 responses too).
+    add_header Strict-Transport-Security "max-age=63072000; includeSubDomains; preload" always;
+    add_header X-Content-Type-Options "nosniff" always;
+    add_header X-Frame-Options "DENY" always;
+    add_header Referrer-Policy "strict-origin-when-cross-origin" always;
+    add_header Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=()" always;
+    # connect-src can stay 'self' because everything the app talks to is
+    # reverse-proxied onto this origin below, so the bundle never issues a
+    # cross-origin request and the policy cannot drift from whichever backend the
+    # container points at.
+    add_header Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'" always;
+
+    # Set via the map above so it lives at server level: an add_header inside a
+    # location block would drop every server-level header for that location.
+    add_header Cache-Control $cache_control always;
+
+    # Same-origin reverse proxy to the backend. This is what the app is built
+    # for -- VITE_API_BASEURL is a path, not a URL -- and it keeps requests free
+    # of CORS and the auth cookie first-party.
+    location /api/ {
+        include /etc/nginx/conf.d/proxy-backend.inc;
+    }
+
+    # Nova, the admin panel, proxied onto this domain so it shares an origin with
+    # the app. These are Nova's own paths: the panel at NOVA_PATH
+    # (config/nova.php, default /nova), its internal API and its scripts/styles
+    # under /nova-api, its published assets under /vendor/nova, and /beheer for
+    # the emailed-link sign-in that replaces Nova's password form. Changing
+    # NOVA_PATH on the backend means changing this regex too.
+    #
+    # A regex location so all four prefixes share one block, and so it wins over
+    # the SPA fallback below.
+    location ~ ^/(nova|nova-api|vendor/nova|beheer)(/|$) {
+        include /etc/nginx/conf.d/proxy-backend.inc;
+
+        # Declaring any add_header here suppresses every server-level one, which
+        # is the reason this block exists. Nova's layout carries inline <script>
+        # blocks and has no CSP nonce configured, so the app's `script-src 'self'`
+        # would stop the panel from booting at all. Nova keeps the transport and
+        # sniffing protections and decides its own caching.
+        add_header Strict-Transport-Security "max-age=63072000; includeSubDomains; preload" always;
+        add_header X-Content-Type-Options "nosniff" always;
+        add_header X-Frame-Options "DENY" always;
+        add_header Referrer-Policy "strict-origin-when-cross-origin" always;
+    }
+
+    # Hashed build output. A missing chunk (stale index.html after a deploy) must
+    # be a 404, not the SPA fallback: serving index.html as a JS module makes the
+    # browser throw "Failed to fetch dynamically imported module".
+    location /assets/ {
+        try_files $uri =404;
+    }
+
+    # SPA fallback: serve index.html for client-side routes
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+}
