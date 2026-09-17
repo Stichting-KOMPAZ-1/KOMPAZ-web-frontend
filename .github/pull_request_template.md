@@ -1,3 +1,5 @@
+<!-- Title: `type: imperative summary`. -->
+
 ## What
 
 <!-- What changes, and what problem it solves, in a sentence or two. -->
