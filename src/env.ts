@@ -1,10 +1,14 @@
 import * as z from "zod";
 
 const envSchema = z.object({
-	apiBaseUrl: z.string().default(""),
+	VITE_API_BASEURL: z.string().default(""),
 });
 
-const env = envSchema.parse(import.meta.env);
+const parsed = envSchema.parse(import.meta.env);
+
+const env = {
+	apiBaseUrl: parsed.VITE_API_BASEURL,
+};
 
 export default env;
-export type Env = z.infer<typeof envSchema>;
+export type Env = typeof env;

@@ -1,12 +1,13 @@
 {
-	"name": "vite-react-template",
-	"version": "3.0.0",
+	"name": "kompaz-web-frontend",
+	"version": "0.1.0",
 	"type": "module",
 	"scripts": {
 		"dev": "bun i && bun vite",
 		"build": "bun i --frozen-lockfile && bun vite build && bun tsc",
-		"check": "bun tsc --noEmit && bun biome check src && bun prettier --check 'src/**/*.{s,}css'",
-		"fix": "bun biome check --write src && bun prettier --write 'src/**/*.{s,}css' && bun tsc --noEmit"
+		"prepare": "lefthook install",
+		"check": "bun tsc --noEmit && bun oxlint && bun oxfmt --check",
+		"fix": "bun oxlint --fix && bun oxfmt && bun tsc --noEmit"
 	},
 	"dependencies": {
 		"@base-ui/react": "1.6.0",
@@ -17,17 +18,13 @@
 		"@tanstack/react-router": "1.168.26",
 		"babel-plugin-react-compiler": "1.0.0",
 		"clsx": "2.1.1",
-		"i18next": "26.0.8",
-		"i18next-fetch-backend": "7.0.0",
 		"react": "19.2.5",
 		"react-dom": "19.2.5",
-		"react-i18next": "17.0.6",
 		"the-new-css-reset": "1.11.3",
 		"usehooks-ts": "3.1.1",
 		"zod": "4.4.1"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "2.4.13",
 		"@hey-api/openapi-ts": "0.97.1",
 		"@hey-api/vite-plugin": "0.3.1",
 		"@svgr/plugin-svgo": "8.1.0",
@@ -37,9 +34,9 @@
 		"@types/react-dom": "19.2.3",
 		"@vitejs/plugin-react": "5.1.0",
 		"lefthook": "2.1.6",
+		"oxfmt": "0.68.0",
+		"oxlint": "1.83.0",
 		"postcss": "8.5.12",
-		"prettier": "3.8.3",
-		"prettier-plugin-css-order": "2.2.0",
 		"sass": "1.99.0",
 		"typescript": "5.9.3",
 		"vite": "7.2.2",

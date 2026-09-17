@@ -3,18 +3,19 @@ import { useMutation } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { ErrorText } from "components/error-text/error-text";
 import { Button, Form } from "components/form";
-import formStyle from "components/form/form.module.scss";
 import { H1 } from "components/heading/heading";
 import { useAppForm } from "lib/forms";
 import {
 	getFieldErrors,
 	mutateAndValidate,
+	type ValidationProblemDetails,
 } from "lib/forms/validation-helpers";
-import type { ValidationError } from "lib/heyapi";
 import { makePageTitle } from "lib/title";
 import { useState } from "react";
 import z from "zod";
+
 import style from "./form-example.module.scss";
+import formStyle from "components/form/form.module.scss";
 
 // Note: this whole file is an example, you should always prefer to use generated schema's
 // and messages/labels translated through paraglide.
@@ -27,51 +28,32 @@ const validationSchema = z.object({
 	houseNumber: z.string().regex(/\d+/),
 	houseNumberAdd: z.string(),
 	agree: z.literal<boolean>(true),
-	options: z
-		.array(z.string())
-		.min(1, "Kies minimaal één optie"),
+	options: z.array(z.string()).min(1, "Kies minimaal één optie"),
 });
 type ValidationType = z.infer<typeof validationSchema>;
 
-// biome-ignore lint/suspicious/noExplicitAny: whatever man
+// oxlint-disable-next-line typescript/no-explicit-any -- whatever man
 const fakeSubmit = async (_value: any, ok = true) =>
 	new Promise((resolve, reject) =>
 		setTimeout(() => {
 			if (ok) {
 				resolve({ message: "Success" });
 			} else {
-				// Note: this error object mimics the agreed upon format with BE, but the actual
-				// implementation may be slightly different
+				// Note: the fields this app reads out of the backend's rfc9457
+				// problem details, with its camelCase field names.
 				reject({
-					type: "ValidationError",
-					code: "invalid_form",
-					status: 422,
-					title: "There was an issue with your input",
+					title: "Een of meer velden zijn niet correct ingevuld.",
 					errors: {
 						// -- Try out errors on these fields
 						email: [
-							{
-								code: "exists",
-								title: "This email already exists",
-								properties: { attribute: "unique" },
-							},
-							{
-								code: "unimaginative",
-								title:
-									"Your emailaddress is unimaginative 🤪",
-								properties: { attribute: "unimaginative" },
-							},
+							"This email already exists",
+							"Your emailaddress is unimaginative",
 						],
-						postal_code: [
-							{
-								code: "not_found",
-								title:
-									"Could not find an address with the data you supplied",
-								properties: { attribute: "not_found" },
-							},
+						postalCode: [
+							"Could not find an address with the data you supplied",
 						],
 					},
-				} satisfies ValidationError);
+				} satisfies ValidationProblemDetails);
 			}
 		}, 500),
 	);
@@ -102,7 +84,7 @@ function FormTest() {
 
 	const mutation = useMutation({
 		mutationFn: ({ body }: { body: ValidationType }) => {
-			// biome-ignore lint/suspicious/noConsole: DEV -show what is submitted
+			// oxlint-disable-next-line no-console -- DEV: show what is submitted
 			console.log("Will submit data:", body);
 			return fakeSubmit(body, false); // CHANGE this to false to test erros
 		},
@@ -141,12 +123,7 @@ function FormTest() {
 				disabled={mutation.isPending || disabled}
 			>
 				<form.AppField name="email">
-					{(field) => (
-						<field.Input
-							label="Your e-mail"
-							autoComplete="email"
-						/>
-					)}
+					{(field) => <field.Input label="Your e-mail" autoComplete="email" />}
 				</form.AppField>
 
 				{/*
@@ -155,19 +132,13 @@ function FormTest() {
 				*/}
 				<div className={style.address}>
 					<form.AppField name="postalCode">
-						{(field) => (
-							<field.Input label="Postal code" noError />
-						)}
+						{(field) => <field.Input label="Postal code" noError />}
 					</form.AppField>
 					<form.AppField name="houseNumber">
-						{(field) => (
-							<field.Input label="House number" noError />
-						)}
+						{(field) => <field.Input label="House number" noError />}
 					</form.AppField>
 					<form.AppField name="houseNumberAdd">
-						{(field) => (
-							<field.Input label="Addition" noError />
-						)}
+						{(field) => <field.Input label="Addition" noError />}
 					</form.AppField>
 					<form.Subscribe
 						selector={(state) =>
@@ -180,9 +151,7 @@ function FormTest() {
 					>
 						{(errors) =>
 							errors.length > 0 ? (
-								<ErrorText className={style.addressError}>
-									{errors}
-								</ErrorText>
+								<ErrorText className={style.addressError}>{errors}</ErrorText>
 							) : null
 						}
 					</form.Subscribe>
@@ -209,22 +178,16 @@ function FormTest() {
 
 				<Button type="submit">Submit</Button>
 			</Form>
-			<Button
-				type="button"
-				onClick={() => setDisabled((d) => !d)}
-			>
+			<Button type="button" onClick={() => setDisabled((d) => !d)}>
 				Toggle disabled state
 			</Button>
 			{!mutation.isSuccess && (
 				<p className={style.devMessage}>
 					DEV: to successfully submit, update the call to{" "}
-					<code className={style.code}>fakeSubmit</code> in
-					the mutation.
+					<code className={style.code}>fakeSubmit</code> in the mutation.
 				</p>
 			)}
-			{mutation.isSuccess && (
-				<p className={style.success}>Success!</p>
-			)}
+			{mutation.isSuccess && <p className={style.success}>Success!</p>}
 		</div>
 	);
 }

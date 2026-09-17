@@ -8,22 +8,12 @@ export type SelectOption = {
 type Props = React.ComponentPropsWithoutRef<"select"> & {
 	name: string;
 	options: SelectOption[];
-	label?: string;
 	isInvalid?: boolean;
 };
 
-function Select({
-	label,
-	options,
-	isInvalid,
-	...props
-}: Props) {
+function Select({ options, isInvalid, ...props }: Props) {
 	return (
-		<select
-			aria-invalid={isInvalid}
-			className={style.select}
-			{...props}
-		>
+		<select aria-invalid={isInvalid} className={style.select} {...props}>
 			{options.map(({ value, label }) => (
 				<option key={value} value={value}>
 					{label}

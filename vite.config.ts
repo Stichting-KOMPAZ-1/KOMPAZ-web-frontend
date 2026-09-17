@@ -1,4 +1,5 @@
 import * as path from "node:path";
+
 import { heyApiPlugin } from "@hey-api/vite-plugin";
 import { paraglideVitePlugin } from "@inlang/paraglide-js";
 import { tanstackRouter } from "@tanstack/router-plugin/vite";
@@ -7,6 +8,7 @@ import { defineConfig, loadEnv } from "vite";
 import https from "vite-plugin-mkcert";
 import svgr from "vite-plugin-svgr";
 import viteTsConfigPaths from "vite-tsconfig-paths";
+
 import { name } from "./package.json";
 import { translatedPathnames } from "./router-i18n";
 
@@ -26,7 +28,7 @@ export default defineConfig(({ mode }) => {
 			}),
 			heyApiPlugin({
 				config: {
-					input: "./openapi.yaml",
+					input: "./openapi.json",
 					output: "src/lib/heyapi",
 					plugins: [
 						"@hey-api/typescript",
@@ -52,10 +54,7 @@ export default defineConfig(({ mode }) => {
 			viteTsConfigPaths(),
 			svgr({
 				svgrOptions: {
-					plugins: [
-						"@svgr/plugin-svgo",
-						"@svgr/plugin-jsx",
-					],
+					plugins: ["@svgr/plugin-svgo", "@svgr/plugin-jsx"],
 					// svgProps: { fill: "currentColor" }, // enable this with caution, wether it works depends on the icon set used
 					svgoConfig: {
 						multipass: true,
@@ -92,31 +91,17 @@ export default defineConfig(({ mode }) => {
 							return "vendor-react";
 						}
 						if (
-							id.includes(
-								"/node_modules/@tanstack/react-router",
-							) ||
-							id.includes(
-								"/node_modules/@tanstack/router-core",
-							) ||
+							id.includes("/node_modules/@tanstack/react-router") ||
+							id.includes("/node_modules/@tanstack/router-core") ||
 							id.includes("/node_modules/@tanstack/history")
 						) {
 							return "vendor-router";
 						}
 						if (
-							id.includes(
-								"/node_modules/@tanstack/react-query",
-							) ||
-							id.includes(
-								"/node_modules/@tanstack/query-core",
-							)
+							id.includes("/node_modules/@tanstack/react-query") ||
+							id.includes("/node_modules/@tanstack/query-core")
 						) {
 							return "vendor-query";
-						}
-						if (
-							id.includes("/node_modules/i18next") ||
-							id.includes("/node_modules/react-i18next")
-						) {
-							return "vendor-i18n";
 						}
 					},
 				},
@@ -135,8 +120,7 @@ export default defineConfig(({ mode }) => {
 			open: true,
 			proxy: {
 				[env.VITE_API_BASEURL]: {
-					// TODO: Change to your actual backend
-					target: "CHANGE_ME",
+					target: env.VITE_API_PROXY_TARGET,
 					secure: true,
 					changeOrigin: true,
 				},

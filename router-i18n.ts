@@ -29,35 +29,21 @@ function createTranslatedPathnames(
 	input: Record<RequiredRoutePath, Record<Locale, string>> &
 		Partial<Record<RoutePath, Record<Locale, string>>>,
 ): TranslatedPathname[] {
-	return Object.entries(input).map(
-		([pattern, locales]) => ({
-			pattern: toUrlPattern(pattern),
-			localized: Object.entries(locales ?? {}).map(
-				([locale, path]) =>
-					[locale as Locale, toUrlPattern(path)] satisfies [
-						Locale,
-						string,
-					],
-			),
-		}),
-	);
+	return Object.entries(input).map(([pattern, locales]) => ({
+		pattern: toUrlPattern(pattern),
+		localized: Object.entries(locales ?? {}).map(
+			([locale, path]) =>
+				[locale as Locale, toUrlPattern(path)] satisfies [Locale, string],
+		),
+	}));
 }
 
 /**
  * Add a route's translations here, keyed by its router path.
  */
-export const translatedPathnames =
-	createTranslatedPathnames({
-		"/login": {
-			"en-US": "/login",
-			"nl-NL": "/inloggen",
-		},
-		"/forgot-password": {
-			"en-US": "/forgot-password",
-			"nl-NL": "/wachtwoord-vergeten",
-		},
-		"/form-example": {
-			"en-US": "/form-example",
-			"nl-NL": "/formulier-voorbeeld",
-		},
-	});
+export const translatedPathnames = createTranslatedPathnames({
+	"/form-example": {
+		"en-US": "/form-example",
+		"nl-NL": "/formulier-voorbeeld",
+	},
+});

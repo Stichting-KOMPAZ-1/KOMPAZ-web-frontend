@@ -1,0 +1,1423 @@
+{
+    "openapi": "3.1.0",
+    "info": {
+        "title": "Laravel",
+        "version": "0.0.1"
+    },
+    "servers": [
+        {
+            "url": "https:\/\/backend.kompaz.igne.link\/api"
+        }
+    ],
+    "paths": {
+        "\/auth\/tokens": {
+            "post": {
+                "operationId": "auth.redeem",
+                "summary": "Exchanges the single-use secret from a sign-in link for a bearer token, activating an invited\nuser",
+                "tags": [
+                    "Auth"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application\/json": {
+                            "schema": {
+                                "$ref": "#\/components\/schemas\/RedeemLoginTokenRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "`AuthenticationResource`",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/AuthenticationResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#\/components\/responses\/ValidationException"
+                    }
+                }
+            }
+        },
+        "\/auth\/tokens\/refresh": {
+            "post": {
+                "operationId": "auth.refresh",
+                "description": "Authenticated, unlike invitation redemption: the credential being renewed is the one the\nrequest carries, so a client whose token has already expired signs in again rather than\nrefreshing.",
+                "summary": "Swaps the token on this request for a fresh one, restarting its lifetime",
+                "tags": [
+                    "Auth"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "`AuthenticationResource`",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/AuthenticationResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    }
+                }
+            }
+        },
+        "\/auth\/tokens\/current": {
+            "delete": {
+                "operationId": "auth.revoke",
+                "summary": "Signs out, on this device and every other",
+                "tags": [
+                    "Auth"
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No content"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    }
+                }
+            }
+        },
+        "\/auth\/me": {
+            "get": {
+                "operationId": "auth.me",
+                "summary": "Returns the profile behind the bearer token on this request",
+                "tags": [
+                    "Auth"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "`UserResource`",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#\/components\/schemas\/UserResource"
+                                        },
+                                        {
+                                            "type": "object",
+                                            "required": [
+                                                "organizationName",
+                                                "invitationExpiresUtc"
+                                            ]
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    }
+                }
+            }
+        },
+        "\/organizations": {
+            "get": {
+                "operationId": "organization.index",
+                "summary": "Returns a page of organizations",
+                "tags": [
+                    "Organization"
+                ],
+                "parameters": [
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "schema": {
+                            "type": [
+                                "string",
+                                "null"
+                            ],
+                            "maxLength": 200
+                        }
+                    },
+                    {
+                        "name": "pageNumber",
+                        "in": "query",
+                        "schema": {
+                            "type": [
+                                "integer",
+                                "null"
+                            ],
+                            "minimum": 1
+                        }
+                    },
+                    {
+                        "name": "pageSize",
+                        "in": "query",
+                        "schema": {
+                            "type": [
+                                "integer",
+                                "null"
+                            ],
+                            "minimum": 1,
+                            "maximum": 100
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "items": {
+                                            "type": "string"
+                                        },
+                                        "pageNumber": {
+                                            "type": "string"
+                                        },
+                                        "pageSize": {
+                                            "type": "string"
+                                        },
+                                        "totalCount": {
+                                            "type": "string"
+                                        },
+                                        "totalPages": {
+                                            "type": "integer"
+                                        },
+                                        "hasPreviousPage": {
+                                            "type": "boolean"
+                                        },
+                                        "hasNextPage": {
+                                            "type": "boolean"
+                                        }
+                                    },
+                                    "required": [
+                                        "items",
+                                        "pageNumber",
+                                        "pageSize",
+                                        "totalCount",
+                                        "totalPages",
+                                        "hasPreviousPage",
+                                        "hasNextPage"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "400": {
+                        "$ref": "#\/components\/responses\/ValidationException"
+                    }
+                }
+            },
+            "post": {
+                "operationId": "organization.store",
+                "summary": "Creates an organization",
+                "tags": [
+                    "Organization"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application\/json": {
+                            "schema": {
+                                "$ref": "#\/components\/schemas\/StoreOrganizationRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "`OrganizationResource`",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/OrganizationResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "400": {
+                        "$ref": "#\/components\/responses\/ValidationException"
+                    }
+                }
+            }
+        },
+        "\/organizations\/{organization}": {
+            "get": {
+                "operationId": "organization.show",
+                "summary": "Returns a single organization",
+                "tags": [
+                    "Organization"
+                ],
+                "parameters": [
+                    {
+                        "name": "organization",
+                        "in": "path",
+                        "required": true,
+                        "description": "The organization ID",
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "`OrganizationResource`",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/OrganizationResource"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    }
+                }
+            },
+            "put": {
+                "operationId": "organization.update",
+                "summary": "Renames an organization",
+                "tags": [
+                    "Organization"
+                ],
+                "parameters": [
+                    {
+                        "name": "organization",
+                        "in": "path",
+                        "required": true,
+                        "description": "The organization ID",
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application\/json": {
+                            "schema": {
+                                "$ref": "#\/components\/schemas\/UpdateOrganizationRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "`OrganizationResource`",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/OrganizationResource"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "400": {
+                        "$ref": "#\/components\/responses\/ValidationException"
+                    }
+                }
+            },
+            "delete": {
+                "operationId": "organization.destroy",
+                "summary": "Deletes an organization along with its users",
+                "tags": [
+                    "Organization"
+                ],
+                "parameters": [
+                    {
+                        "name": "organization",
+                        "in": "path",
+                        "required": true,
+                        "description": "The organization ID",
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No content"
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    }
+                }
+            }
+        },
+        "\/organizations\/{organization}\/logo": {
+            "get": {
+                "operationId": "organizationLogo.show",
+                "description": "Behind the bearer token like everything else here, because which organizations exist is not\npublic. A browser cannot put a token on an `<img src>`, so a client fetches this and hands\nthe response to the element as an object URL.",
+                "summary": "Returns the organization's logo, or the placeholder when it has none",
+                "tags": [
+                    "OrganizationLogo"
+                ],
+                "parameters": [
+                    {
+                        "name": "organization",
+                        "in": "path",
+                        "required": true,
+                        "description": "The organization ID",
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "headers": {
+                            "Content-Security-Policy": {
+                                "schema": {
+                                    "type": "string",
+                                    "const": "default-src 'none'; sandbox"
+                                }
+                            },
+                            "X-Content-Type-Options": {
+                                "schema": {
+                                    "type": "string",
+                                    "const": "nosniff"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    }
+                }
+            },
+            "put": {
+                "operationId": "organizationLogo.update",
+                "summary": "Sets or replaces the organization's logo, and answers with the organization",
+                "tags": [
+                    "OrganizationLogo"
+                ],
+                "parameters": [
+                    {
+                        "name": "organization",
+                        "in": "path",
+                        "required": true,
+                        "description": "The organization ID",
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart\/form-data": {
+                            "schema": {
+                                "$ref": "#\/components\/schemas\/UploadOrganizationLogoRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "`OrganizationResource`",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/OrganizationResource"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "400": {
+                        "$ref": "#\/components\/responses\/ValidationException"
+                    }
+                }
+            },
+            "delete": {
+                "operationId": "organizationLogo.destroy",
+                "summary": "Removes the organization's logo, which puts it back to the placeholder",
+                "tags": [
+                    "OrganizationLogo"
+                ],
+                "parameters": [
+                    {
+                        "name": "organization",
+                        "in": "path",
+                        "required": true,
+                        "description": "The organization ID",
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No content"
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    }
+                }
+            }
+        },
+        "\/users": {
+            "get": {
+                "operationId": "user.index",
+                "summary": "Returns a page of users, optionally limited to those still invited or already active.\nDeleted users are left out unless `includeDeleted` asks for them, which is how an\nadministrator finds one to restore",
+                "tags": [
+                    "User"
+                ],
+                "parameters": [
+                    {
+                        "name": "status",
+                        "in": "query",
+                        "schema": {
+                            "anyOf": [
+                                {
+                                    "$ref": "#\/components\/schemas\/UserStatus"
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "schema": {
+                            "type": [
+                                "string",
+                                "null"
+                            ],
+                            "maxLength": 320
+                        }
+                    },
+                    {
+                        "name": "organizationId",
+                        "in": "query",
+                        "schema": {
+                            "type": [
+                                "string",
+                                "null"
+                            ],
+                            "format": "uuid"
+                        }
+                    },
+                    {
+                        "name": "includeDeleted",
+                        "in": "query",
+                        "schema": {
+                            "type": [
+                                "boolean",
+                                "null"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "pageNumber",
+                        "in": "query",
+                        "schema": {
+                            "type": [
+                                "integer",
+                                "null"
+                            ],
+                            "minimum": 1
+                        }
+                    },
+                    {
+                        "name": "pageSize",
+                        "in": "query",
+                        "schema": {
+                            "type": [
+                                "integer",
+                                "null"
+                            ],
+                            "minimum": 1,
+                            "maximum": 100
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "items": {
+                                            "type": "string"
+                                        },
+                                        "pageNumber": {
+                                            "type": "string"
+                                        },
+                                        "pageSize": {
+                                            "type": "string"
+                                        },
+                                        "totalCount": {
+                                            "type": "string"
+                                        },
+                                        "totalPages": {
+                                            "type": "integer"
+                                        },
+                                        "hasPreviousPage": {
+                                            "type": "boolean"
+                                        },
+                                        "hasNextPage": {
+                                            "type": "boolean"
+                                        }
+                                    },
+                                    "required": [
+                                        "items",
+                                        "pageNumber",
+                                        "pageSize",
+                                        "totalCount",
+                                        "totalPages",
+                                        "hasPreviousPage",
+                                        "hasNextPage"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "400": {
+                        "$ref": "#\/components\/responses\/ValidationException"
+                    }
+                }
+            }
+        },
+        "\/users\/me": {
+            "put": {
+                "operationId": "user.updateOwnProfile",
+                "summary": "Updates the signed-in user's own profile. Open to any role, unlike the administrator edit",
+                "tags": [
+                    "User"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application\/json": {
+                            "schema": {
+                                "$ref": "#\/components\/schemas\/UpdateOwnProfileRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "`UserResource`",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#\/components\/schemas\/UserResource"
+                                        },
+                                        {
+                                            "type": "object",
+                                            "required": [
+                                                "organizationName",
+                                                "invitationExpiresUtc"
+                                            ]
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "400": {
+                        "$ref": "#\/components\/responses\/ValidationException"
+                    }
+                }
+            }
+        },
+        "\/users\/{user}": {
+            "get": {
+                "operationId": "user.show",
+                "summary": "Returns a single user. Deleted users are not found here; the roster lists them on request",
+                "tags": [
+                    "User"
+                ],
+                "parameters": [
+                    {
+                        "name": "user",
+                        "in": "path",
+                        "required": true,
+                        "description": "The user ID",
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "`UserResource`",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#\/components\/schemas\/UserResource"
+                                        },
+                                        {
+                                            "type": "object",
+                                            "required": [
+                                                "organizationName",
+                                                "invitationExpiresUtc"
+                                            ]
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    }
+                }
+            },
+            "put": {
+                "operationId": "user.update",
+                "summary": "Updates a user's name, email address, role and organization, as an administrator. Omitting\n`role` or `organizationId` leaves that field alone, which is the whole request an\norganization administrator can make: changing either is reserved to platform administrators",
+                "tags": [
+                    "User"
+                ],
+                "parameters": [
+                    {
+                        "name": "user",
+                        "in": "path",
+                        "required": true,
+                        "description": "The user ID",
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application\/json": {
+                            "schema": {
+                                "$ref": "#\/components\/schemas\/UpdateUserRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "`UserResource`",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#\/components\/schemas\/UserResource"
+                                        },
+                                        {
+                                            "type": "object",
+                                            "required": [
+                                                "organizationName",
+                                                "invitationExpiresUtc"
+                                            ]
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "400": {
+                        "$ref": "#\/components\/responses\/ValidationException"
+                    }
+                }
+            },
+            "delete": {
+                "operationId": "user.destroy",
+                "summary": "Deletes a user. They lose access immediately and are emailed about it; an administrator can\nundo this with the restore endpoint",
+                "tags": [
+                    "User"
+                ],
+                "parameters": [
+                    {
+                        "name": "user",
+                        "in": "path",
+                        "required": true,
+                        "description": "The user ID",
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No content"
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    }
+                }
+            }
+        },
+        "\/users\/invitations": {
+            "post": {
+                "operationId": "user.invite",
+                "summary": "Invites somebody into an organization and emails them a link that accepts the invitation and\nsigns them in",
+                "tags": [
+                    "User"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application\/json": {
+                            "schema": {
+                                "$ref": "#\/components\/schemas\/InviteUserRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "`UserResource`",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#\/components\/schemas\/UserResource"
+                                        },
+                                        {
+                                            "type": "object",
+                                            "required": [
+                                                "organizationName",
+                                                "invitationExpiresUtc"
+                                            ]
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "400": {
+                        "$ref": "#\/components\/responses\/ValidationException"
+                    }
+                }
+            }
+        },
+        "\/users\/{user}\/invitations": {
+            "post": {
+                "operationId": "user.resendInvitation",
+                "summary": "Sends a fresh invitation link, retiring the previous one",
+                "tags": [
+                    "User"
+                ],
+                "parameters": [
+                    {
+                        "name": "user",
+                        "in": "path",
+                        "required": true,
+                        "description": "The user ID",
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "202": {
+                        "description": ""
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    }
+                }
+            }
+        },
+        "\/users\/{user}\/restore": {
+            "post": {
+                "operationId": "user.restore",
+                "summary": "Restores a deleted user, leaving one who is not deleted as they are. Their sign-in links and\nsessions are not restored with them, so they sign in again from the login page",
+                "tags": [
+                    "User"
+                ],
+                "parameters": [
+                    {
+                        "name": "user",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "`UserResource`",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#\/components\/schemas\/UserResource"
+                                        },
+                                        {
+                                            "type": "object",
+                                            "required": [
+                                                "organizationName",
+                                                "invitationExpiresUtc"
+                                            ]
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "AuthenticationResource": {
+                "type": "object",
+                "properties": {
+                    "token": {
+                        "type": "string"
+                    },
+                    "tokenType": {
+                        "type": "string",
+                        "const": "Bearer"
+                    },
+                    "user": {
+                        "allOf": [
+                            {
+                                "$ref": "#\/components\/schemas\/UserResource"
+                            },
+                            {
+                                "type": "object",
+                                "required": [
+                                    "organizationName",
+                                    "invitationExpiresUtc"
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "required": [
+                    "token",
+                    "tokenType",
+                    "user"
+                ],
+                "title": "AuthenticationResource"
+            },
+            "InviteUserRequest": {
+                "type": "object",
+                "properties": {
+                    "email": {
+                        "type": "string",
+                        "format": "email",
+                        "maxLength": 320
+                    },
+                    "name": {
+                        "type": "string",
+                        "maxLength": 200
+                    },
+                    "role": {
+                        "$ref": "#\/components\/schemas\/UserRole"
+                    },
+                    "organizationId": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "uuid"
+                    }
+                },
+                "required": [
+                    "email",
+                    "name",
+                    "role"
+                ],
+                "title": "InviteUserRequest"
+            },
+            "OrganizationResource": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "isPlatform": {
+                        "type": "boolean"
+                    },
+                    "hasLogo": {
+                        "type": "boolean"
+                    },
+                    "userCount": {
+                        "type": "integer"
+                    },
+                    "activeUserCount": {
+                        "type": "integer"
+                    },
+                    "invitedUserCount": {
+                        "type": "integer"
+                    },
+                    "createdUtc": {
+                        "type": "string"
+                    },
+                    "updatedUtc": {
+                        "type": "string"
+                    },
+                    "logoUrl": {
+                        "type": "string",
+                        "description": "Always populated, and always answers: an organization with no uploaded logo is served\nthe placeholder, so a client has one address to point at rather than a branch and a\ncopy of the fallback image. `hasLogo` is for a client that needs to tell the two\napart, such as one offering to replace an image that is really there."
+                    }
+                },
+                "required": [
+                    "id",
+                    "name",
+                    "isPlatform",
+                    "hasLogo",
+                    "userCount",
+                    "activeUserCount",
+                    "invitedUserCount",
+                    "createdUtc",
+                    "updatedUtc",
+                    "logoUrl"
+                ],
+                "title": "OrganizationResource"
+            },
+            "RedeemLoginTokenRequest": {
+                "type": "object",
+                "properties": {
+                    "token": {
+                        "type": "string",
+                        "maxLength": 200
+                    }
+                },
+                "required": [
+                    "token"
+                ],
+                "title": "RedeemLoginTokenRequest"
+            },
+            "StoreOrganizationRequest": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "maxLength": 200
+                    }
+                },
+                "required": [
+                    "name"
+                ],
+                "title": "StoreOrganizationRequest"
+            },
+            "UpdateOrganizationRequest": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "maxLength": 200
+                    }
+                },
+                "required": [
+                    "name"
+                ],
+                "title": "UpdateOrganizationRequest"
+            },
+            "UpdateOwnProfileRequest": {
+                "type": "object",
+                "description": "A user's own edit. The name and nothing else.",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "maxLength": 200
+                    }
+                },
+                "required": [
+                    "name"
+                ],
+                "title": "UpdateOwnProfileRequest"
+            },
+            "UpdateUserRequest": {
+                "type": "object",
+                "description": "An administrator's edit.\n\n`role` and `organizationId` are optional and mean \"leave this alone\"; the fields every editor can\nchange are always sent.",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "maxLength": 200
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email",
+                        "maxLength": 320
+                    },
+                    "role": {
+                        "anyOf": [
+                            {
+                                "$ref": "#\/components\/schemas\/UserRole"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ]
+                    },
+                    "organizationId": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "uuid"
+                    }
+                },
+                "required": [
+                    "name",
+                    "email"
+                ],
+                "title": "UpdateUserRequest"
+            },
+            "UploadOrganizationLogoRequest": {
+                "type": "object",
+                "description": "The logo upload.\n\nBoth of the upload's own rejections are stated here, so the API answers them the same way whether\nthe caller sent one byte too many or a file that is not an image at all: a 400 naming the field.\n\nThe format is checked by reading the bytes, never by believing the upload's `Content-Type` or its\nfile name. The stored value is what a later response is labelled with, so a media type nothing\nverified would be one an attacker chose.",
+                "properties": {
+                    "logo": {
+                        "type": "string",
+                        "format": "binary",
+                        "contentMediaType": "application\/octet-stream"
+                    }
+                },
+                "required": [
+                    "logo"
+                ],
+                "title": "UploadOrganizationLogoRequest"
+            },
+            "UserResource": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "organizationId": {
+                        "type": "string"
+                    },
+                    "organizationName": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "role": {
+                        "type": "string"
+                    },
+                    "status": {
+                        "type": "string"
+                    },
+                    "createdUtc": {
+                        "type": "string"
+                    },
+                    "invitedUtc": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
+                    "activatedUtc": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
+                    "lastLoginUtc": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
+                    "invitationExpiresUtc": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "description": "Read off the outstanding invitation rather than worked out from `invitedUtc` and the\nconfigured lifetime: the link's expiry was fixed when it was issued, so reconfiguring\nthat lifetime cannot retroactively expire or revive one. At most one invitation is\noutstanding per user, because issuing a new one retires the last."
+                    },
+                    "deletedUtc": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    }
+                },
+                "required": [
+                    "id",
+                    "organizationId",
+                    "email",
+                    "name",
+                    "role",
+                    "status",
+                    "createdUtc",
+                    "invitedUtc",
+                    "activatedUtc",
+                    "lastLoginUtc",
+                    "deletedUtc"
+                ],
+                "title": "UserResource"
+            },
+            "UserRole": {
+                "type": "string",
+                "description": "The capabilities a user has. Roles are hierarchical: every higher role includes the rights of the lower ones, which is what {@see self::atLeast()} expresses. The backing values are the names the API has always used, so a stored row and a token claim read the same as the JSON a client receives.\n| |\n|---|\n| `Member` <br\/> Can read their own organization and the people in it. |\n| `Administrator` <br\/> Can invite, update and remove users within their own organization, and rename it. |\n| `PlatformAdministrator` <br\/> Can manage every organization and every user in the system. |",
+                "enum": [
+                    "Member",
+                    "Administrator",
+                    "PlatformAdministrator"
+                ],
+                "title": "UserRole"
+            },
+            "UserStatus": {
+                "type": "string",
+                "description": "Where a user is in the invitation lifecycle. Deliberately separate from deletion, which is recorded by its own timestamp: the status says how far somebody got, and overwriting it on delete would lose the answer a restore has to put back.\n| |\n|---|\n| `Invited` <br\/> Invited, but has not yet signed in for the first time. |\n| `Active` <br\/> Has proven ownership of their email address and can sign in. |",
+                "enum": [
+                    "Invited",
+                    "Active"
+                ],
+                "title": "UserStatus"
+            }
+        },
+        "responses": {
+            "ValidationException": {
+                "description": "Bad Request",
+                "content": {
+                    "application\/problem+json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "type": {
+                                    "type": "string",
+                                    "format": "uri",
+                                    "description": "The section of the HTTP specification that defines this status.",
+                                    "examples": [
+                                        "https:\/\/datatracker.ietf.org\/doc\/html\/rfc9110#section-15.5.1"
+                                    ]
+                                },
+                                "title": {
+                                    "type": "string",
+                                    "description": "The sentence the form shows. Dutch, because a validation failure is the one problem whose title is read by the person filling the form in rather than by whoever is debugging.",
+                                    "examples": [
+                                        "Een of meer velden zijn niet correct ingevuld."
+                                    ]
+                                },
+                                "status": {
+                                    "type": "integer",
+                                    "description": "The HTTP status, repeated in the body so a stored problem still names it.",
+                                    "const": 400
+                                },
+                                "instance": {
+                                    "type": "string",
+                                    "format": "uri-reference",
+                                    "description": "The path of the request that was refused."
+                                },
+                                "errors": {
+                                    "type": "object",
+                                    "description": "Every field that failed, and the Dutch messages it failed with.",
+                                    "additionalProperties": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "traceId": {
+                                    "type": "string",
+                                    "description": "The identifier of this request, echoed in the X-Request-Id response header. A caller-supplied X-Request-Id is kept."
+                                }
+                            },
+                            "required": [
+                                "type",
+                                "title",
+                                "status",
+                                "instance",
+                                "errors",
+                                "traceId"
+                            ]
+                        }
+                    }
+                }
+            },
+            "AuthenticationException": {
+                "description": "Unauthorized",
+                "content": {
+                    "application\/problem+json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "type": {
+                                    "type": "string",
+                                    "format": "uri",
+                                    "description": "The section of the HTTP specification that defines this status.",
+                                    "examples": [
+                                        "https:\/\/datatracker.ietf.org\/doc\/html\/rfc9110#section-15.5.2"
+                                    ]
+                                },
+                                "title": {
+                                    "type": "string",
+                                    "description": "The English name of the status, from the HTTP specification's own vocabulary.",
+                                    "examples": [
+                                        "Unauthorized"
+                                    ]
+                                },
+                                "status": {
+                                    "type": "integer",
+                                    "description": "The HTTP status, repeated in the body so a stored problem still names it.",
+                                    "const": 401
+                                },
+                                "detail": {
+                                    "type": "string",
+                                    "description": "What went wrong, in Dutch, written for the person using the product. Omitted when the status says everything."
+                                },
+                                "instance": {
+                                    "type": "string",
+                                    "format": "uri-reference",
+                                    "description": "The path of the request that was refused."
+                                },
+                                "traceId": {
+                                    "type": "string",
+                                    "description": "The identifier of this request, echoed in the X-Request-Id response header. A caller-supplied X-Request-Id is kept."
+                                }
+                            },
+                            "required": [
+                                "type",
+                                "title",
+                                "status",
+                                "instance",
+                                "traceId"
+                            ]
+                        }
+                    }
+                }
+            },
+            "ModelNotFoundException": {
+                "description": "Not Found",
+                "content": {
+                    "application\/problem+json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "type": {
+                                    "type": "string",
+                                    "format": "uri",
+                                    "description": "The section of the HTTP specification that defines this status.",
+                                    "examples": [
+                                        "https:\/\/datatracker.ietf.org\/doc\/html\/rfc9110#section-15.5.5"
+                                    ]
+                                },
+                                "title": {
+                                    "type": "string",
+                                    "description": "The English name of the status, from the HTTP specification's own vocabulary.",
+                                    "examples": [
+                                        "Not Found"
+                                    ]
+                                },
+                                "status": {
+                                    "type": "integer",
+                                    "description": "The HTTP status, repeated in the body so a stored problem still names it.",
+                                    "const": 404
+                                },
+                                "detail": {
+                                    "type": "string",
+                                    "description": "What went wrong, in Dutch, written for the person using the product. Omitted when the status says everything."
+                                },
+                                "instance": {
+                                    "type": "string",
+                                    "format": "uri-reference",
+                                    "description": "The path of the request that was refused."
+                                },
+                                "traceId": {
+                                    "type": "string",
+                                    "description": "The identifier of this request, echoed in the X-Request-Id response header. A caller-supplied X-Request-Id is kept."
+                                }
+                            },
+                            "required": [
+                                "type",
+                                "title",
+                                "status",
+                                "instance",
+                                "traceId"
+                            ]
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -7,6 +7,7 @@ import { getLocale } from "lib/paraglide/runtime";
 import { AppRouter } from "lib/router";
 import { StrictMode, Suspense, useEffect } from "react";
 import { createRoot } from "react-dom/client";
+
 import "style/main.scss";
 
 const rootElement = document.getElementById("root");
@@ -29,9 +30,7 @@ const App = () => {
 
 	return (
 		<StrictMode>
-			<ErrorBoundary
-				fallback={(error) => <pre>{error.toString()}</pre>}
-			>
+			<ErrorBoundary fallback={(error) => <pre>{error.toString()}</pre>}>
 				<Suspense fallback={<LoadingIndicator />}>
 					<QueryClientProvider client={queryClient}>
 						<AppRouter queryClient={queryClient} />
