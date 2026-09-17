@@ -1,16 +1,10 @@
-import {
-	createFormHook,
-	createFormHookContexts,
-} from "@tanstack/react-form";
+import { createFormHook, createFormHookContexts } from "@tanstack/react-form";
 import Checkbox from "components/form/checkbox/tsf-checkbox";
 import CheckboxGroup from "components/form/checkbox/tsf-checkbox-group";
 import Input from "components/form/input/tsf-input";
 
-export const {
-	fieldContext,
-	formContext,
-	useFieldContext,
-} = createFormHookContexts();
+export const { fieldContext, formContext, useFieldContext } =
+	createFormHookContexts();
 
 /**
  * Connecting a form element to tanstack involves passing a lot of properties.

@@ -1,15 +1,7 @@
 {
 	"$schema": "./node_modules/oxfmt/configuration_schema.json",
 	"useTabs": true,
-	"printWidth": 60,
+	"printWidth": 80,
 	"ignorePatterns": ["openapi.json", "**/*.md"],
-	"overrides": [
-		{
-			"files": ["**/*.{css,scss}"],
-			"options": {
-				"printWidth": 80
-			}
-		}
-	],
 	"sortImports": true
 }

@@ -14,10 +14,7 @@ const Form = ({
 }: FormProps) => {
 	return (
 		<form className={clsx([className])} {...props}>
-			<fieldset
-				disabled={disabled}
-				className={style.disablerFieldset}
-			>
+			<fieldset disabled={disabled} className={style.disablerFieldset}>
 				{children}
 			</fieldset>
 		</form>

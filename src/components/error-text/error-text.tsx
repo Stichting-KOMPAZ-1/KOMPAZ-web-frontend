@@ -35,11 +35,7 @@ export function ErrorText({
 
 	const El = el;
 	return (
-		<El
-			{...rest}
-			className={clsx(style.text, className)}
-			htmlFor={htmlFor}
-		>
+		<El {...rest} className={clsx(style.text, className)} htmlFor={htmlFor}>
 			{Array.isArray(children)
 				? children.map((e, i, all) => (
 						// oxlint-disable-next-line react/no-array-index-key -- just text, no order logic

@@ -3,9 +3,7 @@ import * as z from "zod";
 
 export const zValidationProblemDetails = z.object({
 	title: z.string(),
-	errors: z.optional(
-		z.record(z.string(), z.array(z.string())),
-	),
+	errors: z.optional(z.record(z.string(), z.array(z.string()))),
 });
 
 export type ValidationProblemDetails = z.infer<
@@ -16,12 +14,8 @@ export type ValidationProblemDetails = z.infer<
  * Field errors can be of multiple types. This transforms to an array of strings.
  * TODO: make sure this can handle the error types for your project
  */
-export const normalizeFieldErrors = (
-	errors: unknown,
-): string[] => {
-	const errorArray = Array.isArray(errors)
-		? errors
-		: [errors];
+export const normalizeFieldErrors = (errors: unknown): string[] => {
+	const errorArray = Array.isArray(errors) ? errors : [errors];
 	return errorArray.flatMap((error) => {
 		if (typeof error === "string") return [error];
 		if (
@@ -40,10 +34,7 @@ export const normalizeFieldErrors = (
  */
 export const getFieldErrors = <
 	TState extends {
-		fieldMeta: Record<
-			string,
-			{ errors: unknown } | undefined
-		>;
+		fieldMeta: Record<string, { errors: unknown } | undefined>;
 	},
 	TField extends keyof TState["fieldMeta"],
 >(

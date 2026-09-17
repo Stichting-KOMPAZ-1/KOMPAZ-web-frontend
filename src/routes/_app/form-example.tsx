@@ -28,9 +28,7 @@ const validationSchema = z.object({
 	houseNumber: z.string().regex(/\d+/),
 	houseNumberAdd: z.string(),
 	agree: z.literal<boolean>(true),
-	options: z
-		.array(z.string())
-		.min(1, "Kies minimaal één optie"),
+	options: z.array(z.string()).min(1, "Kies minimaal één optie"),
 });
 type ValidationType = z.infer<typeof validationSchema>;
 
@@ -44,8 +42,7 @@ const fakeSubmit = async (_value: any, ok = true) =>
 				// Note: the fields this app reads out of the backend's rfc9457
 				// problem details, with its camelCase field names.
 				reject({
-					title:
-						"Een of meer velden zijn niet correct ingevuld.",
+					title: "Een of meer velden zijn niet correct ingevuld.",
 					errors: {
 						// -- Try out errors on these fields
 						email: [
@@ -126,12 +123,7 @@ function FormTest() {
 				disabled={mutation.isPending || disabled}
 			>
 				<form.AppField name="email">
-					{(field) => (
-						<field.Input
-							label="Your e-mail"
-							autoComplete="email"
-						/>
-					)}
+					{(field) => <field.Input label="Your e-mail" autoComplete="email" />}
 				</form.AppField>
 
 				{/*
@@ -140,19 +132,13 @@ function FormTest() {
 				*/}
 				<div className={style.address}>
 					<form.AppField name="postalCode">
-						{(field) => (
-							<field.Input label="Postal code" noError />
-						)}
+						{(field) => <field.Input label="Postal code" noError />}
 					</form.AppField>
 					<form.AppField name="houseNumber">
-						{(field) => (
-							<field.Input label="House number" noError />
-						)}
+						{(field) => <field.Input label="House number" noError />}
 					</form.AppField>
 					<form.AppField name="houseNumberAdd">
-						{(field) => (
-							<field.Input label="Addition" noError />
-						)}
+						{(field) => <field.Input label="Addition" noError />}
 					</form.AppField>
 					<form.Subscribe
 						selector={(state) =>
@@ -165,9 +151,7 @@ function FormTest() {
 					>
 						{(errors) =>
 							errors.length > 0 ? (
-								<ErrorText className={style.addressError}>
-									{errors}
-								</ErrorText>
+								<ErrorText className={style.addressError}>{errors}</ErrorText>
 							) : null
 						}
 					</form.Subscribe>
@@ -194,22 +178,16 @@ function FormTest() {
 
 				<Button type="submit">Submit</Button>
 			</Form>
-			<Button
-				type="button"
-				onClick={() => setDisabled((d) => !d)}
-			>
+			<Button type="button" onClick={() => setDisabled((d) => !d)}>
 				Toggle disabled state
 			</Button>
 			{!mutation.isSuccess && (
 				<p className={style.devMessage}>
 					DEV: to successfully submit, update the call to{" "}
-					<code className={style.code}>fakeSubmit</code> in
-					the mutation.
+					<code className={style.code}>fakeSubmit</code> in the mutation.
 				</p>
 			)}
-			{mutation.isSuccess && (
-				<p className={style.success}>Success!</p>
-			)}
+			{mutation.isSuccess && <p className={style.success}>Success!</p>}
 		</div>
 	);
 }

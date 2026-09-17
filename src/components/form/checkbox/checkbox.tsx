@@ -11,15 +11,9 @@ export type CheckboxProps = BaseCheckbox.Root.Props;
  * This is just the Checkbox control wired into BaseUI
  * Use in combination with BaseField.Label
  */
-const Checkbox = ({
-	className,
-	...props
-}: CheckboxProps) => {
+const Checkbox = ({ className, ...props }: CheckboxProps) => {
 	return (
-		<BaseCheckbox.Root
-			className={clsx(style.control, className)}
-			{...props}
-		>
+		<BaseCheckbox.Root className={clsx(style.control, className)} {...props}>
 			<BaseCheckbox.Indicator className={style.indicator}>
 				<CheckIcon />
 			</BaseCheckbox.Indicator>

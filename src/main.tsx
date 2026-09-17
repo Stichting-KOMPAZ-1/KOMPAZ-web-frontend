@@ -30,9 +30,7 @@ const App = () => {
 
 	return (
 		<StrictMode>
-			<ErrorBoundary
-				fallback={(error) => <pre>{error.toString()}</pre>}
-			>
+			<ErrorBoundary fallback={(error) => <pre>{error.toString()}</pre>}>
 				<Suspense fallback={<LoadingIndicator />}>
 					<QueryClientProvider client={queryClient}>
 						<AppRouter queryClient={queryClient} />

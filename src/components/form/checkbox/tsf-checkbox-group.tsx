@@ -33,9 +33,7 @@ const TSFCheckboxGroup = ({
 
 	return (
 		<Field.Root>
-			<Field.LabelLike required={required}>
-				{fieldLabel}
-			</Field.LabelLike>
+			<Field.LabelLike required={required}>{fieldLabel}</Field.LabelLike>
 			<BaseCheckboxGroup
 				aria-labelledby={`${field.name}-label`}
 				className={style.checkboxGroup}
@@ -46,10 +44,7 @@ const TSFCheckboxGroup = ({
 					<Field.Item
 						key={value}
 						render={(props) => (
-							<BaseField.Label
-								className={style.label}
-								{...props}
-							/>
+							<BaseField.Label className={style.label} {...props} />
 						)}
 					>
 						<Checkbox
