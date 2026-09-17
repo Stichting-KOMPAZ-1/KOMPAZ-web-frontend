@@ -3,7 +3,6 @@ import { useMutation } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { ErrorText } from "components/error-text/error-text";
 import { Button, Form } from "components/form";
-import formStyle from "components/form/form.module.scss";
 import { H1 } from "components/heading/heading";
 import { useAppForm } from "lib/forms";
 import {
@@ -14,7 +13,9 @@ import {
 import { makePageTitle } from "lib/title";
 import { useState } from "react";
 import z from "zod";
+
 import style from "./form-example.module.scss";
+import formStyle from "components/form/form.module.scss";
 
 // Note: this whole file is an example, you should always prefer to use generated schema's
 // and messages/labels translated through paraglide.
@@ -33,7 +34,7 @@ const validationSchema = z.object({
 });
 type ValidationType = z.infer<typeof validationSchema>;
 
-// biome-ignore lint/suspicious/noExplicitAny: whatever man
+// oxlint-disable-next-line typescript/no-explicit-any -- whatever man
 const fakeSubmit = async (_value: any, ok = true) =>
 	new Promise((resolve, reject) =>
 		setTimeout(() => {
@@ -86,7 +87,7 @@ function FormTest() {
 
 	const mutation = useMutation({
 		mutationFn: ({ body }: { body: ValidationType }) => {
-			// biome-ignore lint/suspicious/noConsole: DEV -show what is submitted
+			// oxlint-disable-next-line no-console -- DEV: show what is submitted
 			console.log("Will submit data:", body);
 			return fakeSubmit(body, false); // CHANGE this to false to test erros
 		},

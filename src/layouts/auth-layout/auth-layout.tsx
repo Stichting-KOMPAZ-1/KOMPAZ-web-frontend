@@ -1,5 +1,6 @@
 import { Outlet } from "@tanstack/react-router";
 import Logo from "assets/icons/logo.svg?react";
+
 import style from "./auth-layout.module.scss";
 
 const AuthLayout = () => (

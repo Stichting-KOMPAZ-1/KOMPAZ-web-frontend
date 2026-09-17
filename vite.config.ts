@@ -1,4 +1,5 @@
 import * as path from "node:path";
+
 import { heyApiPlugin } from "@hey-api/vite-plugin";
 import { paraglideVitePlugin } from "@inlang/paraglide-js";
 import { tanstackRouter } from "@tanstack/router-plugin/vite";
@@ -7,6 +8,7 @@ import { defineConfig, loadEnv } from "vite";
 import https from "vite-plugin-mkcert";
 import svgr from "vite-plugin-svgr";
 import viteTsConfigPaths from "vite-tsconfig-paths";
+
 import heyApiConfig from "./openapi-ts.config";
 import { name } from "./package.json";
 import { translatedPathnames } from "./router-i18n";

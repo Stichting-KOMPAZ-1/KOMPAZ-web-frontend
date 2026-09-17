@@ -11,6 +11,7 @@ import { useLocale } from "lib/i18n";
 import * as m from "lib/paraglide/messages";
 import type { Locale } from "lib/paraglide/runtime";
 import { locales, setLocale } from "lib/paraglide/runtime";
+
 import style from "./app-header.module.scss";
 
 const links = linkOptions([

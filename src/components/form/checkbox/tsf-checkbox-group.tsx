@@ -1,8 +1,10 @@
 import { CheckboxGroup as BaseCheckboxGroup } from "@base-ui/react/checkbox-group";
 import { Field as BaseField } from "@base-ui/react/field";
 import { useFieldContext } from "lib/forms";
+
 import Field from "../field/field";
 import Checkbox from "./checkbox";
+
 import style from "./checkbox.module.scss";
 
 export type CheckboxGroupItem = Readonly<{

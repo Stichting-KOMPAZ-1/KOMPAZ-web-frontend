@@ -11,6 +11,7 @@ import { useAppForm } from "lib/forms";
 import * as m from "lib/paraglide/messages";
 import { makePageTitle } from "lib/title";
 import z from "zod";
+
 import style from "./login.module.scss";
 
 const requestLinkSchema = z.object({

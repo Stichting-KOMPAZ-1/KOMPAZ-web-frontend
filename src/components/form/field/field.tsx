@@ -6,6 +6,7 @@ import clsx from "clsx";
 import { ErrorText } from "components/error-text/error-text";
 import { normalizeFieldErrors } from "lib/forms/validation-helpers";
 import * as m from "lib/paraglide/messages";
+
 import style from "./field.module.scss";
 
 /**
@@ -95,7 +96,7 @@ const FieldError = ({
 }: BaseField.Error.Props) => (
 	<BaseField.Error
 		match
-		render={({ children, ...props }) => (
+		render={({ children: _, ...props }) => (
 			<ErrorText el="span" {...props}>
 				{normalizeFieldErrors(errors)}
 			</ErrorText>

@@ -15,6 +15,7 @@ import {
 	shouldRedirect,
 } from "lib/paraglide/runtime";
 import type { RouterContext } from "lib/router";
+
 import style from "./not-found.module.scss";
 
 const NotFoundPage = () => (

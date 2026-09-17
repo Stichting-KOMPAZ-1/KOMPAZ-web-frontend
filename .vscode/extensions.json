@@ -1,7 +1,6 @@
 {
 	"recommendations": [
-		"biomejs.biome",
-		"esbenp.prettier-vscode",
+		"oxc.oxc-vscode",
 		"clinyong.vscode-css-modules"
 	]
 }

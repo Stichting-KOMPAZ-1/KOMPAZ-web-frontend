@@ -42,10 +42,10 @@ This will read the provided openapi spec and generate some files. These files pr
 
 #### Code quality
 
-Most of us [work with VSCode](https://code.visualstudio.com/) or clones thereof. Project settings are applied automatically. Make sure you've installed the [BiomeJS](https://marketplace.visualstudio.com/items?itemName=biomejs.biome) and [prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) editor extensions. They let your editor format files.  
-You should find them in the "Recommended" section of the extensions tab.
+Most of us [work with VSCode](https://code.visualstudio.com/) or clones thereof. Project settings are applied automatically. Make sure you've installed the [Oxc](https://marketplace.visualstudio.com/items?itemName=oxc.oxc-vscode) editor extension, which covers both linting and formatting.  
+You should find it in the "Recommended" section of the extensions tab.
 
-If you use another editor, the same applies: make sure it understands how to format according to the Biome & prettier configs.
+If you use another editor, the same applies: make sure it understands `.oxlintrc.json` and `.oxfmtrc.json`.
 
 #### Claude
 

@@ -7,6 +7,7 @@ import {
 	deLocalizeUrl,
 	localizeUrl,
 } from "lib/paraglide/runtime";
+
 import { routeTree } from "../routeTree.gen";
 
 export type RouterContext = Readonly<{
@@ -16,7 +17,7 @@ export type RouterContext = Readonly<{
 const router = createRouter({
 	routeTree,
 	context: {
-		// biome-ignore lint/style/noNonNullAssertion: will immediately get instantiated
+		// oxlint-disable-next-line typescript/no-non-null-assertion -- will immediately get instantiated
 		queryClient: null!,
 	},
 	defaultPreload: "intent",

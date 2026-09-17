@@ -1,5 +1,6 @@
 import clsx from "clsx";
 import { Fragment, type HTMLAttributes } from "react";
+
 import style from "./error-text.module.scss";
 
 export type ErrorProp = string | string[];
@@ -28,18 +29,20 @@ export function ErrorText({
 	className,
 	children,
 	htmlFor = undefined,
+	...rest
 }: Props) {
 	if (!children || children.length < 1) return null;
 
 	const El = el;
 	return (
 		<El
+			{...rest}
 			className={clsx(style.text, className)}
 			htmlFor={htmlFor}
 		>
 			{Array.isArray(children)
 				? children.map((e, i, all) => (
-						// biome-ignore lint/suspicious/noArrayIndexKey: just text, no order logic
+						// oxlint-disable-next-line react/no-array-index-key -- just text, no order logic
 						<Fragment key={i}>
 							{e}
 							{i < all.length - 1 ? <br /> : null}

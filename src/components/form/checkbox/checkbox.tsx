@@ -1,6 +1,8 @@
 import { Checkbox as BaseCheckbox } from "@base-ui/react/checkbox";
 import clsx from "clsx";
+
 import CheckIcon from "./check.svg?react";
+
 import style from "./checkbox.module.scss";
 
 export type CheckboxProps = BaseCheckbox.Root.Props;

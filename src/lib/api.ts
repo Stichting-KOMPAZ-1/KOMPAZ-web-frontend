@@ -1,5 +1,6 @@
 import { QueryClient } from "@tanstack/react-query";
 import env from "env";
+
 import { client } from "./heyapi/client.gen";
 
 client.setConfig({

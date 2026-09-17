@@ -1,5 +1,6 @@
 import clsx from "clsx";
 import type { JSX } from "react";
+
 import style from "./heading.module.scss";
 
 // All html heading, p and span elements have same attributes. Using h1 as template.
