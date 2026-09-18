@@ -44,6 +44,8 @@ If you use another editor, the same applies: make sure it understands `.oxlintrc
 The `.claude` folder can be extended per project by specific skills, etc. See Claude docs.  
 To overwrite any general settings, create a `settings.local.json` file.
 
+[`.claude/settings.json`](./.claude/settings.json) lists the plugins this project relies on. Check that they're enabled and signed in before starting work here.
+
 ## 🚀 Deployments
 
 The app is hosted on **DigitalOcean App Platform**, one app per environment, each
