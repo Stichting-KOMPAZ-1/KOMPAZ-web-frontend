@@ -3,6 +3,9 @@
 @use "/src/style/variables/unit.scss";
 @use "/src/style/variables/fonts.scss";
 @use "/src/style/variables/color.scss";
+@use "/src/style/variables/radius.scss";
+@use "/src/style/variables/border.scss";
+@use "/src/style/variables/shadow.scss";
 
 #root {
 	isolation: isolate;
