@@ -11,5 +11,5 @@
 
 @mixin invalid {
 	border-color: currentColor;
-	color: var(--color-error-500);
+	color: var(--color-text-error);
 }

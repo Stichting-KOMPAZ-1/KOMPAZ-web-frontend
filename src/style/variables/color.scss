@@ -1,35 +1,151 @@
-// TODO: Replace this with the colors from your project's design
+// Colors from the KOMPAZ Figma design system
+//
+// Three tiers, and the order matters:
+//   seed  ->  ramp step  ->  semantic token  ->  component
+//
+// Components may only ever reference a semantic token.
+//
+// The seeds are CSS custom properties rather than Sass variables so that the
+// ramp resolves in the browser instead of at build time.
+//
+// Nothing pins a hand-picked value, the cost is that a generated step lands near
+// a designer's pick rather than on it.
 
-// Add your base colors here.
-$colors: (
-	/* Royal Blue*/ "primary": #4169e1,
-	/* Salmon*/ "secondary": #ff8e77,
-	/* Tea Green*/ "tertiary": #c7efcf,
-	/* Persian Red*/ "error": #cc3e40,
-	/* Grey*/ "neutral": #808080,
-);
-
-// A palette from color-050 to color-950 will be generated.
+// Tier 0 — seeds.
 :root {
-	@each $name, $color in $colors {
-		--color-#{$name}-050: color-mix(in oklch shorter hue, #{$color}, white 90%);
-		--color-#{$name}-100: color-mix(in oklch shorter hue, #{$color}, white 80%);
-		--color-#{$name}-150: color-mix(in oklch shorter hue, #{$color}, white 70%);
-		--color-#{$name}-200: color-mix(in oklch shorter hue, #{$color}, white 60%);
-		--color-#{$name}-250: color-mix(in oklch shorter hue, #{$color}, white 50%);
-		--color-#{$name}-300: color-mix(in oklch shorter hue, #{$color}, white 40%);
-		--color-#{$name}-350: color-mix(in oklch shorter hue, #{$color}, white 30%);
-		--color-#{$name}-400: color-mix(in oklch shorter hue, #{$color}, white 20%);
-		--color-#{$name}-450: color-mix(in oklch shorter hue, #{$color}, white 10%);
-		--color-#{$name}-500: #{$color};
-		--color-#{$name}-550: color-mix(in oklch shorter hue, #{$color}, black 10%);
-		--color-#{$name}-600: color-mix(in oklch shorter hue, #{$color}, black 20%);
-		--color-#{$name}-650: color-mix(in oklch shorter hue, #{$color}, black 30%);
-		--color-#{$name}-700: color-mix(in oklch shorter hue, #{$color}, black 40%);
-		--color-#{$name}-750: color-mix(in oklch shorter hue, #{$color}, black 50%);
-		--color-#{$name}-800: color-mix(in oklch shorter hue, #{$color}, black 60%);
-		--color-#{$name}-850: color-mix(in oklch shorter hue, #{$color}, black 70%);
-		--color-#{$name}-900: color-mix(in oklch shorter hue, #{$color}, black 80%);
-		--color-#{$name}-950: color-mix(in oklch shorter hue, #{$color}, black 90%);
+	--seed-primary: #6f203a; // color/main/red
+	--seed-secondary: #032d49; // color/main/blue
+	--seed-error: #b3271b; // color/system/error-dark
+	--seed-success: #1f7a45; // color/system/success-dark
+
+	// The warning banner's text color, which design left unbound — it is a raw
+	// hex on the node rather than a variable. Ask design to bind it.
+	--seed-warning: #8a5a05;
+}
+
+$colors: "primary", "secondary", "error", "success", "warning";
+
+// Tier 1 — a 050 (lightest) to 950 (darkest) ramp generated from each seed.
+:root {
+	@each $color in $colors {
+		--color-#{$color}-050: color-mix(
+			in oklch shorter hue,
+			var(--seed-#{$color}),
+			white 90%
+		);
+		--color-#{$color}-100: color-mix(
+			in oklch shorter hue,
+			var(--seed-#{$color}),
+			white 80%
+		);
+		--color-#{$color}-150: color-mix(
+			in oklch shorter hue,
+			var(--seed-#{$color}),
+			white 70%
+		);
+		--color-#{$color}-200: color-mix(
+			in oklch shorter hue,
+			var(--seed-#{$color}),
+			white 60%
+		);
+		--color-#{$color}-250: color-mix(
+			in oklch shorter hue,
+			var(--seed-#{$color}),
+			white 50%
+		);
+		--color-#{$color}-300: color-mix(
+			in oklch shorter hue,
+			var(--seed-#{$color}),
+			white 40%
+		);
+		--color-#{$color}-350: color-mix(
+			in oklch shorter hue,
+			var(--seed-#{$color}),
+			white 30%
+		);
+		--color-#{$color}-400: color-mix(
+			in oklch shorter hue,
+			var(--seed-#{$color}),
+			white 20%
+		);
+		--color-#{$color}-450: color-mix(
+			in oklch shorter hue,
+			var(--seed-#{$color}),
+			white 10%
+		);
+		--color-#{$color}-500: var(--seed-#{$color});
+		--color-#{$color}-550: color-mix(
+			in oklch shorter hue,
+			var(--seed-#{$color}),
+			black 10%
+		);
+		--color-#{$color}-600: color-mix(
+			in oklch shorter hue,
+			var(--seed-#{$color}),
+			black 20%
+		);
+		--color-#{$color}-650: color-mix(
+			in oklch shorter hue,
+			var(--seed-#{$color}),
+			black 30%
+		);
+		--color-#{$color}-700: color-mix(
+			in oklch shorter hue,
+			var(--seed-#{$color}),
+			black 40%
+		);
+		--color-#{$color}-750: color-mix(
+			in oklch shorter hue,
+			var(--seed-#{$color}),
+			black 50%
+		);
+		--color-#{$color}-800: color-mix(
+			in oklch shorter hue,
+			var(--seed-#{$color}),
+			black 60%
+		);
+		--color-#{$color}-850: color-mix(
+			in oklch shorter hue,
+			var(--seed-#{$color}),
+			black 70%
+		);
+		--color-#{$color}-900: color-mix(
+			in oklch shorter hue,
+			var(--seed-#{$color}),
+			black 80%
+		);
+		--color-#{$color}-950: color-mix(
+			in oklch shorter hue,
+			var(--seed-#{$color}),
+			black 90%
+		);
 	}
+
+	--color-white: #ffffff;
+}
+
+// Tier 2 — the only tier components may reference.
+//
+// Each token sits on the step nearest the color design bound to that role, so
+// the mapping survives a change of seed.
+:root {
+	--color-text-default: var(--color-primary-700); // color/text/red
+	--color-text-muted: var(--color-primary-400); // color/text/pink
+	--color-text-accent: var(--color-secondary-350); // color/text/blue
+	--color-text-error: var(--color-error-500);
+	--color-text-warning: var(--color-warning-500);
+	--color-text-on-fill: var(--color-white);
+
+	--color-surface-page: var(--color-white);
+	--color-surface-muted: var(--color-primary-050); // color/bg/pink
+	--color-surface-accent: var(--color-secondary-050); // color/bg/blue
+	--color-surface-error: var(--color-error-050);
+	--color-surface-success: var(--color-success-050);
+	--color-surface-warning: var(--color-warning-050);
+
+	--color-action: var(--color-primary-500);
+	--color-action-soft: var(--color-primary-350); // color/main/lighter-red
+	--color-nav-selected: var(--color-secondary-500);
+
+	--color-border: var(--color-primary-100); // color/rose/89
 }
