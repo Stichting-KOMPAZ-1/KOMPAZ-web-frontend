@@ -5,7 +5,16 @@ dist
 .github
 .vscode
 .claude
+.prettierrc
 docs
 *.tsbuildinfo
+README.md
+CLAUDE.md
+LICENSE
+biome.json
+lefthook.yml
 src/lib/heyapi
 src/lib/paraglide
+src/routeTree.gen.ts
+project.inlang/.meta.json
+project.inlang/.gitignore
