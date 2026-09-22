@@ -20,6 +20,8 @@ if (!rootElement) {
 
 const root = createRoot(rootElement);
 
+const renderErrorFallback = (error: Error) => <pre>{error.toString()}</pre>;
+
 const App = () => {
 	const locale = getLocale();
 
@@ -30,7 +32,7 @@ const App = () => {
 
 	return (
 		<StrictMode>
-			<ErrorBoundary fallback={(error) => <pre>{error.toString()}</pre>}>
+			<ErrorBoundary fallback={renderErrorFallback}>
 				<Suspense fallback={<LoadingIndicator />}>
 					<QueryClientProvider client={queryClient}>
 						<AppRouter queryClient={queryClient} />
