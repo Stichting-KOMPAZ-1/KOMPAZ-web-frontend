@@ -2,18 +2,15 @@
 	"$schema": "./node_modules/oxlint/configuration_schema.json",
 	"plugins": ["typescript", "unicorn", "oxc", "react", "jsx-a11y"],
 	"categories": {
-		"correctness": "error"
+		"correctness": "error",
+		"suspicious": "error"
 	},
 	"ignorePatterns": ["openapi.json"],
 	"rules": {
 		"no-console": "error",
+		"react/react-in-jsx-scope": "off",
 		"react/no-array-index-key": "error",
 		"typescript/no-explicit-any": "error",
-		"typescript/no-non-null-assertion": "error",
-		"jsx-a11y/no-autofocus": "off",
-		"no-unused-vars": [
-			"warn",
-			{ "args": "after-used", "argsIgnorePattern": "^_" }
-		]
+		"typescript/no-non-null-assertion": "error"
 	}
 }
