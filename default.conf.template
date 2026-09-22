@@ -33,7 +33,11 @@ server {
     # reverse-proxied onto this origin below, so the bundle never issues a
     # cross-origin request and the policy cannot drift from whichever backend the
     # container points at.
-    add_header Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'" always;
+    # The two Google Fonts hosts are the one exception: src/style/variables/fonts.scss
+    # imports the Fustat/Inter stylesheet from fonts.googleapis.com, which in turn
+    # serves the woff2 files from fonts.gstatic.com. Both are needed -- allowing only
+    # the stylesheet host swaps the style-src violation for a font-src one.
+    add_header Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'" always;
 
     # Set via the map above so it lives at server level: an add_header inside a
     # location block would drop every server-level header for that location.

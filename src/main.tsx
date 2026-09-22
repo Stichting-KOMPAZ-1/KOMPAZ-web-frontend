@@ -1,5 +1,6 @@
 import { QueryClientProvider } from "@tanstack/react-query";
 import ErrorBoundary from "components/error-boundary/error-boundary";
+import renderErrorFallback from "components/error-fallback/error-fallback";
 import LoadingIndicator from "components/loading-indicator/loading-indicator";
 import { queryClient } from "lib/api";
 import { loadZodLocale } from "lib/i18n";
@@ -30,7 +31,7 @@ const App = () => {
 
 	return (
 		<StrictMode>
-			<ErrorBoundary fallback={(error) => <pre>{error.toString()}</pre>}>
+			<ErrorBoundary fallback={renderErrorFallback}>
 				<Suspense fallback={<LoadingIndicator />}>
 					<QueryClientProvider client={queryClient}>
 						<AppRouter queryClient={queryClient} />
