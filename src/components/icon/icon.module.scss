@@ -1,0 +1,18 @@
+.icon {
+	flex: 0 0 auto;
+	width: var(--icon-size);
+	height: var(--icon-size);
+	color: inherit;
+}
+
+.s {
+	--icon-size: 1em;
+}
+
+.m {
+	--icon-size: 1.25em;
+}
+
+.l {
+	--icon-size: 1.5em;
+}

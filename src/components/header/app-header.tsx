@@ -2,6 +2,7 @@ import { Link, linkOptions } from "@tanstack/react-router";
 import Logo from "assets/icons/logo.svg?react";
 import clsx from "clsx";
 import { Select } from "components/form";
+import Icon from "components/icon/icon";
 import { useLocale } from "lib/i18n";
 import * as m from "lib/paraglide/messages";
 import type { Locale } from "lib/paraglide/runtime";
@@ -17,7 +18,7 @@ const links = linkOptions([
 	},
 	{
 		to: "/form-example",
-		icon: "📋",
+		icon: <Icon name="clipboard-list" />,
 		label: () => "Form",
 	},
 ]);
