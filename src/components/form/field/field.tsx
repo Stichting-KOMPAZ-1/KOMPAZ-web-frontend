@@ -6,15 +6,13 @@ import clsx from "clsx";
 import { ErrorText } from "components/error-text/error-text";
 import { normalizeFieldErrors } from "lib/forms/validation-helpers";
 import * as m from "lib/paraglide/messages";
+
 import style from "./field.module.scss";
 
 /**
  * Styling for fields, to wrap your form control with
  */
-const FieldRoot = ({
-	className,
-	...props
-}: FieldRootProps) => (
+const FieldRoot = ({ className, ...props }: FieldRootProps) => (
 	<BaseField.Root
 		className={clsx(style.field, className)}
 		{...props}
@@ -27,18 +25,12 @@ export type FieldRootProps = BaseFieldRootProps & {
 /**
  * Styled Field.Label. Won't render without children
  */
-const FieldLabel = ({
-	children,
-	required,
-	...props
-}: FieldLabelProps) =>
+const FieldLabel = ({ children, required, ...props }: FieldLabelProps) =>
 	children && (
 		<BaseField.Label className={style.label} {...props}>
 			{children}{" "}
 			{!required && (
-				<span className={style.optional}>
-					{m.forms_optional()}
-				</span>
+				<span className={style.optional}>{m.forms_optional()}</span>
 			)}
 		</BaseField.Label>
 	);
@@ -58,16 +50,13 @@ const FieldLabelLike = ({
 		<p className={style.label} {...props}>
 			{children}{" "}
 			{!required && (
-				<span className={style.optional}>
-					{m.forms_optional()}
-				</span>
+				<span className={style.optional}>{m.forms_optional()}</span>
 			)}
 		</p>
 	);
-export type FieldLabelLikeProps =
-	React.ComponentProps<"p"> & {
-		required?: boolean;
-	};
+export type FieldLabelLikeProps = React.ComponentProps<"p"> & {
+	required?: boolean;
+};
 
 /**
  * Styled Field.Description
@@ -90,12 +79,10 @@ const FieldDescription = ({
  * Custom Field.Error
  * Normalizes given errors to array of strings
  */
-const FieldError = ({
-	children: errors,
-}: BaseField.Error.Props) => (
+const FieldError = ({ children: errors }: BaseField.Error.Props) => (
 	<BaseField.Error
 		match
-		render={({ children, ...props }) => (
+		render={(props) => (
 			<ErrorText el="span" {...props}>
 				{normalizeFieldErrors(errors)}
 			</ErrorText>

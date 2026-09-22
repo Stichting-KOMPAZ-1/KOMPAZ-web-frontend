@@ -1,11 +1,11 @@
-# Vite React Template
+# KOMPAZ web frontend
 
-A template for quick-starting any React app!
+The web client for KOMPAZ.
 
 <details>
 <summary>Table of Contents</summary>
 
-- [Vite React Template](#vite-react-template)
+- [KOMPAZ web frontend](#kompaz-web-frontend)
   - [🏃‍♂️ Getting started](#️-getting-started)
     - [🟢 OpenAPI](#-openapi)
   - [🚀 Deployments](#-deployments)
@@ -21,31 +21,23 @@ To run this project, [use `bun`](https://bun.sh/):
 ```sh
 # Install dependencies
 bun install
-bun run gen
 bun run dev
 ```
 
 ### 🟢 OpenAPI
 
-If the api endpoints changed, you need to re-generate the api-related files.
+Vite generates the api-related files on every dev and build run, from the openapi spec. These files provide typesafe API clients and form validators.
 
-```sh
-# Run code generators for API schemas and validators
-bun run gen
-```
-
-This will read the provided openapi spec and generate some files. These files provide typesafe API clients and form validators.
-
-> ⚠️ The provided spec is an example. You should delete `openapi.json` and reference your own OpenAPI specification by changing the `input` in `heyapi.config.ts`
+`openapi.json` is vendored from the backend, which owns the contract. Refresh it from `https://backend.kompaz.igne.link/docs/api.json`, so a contract change arrives as a reviewable diff. Never hand-edit it to make the frontend compile.
 
 ### 💻 Editor setup
 
 #### Code quality
 
-Most of us [work with VSCode](https://code.visualstudio.com/) or clones thereof. Project settings are applied automatically. Make sure you've installed the [BiomeJS](https://marketplace.visualstudio.com/items?itemName=biomejs.biome) and [prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) editor extensions. They let your editor format files.  
-You should find them in the "Recommended" section of the extensions tab.
+Most of us [work with VSCode](https://code.visualstudio.com/) or clones thereof. Project settings are applied automatically. Make sure you've installed the [Oxc](https://marketplace.visualstudio.com/items?itemName=oxc.oxc-vscode) editor extension, which covers both linting and formatting.  
+You should find it in the "Recommended" section of the extensions tab.
 
-If you use another editor, the same applies: make sure it understands how to format according to the Biome & prettier configs.
+If you use another editor, the same applies: make sure it understands `.oxlintrc.json` and `.oxfmtrc.json`.
 
 #### Claude
 
