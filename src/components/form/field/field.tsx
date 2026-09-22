@@ -82,7 +82,7 @@ const FieldDescription = ({
 const FieldError = ({ children: errors }: BaseField.Error.Props) => (
 	<BaseField.Error
 		match
-		render={({ children: _, ...props }) => (
+		render={(props) => (
 			<ErrorText el="span" {...props}>
 				{normalizeFieldErrors(errors)}
 			</ErrorText>
