@@ -36,6 +36,18 @@ Reach for this when the graphic is:
 
 Rule of thumb: if it belongs to the icon set a designer picks from, it's an `<Icon />`. If it's artwork, it's a file.
 
-When authoring one, keep the `viewBox` and drop `width`/`height` so it can be sized from CSS, and use `currentColor` unless the graphic is deliberately multi-colour. SVGO runs over these during the build; the config lives in `vite.config.ts`.
+### Sizing a local svg
+
+Always keep the `viewBox` — it carries the coordinate system and the aspect ratio, and without it nothing scales.
+
+Then drop **both** `width` and `height`.
+
+Dropping both is what we do, because one dimension at the call site is enough — the `viewBox` supplies the other:
+
+```tsx
+<Spinner width="3em" />
+```
+
+Use `currentColor` unless the graphic is deliberately fixed-colour, as the logo is.
 
 Unlike `<Icon />`, a `?react` import gives you the raw svg with no accessibility handling: add `aria-hidden="true"` yourself when it sits next to text that already says the same thing.
