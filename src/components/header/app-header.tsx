@@ -1,5 +1,4 @@
 import { Link, linkOptions } from "@tanstack/react-router";
-import Logo from "assets/icons/logo.svg?react";
 import clsx from "clsx";
 import { Select } from "components/form";
 import Icon from "components/icon/icon";
@@ -13,7 +12,7 @@ import style from "./app-header.module.scss";
 const links = linkOptions([
 	{
 		to: "/",
-		icon: <Logo width="1rem" />,
+		icon: <Icon name="info" />,
 		label: m.home_title,
 	},
 	{
