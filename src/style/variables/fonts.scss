@@ -3,25 +3,25 @@
 :root {
 	// Used in `font` shorthand property.
 	// grammar: <weight> <font-size> / <line-height> <font-family>;
-	--font-body-regular-xs: 400 0.75rem / 140% "Inter"; // Body/Regular/ExtraSmall
-	--font-body-regular-s: 400 0.875rem / 140% "Inter"; // Body/Regular/Small
-	--font-body-regular-base: 400 1rem / 140% "Inter"; // Body/Regular/Base
-	--font-body-regular-l: 400 1.125rem / 140% "Inter"; // Body/Regular/Large
-	--font-body-regular-xl: 400 1.25rem / 140% "Inter"; // Body/Regular/ExtraLarge
+	--font-body-regular-12: 400 0.75rem / 140% "Inter";
+	--font-body-regular-14: 400 0.875rem / 140% "Inter";
+	--font-body-regular-16: 400 1rem / 140% "Inter";
+	--font-body-regular-18: 400 1.125rem / 140% "Inter";
+	--font-body-regular-20: 400 1.25rem / 140% "Inter";
 
-	--font-body-semibold-xs: 600 0.75rem / 140% "Inter"; // Body/Semibold/ExtraSmall
-	--font-body-semibold-s: 600 0.875rem / 140% "Inter"; // Body/Semibold/Small
-	--font-body-semibold-base: 600 1rem / 140% "Inter"; // Body/Semibold/Base
-	--font-body-semibold-l: 600 1.125rem / 140% "Inter"; // Body/Semibold/Large
-	--font-body-semibold-xl: 600 1.25rem / 140% "Inter"; // Body/Semibold/ExtraLarge
+	--font-body-semibold-12: 600 0.75rem / 140% "Inter";
+	--font-body-semibold-14: 600 0.875rem / 140% "Inter";
+	--font-body-semibold-16: 600 1rem / 140% "Inter";
+	--font-body-semibold-18: 600 1.125rem / 140% "Inter";
+	--font-body-semibold-20: 600 1.25rem / 140% "Inter";
 
-	--font-body-bold-xs: 700 0.75rem / 140% "Inter"; // Body/Bold/ExtraSmall
-	--font-body-bold-s: 700 0.875rem / 140% "Inter"; // Body/Bold/Small
-	--font-body-bold-base: 700 1rem / 140% "Inter"; // Body/Bold/Base
-	--font-body-bold-l: 700 1.125rem / 140% "Inter"; // Body/Bold/Large
-	--font-body-bold-xl: 700 1.25rem / 140% "Inter"; // Body/Bold/ExtraLarge
+	--font-body-bold-12: 700 0.75rem / 140% "Inter";
+	--font-body-bold-14: 700 0.875rem / 140% "Inter";
+	--font-body-bold-16: 700 1rem / 140% "Inter";
+	--font-body-bold-18: 700 1.125rem / 140% "Inter";
+	--font-body-bold-20: 700 1.25rem / 140% "Inter";
 
-	--font-heading-small: 600 1rem / 120% "Inter"; // 16
-	--font-heading-medium: 600 1.125rem / 120% "Inter"; // 18
-	--font-heading-large: 600 1.5rem / 120% "Inter"; // 24
+	--font-heading-16: 600 1rem / 120% "Inter";
+	--font-heading-18: 600 1.125rem / 120% "Inter";
+	--font-heading-24: 600 1.5rem / 120% "Inter";
 }

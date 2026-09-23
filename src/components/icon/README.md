@@ -9,13 +9,13 @@ There are two ways to get a vector into the UI. Which one you pick depends on wh
 ```tsx
 import Icon from "components/icon/icon";
 
-<Icon name="chevron-right" />
-<Icon name="trash" size="s" />
+<Icon name="info" />
+<Icon name="info" size={20} />
 ```
 
 The `icons` registry in that file is the whole vocabulary. To add one, import it and add it to the object — `IconName` is derived from those keys, so there is nothing else to update.
 
-Icons inherit `currentColor`. Don't give them a fixed pixel size or a literal colour.
+Icons inherit `currentColor`. Don't give them a literal colour.
 
 ## A local `.svg` — everything else
 
