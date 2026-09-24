@@ -1,4 +1,4 @@
-import { createFormHook, useStore } from "@tanstack/react-form";
+import { createFormHook, useSelector } from "@tanstack/react-form";
 import Checkbox from "components/form/checkbox/tsf-checkbox";
 import CheckboxGroup from "components/form/checkbox/tsf-checkbox-group";
 import Input from "components/form/input/tsf-input";
@@ -56,7 +56,7 @@ export type FormWithState<TState> = {
  */
 export const useIsSubmitting = (
 	form: FormWithState<{ isSubmitting: boolean }>,
-): boolean => useStore(form.store, (s) => s.isSubmitting);
+): boolean => useSelector(form.store, (s) => s.isSubmitting);
 
 /**
  * The message under the submit button after a failed submit.
@@ -73,7 +73,7 @@ export const useSubmitError = (
 		fieldMeta: Partial<Record<string, { errors: unknown[] }>>;
 	}>,
 ): string | undefined =>
-	useStore(form.store, (s) => {
+	useSelector(form.store, (s) => {
 		if (s.isSubmitting || s.submissionAttempts === 0) {
 			return undefined;
 		}
@@ -99,7 +99,7 @@ export const useSubmitError = (
  */
 export const useSubmitAttempts = (
 	form: FormWithState<{ submissionAttempts: number }>,
-): number => useStore(form.store, (s) => s.submissionAttempts);
+): number => useSelector(form.store, (s) => s.submissionAttempts);
 
 /**
  * The `onSubmit` for a `<Form>`: stops the browser from navigating and hands
