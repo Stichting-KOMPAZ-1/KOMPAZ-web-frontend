@@ -2,11 +2,11 @@ import { useFieldContext } from "lib/forms/form-context";
 import { visibleError } from "lib/forms/validation-helpers";
 
 import { Field, FieldError } from "../field/field";
-import { CheckboxGroup } from "./checkbox-group";
+import { RadioGroup } from "./radio-group";
 
 type Props = Omit<
-	React.ComponentProps<typeof CheckboxGroup>,
-	"value" | "onValueChange" | "className" | "legend"
+	React.ComponentProps<typeof RadioGroup>,
+	"name" | "value" | "onValueChange" | "className" | "legend"
 > & {
 	/** Names the group. */
 	label?: string;
@@ -14,11 +14,9 @@ type Props = Omit<
 	className?: string;
 };
 
-/**
- * A set of related checkboxes bound to one array field.
- */
-export function TSFCheckboxGroup({ label, className, ...props }: Props) {
-	const field = useFieldContext<string[]>();
+/** A single-choice question bound to the field it is rendered in. */
+export function TSFRadioGroup({ label, className, ...props }: Props) {
+	const field = useFieldContext<string>();
 	const error = visibleError(field.state.meta);
 
 	return (
@@ -28,9 +26,10 @@ export function TSFCheckboxGroup({ label, className, ...props }: Props) {
 			touched={field.state.meta.isTouched}
 			dirty={field.state.meta.isDirty}
 		>
-			<CheckboxGroup
+			<RadioGroup
 				{...props}
 				legend={label}
+				name={field.name}
 				value={field.state.value}
 				onValueChange={(value) => field.handleChange(value)}
 				onBlur={field.handleBlur}
@@ -40,4 +39,4 @@ export function TSFCheckboxGroup({ label, className, ...props }: Props) {
 	);
 }
 
-export default TSFCheckboxGroup;
+export default TSFRadioGroup;

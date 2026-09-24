@@ -1,24 +1,44 @@
 @use "../form.scss";
 
-.select {
+.control {
+	@include form.control-box;
+
 	display: inline-flex;
+	position: relative;
 	flex: 1;
-	border: 2px solid currentColor;
-	border-radius: var(--unit-1);
-	background: white;
-	padding: var(--unit-4);
+	align-items: center;
+	min-height: var(--unit-10);
 	min-width: 0;
-	color: black;
+	width: 100%;
 
-	@media not (prefers-reduced-motion) {
-		transition: all 0.2s ease;
-	}
-
-	&[aria-invalid="true"] {
+	&:has(select[aria-invalid="true"]) {
 		@include form.invalid;
 	}
 
-	&:disabled {
+	&:has(select:disabled) {
 		@include form.disabled;
 	}
+}
+
+.select {
+	flex: 1;
+	appearance: none;
+	cursor: pointer;
+	outline: none;
+	border: none;
+	background: none;
+	padding: 0 var(--unit-3);
+	// Keep the text clear of the chevron
+	padding-right: calc(var(--unit-3) + var(--unit-4) + var(--unit-2));
+	min-width: 0;
+	color: inherit;
+	font: var(--font-body-regular-14);
+}
+
+.chevron {
+	display: inline-flex;
+	position: absolute;
+	right: var(--unit-3);
+	pointer-events: none;
+	color: inherit;
 }

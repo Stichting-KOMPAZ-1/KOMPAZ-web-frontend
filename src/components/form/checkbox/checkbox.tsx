@@ -1,24 +1,48 @@
 import { Checkbox as BaseCheckbox } from "@base-ui/react/checkbox";
 import clsx from "clsx";
-
-import CheckIcon from "./check.svg?react";
+import Icon from "components/icon/icon";
 
 import style from "./checkbox.module.scss";
 
-export type CheckboxProps = BaseCheckbox.Root.Props;
+export type CheckboxProps = Omit<BaseCheckbox.Root.Props, "className"> & {
+	className?: string;
+};
 
 /**
- * This is just the Checkbox control wired into BaseUI
- * Use in combination with BaseField.Label
+ * The box on its own. Use `CheckboxOption`
+ * unless the label is already supplied by a surrounding `<Field>`.
  */
-const Checkbox = ({ className, ...props }: CheckboxProps) => {
+export function Checkbox({ className, ...props }: CheckboxProps) {
 	return (
-		<BaseCheckbox.Root className={clsx(style.control, className)} {...props}>
+		<BaseCheckbox.Root {...props} className={clsx(style.checkbox, className)}>
 			<BaseCheckbox.Indicator className={style.indicator}>
-				<CheckIcon />
+				<Icon name="check" size={20} />
 			</BaseCheckbox.Indicator>
 		</BaseCheckbox.Root>
 	);
-};
+}
+
+/**
+ * A checkbox and its text as one clickable row.
+ *
+ * @example
+ * <CheckboxOption
+ * 	label="Open for registration"
+ * 	checked={value}
+ * 	onCheckedChange={setValue}
+ * />
+ */
+export function CheckboxOption({
+	label,
+	className,
+	...props
+}: CheckboxProps & { label: string }) {
+	return (
+		<label className={clsx(style.option, className)}>
+			<Checkbox {...props} />
+			<span>{label}</span>
+		</label>
+	);
+}
 
 export default Checkbox;

@@ -1,19 +1,37 @@
-.field {
+.root {
 	display: flex;
+	flex: 1;
 	flex-direction: column;
-	justify-content: space-between;
-	gap: var(--unit-2);
+	gap: var(--unit-1);
 	width: 100%;
 }
 
 .label {
-	cursor: default;
+	color: var(--color-text-default);
+	font: var(--font-body-semibold-14);
+
+	&[data-invalid] {
+		color: var(--color-text-error);
+	}
 }
 
-.optional {
-	color: lch(from currentColor calc(l + 60) c h);
+.required {
+	color: inherit;
 }
 
-.description {
-	font-style: italic;
+.hint {
+	color: var(--color-text-muted);
+	font: var(--font-body-regular-14);
+}
+
+.error {
+	display: flex;
+	align-items: center;
+	gap: var(--unit-1);
+	color: var(--color-text-error);
+	font: var(--font-body-regular-14);
+
+	> svg {
+		flex-shrink: 0;
+	}
 }

@@ -1,10 +1,11 @@
 import { revalidateLogic } from "@tanstack/react-form";
 import { useMutation } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
+import Button from "components/button/button";
 import { ErrorText } from "components/error-text/error-text";
-import { Button, Form } from "components/form";
+import { Form, SubmitError } from "components/form";
 import { H1 } from "components/heading/heading";
-import { useAppForm } from "lib/forms";
+import { submitHandler, useAppForm, useIsSubmitting } from "lib/forms";
 import {
 	getFieldErrors,
 	mutateAndValidate,
@@ -15,7 +16,6 @@ import { useState } from "react";
 import z from "zod";
 
 import style from "./form-example.module.scss";
-import formStyle from "components/form/form.module.scss";
 
 // Note: this whole file is an example, you should always prefer to use generated schema's
 // and messages/labels translated through paraglide.
@@ -29,6 +29,9 @@ const validationSchema = z.object({
 	houseNumberAdd: z.string(),
 	agree: z.literal<boolean>(true),
 	options: z.array(z.string()).min(1, "Kies minimaal één optie"),
+	contact: z.string().min(1, "Kies een contactvoorkeur"),
+	country: z.string().min(1, "Kies een land"),
+	note: z.string(),
 });
 type ValidationType = z.infer<typeof validationSchema>;
 
@@ -75,12 +78,20 @@ export const Route = createFileRoute("/_app/form-example")({
 			},
 			{ label: "I eat squirrels!", value: "squirrels" },
 		],
+		contactOptions: [
+			{ label: "By e-mail", value: "email" },
+			{ label: "By phone", value: "phone" },
+		],
+		countryOptions: [
+			{ label: "Netherlands", value: "nl" },
+			{ label: "Belgium", value: "be" },
+		],
 	}),
 });
 
 function FormTest() {
 	const [disabled, setDisabled] = useState(false);
-	const { allOptions } = Route.useLoaderData();
+	const { allOptions, contactOptions, countryOptions } = Route.useLoaderData();
 
 	const mutation = useMutation({
 		mutationFn: ({ body }: { body: ValidationType }) => {
@@ -98,6 +109,9 @@ function FormTest() {
 		houseNumberAdd: "",
 		agree: false,
 		options: [],
+		contact: "",
+		country: "",
+		note: "",
 	};
 
 	const form = useAppForm({
@@ -110,20 +124,25 @@ function FormTest() {
 		},
 	});
 
+	const isSubmitting = useIsSubmitting(form);
+
 	return (
 		<div className={style.page}>
 			<H1 size="medium">Form example</H1>
 
 			<Form
-				className={formStyle.form}
-				onSubmit={(evt) => {
-					evt.preventDefault();
-					form.handleSubmit();
-				}}
-				disabled={mutation.isPending || disabled}
+				label="Form example"
+				onSubmit={submitHandler(form)}
+				disabled={disabled}
 			>
 				<form.AppField name="email">
-					{(field) => <field.Input label="Your e-mail" autoComplete="email" />}
+					{(field) => (
+						<field.Input
+							label="Your e-mail"
+							autoComplete="email"
+							placeholder="name@organisation.nl"
+						/>
+					)}
 				</form.AppField>
 
 				{/*
@@ -138,7 +157,7 @@ function FormTest() {
 						{(field) => <field.Input label="House number" noError />}
 					</form.AppField>
 					<form.AppField name="houseNumberAdd">
-						{(field) => <field.Input label="Addition" noError />}
+						{(field) => <field.Input label="Addition" noError optional />}
 					</form.AppField>
 					<form.Subscribe
 						selector={(state) =>
@@ -160,9 +179,8 @@ function FormTest() {
 				<form.AppField name="agree">
 					{(field) => (
 						<field.Checkbox
-							fieldLabel="You have to agree to this!"
+							hint="You have to agree to this!"
 							label="Sure, whatever dude."
-							required
 						/>
 					)}
 				</form.AppField>
@@ -170,13 +188,35 @@ function FormTest() {
 				<form.AppField name="options">
 					{(field) => (
 						<field.CheckboxGroup
-							fieldLabel="Pick your options"
-							items={allOptions}
+							label="Pick your options"
+							options={allOptions}
 						/>
 					)}
 				</form.AppField>
 
-				<Button type="submit">Submit</Button>
+				<form.AppField name="contact">
+					{(field) => (
+						<field.RadioGroup
+							label="How should we reach you?"
+							options={contactOptions}
+						/>
+					)}
+				</form.AppField>
+
+				<form.AppField name="country">
+					{(field) => <field.Select label="Country" options={countryOptions} />}
+				</form.AppField>
+
+				<form.AppField name="note">
+					{(field) => (
+						<field.Textarea label="Anything else?" optional rows={4} />
+					)}
+				</form.AppField>
+
+				<Button type="submit" disabled={isSubmitting}>
+					Submit
+				</Button>
+				<SubmitError form={form} />
 			</Form>
 			<Button type="button" onClick={() => setDisabled((d) => !d)}>
 				Toggle disabled state

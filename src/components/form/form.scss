@@ -10,6 +10,30 @@
 }
 
 @mixin invalid {
-	border-color: currentColor;
+	border-color: var(--color-text-error);
 	color: var(--color-text-error);
+
+	::placeholder {
+		color: var(--color-text-error);
+	}
+}
+
+// The bordered box every text-like control sits in (input, select, textarea)
+@mixin control-box {
+	border: var(--border-width) solid var(--color-text-muted);
+	border-radius: var(--radius-10);
+	background: var(--color-white);
+	color: var(--color-text-default);
+
+	@media not (prefers-reduced-motion) {
+		transition:
+			border-color 0.2s ease,
+			box-shadow 0.2s ease;
+	}
+
+	&:focus-within {
+		outline: 3px solid var(--color-action);
+		outline-offset: 2px;
+		border-color: var(--color-action);
+	}
 }

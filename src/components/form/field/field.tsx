@@ -1,100 +1,84 @@
-import {
-	Field as BaseField,
-	type FieldRootProps as BaseFieldRootProps,
-} from "@base-ui/react/field";
+import { Field as BaseField } from "@base-ui/react/field";
 import clsx from "clsx";
-import { ErrorText } from "components/error-text/error-text";
-import { normalizeFieldErrors } from "lib/forms/validation-helpers";
+import Icon from "components/icon/icon";
 import * as m from "lib/paraglide/messages";
 
 import style from "./field.module.scss";
 
-/**
- * Styling for fields, to wrap your form control with
- */
-const FieldRoot = ({ className, ...props }: FieldRootProps) => (
-	<BaseField.Root
-		className={clsx(style.field, className)}
-		{...props}
-	></BaseField.Root>
-);
-export type FieldRootProps = BaseFieldRootProps & {
+type Styled<TProps> = Omit<TProps, "className"> & {
 	className?: string;
 };
 
 /**
- * Styled Field.Label. Won't render without children
+ * Groups one control with its label, hint and error, and wires the `id`,
+ * `aria-describedby` and `aria-invalid` between them.
+ *
+ * @example
+ * <Field invalid={error !== undefined} touched={meta.isTouched}>
+ * 	<FieldLabel>Email address</FieldLabel>
+ * 	<Input name="email" type="email" />
+ * 	<FieldError match={error !== undefined}>{error}</FieldError>
+ * </Field>
  */
-const FieldLabel = ({ children, required, ...props }: FieldLabelProps) =>
-	children && (
-		<BaseField.Label className={style.label} {...props}>
-			{children}{" "}
-			{!required && (
-				<span className={style.optional}>{m.forms_optional()}</span>
-			)}
+export function Field({ className, ...props }: Styled<BaseField.Root.Props>) {
+	return <BaseField.Root {...props} className={clsx(style.root, className)} />;
+}
+
+/**
+ * The visible "required" star.
+ *
+ * `announce` is for groups whose role has no `aria-required` — a checkbox
+ * group is a plain `role="group"` — so the word is spoken instead.
+ */
+export function FieldRequired({ announce = false }: { announce?: boolean }) {
+	return (
+		<>
+			<span className={style.required} aria-hidden>
+				&nbsp;*
+			</span>
+			{announce && <span className="sr-only">&nbsp;{m.forms_required()}</span>}
+		</>
+	);
+}
+
+export function FieldLabel({
+	className,
+	children,
+	required = false,
+	...props
+}: Styled<BaseField.Label.Props> & { required?: boolean }) {
+	return (
+		<BaseField.Label {...props} className={clsx(style.label, className)}>
+			{children}
+			{required && <FieldRequired />}
 		</BaseField.Label>
 	);
-export type FieldLabelProps = BaseField.Label.Props & {
-	required?: boolean;
-};
+}
 
-/**
- * A paragraph styled like a field label
- */
-const FieldLabelLike = ({
-	children,
-	required,
-	...props
-}: FieldLabelLikeProps) =>
-	children && (
-		<p className={style.label} {...props}>
-			{children}{" "}
-			{!required && (
-				<span className={style.optional}>{m.forms_optional()}</span>
-			)}
-		</p>
-	);
-export type FieldLabelLikeProps = React.ComponentProps<"p"> & {
-	required?: boolean;
-};
-
-/**
- * Styled Field.Description
- */
-const FieldDescription = ({
-	children,
+export function FieldHint({
 	className,
 	...props
-}: BaseField.Description.Props) =>
-	children && (
-		<BaseField.Description
-			className={clsx(style.description, className)}
-			{...props}
-		>
-			{children}
-		</BaseField.Description>
+}: Styled<BaseField.Description.Props>) {
+	return (
+		<BaseField.Description {...props} className={clsx(style.hint, className)} />
 	);
+}
 
 /**
- * Custom Field.Error
- * Normalizes given errors to array of strings
+ * The control's error message. `match` decides visibility: always pass it
+ * explicitly, because without it base-ui falls back to the native
+ * `ValidityState` and renders browser-locale text that bypasses Paraglide.
  */
-const FieldError = ({ children: errors }: BaseField.Error.Props) => (
-	<BaseField.Error
-		match
-		render={(props) => (
-			<ErrorText el="span" {...props}>
-				{normalizeFieldErrors(errors)}
-			</ErrorText>
-		)}
-	/>
-);
-
-export default {
-	...BaseField,
-	Root: FieldRoot,
-	Label: FieldLabel,
-	LabelLike: FieldLabelLike,
-	Description: FieldDescription,
-	Error: FieldError,
-};
+export function FieldError({
+	className,
+	children,
+	...props
+}: Styled<BaseField.Error.Props> &
+	Required<Pick<BaseField.Error.Props, "match">>) {
+	return (
+		<BaseField.Error {...props} className={clsx(style.error, className)}>
+			<Icon name="triangle-alert" size={14} />
+			<span>{children}</span>
+		</BaseField.Error>
+	);
+}

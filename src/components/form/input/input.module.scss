@@ -1,28 +1,56 @@
 @use "../form.scss";
 
-.input {
-	display: inline-flex;
-	border: 2px solid currentColor;
-	border-radius: var(--unit-1);
-	background: white;
-	padding: var(--unit-4);
-	width: 100%;
-	min-width: 0;
-	color: black;
+// The border lives on a wrapper so trailing adornments (the password reveal)
+// sit inside the field.
+.control {
+	@include form.control-box;
 
-	@media not (prefers-reduced-motion) {
-		transition: all 0.2s ease;
+	display: flex;
+	flex: 1;
+	align-items: center;
+	gap: var(--unit-2);
+	padding: 0 var(--unit-3);
+	min-height: var(--unit-10);
+	width: 100%;
+
+	&:has(input[aria-invalid="true"]) {
+		@include form.invalid;
 	}
 
-	&[aria-invalid="true"] {
-		@include form.invalid;
+	&:has(input:disabled) {
+		@include form.disabled;
+	}
+}
+
+.input {
+	flex: 1;
+	outline: none;
+	border: none;
+	background: none;
+	padding: 0;
+	min-width: 0;
+	color: inherit;
+	font: var(--font-body-regular-14);
+
+	&::placeholder {
+		color: var(--color-text-muted);
+	}
+}
+
+.reveal {
+	display: inline-flex;
+	cursor: pointer;
+	border-radius: var(--radius-8);
+	color: inherit;
+
+	// The wrapper already draws a ring via :focus-within, so drawing another
+	// one here would double it up.
+	&:focus-visible {
+		outline: none;
+		text-decoration: underline;
 	}
 
 	&:disabled {
 		@include form.disabled;
 	}
-}
-
-.errorLabel {
-	cursor: default;
 }
