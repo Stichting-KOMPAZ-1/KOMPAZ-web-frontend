@@ -10,7 +10,7 @@ export {
 	FieldError,
 	FieldHint,
 	FieldLabel,
-	FieldRequired,
+	FieldOptional,
 } from "./field/field";
 export { default as Form } from "./form/form";
 export { Input } from "./input/input";

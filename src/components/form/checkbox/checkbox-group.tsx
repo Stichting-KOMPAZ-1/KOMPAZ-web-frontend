@@ -3,7 +3,7 @@ import { Field as BaseField } from "@base-ui/react/field";
 import { Fieldset } from "@base-ui/react/fieldset";
 import clsx from "clsx";
 
-import { FieldHint, FieldRequired } from "../field/field";
+import { FieldHint, FieldOptional } from "../field/field";
 import { CheckboxOption } from "./checkbox";
 
 import style from "./checkbox.module.scss";
@@ -51,7 +51,7 @@ export function CheckboxGroup({
 			{legend && (
 				<Fieldset.Legend className={style.legend}>
 					{legend}
-					{!optional && <FieldRequired announce />}
+					{optional && <FieldOptional />}
 				</Fieldset.Legend>
 			)}
 			{hint && <FieldHint>{hint}</FieldHint>}

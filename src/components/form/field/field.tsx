@@ -25,32 +25,22 @@ export function Field({ className, ...props }: Styled<BaseField.Root.Props>) {
 }
 
 /**
- * The visible "required" star.
- *
- * `announce` is for groups whose role has no `aria-required` — a checkbox
- * group is a plain `role="group"` — so the word is spoken instead.
+ * The visible "optional" label.
  */
-export function FieldRequired({ announce = false }: { announce?: boolean }) {
-	return (
-		<>
-			<span className={style.required} aria-hidden>
-				&nbsp;*
-			</span>
-			{announce && <span className="sr-only">&nbsp;{m.forms_required()}</span>}
-		</>
-	);
+export function FieldOptional() {
+	return <span className={style.optional}>&nbsp;({m.forms_optional()})</span>;
 }
 
 export function FieldLabel({
 	className,
 	children,
-	required = false,
+	optional = false,
 	...props
-}: Styled<BaseField.Label.Props> & { required?: boolean }) {
+}: Styled<BaseField.Label.Props> & { optional?: boolean }) {
 	return (
 		<BaseField.Label {...props} className={clsx(style.label, className)}>
 			{children}
-			{required && <FieldRequired />}
+			{optional && <FieldOptional />}
 		</BaseField.Label>
 	);
 }

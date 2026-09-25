@@ -39,7 +39,7 @@ export function TSFInput({
 			touched={field.state.meta.isTouched}
 			dirty={field.state.meta.isDirty}
 		>
-			{label && <FieldLabel required={!optional}>{label}</FieldLabel>}
+			{label && <FieldLabel optional={optional}>{label}</FieldLabel>}
 			{hint && <FieldHint>{hint}</FieldHint>}
 			<Input
 				{...props}

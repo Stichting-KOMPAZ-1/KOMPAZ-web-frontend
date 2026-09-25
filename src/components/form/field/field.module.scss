@@ -15,8 +15,9 @@
 	}
 }
 
-.required {
-	color: inherit;
+.optional {
+	color: var(--color-text-muted);
+	font: var(--font-body-regular-14);
 }
 
 .hint {

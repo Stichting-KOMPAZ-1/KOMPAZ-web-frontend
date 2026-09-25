@@ -7,7 +7,7 @@ import {
 } from "@base-ui/react/radio-group";
 import clsx from "clsx";
 
-import { FieldHint, FieldRequired } from "../field/field";
+import { FieldHint, FieldOptional } from "../field/field";
 
 import style from "./radio-group.module.scss";
 
@@ -73,7 +73,7 @@ export function RadioGroup({
 			{legend && (
 				<Fieldset.Legend className={style.legend}>
 					{legend}
-					{!optional && <FieldRequired />}
+					{optional && <FieldOptional />}
 				</Fieldset.Legend>
 			)}
 			{hint && <FieldHint>{hint}</FieldHint>}
