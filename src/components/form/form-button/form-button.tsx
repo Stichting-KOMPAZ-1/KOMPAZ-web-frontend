@@ -18,7 +18,6 @@ type Props = Omit<
  *
  * @example
  * // Basic submission with loading state
- * const [isSubmitting, setIsSubmitting] = useState(false);
  * <FormButton isSubmitting={isSubmitting}>Submit</FormButton>
  *
  * @example
