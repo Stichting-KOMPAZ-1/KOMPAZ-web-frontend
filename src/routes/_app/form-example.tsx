@@ -2,9 +2,11 @@ import { revalidateLogic } from "@tanstack/react-form";
 import { useMutation } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import Button from "components/button/button";
+import ButtonLink from "components/button/button-link";
 import { ErrorText } from "components/error-text/error-text";
-import { Form, SubmitError } from "components/form";
+import { Form, FormButton, SubmitError } from "components/form";
 import { H1 } from "components/heading/heading";
+import Icon from "components/icon/icon";
 import { submitHandler, useAppForm, useIsSubmitting } from "lib/forms";
 import {
 	getFieldErrors,
@@ -205,9 +207,7 @@ function FormTest() {
 					)}
 				</form.AppField>
 
-				<Button type="submit" disabled={isSubmitting}>
-					Submit
-				</Button>
+				<FormButton isSubmitting={isSubmitting}>Submit</FormButton>
 				<SubmitError form={form} />
 			</Form>
 			<Button type="button" onClick={() => setDisabled((d) => !d)}>
@@ -220,6 +220,66 @@ function FormTest() {
 				</p>
 			)}
 			{mutation.isSuccess && <p className={style.success}>Success!</p>}
+
+			<H1 size="medium">Button variants</H1>
+			<div className={style.buttonShowcase}>
+				<Button>
+					<Icon name="check" />
+					Primary medium
+				</Button>
+				<Button size="large">
+					<Icon name="check" />
+					Primary large
+				</Button>
+				<Button disabled>
+					<Icon name="check" />
+					Primary disabled
+				</Button>
+
+				<Button variant="secondary">
+					<Icon name="clipboard-list" />
+					Secondary medium
+				</Button>
+				<Button variant="secondary" size="large">
+					<Icon name="clipboard-list" />
+					Secondary large
+				</Button>
+				<Button variant="secondary" disabled>
+					<Icon name="clipboard-list" />
+					Secondary disabled
+				</Button>
+				<Button variant="secondary">
+					Icon after label
+					<Icon name="chevron-down" />
+				</Button>
+
+				<Button variant="link">
+					<Icon name="info" />
+					Link medium
+				</Button>
+				<Button variant="link" disabled>
+					<Icon name="info" />
+					Link disabled
+				</Button>
+
+				<FormButton isSubmitting={false}>
+					<Icon name="check" />
+					FormButton idle
+				</FormButton>
+				<FormButton isSubmitting={true}>
+					<Icon name="check" />
+					FormButton submitting
+				</FormButton>
+
+				<ButtonLink to="/">
+					<Icon name="info" />
+					ButtonLink
+				</ButtonLink>
+				<ButtonLink to="/" variant="link">
+					<Icon name="info" />
+					ButtonLink link style
+				</ButtonLink>
+			</div>
 		</div>
 	);
 }

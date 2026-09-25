@@ -64,6 +64,11 @@
 		var(--seed-primary),
 		white 30%
 	);
+	--color-action-soft-hover: color-mix(
+		in oklch shorter hue,
+		var(--seed-primary),
+		white 15%
+	);
 	--color-nav-selected: var(--seed-secondary);
 
 	--color-border: color-mix(
