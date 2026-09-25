@@ -13,7 +13,7 @@
 }
 
 @mixin control-box {
-	border: var(--border-width) solid var(--color-text-muted);
+	border: var(--border-width-1) solid var(--color-text-muted);
 	border-radius: var(--radius-10);
 	background: var(--color-white);
 	color: var(--color-text-default);

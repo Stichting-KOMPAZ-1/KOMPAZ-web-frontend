@@ -1,19 +1,47 @@
+import { Button as BaseUIButton } from "@base-ui/react/button";
+import clsx from "clsx";
+import type React from "react";
+
 import style from "./button.module.scss";
 
-// TODO: This is work in progress and will be implemented in its own ticket.
-// TODO: to serve as a form's submit button this still needs:
-// - styling for `[aria-disabled="true"]` equal to `:disabled`. A submit button
-//   gets `aria-disabled={isSubmitting}`, never `disabled`, because disabling
-//   the focused element drops focus to <body> (see the forms skill).
-// - optionally, registering it in `formComponents` in `lib/forms` so it reads
-//   `isSubmitting` from the form context instead of every form wiring
-//   `aria-disabled` and the loading label by hand.
-type Props = React.ComponentPropsWithoutRef<"button">;
-function Button({ children, type = "button", ...props }: Props) {
+export type ButtonSize = "medium" | "large";
+export type ButtonVariant = "primary" | "secondary" | "link";
+
+type Props = React.ComponentPropsWithoutRef<typeof BaseUIButton> & {
+	size?: ButtonSize;
+	variant?: ButtonVariant;
+};
+
+/**
+ * Native button with Base UI enhancements for keyboard accessibility.
+ *
+ * @example
+ * // Text button
+ * <Button onClick={handleClick}>Click me</Button>
+ *
+ * @example
+ * // Icon-only button — aria-label is REQUIRED
+ * <Button aria-label="Close">
+ *   <Icon name="x" aria-hidden="true" />
+ * </Button>
+ *
+ */
+function Button({
+	size = "medium",
+	variant = "primary",
+	className,
+	...props
+}: Props) {
 	return (
-		<button type={type} className={style.button} {...props}>
-			{children}
-		</button>
+		<BaseUIButton
+			className={clsx(
+				style.button,
+				style[`size-${size}`],
+				style[`variant-${variant}`],
+				className,
+			)}
+			{...props}
+		/>
 	);
 }
 

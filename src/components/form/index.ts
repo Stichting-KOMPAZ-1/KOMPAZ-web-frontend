@@ -13,6 +13,7 @@ export {
 	FieldOptional,
 } from "./field/field";
 export { default as Form } from "./form/form";
+export { default as FormButton } from "./form-button/form-button";
 export { Input } from "./input/input";
 export { RadioGroup, type RadioGroupOption } from "./radio-group/radio-group";
 export { Select, type SelectOption } from "./select/select";
