@@ -28,11 +28,7 @@ export const { useAppForm, withForm, withFieldGroup } = createFormHook({
 	formComponents: {},
 });
 
-// `useAppForm` hands back a form whose `state` is a plain getter, so reading it
-// during render never re-renders. These two subscribe to the slices a form
-// needs outside its fields, keeping call sites free of `form.Subscribe`
-// wrappers. Both are typed structurally so no call site has to name the
-// generics `useAppForm` carries.
+// The form's store conforms to any shape via TState.
 export type FormWithState<TState> = {
 	store: {
 		get: () => TState;

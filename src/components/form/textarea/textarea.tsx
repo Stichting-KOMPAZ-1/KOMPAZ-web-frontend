@@ -4,7 +4,6 @@ import clsx from "clsx";
 import style from "./textarea.module.scss";
 
 export type TextareaProps = Omit<Field.Control.Props, "className"> & {
-	/** Visible lines before the box starts scrolling. */
 	rows?: number;
 	className?: string;
 };

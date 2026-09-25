@@ -5,7 +5,6 @@ import style from "./form.module.scss";
 
 type FormProps = React.ComponentProps<"form"> & {
 	disabled?: boolean;
-	/** Names the disabler fieldset, so it isn't an unnamed group in the a11y tree. */
 	label?: string;
 };
 
