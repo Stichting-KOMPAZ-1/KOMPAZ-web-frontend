@@ -1,5 +1,14 @@
 import clsx from "clsx";
-import { ClipboardList, Info, type LucideIcon } from "lucide-react";
+import {
+	Check,
+	ChevronDown,
+	ClipboardList,
+	Eye,
+	EyeOff,
+	Info,
+	type LucideIcon,
+	TriangleAlert,
+} from "lucide-react";
 
 import style from "./icon.module.scss";
 
@@ -12,8 +21,13 @@ import style from "./icon.module.scss";
  * once at module scope.
  */
 const icons = {
+	check: Check,
+	"chevron-down": ChevronDown,
 	"clipboard-list": ClipboardList,
+	eye: Eye,
+	"eye-off": EyeOff,
 	info: Info,
+	"triangle-alert": TriangleAlert,
 } satisfies Record<string, LucideIcon>;
 
 export type IconName = keyof typeof icons;

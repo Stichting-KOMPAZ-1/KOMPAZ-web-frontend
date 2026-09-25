@@ -1,0 +1,34 @@
+@use "../form.scss";
+
+.control {
+	@include form.control-box;
+
+	display: flex;
+	flex: 1;
+	padding: var(--unit-2) var(--unit-3);
+	width: 100%;
+
+	&:has(textarea[aria-invalid="true"]) {
+		@include form.invalid;
+	}
+
+	&:has(textarea:disabled) {
+		@include form.disabled;
+	}
+}
+
+.textarea {
+	flex: 1;
+	outline: none;
+	border: none;
+	background: none;
+	padding: 0;
+	min-width: 0;
+	resize: vertical;
+	color: inherit;
+	font: var(--font-body-regular-14);
+
+	&::placeholder {
+		color: var(--color-text-muted);
+	}
+}

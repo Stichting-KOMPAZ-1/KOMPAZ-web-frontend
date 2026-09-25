@@ -1,15 +1,32 @@
-// Shared styles to be used in scss
-//
-// @use "style/variables/mixins.scss"
-// .selector {
-//   @include form.disabled;
-// }
 @mixin disabled {
 	opacity: 0.5;
 	cursor: not-allowed;
 }
 
 @mixin invalid {
-	border-color: currentColor;
+	border-color: var(--color-text-error);
 	color: var(--color-text-error);
+
+	::placeholder {
+		color: var(--color-text-error);
+	}
+}
+
+@mixin control-box {
+	border: var(--border-width) solid var(--color-text-muted);
+	border-radius: var(--radius-10);
+	background: var(--color-white);
+	color: var(--color-text-default);
+
+	@media not (prefers-reduced-motion) {
+		transition:
+			border-color 0.2s ease,
+			box-shadow 0.2s ease;
+	}
+
+	&:focus-within {
+		outline: 3px solid var(--color-action);
+		outline-offset: 2px;
+		border-color: var(--color-action);
+	}
 }

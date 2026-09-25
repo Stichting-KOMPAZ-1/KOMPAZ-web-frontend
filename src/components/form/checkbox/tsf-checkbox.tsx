@@ -1,47 +1,43 @@
-import { Field as BaseField } from "@base-ui/react/field";
-import { useFieldContext } from "lib/forms";
+import { useFieldContext } from "lib/forms/form-context";
+import { visibleError } from "lib/forms/validation-helpers";
 
-import Field from "../field/field";
-import Checkbox, { type CheckboxProps } from "./checkbox";
+import { Field, FieldError, FieldHint } from "../field/field";
+import { CheckboxOption } from "./checkbox";
 
-import style from "./checkbox.module.scss";
-
-type Props = CheckboxProps & {
-	label: string;
-	fieldLabel?: string;
-	description?: string;
+type Props = Omit<
+	React.ComponentProps<typeof CheckboxOption>,
+	"name" | "checked" | "onCheckedChange" | "className"
+> & {
+	hint?: string;
+	className?: string;
 };
 
 /**
- * Single checkbox connector for tanstack form
+ * One standalone checkbox bound to the field it is rendered in. A set of
+ * related checkboxes is a different control: `TSFCheckboxGroup`.
  */
-const TSFCheckbox = ({
-	label,
-	fieldLabel,
-	description,
-	required,
-	...props
-}: Props) => {
+export function TSFCheckbox({ hint, className, ...props }: Props) {
 	const field = useFieldContext<boolean>();
+	const error = visibleError(field.state.meta);
 
 	return (
-		<Field.Root className={style.root}>
-			<Field.LabelLike required={required}>{fieldLabel}</Field.LabelLike>
-			<BaseField.Label className={style.label}>
-				<Checkbox
-					id={field.name}
-					checked={field.state.value}
-					onCheckedChange={(checked) => field.handleChange(checked)}
-					onBlur={field.handleBlur}
-					aria-invalid={!field.state.meta.isValid}
-					{...props}
-				/>
-				{label}
-			</BaseField.Label>
-			<Field.Error>{field.getMeta().errors}</Field.Error>
-			<Field.Description>{description}</Field.Description>
-		</Field.Root>
+		<Field
+			className={className}
+			invalid={error !== undefined}
+			touched={field.state.meta.isTouched}
+			dirty={field.state.meta.isDirty}
+		>
+			{hint && <FieldHint>{hint}</FieldHint>}
+			<CheckboxOption
+				{...props}
+				name={field.name}
+				checked={field.state.value}
+				onCheckedChange={(checked) => field.handleChange(checked)}
+				onBlur={field.handleBlur}
+			/>
+			<FieldError match={error !== undefined}>{error}</FieldError>
+		</Field>
 	);
-};
+}
 
 export default TSFCheckbox;

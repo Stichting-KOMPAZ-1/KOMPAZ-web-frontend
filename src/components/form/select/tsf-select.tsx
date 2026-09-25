@@ -2,10 +2,10 @@ import { useFieldContext } from "lib/forms/form-context";
 import { visibleError } from "lib/forms/validation-helpers";
 
 import { Field, FieldError, FieldHint, FieldLabel } from "../field/field";
-import { Input } from "./input";
+import { Select } from "./select";
 
 type Props = Omit<
-	React.ComponentProps<typeof Input>,
+	React.ComponentProps<typeof Select>,
 	"name" | "value" | "onValueChange" | "onBlur" | "className"
 > & {
 	label?: string;
@@ -19,7 +19,8 @@ type Props = Omit<
 	className?: string;
 };
 
-export function TSFInput({
+/** A dropdown bound to the field it is rendered in. */
+export function TSFSelect({
 	label,
 	hint,
 	optional = false,
@@ -39,7 +40,7 @@ export function TSFInput({
 		>
 			{label && <FieldLabel optional={optional}>{label}</FieldLabel>}
 			{hint && <FieldHint>{hint}</FieldHint>}
-			<Input
+			<Select
 				{...props}
 				name={field.name}
 				value={field.state.value}
@@ -52,4 +53,4 @@ export function TSFInput({
 	);
 }
 
-export default TSFInput;
+export default TSFSelect;

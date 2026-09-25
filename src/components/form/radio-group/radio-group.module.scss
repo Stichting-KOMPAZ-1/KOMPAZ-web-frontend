@@ -1,5 +1,16 @@
 @use "../form.scss";
 
+.group {
+	display: flex;
+	flex-direction: column;
+	gap: var(--unit-3);
+}
+
+.legend {
+	color: var(--color-text-default);
+	font: var(--font-body-semibold-14);
+}
+
 .option {
 	display: flex;
 	align-items: center;
@@ -9,27 +20,24 @@
 	font: var(--font-body-regular-14);
 }
 
-.checkbox {
+.radio {
 	display: inline-flex;
 	flex-shrink: 0;
 	justify-content: center;
 	align-items: center;
 	outline: none;
 	border: var(--border-width) solid var(--color-border);
-	border-radius: var(--radius-8);
+	border-radius: var(--radius-full);
 	background: var(--color-white);
 	width: var(--unit-8);
 	height: var(--unit-8);
 
 	@media not (prefers-reduced-motion) {
-		transition:
-			border-color 0.2s ease,
-			background-color 0.2s ease;
+		transition: border-color 0.2s ease;
 	}
 
 	&[data-checked] {
 		border-color: var(--color-action);
-		background: var(--color-action);
 	}
 
 	&:focus-visible {
@@ -44,17 +52,8 @@
 
 .indicator {
 	display: inline-flex;
-	align-items: center;
-	color: var(--color-text-on-fill);
-}
-
-.group {
-	display: flex;
-	flex-direction: column;
-	gap: var(--unit-3);
-}
-
-.legend {
-	color: var(--color-text-default);
-	font: var(--font-body-semibold-14);
+	border-radius: var(--radius-full);
+	background: var(--color-action);
+	width: var(--unit-4);
+	height: var(--unit-4);
 }

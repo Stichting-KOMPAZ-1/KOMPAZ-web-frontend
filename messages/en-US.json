@@ -1,7 +1,11 @@
 {
 	"$schema": "https://inlang.com/schema/inlang-message-format",
 
+	"forms_choose": "Choose…",
 	"forms_optional": "Optional",
+	"forms_invalid": "Some fields need attention. Check the messages above.",
+	"forms_show_password": "Show password",
+	"forms_hide_password": "Hide password",
 
 	"loading_message": "Loading...",
 
