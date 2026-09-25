@@ -11,8 +11,8 @@ export type ValidationProblemDetails = z.infer<
 >;
 
 /**
- * Field errors can be of multiple types. This transforms to an array of strings.
- * TODO: make sure this can handle the error types for your project
+ * Field errors can be multiple types; this normalizes them to strings.
+ * TODO: ensure this handles error types for your project.
  */
 export const normalizeFieldErrors = (errors: unknown): string[] => {
 	const errorArray = Array.isArray(errors) ? errors : [errors];
@@ -29,9 +29,6 @@ export const normalizeFieldErrors = (errors: unknown): string[] => {
 	});
 };
 
-/**
- * Returns a flattened array of error from given fields
- */
 export const getFieldErrors = <
 	TState extends {
 		fieldMeta: Record<string, { errors: unknown } | undefined>;
@@ -46,8 +43,7 @@ export const getFieldErrors = <
 	);
 
 /**
- * Transform api error to form error.
- * The backend returns rfc9457 problem details:
+ * Backend returns RFC 9457 problem details with field errors.
  * https://datatracker.ietf.org/doc/html/rfc9457#name-the-problem-details-json-ob
  */
 export const apiErrorToFormErrors = (error: unknown) => {
@@ -66,30 +62,23 @@ export const apiErrorToFormErrors = (error: unknown) => {
 };
 
 /**
- * The message to display for one error slot. TanStack Form keeps whatever the
- * validator returned, so an entry is one of our own strings for submit/server
- * errors, or a `{ message }` issue when a schema validator produced it.
- * Accepts a single error or a field's whole `meta.errors` list.
+ * TanStack Form keeps whatever validators returned: our strings or schema
+ * `{ message }` objects. This extracts the first as a string.
  *
  * @example
  * errorText(field.state.meta.errors); // => "This field is required"
- * errorText(undefined); // => undefined
  */
 export const errorText = (error: unknown): string | undefined =>
 	normalizeFieldErrors(error).at(0);
 
 /**
- * The error to show for a field, or `undefined` while it should stay hidden.
- * A field counts as touched from its first keystroke, and `handleSubmit()`
- * touches every field before validating, so a server error lands on the first
- * submit. The gate only bites once a field carries an `onChange` validator:
- * until then nothing produces an error before submit anyway.
+ * Show error only if field is touched. `handleSubmit()` touches all fields
+ * before validating, so server errors land on first submit. `onChange`
+ * validators also show errors once a field is touched.
  *
  * @example
  * visibleError({ isTouched: true, errors: ["This field is required"] });
  * // => "This field is required"
- * visibleError({ isTouched: false, errors: ["This field is required"] });
- * // => undefined
  */
 export const visibleError = (meta: {
 	isTouched: boolean;

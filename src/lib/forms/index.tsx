@@ -39,12 +39,9 @@ export type FormWithState<TState> = {
 };
 
 /**
- * Whether the form is mid-submit. Use it for feedback — a pending label on the
- * button, a spinner.
- *
- * Do not wire it to `<Form disabled>`: disabling the fieldset blurs whatever
- * was focused, and `submitHandler` already drops a re-submit, so freezing the
- * form buys nothing.
+ * Do not wire to `<Form disabled>`: disabling the fieldset blurs whatever was
+ * focused. Freezing the form buys nothing when `submitHandler` already drops
+ * re-submits.
  *
  * @example
  * const isSubmitting = useIsSubmitting(form);
@@ -55,8 +52,6 @@ export const useIsSubmitting = (
 ): boolean => useSelector(form.store, (s) => s.isSubmitting);
 
 /**
- * The message under the submit button after a failed submit.
- *
  * @example
  * const error = useSubmitError(form);
  * // => "Some fields need attention. Check the messages above."
@@ -85,9 +80,8 @@ export const useSubmitError = (
 	});
 
 /**
- * How many times a submit has been attempted. `SubmitError` keys its content
- * on this so a repeated, byte-identical message still re-announces: a live
- * region only speaks when its content actually changes.
+ * Keyed by `SubmitError` so repeated byte-identical messages re-announce:
+ * a live region only speaks when content actually changes.
  *
  * @example
  * const attempts = useSubmitAttempts(form);
