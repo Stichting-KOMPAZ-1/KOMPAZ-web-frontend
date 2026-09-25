@@ -17,8 +17,8 @@ Three layers, in dependency order:
 | `src/components/form/<control>/tsf-<control>.tsx` | The TanStack-bound version   | the field context   |
 | `src/routes/…`                          | The forms themselves                  | the API             |
 
-`src/components/form/index.ts` exports the presentational layer plus `Form` and
-`SubmitError`. The submit button is the app-wide `components/button/button`. The `tsf-` connectors are deliberately **not**
+`src/components/form/index.ts` exports the presentational layer plus `Form`,
+`SubmitError`, and `FormButton`. The submit button is `FormButton`. The `tsf-` connectors are deliberately **not**
 exported there — they are only wired into `createFormHook` in
 `src/lib/forms/index.tsx`, and reached through `field.` at a call site.
 
@@ -45,9 +45,9 @@ const isSubmitting = useIsSubmitting(form);
 	<form.AppField name="email">
 		{(field) => <field.Input label={m.feature_email()} autoComplete="email" />}
 	</form.AppField>
-	<Button type="submit" aria-disabled={isSubmitting}>
-		{isSubmitting ? m.common_loading() : m.common_save()}
-	</Button>
+	<FormButton isSubmitting={isSubmitting} loadingLabel={m.common_loading()}>
+		{m.common_save()}
+	</FormButton>
 	<SubmitError form={form} />
 </Form>;
 ```
@@ -166,7 +166,10 @@ focused element, either one drops focus to `<body>`.
 
 So: **do not pass `isSubmitting` to `<Form disabled>`, and do not give a submit
 button `disabled={isSubmitting}`.** Use `aria-disabled` instead — it announces
-the control as unavailable while leaving it focusable.
+the control as unavailable while leaving it focusable. `FormButton` passes
+`disabled` together with base-ui's `focusableWhenDisabled`, which is base-ui's
+own way of getting this right, that's why `FormButton` is the default for a
+submit button.
 
 The click still fires; `submitHandler` drops it. That is the guard that
 matters, and it covers Enter in a field as well, because both paths raise the
