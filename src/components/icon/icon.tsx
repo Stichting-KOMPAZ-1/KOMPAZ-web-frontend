@@ -7,6 +7,7 @@ import {
 	EyeOff,
 	Info,
 	type LucideIcon,
+	Mail,
 	TriangleAlert,
 } from "lucide-react";
 
@@ -27,6 +28,7 @@ const icons = {
 	eye: Eye,
 	"eye-off": EyeOff,
 	info: Info,
+	mail: Mail,
 	"triangle-alert": TriangleAlert,
 } satisfies Record<string, LucideIcon>;
 

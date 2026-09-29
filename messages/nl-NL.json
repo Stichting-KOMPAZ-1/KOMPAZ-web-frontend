@@ -11,6 +11,16 @@
 
 	"home_title": "Home",
 
+	"login_title": "Login op het ZelfZorg platform",
+	"login_subtitle": "Vul je e-mailadres in om een login-link te ontvangen.",
+	"login_form_label": "Inloggen",
+	"login_email": "E-mailadres",
+	"login_email_placeholder": "naam@organisatie.nl",
+	"login_submit": "E-mail mij een login-link",
+	"login_submitting": "Bezig met versturen...",
+	"login_sent_body": "Controleer je mailbox! Als het opgegeven e-mailadres {email} in ons systeem staat, ontvang je daar e-mail met een inloglink.",
+	"login_link_invalid_body": "De link is verlopen of al gebruikt. Vraag een nieuwe aan.",
+
 	"error_unknown": "Onbekende fout.",
 
 	"not_found_title": "Niet gevonden"
