@@ -51,6 +51,13 @@ export const useIsSubmitting = (
 	form: FormWithState<{ isSubmitting: boolean }>,
 ): boolean => useSelector(form.store, (s) => s.isSubmitting);
 
+type FieldMeta = Partial<Record<string, { errors: unknown[] }>>;
+
+const anyFieldFailed = (fieldMeta: FieldMeta): boolean =>
+	Object.values(fieldMeta).some(
+		(meta) => meta !== undefined && meta.errors.length > 0,
+	);
+
 /**
  * @example
  * const error = useSubmitError(form);
@@ -61,7 +68,7 @@ export const useSubmitError = (
 		isSubmitting: boolean;
 		submissionAttempts: number;
 		errorMap: { onSubmit?: unknown };
-		fieldMeta: Partial<Record<string, { errors: unknown[] }>>;
+		fieldMeta: FieldMeta;
 	}>,
 ): string | undefined =>
 	useSelector(form.store, (s) => {
@@ -69,15 +76,23 @@ export const useSubmitError = (
 			return undefined;
 		}
 
-		const hasFieldError = Object.values(s.fieldMeta).some(
-			(meta) => meta !== undefined && meta.errors.length > 0,
-		);
-
 		return (
 			errorText(s.errorMap.onSubmit) ??
-			(hasFieldError ? m.forms_invalid() : undefined)
+			(anyFieldFailed(s.fieldMeta) ? m.forms_invalid() : undefined)
 		);
 	});
+
+/**
+ * Whether the last submit left an error on a field, which the field renders
+ * itself.
+ *
+ * @example
+ * const fieldsFailed = useHasFieldErrors(form);
+ * // => true
+ */
+export const useHasFieldErrors = (
+	form: FormWithState<{ fieldMeta: FieldMeta }>,
+): boolean => useSelector(form.store, (s) => anyFieldFailed(s.fieldMeta));
 
 /**
  * Keyed by `SubmitError` so repeated byte-identical messages re-announce:
