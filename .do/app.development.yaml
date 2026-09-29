@@ -34,7 +34,10 @@ services:
 
     github:
       repo: Stichting-KOMPAZ-1/KOMPAZ-web-frontend
-      branch: development
+      # The branch `doctl apps create-deployment` builds: it takes no branch of its
+      # own, so this has to name the branch CI deploys from. A spec change here does
+      # not reach the live app by itself (see the top of this file).
+      branch: develop
       # CI gates on build, typecheck and lint before it calls
       # `doctl apps create-deployment`, so DigitalOcean must not also deploy by
       # itself the moment a commit lands.
