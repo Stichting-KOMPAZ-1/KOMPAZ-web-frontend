@@ -54,7 +54,7 @@ Bun build of the SPA served by nginx on port 8080.
 
 | Branch        | App                       | Backend                            | Repository secret       |
 | ------------- | ------------------------- | ---------------------------------- | ----------------------- |
-| `development` | `kompaz-web-frontend-dev` | `https://backend.kompaz.igne.link` | `DO_APP_ID_DEVELOPMENT` |
+| `develop`     | `kompaz-web-frontend-dev` | `https://backend.kompaz.igne.link` | `DO_APP_ID_DEVELOPMENT` |
 | `main`        | `kompaz-web-frontend`     | not deployed yet                   | `DO_APP_ID_PRODUCTION`  |
 
 > The production backend has no code deployed — its fortrabbit app answers every

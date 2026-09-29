@@ -47,7 +47,7 @@ jobs:
   deploy-development:
     name: Deploy to App Platform (development)
     needs: checks
-    if: github.ref == 'refs/heads/development'
+    if: github.ref == 'refs/heads/develop'
     runs-on: ubuntu-latest
     timeout-minutes: 20
 
