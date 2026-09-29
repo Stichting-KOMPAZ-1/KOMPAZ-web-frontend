@@ -5,3 +5,5 @@ pre-commit:
       glob: "*.{js,jsx,ts,tsx}"
     - run: bun oxfmt --check {staged_files}
       glob: "*.{js,jsx,mjs,cjs,ts,tsx,mts,cts,css,scss,json,jsonc,html}"
+      exclude:
+        - openapi.json
