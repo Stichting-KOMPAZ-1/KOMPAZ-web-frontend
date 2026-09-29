@@ -10,6 +10,34 @@
         }
     ],
     "paths": {
+        "\/auth\/magic-link": {
+            "post": {
+                "operationId": "auth.requestMagicLink",
+                "description": "Answers 204 whether or not anybody does. The endpoint is unauthenticated, so a reply that\ndistinguished the two would answer \"does this person have an account?\" for any address a\ncaller cared to try. Rate limited separately from redemption, because this half sends email.",
+                "summary": "Sends a sign-in link to whoever holds an email address",
+                "tags": [
+                    "Auth"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application\/json": {
+                            "schema": {
+                                "$ref": "#\/components\/schemas\/RequestMagicLinkRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": "No content"
+                    },
+                    "400": {
+                        "$ref": "#\/components\/responses\/ValidationException"
+                    }
+                }
+            }
+        },
         "\/auth\/tokens": {
             "post": {
                 "operationId": "auth.redeem",
@@ -47,7 +75,7 @@
         "\/auth\/tokens\/refresh": {
             "post": {
                 "operationId": "auth.refresh",
-                "description": "Authenticated, unlike invitation redemption: the credential being renewed is the one the\nrequest carries, so a client whose token has already expired signs in again rather than\nrefreshing.",
+                "description": "Authenticated, unlike invitation redemption: the credential being renewed is the one the\nrequest carries, so a client whose token has already expired signs in again rather than\nrefreshing.\n\nWhich means a caller signed in by cookie is refused rather than served. It has no token to\nrenew, its session already renews itself on every request, and issuing one here would turn\nthis endpoint into a way to convert a session into a credential that outlives it.",
                 "summary": "Swaps the token on this request for a fresh one, restarting its lifetime",
                 "tags": [
                     "Auth"
@@ -72,7 +100,7 @@
         "\/auth\/tokens\/current": {
             "delete": {
                 "operationId": "auth.revoke",
-                "summary": "Signs out, on this device and every other",
+                "summary": "Signs out, on this device and every other, whichever kind of credential each one holds",
                 "tags": [
                     "Auth"
                 ],
@@ -89,7 +117,7 @@
         "\/auth\/me": {
             "get": {
                 "operationId": "auth.me",
-                "summary": "Returns the profile behind the bearer token on this request",
+                "summary": "Returns the profile behind whichever credential this request carries",
                 "tags": [
                     "Auth"
                 ],
@@ -161,6 +189,16 @@
                             ],
                             "minimum": 1,
                             "maximum": 100
+                        }
+                    },
+                    {
+                        "name": "includeArchived",
+                        "in": "query",
+                        "schema": {
+                            "type": [
+                                "boolean",
+                                "null"
+                            ]
                         }
                     }
                 ],
@@ -370,6 +408,82 @@
                 }
             }
         },
+        "\/organizations\/{organization}\/archive": {
+            "post": {
+                "operationId": "organization.archive",
+                "summary": "Takes an organization out of service, ending its members' sessions",
+                "tags": [
+                    "Organization"
+                ],
+                "parameters": [
+                    {
+                        "name": "organization",
+                        "in": "path",
+                        "required": true,
+                        "description": "The organization ID",
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "`OrganizationResource`",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/OrganizationResource"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    }
+                }
+            },
+            "delete": {
+                "operationId": "organization.unarchive",
+                "summary": "Puts an archived organization back into service",
+                "tags": [
+                    "Organization"
+                ],
+                "parameters": [
+                    {
+                        "name": "organization",
+                        "in": "path",
+                        "required": true,
+                        "description": "The organization ID",
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "`OrganizationResource`",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/OrganizationResource"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    }
+                }
+            }
+        },
         "\/organizations\/{organization}\/logo": {
             "get": {
                 "operationId": "organizationLogo.show",
@@ -393,6 +507,13 @@
                 "responses": {
                     "200": {
                         "description": "",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
                         "headers": {
                             "Content-Security-Policy": {
                                 "schema": {
@@ -1018,6 +1139,15 @@
                     "isPlatform": {
                         "type": "boolean"
                     },
+                    "isArchived": {
+                        "type": "boolean"
+                    },
+                    "archivedUtc": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
                     "hasLogo": {
                         "type": "boolean"
                     },
@@ -1045,6 +1175,8 @@
                     "id",
                     "name",
                     "isPlatform",
+                    "isArchived",
+                    "archivedUtc",
                     "hasLogo",
                     "userCount",
                     "activeUserCount",
@@ -1067,6 +1199,20 @@
                     "token"
                 ],
                 "title": "RedeemLoginTokenRequest"
+            },
+            "RequestMagicLinkRequest": {
+                "type": "object",
+                "properties": {
+                    "email": {
+                        "type": "string",
+                        "format": "email",
+                        "maxLength": 255
+                    }
+                },
+                "required": [
+                    "email"
+                ],
+                "title": "RequestMagicLinkRequest"
             },
             "StoreOrganizationRequest": {
                 "type": "object",
