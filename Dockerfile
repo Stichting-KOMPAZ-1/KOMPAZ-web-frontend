@@ -11,10 +11,16 @@ WORKDIR /app
 #                      path; nginx proxies it to the backend (default.conf.template).
 ARG VITE_API_BASEURL=/api
 
+# No lifecycle scripts in the image. The one that matters is `prepare`, which
+# installs the git hooks: there is no git here and no repository to hook into
+# (.git is in .dockerignore), so it failed every build. `bun run build` installs
+# again itself, which is why the flag here is not enough on its own and the
+# project's bunfig says so too once it has been copied in.
 COPY package.json bun.lock ./
-RUN bun install --frozen-lockfile
+RUN bun install --frozen-lockfile --ignore-scripts
 
 COPY . .
+RUN sed -i '/^\[install\]/a ignoreScripts = true' bunfig.toml
 
 RUN printf 'VITE_API_BASEURL=%s\n' "$VITE_API_BASEURL" > .env
 
