@@ -27,9 +27,6 @@ type Props = {
  * <FormButton isSubmitting={isSubmitting}>{m.common_save()}</FormButton>
  * <SubmitError form={form} />
  *
- * @example
- * // A one-field form, where the banner would only repeat the field
- * <SubmitError form={form} hideWhenFieldsFail />
  */
 export function SubmitError({ form, hideWhenFieldsFail = false }: Props) {
 	const error = useSubmitError(form);
