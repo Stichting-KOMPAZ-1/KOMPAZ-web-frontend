@@ -123,6 +123,23 @@ export default defineConfig(({ mode }) => {
 					target: env.VITE_API_PROXY_TARGET,
 					secure: true,
 					changeOrigin: true,
+					...(env.VITE_API_STATEFUL_ORIGIN && {
+						headers: {
+							Origin: env.VITE_API_STATEFUL_ORIGIN,
+							Referer: `${env.VITE_API_STATEFUL_ORIGIN}/`,
+						},
+					}),
+				},
+				[env.VITE_API_CSRF_PATH]: {
+					target: env.VITE_API_PROXY_TARGET,
+					secure: true,
+					changeOrigin: true,
+					...(env.VITE_API_STATEFUL_ORIGIN && {
+						headers: {
+							Origin: env.VITE_API_STATEFUL_ORIGIN,
+							Referer: `${env.VITE_API_STATEFUL_ORIGIN}/`,
+						},
+					}),
 				},
 			},
 		},
