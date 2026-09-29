@@ -53,13 +53,19 @@ server {
     # Nova, the admin panel, proxied onto this domain so it shares an origin with
     # the app. These are Nova's own paths: the panel at NOVA_PATH
     # (config/nova.php, default /nova), its internal API and its scripts/styles
-    # under /nova-api, its published assets under /vendor/nova, and /beheer for
-    # the emailed-link sign-in that replaces Nova's password form. Changing
-    # NOVA_PATH on the backend means changing this regex too.
+    # under /nova-api, its published assets under /vendor/nova, the routes Nova
+    # packages register under /nova-vendor (the drag-and-drop reordering posts
+    # there), and /beheer for the emailed-link sign-in that replaces Nova's
+    # password form. Changing NOVA_PATH on the backend means changing this regex
+    # too.
     #
-    # A regex location so all four prefixes share one block, and so it wins over
+    # A path missing here falls through to the SPA fallback below, and nginx
+    # answers a POST to index.html with "405 Not Allowed" itself -- which is how
+    # the missing /nova-vendor showed up.
+    #
+    # A regex location so all five prefixes share one block, and so it wins over
     # the SPA fallback below.
-    location ~ ^/(nova|nova-api|vendor/nova|beheer)(/|$) {
+    location ~ ^/(nova|nova-api|nova-vendor|vendor/nova|beheer)(/|$) {
         include /etc/nginx/conf.d/proxy-backend.inc;
 
         # Declaring any add_header here suppresses every server-level one, which
