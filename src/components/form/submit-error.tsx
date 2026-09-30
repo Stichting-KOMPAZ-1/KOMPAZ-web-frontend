@@ -9,9 +9,7 @@ type Props = {
 };
 
 /**
- * The failed-submit message. The live region is always
- * in the DOM so a screen reader announces the message
- * when it appears, without focus moving away from the button.
+ * The failed-submit message.
  *
  * @example
  * <Button type="submit">{m.common_save()}</Button>

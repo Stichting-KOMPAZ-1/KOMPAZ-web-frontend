@@ -11,8 +11,11 @@ export type ValidationProblemDetails = z.infer<
 >;
 
 /**
- * Field errors can be of multiple types. This transforms to an array of strings.
+ * Every error in a field's `meta.errors`, as strings.
  * TODO: make sure this can handle the error types for your project
+ *
+ * @example
+ * normalizeFieldErrors([{ message: "Required" }]); // => ["Required"]
  */
 export const normalizeFieldErrors = (errors: unknown): string[] => {
 	const errorArray = Array.isArray(errors) ? errors : [errors];
@@ -30,7 +33,11 @@ export const normalizeFieldErrors = (errors: unknown): string[] => {
 };
 
 /**
- * Returns a flattened array of error from given fields
+ * Every error across the given fields, as strings.
+ *
+ * @example
+ * getFieldErrors(form.state, ["street", "houseNumber"]);
+ * // => ["This field is required"]
  */
 export const getFieldErrors = <
 	TState extends {
@@ -55,21 +62,13 @@ export const apiErrorToFormErrors = (error: unknown) => {
 	const fields = parsed.success ? (parsed.data.errors ?? {}) : {};
 
 	return {
-		// A submit validator that returns nothing truthy counts as a pass, which
-		// would let a failure the parser doesn't recognize (a 500, a dropped
-		// connection) through as a successful submit — hence the fallback.
-		// `fields` is always present so TanStack Form recognizes the result as a
-		// form-level error it should spread over the individual fields.
 		form: parsed.success ? parsed.data.title : parseErrorString(error),
 		fields,
 	};
 };
 
 /**
- * The message to display for one error slot. TanStack Form keeps whatever the
- * validator returned, so an entry is one of our own strings for submit/server
- * errors, or a `{ message }` issue when a schema validator produced it.
- * Accepts a single error or a field's whole `meta.errors` list.
+ * The first error as a string.
  *
  * @example
  * errorText(field.state.meta.errors); // => "This field is required"
@@ -79,11 +78,7 @@ export const errorText = (error: unknown): string | undefined =>
 	normalizeFieldErrors(error).at(0);
 
 /**
- * The error to show for a field, or `undefined` while it should stay hidden.
- * A field counts as touched from its first keystroke, and `handleSubmit()`
- * touches every field before validating, so a server error lands on the first
- * submit. The gate only bites once a field carries an `onChange` validator:
- * until then nothing produces an error before submit anyway.
+ * The field's error, or `undefined` until it has been touched.
  *
  * @example
  * visibleError({ isTouched: true, errors: ["This field is required"] });
@@ -96,15 +91,13 @@ export const visibleError = (meta: {
 	errors: unknown[];
 }): string | undefined => (meta.isTouched ? errorText(meta.errors) : undefined);
 
-// Instead of using `UseMutationResult` we use this custom type, so it
-// can be used by other means than react-query and is easier to mock.
 type Mutatable<TVariables> = {
 	mutateAsync: (variables: TVariables) => Promise<unknown>;
 };
 
 /**
- * Submit form and handle possible errors.
- * This is a temporary solution until TSF supports it out of the box:
+ * Runs a mutation and turns a rejection into form errors.
+ * TODO: drop once TanStack Form supports this natively:
  *   https://github.com/TanStack/form/issues/2188
  *
  * @example

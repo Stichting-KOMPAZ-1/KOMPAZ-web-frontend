@@ -1,5 +1,3 @@
-// Tanstack Form connectors are not exported; they are only
-// to be used in createFormHook
 export { Checkbox, CheckboxOption } from "./checkbox/checkbox";
 export {
 	CheckboxGroup,

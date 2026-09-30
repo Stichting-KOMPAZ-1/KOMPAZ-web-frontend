@@ -9,8 +9,10 @@ export type CheckboxProps = Omit<BaseCheckbox.Root.Props, "className"> & {
 };
 
 /**
- * The box on its own. Use `CheckboxOption`
- * unless the label is already supplied by a surrounding `<Field>`.
+ * The box on its own.
+ *
+ * @example
+ * <Checkbox checked={value} onCheckedChange={setValue} />
  */
 export function Checkbox({ className, ...props }: CheckboxProps) {
 	return (

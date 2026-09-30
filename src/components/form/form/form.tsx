@@ -5,14 +5,14 @@ import style from "./form.module.scss";
 
 type FormProps = React.ComponentProps<"form"> & {
 	disabled?: boolean;
-	/** Names the disabler fieldset, so it isn't an unnamed group in the a11y tree. */
 	label?: string;
 };
 
 /**
- * `noValidate` is deliberate: without it the browser intercepts submit and
- * shows its own tooltip in its own locale, bypassing both the form's
- * validators and Paraglide.
+ * A form with its own validation and an optional disabled state.
+ *
+ * @example
+ * <Form onSubmit={submitHandler(form)}>
  */
 const Form = ({
 	children,

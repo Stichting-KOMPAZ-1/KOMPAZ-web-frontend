@@ -28,11 +28,6 @@ export const { useAppForm, withForm, withFieldGroup } = createFormHook({
 	formComponents: {},
 });
 
-// `useAppForm` hands back a form whose `state` is a plain getter, so reading it
-// during render never re-renders. These two subscribe to the slices a form
-// needs outside its fields, keeping call sites free of `form.Subscribe`
-// wrappers. Both are typed structurally so no call site has to name the
-// generics `useAppForm` carries.
 export type FormWithState<TState> = {
 	store: {
 		get: () => TState;
@@ -43,12 +38,7 @@ export type FormWithState<TState> = {
 };
 
 /**
- * Whether the form is mid-submit. Use it for feedback — a pending label on the
- * button, a spinner.
- *
- * Do not wire it to `<Form disabled>`: disabling the fieldset blurs whatever
- * was focused, and `submitHandler` already drops a re-submit, so freezing the
- * form buys nothing.
+ * Whether the form is mid-submit.
  *
  * @example
  * const isSubmitting = useIsSubmitting(form);
@@ -89,9 +79,7 @@ export const useSubmitError = (
 	});
 
 /**
- * How many times a submit has been attempted. `SubmitError` keys its content
- * on this so a repeated, byte-identical message still re-announces: a live
- * region only speaks when its content actually changes.
+ * How many times a submit has been attempted.
  *
  * @example
  * const attempts = useSubmitAttempts(form);
@@ -102,8 +90,7 @@ export const useSubmitAttempts = (
 ): number => useSelector(form.store, (s) => s.submissionAttempts);
 
 /**
- * The `onSubmit` for a `<Form>`: stops the browser from navigating and hands
- * the submit to the form.
+ * The `onSubmit` for a `<Form>`.
  *
  * @example
  * <Form onSubmit={submitHandler(form)}>

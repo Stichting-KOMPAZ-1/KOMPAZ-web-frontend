@@ -1,6 +1,5 @@
 // Global utility classes, used as plain strings: `className="sr-only"`.
 
-// Readable by assistive technology, invisible on screen.
 .sr-only {
 	position: absolute;
 	clip-path: inset(50%);
