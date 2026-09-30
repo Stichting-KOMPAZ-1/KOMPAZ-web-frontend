@@ -26,6 +26,9 @@ export function Field({ className, ...props }: Styled<BaseField.Root.Props>) {
 
 /**
  * The visible "optional" label.
+ *
+ * @example
+ * <FieldLabel>Phone<FieldOptional /></FieldLabel>
  */
 export function FieldOptional() {
 	return <span className={style.optional}>&nbsp;({m.forms_optional()})</span>;
@@ -55,9 +58,10 @@ export function FieldHint({
 }
 
 /**
- * The control's error message. `match` decides visibility: always pass it
- * explicitly, because without it base-ui falls back to the native
- * `ValidityState` and renders browser-locale text that bypasses Paraglide.
+ * The control's error message. `match` decides whether it shows.
+ *
+ * @example
+ * <FieldError match={error !== undefined}>{error}</FieldError>
  */
 export function FieldError({
 	className,

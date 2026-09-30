@@ -19,6 +19,8 @@ import z from "zod";
 
 import style from "./form-example.module.scss";
 
+// An example of tanstack form AppFields and error handling.
+// Prefer generated schemas and paraglide messages in real routes.
 const validationSchema = z.object({
 	email: z.email(),
 	postalCode: z.string().regex(/\d{4}\s?[a-zA-Z]{2}/, {
@@ -41,7 +43,8 @@ const fakeSubmit = async (_value: any, ok = true) =>
 			if (ok) {
 				resolve({ message: "Success" });
 			} else {
-				// Backend's rfc9457 problem details use camelCase field names.
+				// Note: the fields this app reads out of the backend's rfc9457
+				// problem details, with its camelCase field names.
 				reject({
 					title: "Een of meer velden zijn niet correct ingevuld.",
 					errors: {
@@ -64,7 +67,6 @@ export const Route = createFileRoute("/_app/form-example")({
 	}),
 	component: FormTest,
 	loader: () => ({
-		// Options are set by CMS.
 		allOptions: [
 			{ label: "I like apples!", value: "apples" },
 			{
@@ -92,7 +94,7 @@ function FormTest() {
 		mutationFn: ({ body }: { body: ValidationType }) => {
 			// oxlint-disable-next-line no-console -- DEV: show what is submitted
 			console.log("Will submit data:", body);
-			return fakeSubmit(body, false); // CHANGE this to false to test erros
+			return fakeSubmit(body, false);
 		},
 	});
 

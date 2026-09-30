@@ -26,7 +26,6 @@ const NotFoundPage = () => (
 
 export const Route = createRootRouteWithContext<RouterContext>()({
 	head: ({ matches }) => {
-		// Make sure locale redirects don't penalize seo
 		const pathname = matches.at(-1)?.pathname ?? "/";
 		return {
 			links: [
@@ -42,7 +41,6 @@ export const Route = createRootRouteWithContext<RouterContext>()({
 		};
 	},
 	beforeLoad: async () => {
-		// Check if url matches the locale, if not redirect
 		const decision = await shouldRedirect({
 			url: window.location.href,
 		});

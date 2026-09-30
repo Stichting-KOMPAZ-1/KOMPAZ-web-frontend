@@ -22,7 +22,10 @@ type Props = Readonly<
 >;
 
 /**
- * Will only render if children is a string or array of strings.
+ * One or more error messages. Renders nothing when there are none.
+ *
+ * @example
+ * <ErrorText>{errorText(field.state.meta.errors)}</ErrorText>
  */
 export function ErrorText({
 	el = "p",
