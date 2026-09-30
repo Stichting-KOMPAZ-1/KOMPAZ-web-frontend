@@ -27,7 +27,6 @@ function FormButton({
 	...props
 }: Props) {
 	const labelId = useId();
-	const statusId = useId();
 
 	const displayLabel = renderLabel
 		? renderLabel(isSubmitting)
@@ -36,28 +35,17 @@ function FormButton({
 			: children;
 
 	return (
-		<>
-			<output
-				id={statusId}
-				aria-live="polite"
-				aria-atomic="true"
-				className="sr-only"
-			>
-				{isSubmitting && "Form is being submitted"}
-			</output>
-
-			<Button
-				type="submit"
-				disabled={isSubmitting}
-				focusableWhenDisabled
-				aria-labelledby={labelId}
-				{...props}
-			>
-				<span id={labelId} className={style.label}>
-					{displayLabel}
-				</span>
-			</Button>
-		</>
+		<Button
+			type="submit"
+			disabled={isSubmitting}
+			focusableWhenDisabled
+			aria-labelledby={labelId}
+			{...props}
+		>
+			<span id={labelId} className={style.label}>
+				{displayLabel}
+			</span>
+		</Button>
 	);
 }
 
