@@ -14,15 +14,10 @@ type Props = Omit<
 };
 
 /**
- * Automatically manages focus, accessible name, and state announcements.
+ * A submit button that announces the form's submitting state.
  *
  * @example
- * // Basic submission with loading state
  * <FormButton isSubmitting={isSubmitting}>Submit</FormButton>
- *
- * @example
- * // Custom loading message
- * <FormButton isSubmitting={isSubmitting} loadingLabel="Uploading...">Upload</FormButton>
  */
 function FormButton({
 	isSubmitting,

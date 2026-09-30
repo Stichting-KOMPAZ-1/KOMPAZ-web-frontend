@@ -16,7 +16,6 @@ type Props = React.ComponentPropsWithoutRef<typeof BaseUIButton> & {
  * Native button with Base UI enhancements for keyboard accessibility.
  *
  * @example
- * // Text button
  * <Button onClick={handleClick}>Click me</Button>
  *
  * @example
