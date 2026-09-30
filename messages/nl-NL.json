@@ -1,7 +1,11 @@
 {
 	"$schema": "https://inlang.com/schema/inlang-message-format",
 
+	"forms_choose": "Kies…",
 	"forms_optional": "Optioneel",
+	"forms_invalid": "Niet alle velden zijn goed ingevuld. Bekijk de meldingen hierboven.",
+	"forms_show_password": "Wachtwoord tonen",
+	"forms_hide_password": "Wachtwoord verbergen",
 
 	"loading_message": "Bezig met laden...",
 

@@ -1,0 +1,10 @@
+// Global utility classes, used as plain strings: `className="sr-only"`.
+
+.sr-only {
+	position: absolute;
+	clip-path: inset(50%);
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	white-space: nowrap;
+}

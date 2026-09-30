@@ -1,35 +1,42 @@
 import clsx from "clsx";
-import { ClipboardList, Info, type LucideIcon } from "lucide-react";
+import {
+	Check,
+	ChevronDown,
+	ClipboardList,
+	Eye,
+	EyeOff,
+	Info,
+	type LucideIcon,
+	TriangleAlert,
+} from "lucide-react";
 
 import style from "./icon.module.scss";
 
 /**
  * The icon vocabulary of the design system. Keys are lucide's own icon names,
  * so a name can be looked up directly on https://lucide.dev/icons.
- *
- * Holds components only. Never store labels here: Paraglide messages must be
- * called during render to follow locale changes, and this object is evaluated
- * once at module scope.
  */
 const icons = {
+	check: Check,
+	"chevron-down": ChevronDown,
 	"clipboard-list": ClipboardList,
+	eye: Eye,
+	"eye-off": EyeOff,
 	info: Info,
+	"triangle-alert": TriangleAlert,
 } satisfies Record<string, LucideIcon>;
 
 export type IconName = keyof typeof icons;
 
 export type IconProps = {
 	name: IconName;
-	/** The design's px sizes, applied in rem so icons follow text zoom. */
+	/** The design's px sizes. */
 	size?: 14 | 16 | 20;
 	className?: string;
 };
 
 /**
- * A decorative icon. It is always hidden from assistive technology, so the
- * accessible name has to live on whatever control or text it sits in.
- *
- * For an icon-only control, put the name on the control itself:
+ * A decorative icon, hidden from assistive technology.
  *
  * @example
  * <Button type="button" aria-label={m.home_title()}>

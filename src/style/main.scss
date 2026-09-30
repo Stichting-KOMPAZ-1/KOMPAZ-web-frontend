@@ -7,6 +7,8 @@
 @use "/src/style/variables/border.scss";
 @use "/src/style/variables/shadow.scss";
 
+@use "/src/style/utilities.scss";
+
 #root {
 	isolation: isolate;
 }
