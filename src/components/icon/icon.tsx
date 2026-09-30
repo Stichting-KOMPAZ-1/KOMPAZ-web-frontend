@@ -12,10 +12,8 @@ import {
 
 import style from "./icon.module.scss";
 
-/**
- * The icon vocabulary of the design system. Keys are lucide's own icon names,
- * so a name can be looked up directly on https://lucide.dev/icons.
- */
+// Keys are lucide's own icon names, so a name can be looked up directly on
+// https://lucide.dev/icons.
 const icons = {
 	check: Check,
 	"chevron-down": ChevronDown,

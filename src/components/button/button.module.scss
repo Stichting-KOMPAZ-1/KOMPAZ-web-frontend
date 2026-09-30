@@ -1,15 +1,83 @@
-@use "../form/form.scss";
-
 .button {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--unit-1);
 	cursor: pointer;
-	border: 2px solid currentColor;
-	border-radius: var(--unit-4);
-	background: none;
-	background: white;
-	padding: var(--unit-4) var(--unit-6);
-	color: black;
+	border: none;
+	border-radius: var(--radius-8);
+	background: var(--color-action-soft);
+	padding: var(--unit-2) var(--unit-3);
+	color: var(--color-text-on-fill);
+	outline: none;
+	font: var(--font-body-semibold-16);
+	text-decoration: none;
 
-	&:disabled {
-		@include form.disabled;
+	@media not (prefers-reduced-motion) {
+		transition: background-color 0.2s ease;
+	}
+
+	&:hover:not(:disabled):not([aria-disabled="true"]):not([data-disabled]) {
+		background-color: var(--color-action-soft-hover);
+	}
+
+	&:focus-visible {
+		outline: var(--border-width-1) solid var(--color-text-on-fill);
+		outline-offset: 2px;
+		box-shadow: 0 0 0 4px var(--color-action);
+	}
+
+	&:disabled,
+	&[aria-disabled="true"],
+	&[data-disabled] {
+		opacity: 0.6;
+		cursor: not-allowed;
+	}
+
+	&.size-large {
+		padding: var(--unit-3) var(--unit-6);
+		font: var(--font-body-semibold-18);
+	}
+
+	&.variant-secondary {
+		background: transparent;
+		border: var(--border-width-2) solid var(--color-action-soft);
+		color: var(--color-action-soft);
+		padding: calc(var(--unit-2) - var(--border-width-2))
+			calc(var(--unit-3) - var(--border-width-2));
+		font: var(--font-body-regular-16);
+
+		&:hover:not(:disabled):not([aria-disabled="true"]):not([data-disabled]) {
+			background-color: transparent;
+			border-color: var(--color-action-soft-hover);
+			color: var(--color-action-soft-hover);
+		}
+
+		&.size-large {
+			padding: calc(var(--unit-3) - var(--border-width-2))
+				calc(var(--unit-6) - var(--border-width-2));
+			font: var(--font-body-regular-18);
+		}
+	}
+
+	&.variant-link {
+		background: transparent;
+		border: none;
+		color: var(--color-action-soft);
+		padding: var(--unit-2);
+		border-radius: var(--radius-14);
+		font: var(--font-body-regular-16);
+		min-height: var(--unit-8);
+		min-width: var(--unit-6);
+
+		&:hover:not(:disabled):not([aria-disabled="true"]):not([data-disabled]) {
+			background-color: transparent;
+			color: var(--color-action-soft-hover);
+		}
+
+		&:focus-visible {
+			outline: var(--border-width-1) solid var(--color-action);
+			outline-offset: 2px;
+			box-shadow: none;
+		}
 	}
 }
