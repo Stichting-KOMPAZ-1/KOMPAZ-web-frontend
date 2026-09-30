@@ -9,6 +9,7 @@ type Props = Omit<
 	"name" | "checked" | "onCheckedChange" | "className"
 > & {
 	hint?: string;
+	/** Class for the wrapping `<Field>` — the form's own layout class. */
 	className?: string;
 };
 

@@ -8,7 +8,9 @@ type Props = Omit<
 	React.ComponentProps<typeof CheckboxGroup>,
 	"value" | "onValueChange" | "className" | "legend"
 > & {
+	/** Names the group. */
 	label?: string;
+	/** Class for the wrapping `<Field>` — the form's own layout class. */
 	className?: string;
 };
 
