@@ -17,6 +17,9 @@ import z from "zod";
 
 import style from "./form-example.module.scss";
 
+// Note: this whole file is an example, you should always prefer to use generated schema's
+// and messages/labels translated through paraglide.
+// The main takeaway of this page is to show how to use tanstack form AppFields and showing errors!
 const validationSchema = z.object({
 	email: z.email(),
 	postalCode: z.string().regex(/\d{4}\s?[a-zA-Z]{2}/, {
@@ -39,10 +42,12 @@ const fakeSubmit = async (_value: any, ok = true) =>
 			if (ok) {
 				resolve({ message: "Success" });
 			} else {
-				// Backend's rfc9457 problem details use camelCase field names.
+				// Note: the fields this app reads out of the backend's rfc9457
+				// problem details, with its camelCase field names.
 				reject({
 					title: "Een of meer velden zijn niet correct ingevuld.",
 					errors: {
+						// -- Try out errors on these fields
 						email: [
 							"This email already exists",
 							"Your emailaddress is unimaginative",
@@ -56,13 +61,15 @@ const fakeSubmit = async (_value: any, ok = true) =>
 		}, 500),
 	);
 
+// ---
+
 export const Route = createFileRoute("/_app/form-example")({
 	head: () => ({
 		meta: [{ title: makePageTitle("Form test") }],
 	}),
 	component: FormTest,
 	loader: () => ({
-		// Options are set by CMS.
+		// Suppose options are set by cms
 		allOptions: [
 			{ label: "I like apples!", value: "apples" },
 			{
@@ -94,6 +101,7 @@ function FormTest() {
 		},
 	});
 
+	// Note: Has values so it's easier to test/play the form
 	const defaultValues: ValidationType = {
 		email: "test@test.nl",
 		postalCode: "1234AZ",
