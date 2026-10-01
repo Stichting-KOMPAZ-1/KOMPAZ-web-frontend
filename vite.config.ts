@@ -28,7 +28,7 @@ export default defineConfig(({ mode }) => {
 			}),
 			heyApiPlugin({
 				config: {
-					input: "./openapi.json",
+					input: `${env.VITE_API_ORIGIN}/docs/api.json`,
 					output: "src/lib/heyapi",
 					plugins: [
 						"@hey-api/typescript",
@@ -120,7 +120,7 @@ export default defineConfig(({ mode }) => {
 			open: true,
 			proxy: {
 				[env.VITE_API_BASEURL]: {
-					target: env.VITE_API_PROXY_TARGET,
+					target: env.VITE_API_ORIGIN,
 					secure: true,
 					changeOrigin: true,
 					...(env.VITE_API_STATEFUL_ORIGIN && {
@@ -131,7 +131,7 @@ export default defineConfig(({ mode }) => {
 					}),
 				},
 				[env.VITE_API_CSRF_PATH]: {
-					target: env.VITE_API_PROXY_TARGET,
+					target: env.VITE_API_ORIGIN,
 					secure: true,
 					changeOrigin: true,
 					...(env.VITE_API_STATEFUL_ORIGIN && {
