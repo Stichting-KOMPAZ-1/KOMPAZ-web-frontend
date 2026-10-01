@@ -31,6 +31,11 @@
 	--color-text-on-fill: var(--color-white);
 
 	--color-surface-page: var(--color-white);
+	--color-surface-page-soft: color-mix(
+		in oklch shorter hue,
+		var(--seed-secondary),
+		white 96%
+	);
 	--color-surface-muted: color-mix(
 		in oklch shorter hue,
 		var(--seed-primary),

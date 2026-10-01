@@ -39,6 +39,10 @@ function createTranslatedPathnames(
  * Add a route's translations here, keyed by its router path.
  */
 export const translatedPathnames = createTranslatedPathnames({
+	"/login": {
+		"en-US": "/login",
+		"nl-NL": "/inloggen",
+	},
 	"/form-example": {
 		"en-US": "/form-example",
 		"nl-NL": "/formulier-voorbeeld",
