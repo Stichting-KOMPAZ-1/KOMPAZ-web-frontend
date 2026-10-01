@@ -67,6 +67,10 @@ export const useSubmitError = (
 		);
 	});
 
+export const useHasFieldErrors = (
+	form: FormWithState<{ fieldMeta: FieldMeta }>,
+): boolean => useSelector(form.store, (s) => anyFieldFailed(s.fieldMeta));
+
 export const useSubmitAttempts = (
 	form: FormWithState<{ submissionAttempts: number }>,
 ): number => useSelector(form.store, (s) => s.submissionAttempts);
