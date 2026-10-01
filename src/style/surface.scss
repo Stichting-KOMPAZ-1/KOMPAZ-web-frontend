@@ -1,0 +1,8 @@
+// Shared mixins
+
+@mixin card {
+	border-radius: var(--radius-14);
+	box-shadow: var(--shadow-kompaz);
+	background: var(--color-surface-page);
+	padding: var(--unit-6);
+}
