@@ -33,6 +33,7 @@ export type RadioGroupProps = Omit<
 	BaseRadioGroupProps<string>,
 	"className" | "children"
 > & {
+	/** Names the group as a whole. */
 	legend?: string;
 	optional?: boolean;
 	hint?: string;

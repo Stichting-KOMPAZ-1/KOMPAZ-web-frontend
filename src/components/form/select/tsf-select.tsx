@@ -11,10 +11,6 @@ type Props = Omit<
 	label?: string;
 	optional?: boolean;
 	hint?: string;
-	/**
-	 * Hides this field's own error. For a row of fields that share one
-	 * combined message — an address, a date split over three boxes.
-	 */
 	noError?: boolean;
 	className?: string;
 };

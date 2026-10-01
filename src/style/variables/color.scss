@@ -9,9 +9,7 @@
 	--seed-warning: #8a5a05;
 	--color-white: #ffffff;
 
-	// Components may only ever reference a semantic token. Shades are derived from
-	// the seed inline with `color-mix(in oklch …)`, so swapping a seed at runtime
-	// re-tints every semantic that depends on it.
+	// Components may only ever reference a semantic token.
 	--color-text-default: color-mix(
 		in oklch shorter hue,
 		var(--seed-primary),

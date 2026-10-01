@@ -1,7 +1,5 @@
 @use "../form.scss";
 
-// The border lives on a wrapper so trailing adornments (the password reveal)
-// sit inside the field.
 .control {
 	@include form.control-box;
 
@@ -43,8 +41,6 @@
 	border-radius: var(--radius-8);
 	color: inherit;
 
-	// The wrapper already draws a ring via :focus-within, so drawing another
-	// one here would double it up.
 	&:focus-visible {
 		outline: none;
 		text-decoration: underline;

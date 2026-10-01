@@ -28,7 +28,6 @@ export const { useAppForm, withForm, withFieldGroup } = createFormHook({
 	formComponents: {},
 });
 
-// The form's store conforms to any shape via TState.
 export type FormWithState<TState> = {
 	store: {
 		get: () => TState;
@@ -39,9 +38,7 @@ export type FormWithState<TState> = {
 };
 
 /**
- * Do not wire to `<Form disabled>`: disabling the fieldset blurs whatever was
- * focused. Freezing the form buys nothing when `submitHandler` already drops
- * re-submits.
+ * Whether the form is mid-submit.
  *
  * @example
  * const isSubmitting = useIsSubmitting(form);
@@ -59,6 +56,8 @@ const anyFieldFailed = (fieldMeta: FieldMeta): boolean =>
 	);
 
 /**
+ * The message under the submit button after a failed submit.
+ *
  * @example
  * const error = useSubmitError(form);
  * // => "Some fields need attention. Check the messages above."
@@ -83,20 +82,7 @@ export const useSubmitError = (
 	});
 
 /**
- * Whether the last submit left an error on a field, which the field renders
- * itself.
- *
- * @example
- * const fieldsFailed = useHasFieldErrors(form);
- * // => true
- */
-export const useHasFieldErrors = (
-	form: FormWithState<{ fieldMeta: FieldMeta }>,
-): boolean => useSelector(form.store, (s) => anyFieldFailed(s.fieldMeta));
-
-/**
- * Keyed by `SubmitError` so repeated byte-identical messages re-announce:
- * a live region only speaks when content actually changes.
+ * How many times a submit has been attempted.
  *
  * @example
  * const attempts = useSubmitAttempts(form);
@@ -107,8 +93,7 @@ export const useSubmitAttempts = (
 ): number => useSelector(form.store, (s) => s.submissionAttempts);
 
 /**
- * The `onSubmit` for a `<Form>`: stops the browser from navigating and hands
- * the submit to the form.
+ * The `onSubmit` for a `<Form>`.
  *
  * @example
  * <Form onSubmit={submitHandler(form)}>

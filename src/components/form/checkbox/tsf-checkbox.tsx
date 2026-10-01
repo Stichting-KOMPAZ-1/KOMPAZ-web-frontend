@@ -12,10 +12,7 @@ type Props = Omit<
 	className?: string;
 };
 
-/**
- * One standalone checkbox bound to the field it is rendered in. A set of
- * related checkboxes is a different control: `TSFCheckboxGroup`.
- */
+/** One standalone checkbox bound to the field it is rendered in. */
 export function TSFCheckbox({ hint, className, ...props }: Props) {
 	const field = useFieldContext<boolean>();
 	const error = visibleError(field.state.meta);

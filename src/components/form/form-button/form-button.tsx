@@ -14,15 +14,10 @@ type Props = Omit<
 };
 
 /**
- * Automatically manages focus, accessible name, and state announcements.
+ * A submit button that announces the form's submitting state.
  *
  * @example
- * // Basic submission with loading state
  * <FormButton isSubmitting={isSubmitting}>Submit</FormButton>
- *
- * @example
- * // Custom loading message
- * <FormButton isSubmitting={isSubmitting} loadingLabel="Uploading...">Upload</FormButton>
  */
 function FormButton({
 	isSubmitting,
@@ -32,7 +27,6 @@ function FormButton({
 	...props
 }: Props) {
 	const labelId = useId();
-	const statusId = useId();
 
 	const displayLabel = renderLabel
 		? renderLabel(isSubmitting)
@@ -41,28 +35,17 @@ function FormButton({
 			: children;
 
 	return (
-		<>
-			<output
-				id={statusId}
-				aria-live="polite"
-				aria-atomic="true"
-				className="sr-only"
-			>
-				{isSubmitting && "Form is being submitted"}
-			</output>
-
-			<Button
-				type="submit"
-				disabled={isSubmitting}
-				focusableWhenDisabled
-				aria-labelledby={labelId}
-				{...props}
-			>
-				<span id={labelId} className={style.label}>
-					{displayLabel}
-				</span>
-			</Button>
-		</>
+		<Button
+			type="submit"
+			disabled={isSubmitting}
+			focusableWhenDisabled
+			aria-labelledby={labelId}
+			{...props}
+		>
+			<span id={labelId} className={style.label}>
+				{displayLabel}
+			</span>
+		</Button>
 	);
 }
 

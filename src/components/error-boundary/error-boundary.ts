@@ -20,9 +20,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarystate> {
 	}
 
 	// oxlint-disable-next-line no-unused-vars -- depends on project. Remove if not used
-	componentDidCatch(error: Error, info: ErrorInfo) {
-		// Maybe do some analytics here
-	}
+	componentDidCatch(error: Error, info: ErrorInfo) {}
 
 	render() {
 		if (this.state.error) {

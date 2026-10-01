@@ -20,8 +20,7 @@ type Props = {
 };
 
 /**
- * The live region is always mounted so screen readers announce
- * new error messages without focus moving.
+ * The failed-submit message.
  *
  * @example
  * <FormButton isSubmitting={isSubmitting}>{m.common_save()}</FormButton>

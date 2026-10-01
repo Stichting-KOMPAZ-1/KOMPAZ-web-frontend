@@ -15,7 +15,6 @@ type Props = React.ComponentPropsWithoutRef<typeof Link> & {
  * Navigation link styled as a button.
  *
  * @example
- * // Wizard step navigation
  * <ButtonLink to="/next-step" size="large">Continue</ButtonLink>
  *
  * @example
