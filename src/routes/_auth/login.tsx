@@ -1,11 +1,6 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import LogoMark from "assets/icons/logo-mark.svg?react";
-import {
-	Card,
-	CardDescription,
-	CardHeader,
-	CardTitle,
-} from "components/card/card";
+import { H1 } from "components/heading/heading";
 import { LoginForm } from "components/login/login-form";
 import { problemDetail } from "lib/api/error-helpers";
 import { authRedeem } from "lib/heyapi";
@@ -54,14 +49,16 @@ function LoginPage() {
 	const { linkError } = Route.useRouteContext();
 
 	return (
-		<Card>
-			<CardHeader>
+		<div className={style.login}>
+			<div className={style.header}>
 				<LogoMark className={style.logo} />
-				<CardTitle el="h1">{m.login_title()}</CardTitle>
-				<CardDescription>{m.login_subtitle()}</CardDescription>
-			</CardHeader>
+				<H1 size="large" className={style.title}>
+					{m.login_title()}
+				</H1>
+				<p className={style.description}>{m.login_subtitle()}</p>
+			</div>
 
 			<LoginForm error={linkError} />
-		</Card>
+		</div>
 	);
 }
