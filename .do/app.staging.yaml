@@ -1,0 +1,68 @@
+# App Platform spec for the staging frontend.
+#
+# Apply once to create the app:
+#   doctl apps create --spec .do/app.staging.yaml
+# Then put the id it prints into the DO_APP_ID_STAGING repository secret.
+#
+# After creation DigitalOcean holds the live spec. This file is the bootstrap and
+# the record of which variables an environment needs -- it is not kept in sync
+# automatically, so change both when one of them moves.
+name: kompaz-web-frontend-staging
+region: ams
+
+# CI calls `doctl apps create-deployment --wait`, so a failed build already fails
+# the workflow. This catches the deploys CI is not watching, and a domain whose
+# certificate stops renewing.
+alerts:
+  - rule: DEPLOYMENT_FAILED
+  - rule: DOMAIN_FAILED
+
+# Its own parent domain rather than staging.kompaz.igne.link, matching the
+# backend's backend.kompaz-staging.igne.link (en-jf4twu).
+domains:
+  - domain: kompaz-staging.igne.link
+    type: PRIMARY
+
+services:
+  - name: web
+    dockerfile_path: /Dockerfile
+    source_dir: /
+    http_port: 8080
+    instance_count: 1
+    # See the development spec: nginx needs a fraction of this.
+    instance_size_slug: apps-s-1vcpu-0.5gb
+
+    github:
+      repo: Stichting-KOMPAZ-1/KOMPAZ-web-frontend
+      branch: staging
+      # CI gates on build, typecheck and lint before it calls
+      # `doctl apps create-deployment`, so DigitalOcean must not also deploy by
+      # itself the moment a commit lands.
+      deploy_on_push: false
+
+    envs:
+      # Inlined into the bundle by Vite, hence BUILD_TIME. A path rather than a
+      # URL: nginx proxies it to the backend on this same origin.
+      - key: VITE_API_BASEURL
+        scope: BUILD_TIME
+        value: /api
+
+      # Read by nginx at container start, hence RUN_TIME. The backend's real
+      # public origin, not its frbit.app default, which 301-redirects here.
+      - key: BACKEND_ORIGIN
+        scope: RUN_TIME
+        value: https://backend.kompaz-staging.igne.link
+      - key: BACKEND_HOST
+        scope: RUN_TIME
+        value: backend.kompaz-staging.igne.link
+
+    health_check:
+      http_path: /
+
+ingress:
+  rules:
+    - component:
+        name: web
+      match:
+        path:
+          prefix: /

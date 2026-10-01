@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: [main, develop]
+    branches: [main, staging, develop]
   pull_request:
     branches:
       - "**"
@@ -61,6 +61,21 @@ jobs:
       # rather than just a failed API call.
       - name: Trigger deployment
         run: doctl apps create-deployment "${{ secrets.DO_APP_ID_DEVELOPMENT }}" --wait
+
+  deploy-staging:
+    name: Deploy to App Platform (staging)
+    needs: checks
+    if: github.ref == 'refs/heads/staging'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+
+      - name: Trigger deployment
+        run: doctl apps create-deployment "${{ secrets.DO_APP_ID_STAGING }}" --wait
 
   deploy-production:
     name: Deploy to App Platform (production)
