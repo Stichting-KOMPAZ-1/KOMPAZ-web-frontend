@@ -12,21 +12,9 @@ type Props = {
 	form: Parameters<typeof useSubmitError>[0] &
 		Parameters<typeof useSubmitAttempts>[0] &
 		Parameters<typeof useHasFieldErrors>[0];
-	/**
-	 * Takes the message off the screen while a field is showing one of its own,
-	 * for a form short enough that the field error is already in view.
-	 */
 	hideWhenFieldsFail?: boolean;
 };
 
-/**
- * The failed-submit message.
- *
- * @example
- * <FormButton isSubmitting={isSubmitting}>{m.common_save()}</FormButton>
- * <SubmitError form={form} />
- *
- */
 export function SubmitError({ form, hideWhenFieldsFail = false }: Props) {
 	const error = useSubmitError(form);
 	const attempts = useSubmitAttempts(form);

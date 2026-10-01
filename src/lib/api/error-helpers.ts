@@ -1,12 +1,6 @@
 import * as m from "lib/paraglide/messages";
 
-/**
- * An error message pulled out of an unknown value.
- * TODO: Update this to accomodate (changes in) the project
- *
- * @example
- * parseErrorString(new Error("Boom")); // => "Boom"
- */
+// TODO: Update this to accomodate (changes in) the project
 export const parseErrorString = (value: unknown, fallback?: string): string => {
 	const unknownError = fallback || m.error_unknown();
 	if (!value) return unknownError;

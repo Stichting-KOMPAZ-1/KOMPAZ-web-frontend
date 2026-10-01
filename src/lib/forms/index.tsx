@@ -37,13 +37,6 @@ export type FormWithState<TState> = {
 	};
 };
 
-/**
- * Whether the form is mid-submit.
- *
- * @example
- * const isSubmitting = useIsSubmitting(form);
- * // => false
- */
 export const useIsSubmitting = (
 	form: FormWithState<{ isSubmitting: boolean }>,
 ): boolean => useSelector(form.store, (s) => s.isSubmitting);
@@ -55,13 +48,6 @@ const anyFieldFailed = (fieldMeta: FieldMeta): boolean =>
 		(meta) => meta !== undefined && meta.errors.length > 0,
 	);
 
-/**
- * The message under the submit button after a failed submit.
- *
- * @example
- * const error = useSubmitError(form);
- * // => "Some fields need attention. Check the messages above."
- */
 export const useSubmitError = (
 	form: FormWithState<{
 		isSubmitting: boolean;
@@ -81,23 +67,10 @@ export const useSubmitError = (
 		);
 	});
 
-/**
- * How many times a submit has been attempted.
- *
- * @example
- * const attempts = useSubmitAttempts(form);
- * // => 2
- */
 export const useSubmitAttempts = (
 	form: FormWithState<{ submissionAttempts: number }>,
 ): number => useSelector(form.store, (s) => s.submissionAttempts);
 
-/**
- * The `onSubmit` for a `<Form>`.
- *
- * @example
- * <Form onSubmit={submitHandler(form)}>
- */
 export const submitHandler =
 	(form: {
 		handleSubmit: () => Promise<void>;

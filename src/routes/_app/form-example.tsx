@@ -19,8 +19,6 @@ import z from "zod";
 
 import style from "./form-example.module.scss";
 
-// An example of tanstack form AppFields and error handling.
-// Prefer generated schemas and paraglide messages in real routes.
 const validationSchema = z.object({
 	email: z.email(),
 	postalCode: z.string().regex(/\d{4}\s?[a-zA-Z]{2}/, {
@@ -43,8 +41,7 @@ const fakeSubmit = async (_value: any, ok = true) =>
 			if (ok) {
 				resolve({ message: "Success" });
 			} else {
-				// Note: the fields this app reads out of the backend's rfc9457
-				// problem details, with its camelCase field names.
+				// The backend's rfc9457 problem details use camelCase field names.
 				reject({
 					title: "Een of meer velden zijn niet correct ingevuld.",
 					errors: {
@@ -141,10 +138,6 @@ function FormTest() {
 					)}
 				</form.AppField>
 
-				{/*
-				  Good candidate to use with `withFieldGroup`:
-				  https://tanstack.com/form/latest/docs/framework/solid/guides/form-composition#reusing-groups-of-fields-in-multiple-forms
-				*/}
 				<div className={style.address}>
 					<form.AppField name="postalCode">
 						{(field) => <field.Input label="Postal code" noError />}

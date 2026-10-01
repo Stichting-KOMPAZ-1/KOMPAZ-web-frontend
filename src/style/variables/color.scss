@@ -1,5 +1,6 @@
 // Two tiers:
 //   seed  ->  semantic token  ->  component
+// Components may only ever reference a semantic token.
 
 :root {
 	--seed-primary: #6f203a;
@@ -9,7 +10,6 @@
 	--seed-warning: #8a5a05;
 	--color-white: #ffffff;
 
-	// Components may only ever reference a semantic token.
 	--color-text-default: color-mix(
 		in oklch shorter hue,
 		var(--seed-primary),
