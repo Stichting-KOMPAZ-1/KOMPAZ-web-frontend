@@ -59,7 +59,6 @@ Before implementing any interactive widget (dialog, popover, menu, select, check
 - No casts — help the compiler infer correctness through runtime logic. If a third-party type makes this impossible, cast with a comment explaining why. Last resort only.
 - No non-null assertions — prefer type guards and narrowing
 - No duplicate type definitions — reuse exported types from API, hooks, or shared modules
-- Add JSDoc to util functions you create, including at least one example. Add docs to existing util functions you edit that are missing them. See Comments for the shape. Keep types in typescript.
 
 ---
 
@@ -114,11 +113,9 @@ Before implementing any interactive widget (dialog, popover, menu, select, check
 
 ## Comments
 
-- No comments. One exception: a fact whose source of truth lives outside this repository. Two lines max. Not if the surrounding lines already show it.
-- Doc comments on exported symbols only. One sentence saying what the symbol is, plus one example. Never why it was built that way.
-- Trimming a comment: keep what it is, cut what argues. If nothing is left, delete it.
-- TODOs are exempt.
-- Design-system and config files may open with one block on how to use the file, with a call example. Three lines max.
+- No comments. Exception: a fact whose source of truth lives outside this repository. Two lines max.
+- TODOs are allowed. They must contain a ticket reference.
+- Design-system and config files may open with one block on how to use the file. Three lines max.
 - Applies to new code, comments you touch, and review.
 
 ---
