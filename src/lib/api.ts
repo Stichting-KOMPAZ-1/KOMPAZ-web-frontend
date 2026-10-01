@@ -25,6 +25,7 @@ export const queryClient = new QueryClient({
 });
 
 const SAFE_METHODS = ["GET", "HEAD", "OPTIONS"];
+const UNAUTHORIZED = 401;
 const CSRF_MISMATCH = 419;
 
 // oxlint-disable-next-line oxc/no-async-endpoint-handlers -- a hey-api interceptor, not an Express route
@@ -39,7 +40,7 @@ client.interceptors.request.use(async (request: Request) => {
 });
 
 client.interceptors.response.use((response) => {
-	if (response.status === 401 || response.status === CSRF_MISMATCH) {
+	if (response.status === UNAUTHORIZED || response.status === CSRF_MISMATCH) {
 		queryClient.clear();
 	}
 	return response;
