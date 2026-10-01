@@ -20,7 +20,7 @@ textarea {
 }
 
 body {
-	background-color: white;
-	color: black;
+	background-color: var(--color-surface-page);
+	color: var(--color-text-default);
 	font: var(--font-body-regular-16);
 }
