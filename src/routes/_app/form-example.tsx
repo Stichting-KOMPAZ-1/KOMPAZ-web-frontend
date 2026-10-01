@@ -41,7 +41,7 @@ const fakeSubmit = async (_value: any, ok = true) =>
 			if (ok) {
 				resolve({ message: "Success" });
 			} else {
-				// Backend's rfc9457 problem details use camelCase field names.
+				// The backend's rfc9457 problem details use camelCase field names.
 				reject({
 					title: "Een of meer velden zijn niet correct ingevuld.",
 					errors: {
@@ -64,7 +64,6 @@ export const Route = createFileRoute("/_app/form-example")({
 	}),
 	component: FormTest,
 	loader: () => ({
-		// Options are set by CMS.
 		allOptions: [
 			{ label: "I like apples!", value: "apples" },
 			{
@@ -92,7 +91,7 @@ function FormTest() {
 		mutationFn: ({ body }: { body: ValidationType }) => {
 			// oxlint-disable-next-line no-console -- DEV: show what is submitted
 			console.log("Will submit data:", body);
-			return fakeSubmit(body, false); // CHANGE this to false to test erros
+			return fakeSubmit(body, false);
 		},
 	});
 
@@ -139,10 +138,6 @@ function FormTest() {
 					)}
 				</form.AppField>
 
-				{/*
-				  Good candidate to use with `withFieldGroup`:
-				  https://tanstack.com/form/latest/docs/framework/solid/guides/form-composition#reusing-groups-of-fields-in-multiple-forms
-				*/}
 				<div className={style.address}>
 					<form.AppField name="postalCode">
 						{(field) => <field.Input label="Postal code" noError />}

@@ -1,11 +1,7 @@
 import * as m from "lib/paraglide/messages";
 import * as z from "zod";
 
-/**
- * Try to get an error message from an unknown value
- * Useful for catch situations or poorly typed api's
- * TODO: Update this to accomodate (changes in) the project
- */
+// TODO: Update this to accomodate (changes in) the project
 export const parseErrorString = (value: unknown, fallback?: string): string => {
 	const unknownError = fallback || m.error_unknown();
 	if (!value) return unknownError;

@@ -12,20 +12,6 @@ type Props = React.ComponentPropsWithoutRef<typeof BaseUIButton> & {
 	variant?: ButtonVariant;
 };
 
-/**
- * Native button with Base UI enhancements for keyboard accessibility.
- *
- * @example
- * // Text button
- * <Button onClick={handleClick}>Click me</Button>
- *
- * @example
- * // Icon-only button — aria-label is REQUIRED
- * <Button aria-label="Close">
- *   <Icon name="x" aria-hidden="true" />
- * </Button>
- *
- */
 function Button({
 	size = "medium",
 	variant = "primary",

@@ -28,7 +28,6 @@ export const { useAppForm, withForm, withFieldGroup } = createFormHook({
 	formComponents: {},
 });
 
-// The form's store conforms to any shape via TState.
 export type FormWithState<TState> = {
 	store: {
 		get: () => TState;
@@ -38,15 +37,6 @@ export type FormWithState<TState> = {
 	};
 };
 
-/**
- * Do not wire to `<Form disabled>`: disabling the fieldset blurs whatever was
- * focused. Freezing the form buys nothing when `submitHandler` already drops
- * re-submits.
- *
- * @example
- * const isSubmitting = useIsSubmitting(form);
- * // => false
- */
 export const useIsSubmitting = (
 	form: FormWithState<{ isSubmitting: boolean }>,
 ): boolean => useSelector(form.store, (s) => s.isSubmitting);
@@ -58,11 +48,6 @@ const anyFieldFailed = (fieldMeta: FieldMeta): boolean =>
 		(meta) => meta !== undefined && meta.errors.length > 0,
 	);
 
-/**
- * @example
- * const error = useSubmitError(form);
- * // => "Some fields need attention. Check the messages above."
- */
 export const useSubmitError = (
 	form: FormWithState<{
 		isSubmitting: boolean;
@@ -82,37 +67,14 @@ export const useSubmitError = (
 		);
 	});
 
-/**
- * Whether the last submit left an error on a field, which the field renders
- * itself.
- *
- * @example
- * const fieldsFailed = useHasFieldErrors(form);
- * // => true
- */
 export const useHasFieldErrors = (
 	form: FormWithState<{ fieldMeta: FieldMeta }>,
 ): boolean => useSelector(form.store, (s) => anyFieldFailed(s.fieldMeta));
 
-/**
- * Keyed by `SubmitError` so repeated byte-identical messages re-announce:
- * a live region only speaks when content actually changes.
- *
- * @example
- * const attempts = useSubmitAttempts(form);
- * // => 2
- */
 export const useSubmitAttempts = (
 	form: FormWithState<{ submissionAttempts: number }>,
 ): number => useSelector(form.store, (s) => s.submissionAttempts);
 
-/**
- * The `onSubmit` for a `<Form>`: stops the browser from navigating and hands
- * the submit to the form.
- *
- * @example
- * <Form onSubmit={submitHandler(form)}>
- */
 export const submitHandler =
 	(form: {
 		handleSubmit: () => Promise<void>;

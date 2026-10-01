@@ -20,7 +20,6 @@ type RadioProps = Omit<BaseRadio.Root.Props, "className"> & {
 	className?: string;
 };
 
-/** One radio button. Only meaningful inside a `<RadioGroup>`. */
 function Radio({ className, ...props }: RadioProps) {
 	return (
 		<BaseRadio.Root {...props} className={clsx(style.radio, className)}>
@@ -40,17 +39,6 @@ export type RadioGroupProps = Omit<
 	className?: string;
 };
 
-/**
- * A single-choice question.
- *
- * @example
- * <RadioGroup
- * 	legend="Preferred contact"
- * 	options={options}
- * 	value={value}
- * 	onValueChange={setValue}
- * />
- */
 export function RadioGroup({
 	legend,
 	hint,

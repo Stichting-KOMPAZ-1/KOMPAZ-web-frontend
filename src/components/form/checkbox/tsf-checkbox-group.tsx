@@ -12,9 +12,6 @@ type Props = Omit<
 	className?: string;
 };
 
-/**
- * A set of related checkboxes bound to one array field.
- */
 export function TSFCheckboxGroup({ label, className, ...props }: Props) {
 	const field = useFieldContext<string[]>();
 	const error = visibleError(field.state.meta);

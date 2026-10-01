@@ -11,19 +11,6 @@ type Props = React.ComponentPropsWithoutRef<typeof Link> & {
 	variant?: ButtonVariant;
 };
 
-/**
- * Navigation link styled as a button.
- *
- * @example
- * // Wizard step navigation
- * <ButtonLink to="/next-step" size="large">Continue</ButtonLink>
- *
- * @example
- * // Toolbar button that navigates
- * <ButtonLink to="/settings" aria-label="Settings">
- *   <Icon name="gear" aria-hidden="true" />
- * </ButtonLink>
- */
 function ButtonLink({
 	size = "medium",
 	variant = "primary",

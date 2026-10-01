@@ -5,11 +5,8 @@
 import type { Locale } from "./src/lib/paraglide/runtime";
 import type { FileRoutesByTo } from "./src/routeTree.gen";
 
-// All registered route paths.
 type RoutePath = keyof FileRoutesByTo;
 
-// All route paths that need to be translated.
-// Index paths are excluded. Add any others that need exclusion.
 type RequiredRoutePath = Exclude<RoutePath, `${string}/`>;
 
 type TranslatedPathname = {

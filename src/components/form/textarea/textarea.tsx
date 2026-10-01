@@ -8,12 +8,6 @@ export type TextareaProps = Omit<Field.Control.Props, "className"> & {
 	className?: string;
 };
 
-/**
- * A multi-line text control inside a `<Field>`.
- *
- * @example
- * <Textarea name="note" rows={6} maxLength={2000} />
- */
 export function Textarea({ className, rows = 4, ...props }: TextareaProps) {
 	return (
 		<div className={clsx(style.control, className)}>

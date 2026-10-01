@@ -8,11 +8,6 @@ type FormProps = React.ComponentProps<"form"> & {
 	label?: string;
 };
 
-/**
- * `noValidate` is deliberate: without it the browser intercepts submit and
- * shows its own tooltip in its own locale, bypassing both the form's
- * validators and Paraglide.
- */
 const Form = ({
 	children,
 	className,

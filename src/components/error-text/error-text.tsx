@@ -21,9 +21,6 @@ type Props = Readonly<
 		)
 >;
 
-/**
- * Will only render if children is a string or array of strings.
- */
 export function ErrorText({
 	el = "p",
 	className,

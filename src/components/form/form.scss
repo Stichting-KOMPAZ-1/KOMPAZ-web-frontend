@@ -1,3 +1,6 @@
+// Shared form mixins.
+// @use "../form.scss";
+// .selector { @include form.control-box; }
 @mixin disabled {
 	opacity: 0.5;
 	cursor: not-allowed;
