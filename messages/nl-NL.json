@@ -12,6 +12,8 @@
 	"nav_logout": "Uitloggen",
 
 	"home_title": "Home",
+	"admin_title": "Beheer",
+	"profile_title": "Profiel",
 
 	"login_title": "Login op het ZelfZorg platform",
 	"login_subtitle": "Vul je e-mailadres in om een login-link te ontvangen.",
