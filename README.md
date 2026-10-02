@@ -55,12 +55,12 @@ Bun build of the SPA served by nginx on port 8080.
 | Branch        | App                       | Backend                            | Repository secret       |
 | ------------- | ------------------------- | ---------------------------------- | ----------------------- |
 | `develop`     | `kompaz-web-frontend-dev` | `https://backend.kompaz.igne.link` | `DO_APP_ID_DEVELOPMENT` |
-| `staging`     | `kompaz-web-frontend-staging` | `https://backend.kompaz-staging.igne.link` | `DO_APP_ID_STAGING` |
+| `staging`     | `kompaz-web-frontend-staging` | `https://backend.kompaz.staging.igne.link` | `DO_APP_ID_STAGING` |
 | `main`        | `kompaz-web-frontend`     | not deployed yet                   | `DO_APP_ID_PRODUCTION`  |
 
 A release is promoted, never skipped ahead: feature branches merge into
 `develop`, a pull request from `develop` into `staging` ships it to staging
-(`https://kompaz-staging.igne.link`), and a pull request from `staging` into
+(`https://kompaz.staging.igne.link`), and a pull request from `staging` into
 `main` ships what staging already ran to production. The backend follows the
 same order with its own `development` → `staging` → `main`, so promote both
 together when a change spans them.
@@ -105,7 +105,7 @@ on would let an unverified commit deploy itself.
    token) plus the three app ids above.
 
 3. Point the domain at the app. `igne.link` is on Cloudflare: add a `CNAME` from
-   the app's hostname (`kompaz-staging` for staging) to the app's
+   the app's hostname (`kompaz.staging` for staging) to the app's
    `*.ondigitalocean.app` default domain, **DNS only** (grey cloud) at least until
    DigitalOcean has issued its certificate.
 

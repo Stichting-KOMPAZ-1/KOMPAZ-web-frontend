@@ -17,10 +17,10 @@ alerts:
   - rule: DEPLOYMENT_FAILED
   - rule: DOMAIN_FAILED
 
-# Its own parent domain rather than staging.kompaz.igne.link, matching the
-# backend's backend.kompaz-staging.igne.link (en-jf4twu).
+# kompaz.staging.igne.link, following the naming policy, in front of the
+# backend's backend.kompaz.staging.igne.link (en-jf4twu).
 domains:
-  - domain: kompaz-staging.igne.link
+  - domain: kompaz.staging.igne.link
     type: PRIMARY
 
 services:
@@ -51,10 +51,10 @@ services:
       # public origin, not its frbit.app default, which 301-redirects here.
       - key: BACKEND_ORIGIN
         scope: RUN_TIME
-        value: https://backend.kompaz-staging.igne.link
+        value: https://backend.kompaz.staging.igne.link
       - key: BACKEND_HOST
         scope: RUN_TIME
-        value: backend.kompaz-staging.igne.link
+        value: backend.kompaz.staging.igne.link
 
     health_check:
       http_path: /
