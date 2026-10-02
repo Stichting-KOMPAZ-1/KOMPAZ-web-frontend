@@ -55,7 +55,15 @@ Bun build of the SPA served by nginx on port 8080.
 | Branch        | App                       | Backend                            | Repository secret       |
 | ------------- | ------------------------- | ---------------------------------- | ----------------------- |
 | `develop`     | `kompaz-web-frontend-dev` | `https://backend.kompaz.igne.link` | `DO_APP_ID_DEVELOPMENT` |
+| `staging`     | `kompaz-web-frontend-staging` | `https://backend.kompaz.staging.igne.link` | `DO_APP_ID_STAGING` |
 | `main`        | `kompaz-web-frontend`     | not deployed yet                   | `DO_APP_ID_PRODUCTION`  |
+
+A release is promoted, never skipped ahead: feature branches merge into
+`develop`, a pull request from `develop` into `staging` ships it to staging
+(`https://kompaz.staging.igne.link`), and a pull request from `staging` into
+`main` ships what staging already ran to production. The backend follows the
+same order with its own `development` → `staging` → `main`, so promote both
+together when a change spans them.
 
 > The production backend has no code deployed — its fortrabbit app answers every
 > path with fortrabbit's own 403 page and has no custom domain — so
@@ -70,7 +78,7 @@ Bun build of the SPA served by nginx on port 8080.
 ### 🔁 The pipeline
 
 [`.github/workflows/ci.yml`](./.github/workflows/ci.yml) runs `bun run build`
-followed by `bun run check` on every pull request and on pushes to the two
+followed by `bun run check` on every pull request and on pushes to the three
 deploying branches. Only once those pass does it call
 `doctl apps create-deployment --wait` for the matching app, so a build or
 typecheck failure never reaches DigitalOcean's builder.
@@ -80,7 +88,7 @@ paraglide messages (`src/lib/paraglide`) are emitted by Vite plugins during the
 build, so on a clean checkout there is nothing for `tsc` to resolve until it has
 run.
 
-Because CI owns the trigger, `deploy_on_push` is `false` on both apps. Turning it
+Because CI owns the trigger, `deploy_on_push` is `false` on every app. Turning it
 on would let an unverified commit deploy itself.
 
 ### 🔧 First-time setup
@@ -89,13 +97,19 @@ on would let an unverified commit deploy itself.
 
    ```sh
    doctl apps create --spec .do/app.development.yaml
+   doctl apps create --spec .do/app.staging.yaml
    doctl apps create --spec .do/app.production.yaml
    ```
 
 2. Set the repository secrets: `DIGITALOCEAN_ACCESS_TOKEN` (a write-scoped API
-   token) plus the two app ids above.
+   token) plus the three app ids above.
 
-3. Replace the `CHANGE_ME` backend values in the specs, or set them in the
+3. Point the domain at the app. `igne.link` is on Cloudflare: add a `CNAME` from
+   the app's hostname (`kompaz.staging` for staging) to the app's
+   `*.ondigitalocean.app` default domain, **DNS only** (grey cloud) at least until
+   DigitalOcean has issued its certificate.
+
+4. Replace the `CHANGE_ME` backend values in the specs, or set them in the
    DigitalOcean dashboard. DigitalOcean owns the live spec once an app exists, so
    the files under [`.do/`](./.do) are the bootstrap and a record of which
    variables an environment needs — they are not synced automatically.
