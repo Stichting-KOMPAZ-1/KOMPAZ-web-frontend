@@ -1,26 +1,33 @@
+import clsx from "clsx";
 import { ErrorText } from "components/error-text/error-text";
-import { useSubmitAttempts, useSubmitError } from "lib/forms";
+import {
+	useHasFieldErrors,
+	useSubmitAttempts,
+	useSubmitError,
+} from "lib/forms";
 
 import style from "./submit-error.module.scss";
 
 type Props = {
 	form: Parameters<typeof useSubmitError>[0] &
-		Parameters<typeof useSubmitAttempts>[0];
+		Parameters<typeof useSubmitAttempts>[0] &
+		Parameters<typeof useHasFieldErrors>[0];
+	hideWhenFieldsFail?: boolean;
 };
 
-/**
- * The failed-submit message.
- *
- * @example
- * <Button type="submit">{m.common_save()}</Button>
- * <SubmitError form={form} />
- */
-export function SubmitError({ form }: Props) {
+export function SubmitError({ form, hideWhenFieldsFail = false }: Props) {
 	const error = useSubmitError(form);
 	const attempts = useSubmitAttempts(form);
+	const fieldsFailed = useHasFieldErrors(form);
 
 	return (
-		<div role="alert" className={style.root}>
+		<div
+			role="alert"
+			className={clsx(
+				style.root,
+				hideWhenFieldsFail && fieldsFailed && "sr-only",
+			)}
+		>
 			<ErrorText key={attempts} className={style.message}>
 				{error}
 			</ErrorText>

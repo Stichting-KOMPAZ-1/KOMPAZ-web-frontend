@@ -9,14 +9,12 @@ type Props = Omit<
 	"name" | "value" | "onValueChange" | "onBlur" | "className"
 > & {
 	label?: string;
-	/** Drops the required star and `aria-required`. */
 	optional?: boolean;
 	hint?: string;
 	noError?: boolean;
 	className?: string;
 };
 
-/** A multi-line text input bound to the field it is rendered in. */
 export function TSFTextarea({
 	label,
 	hint,
