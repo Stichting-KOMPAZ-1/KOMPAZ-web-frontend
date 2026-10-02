@@ -6,9 +6,12 @@ import {
 	Eye,
 	EyeOff,
 	Info,
+	LogOut,
 	type LucideIcon,
 	Mail,
+	Shield,
 	TriangleAlert,
+	UserCog,
 } from "lucide-react";
 
 import style from "./icon.module.scss";
@@ -22,8 +25,11 @@ const icons = {
 	eye: Eye,
 	"eye-off": EyeOff,
 	info: Info,
+	"log-out": LogOut,
 	mail: Mail,
+	shield: Shield,
 	"triangle-alert": TriangleAlert,
+	"user-cog": UserCog,
 } satisfies Record<string, LucideIcon>;
 
 export type IconName = keyof typeof icons;

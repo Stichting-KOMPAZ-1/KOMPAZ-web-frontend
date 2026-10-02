@@ -9,9 +9,15 @@
 
 	"loading_message": "Loading...",
 
+	"nav_label": "Main navigation",
+	"nav_home": "Home",
+	"nav_admin": "Administration",
+	"nav_profile": "Profile",
 	"nav_logout": "Log out",
 
 	"home_title": "Home",
+	"admin_title": "Administration",
+	"profile_title": "Profile",
 
 	"login_title": "Log in to the ZelfZorg platform",
 	"login_subtitle": "Enter your email address to receive a login link.",

@@ -9,6 +9,10 @@
 
 @use "/src/style/utilities.scss";
 
+:root {
+	--layer-header: 10;
+}
+
 #root {
 	isolation: isolate;
 }

@@ -74,6 +74,11 @@
 		white 15%
 	);
 	--color-nav-selected: var(--seed-secondary);
+	--color-text-on-nav-selected: color-mix(
+		in oklch shorter hue,
+		var(--seed-primary),
+		white 90%
+	);
 
 	--color-border: color-mix(
 		in oklch shorter hue,

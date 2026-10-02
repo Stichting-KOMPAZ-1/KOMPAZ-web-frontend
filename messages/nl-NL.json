@@ -9,9 +9,15 @@
 
 	"loading_message": "Bezig met laden...",
 
+	"nav_label": "Hoofdnavigatie",
+	"nav_home": "Home",
+	"nav_admin": "Beheer",
+	"nav_profile": "Profiel",
 	"nav_logout": "Uitloggen",
 
 	"home_title": "Home",
+	"admin_title": "Beheer",
+	"profile_title": "Profiel",
 
 	"login_title": "Login op het ZelfZorg platform",
 	"login_subtitle": "Vul je e-mailadres in om een login-link te ontvangen.",

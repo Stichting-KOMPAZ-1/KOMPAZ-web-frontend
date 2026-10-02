@@ -1,0 +1,38 @@
+@use "/src/style/breakpoints.scss" as bp;
+
+.item {
+	display: flex;
+	align-items: center;
+	gap: var(--unit-1);
+	border-radius: var(--radius-12);
+	padding: var(--unit-2);
+	color: var(--color-action);
+	font: var(--font-body-regular-16);
+	text-decoration: none;
+
+	&:hover {
+		color: var(--color-action-soft-hover);
+	}
+
+	&:focus-visible {
+		outline: var(--border-width-1) solid var(--color-action);
+		outline-offset: 2px;
+	}
+
+	&[data-status="active"] {
+		background: var(--color-nav-selected);
+		color: var(--color-text-on-nav-selected);
+	}
+}
+
+.label {
+	white-space: nowrap;
+}
+
+.desktopOnly {
+	display: none;
+
+	@include bp.desktop {
+		display: inline;
+	}
+}
