@@ -7,6 +7,7 @@ import { ErrorText } from "components/error-text/error-text";
 import { Form, FormButton, SubmitError } from "components/form";
 import { H1 } from "components/heading/heading";
 import Icon from "components/icon/icon";
+import Pill from "components/pill/pill";
 import { submitHandler, useAppForm, useIsSubmitting } from "lib/forms";
 import {
 	getFieldErrors,
@@ -274,6 +275,18 @@ function FormTest() {
 					<Icon name="info" />
 					ButtonLink link style
 				</ButtonLink>
+			</div>
+
+			<H1 size="16-18">Pill variants</H1>
+			<div className={style.pillShowcase}>
+				<Pill>Uitgenodigd</Pill>
+				<Pill variant="accent-strong">Uitgenodigd</Pill>
+				<Pill variant="error">Verlopen</Pill>
+				<Pill variant="success">Uitgenodigd</Pill>
+				<Pill variant="accent">
+					<Icon name="check" />
+					With icon
+				</Pill>
 			</div>
 		</div>
 	);
