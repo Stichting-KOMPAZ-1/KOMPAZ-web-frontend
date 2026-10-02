@@ -1,0 +1,28 @@
+.pill {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--unit-1);
+	border-radius: var(--radius-full);
+	padding: var(--unit-1) var(--unit-2);
+	font: var(--font-body-semibold-14);
+}
+
+.variant-accent {
+	background: var(--color-surface-accent);
+	color: var(--color-text-accent);
+}
+
+.variant-accent-strong {
+	background: var(--color-surface-accent-strong);
+	color: var(--color-text-on-accent-strong);
+}
+
+.variant-error {
+	background: var(--color-surface-error);
+	color: var(--color-text-error);
+}
+
+.variant-success {
+	background: var(--color-surface-success);
+	color: var(--color-text-success);
+}
