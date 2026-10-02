@@ -1,3 +1,5 @@
+@use "sass:math";
+
 // Global utility classes, used as plain strings: `className="sr-only"`.
 
 .sr-only {
@@ -7,4 +9,35 @@
 	height: 1px;
 	overflow: hidden;
 	white-space: nowrap;
+}
+
+@function px-to-rem($px) {
+	@return math.div($px, 16px) * 1rem;
+}
+
+@function to-fixed($value, $dec: 2) {
+	@return math.div(math.round($value * math.pow(10, $dec)), math.pow(10, $dec));
+}
+
+@function create-clamp(
+	$clamp-min-rem,
+	$clamp-max-rem,
+	$width-min-px: 320px,
+	$width-max-px: 1200px
+) {
+	$width-min-rem: px-to-rem($width-min-px);
+	$width-max-rem: px-to-rem($width-max-px);
+
+	$slope: math.div(
+		$clamp-max-rem - $clamp-min-rem,
+		$width-max-rem - $width-min-rem
+	);
+	$slope-vw: $slope * 100;
+	$intersection: $clamp-min-rem - $slope * $width-min-rem;
+
+	@return clamp(
+		#{$clamp-min-rem},
+		#{to-fixed($slope-vw, 4)}vw + #{to-fixed($intersection, 4)},
+		#{$clamp-max-rem}
+	);
 }

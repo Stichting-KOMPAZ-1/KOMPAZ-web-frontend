@@ -11,5 +11,5 @@ export const Route = createFileRoute("/_app/profile")({
 });
 
 function ProfilePage() {
-	return <H1 size="medium">{m.profile_title()}</H1>;
+	return <H1 size="16-18">{m.profile_title()}</H1>;
 }
