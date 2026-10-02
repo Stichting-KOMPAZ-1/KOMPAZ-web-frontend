@@ -15,7 +15,7 @@ export const Route = createFileRoute("/_app/")({
 function HomePage() {
 	return (
 		<div className={style.page}>
-			<H1 size="medium">{m.home_title()}</H1>
+			<H1 size="16-18">{m.home_title()}</H1>
 		</div>
 	);
 }

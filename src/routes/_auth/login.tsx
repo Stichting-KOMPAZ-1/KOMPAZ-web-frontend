@@ -52,7 +52,7 @@ function LoginPage() {
 		<div className={style.login}>
 			<div className={style.header}>
 				<LogoMark className={style.logo} />
-				<H1 size="large" className={style.title}>
+				<H1 size="20-24" className={style.title}>
 					{m.login_title()}
 				</H1>
 				<p className={style.description}>{m.login_subtitle()}</p>

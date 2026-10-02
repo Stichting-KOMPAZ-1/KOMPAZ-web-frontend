@@ -11,5 +11,5 @@ export const Route = createFileRoute("/_app/admin")({
 });
 
 function AdminPage() {
-	return <H1 size="medium">{m.admin_title()}</H1>;
+	return <H1 size="16-18">{m.admin_title()}</H1>;
 }
