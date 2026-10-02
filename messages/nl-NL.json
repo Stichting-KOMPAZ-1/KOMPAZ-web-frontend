@@ -9,6 +9,10 @@
 
 	"loading_message": "Bezig met laden...",
 
+	"nav_label": "Hoofdnavigatie",
+	"nav_home": "Home",
+	"nav_admin": "Beheer",
+	"nav_profile": "Profiel",
 	"nav_logout": "Uitloggen",
 
 	"home_title": "Home",
