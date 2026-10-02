@@ -1,5 +1,9 @@
+@use "/src/style/breakpoints.scss" as bp;
+
 .layout {
-	--gutter: calc((100cqi - 500px) / 2);
+	--page-inset: var(--unit-2);
+	--content-max: 1280px;
+	--gutter: max(var(--page-inset), (100cqi - var(--content-max)) / 2);
 	display: grid;
 	grid-template-rows: min-content 1fr;
 	grid-template-columns:
@@ -12,8 +16,8 @@
 	width: 100cqi;
 	min-height: 100cqb;
 
-	@media (min-width: 992px) {
-		--gutter: calc((100cqi - 1440px) / 2);
+	@include bp.desktop {
+		--page-inset: var(--unit-6);
 		grid-template-columns:
 			var(--gutter)
 			[main-start]
