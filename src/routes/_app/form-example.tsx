@@ -121,7 +121,7 @@ function FormTest() {
 
 	return (
 		<div className={style.page}>
-			<H1 size="medium">Form example</H1>
+			<H1 size="16-18">Form example</H1>
 
 			<Form
 				label="Form example"
@@ -216,7 +216,7 @@ function FormTest() {
 			)}
 			{mutation.isSuccess && <p className={style.success}>Success!</p>}
 
-			<H1 size="medium">Button variants</H1>
+			<H1 size="16-18">Button variants</H1>
 			<div className={style.buttonShowcase}>
 				<Button>
 					<Icon name="check" />

@@ -19,7 +19,7 @@ import type { RouterContext } from "lib/router";
 import style from "./not-found.module.scss";
 
 const NotFoundPage = () => (
-	<H1 size="medium" className={style.page}>
+	<H1 size="16-18" className={style.page}>
 		{m.not_found_title()}
 	</H1>
 );
