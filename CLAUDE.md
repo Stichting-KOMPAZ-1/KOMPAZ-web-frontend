@@ -15,8 +15,8 @@ You are working in a production TypeScript + React repository. Make safe, minima
 | Framework       | React 19 + TypeScript 5.9                                         |
 | Routing         | `@tanstack/react-router`                                          |
 | Data fetching   | `@hey-api/openapi-ts` SDK + `@tanstack/react-query`               |
-| API types       | Generated into `src/lib/heyapi/` from `openapi.json`              |
-| Auth            | Magic link, bearer token — `src/lib/auth.ts`                      |
+| API types       | Generated into `src/lib/heyapi/` from the backend OpenAPI spec    |
+| Auth            | Magic link, cookie session + CSRF — `src/lib/auth.ts`             |
 | Forms           | `@tanstack/react-form` via `src/lib/forms/index.tsx`              |
 | UI primitives   | `@base-ui/react`                                                  |
 | Styling         | CSS Modules + SCSS (`sass`)                                       |
