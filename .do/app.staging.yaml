@@ -1,8 +1,5 @@
 # App Platform spec for the staging frontend.
 #
-# The app already exists (created 2026-10-01); its id is the DO_APP_ID_STAGING
-# repository secret, so there is nothing to apply.
-#
 # After creation DigitalOcean holds the live spec. This file is the bootstrap and
 # the record of which variables an environment needs -- it is not kept in sync
 # automatically, so change both when one of them moves.
