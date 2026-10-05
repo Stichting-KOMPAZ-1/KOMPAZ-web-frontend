@@ -50,6 +50,14 @@ server {
         include /etc/nginx/conf.d/proxy-backend.inc;
     }
 
+    # Sanctum's CSRF cookie (VITE_API_CSRF_PATH, /sanctum/csrf-cookie), which
+    # src/lib/auth.ts asks for before it signs in. It is not under /api, so
+    # without this the SPA fallback answered it with index.html and no cookie.
+    # Its own block rather than the Nova one below: it keeps the app's headers.
+    location /sanctum/ {
+        include /etc/nginx/conf.d/proxy-backend.inc;
+    }
+
     # Nova, the admin panel, proxied onto this domain so it shares an origin with
     # the app. These are Nova's own paths: the panel at NOVA_PATH
     # (config/nova.php, default /nova), its internal API and its scripts/styles
