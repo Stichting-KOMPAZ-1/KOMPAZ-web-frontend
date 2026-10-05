@@ -91,30 +91,6 @@ run.
 Because CI owns the trigger, `deploy_on_push` is `false` on every app. Turning it
 on would let an unverified commit deploy itself.
 
-### 🔧 First-time setup
-
-Development and staging already exist, and their ids are in the repository
-secrets. These steps are for production, or for rebuilding an app.
-
-1. Create the app from its spec and note the id it prints:
-
-   ```sh
-   doctl apps create --spec .do/app.production.yaml
-   ```
-
-2. Set the repository secrets: `DIGITALOCEAN_ACCESS_TOKEN` (a write-scoped API
-   token) plus the app id above.
-
-3. Point the domain at the app. `igne.link` is on Cloudflare: add a `CNAME` from
-   the app's hostname (`kompaz.staging` for staging) to the app's
-   `*.ondigitalocean.app` default domain, **DNS only** (grey cloud) at least until
-   DigitalOcean has issued its certificate.
-
-4. Replace the `CHANGE_ME` backend values in the specs, or set them in the
-   DigitalOcean dashboard. DigitalOcean owns the live spec once an app exists, so
-   the files under [`.do/`](./.do) are the bootstrap and a record of which
-   variables an environment needs — they are not synced automatically.
-
 ### 🌐 How requests reach the backend
 
 The app sends API requests to its **own origin** (`VITE_API_BASEURL=/api`), which
