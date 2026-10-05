@@ -1,13 +1,9 @@
-# App Platform spec for the development frontend.
-#
-# Apply once to create the app:
-#   doctl apps create --spec .do/app.development.yaml
-# Then put the id it prints into the DO_APP_ID_DEVELOPMENT repository secret.
+# App Platform spec for the staging frontend.
 #
 # After creation DigitalOcean holds the live spec. This file is the bootstrap and
 # the record of which variables an environment needs -- it is not kept in sync
 # automatically, so change both when one of them moves.
-name: kompaz-web-frontend-dev
+name: kompaz-web-frontend-staging
 region: ams
 
 # CI calls `doctl apps create-deployment --wait`, so a failed build already fails
@@ -17,8 +13,10 @@ alerts:
   - rule: DEPLOYMENT_FAILED
   - rule: DOMAIN_FAILED
 
+# kompaz.staging.igne.link, following the naming policy, in front of the
+# backend's backend.kompaz.staging.igne.link (en-jf4twu).
 domains:
-  - domain: kompaz.igne.link
+  - domain: kompaz.staging.igne.link
     type: PRIMARY
 
 services:
@@ -27,17 +25,12 @@ services:
     source_dir: /
     http_port: 8080
     instance_count: 1
-    # Runtime is nginx serving static files and proxying, which needs a
-    # fraction of this. The Viqio app runs apps-s-1vcpu-1gb, but that is the
-    # professional tier at $12/month against $5 here for memory nothing uses.
+    # See the development spec: nginx needs a fraction of this.
     instance_size_slug: apps-s-1vcpu-0.5gb
 
     github:
       repo: Stichting-KOMPAZ-1/KOMPAZ-web-frontend
-      # The branch `doctl apps create-deployment` builds: it takes no branch of its
-      # own, so this has to name the branch CI deploys from. A spec change here does
-      # not reach the live app by itself (see the top of this file).
-      branch: develop
+      branch: staging
       # CI gates on build, typecheck and lint before it calls
       # `doctl apps create-deployment`, so DigitalOcean must not also deploy by
       # itself the moment a commit lands.
@@ -56,17 +49,16 @@ services:
       # client and fails on "Could not resolve ./heyapi/client.gen".
       - key: VITE_API_ORIGIN
         scope: BUILD_TIME
-        value: https://backend.kompaz.igne.link
+        value: https://backend.kompaz.staging.igne.link
 
-      # Read by nginx at container start, hence RUN_TIME. The app's own frbit.app
-      # domain 301-redirects here, so pointing at that one instead would turn
-      # every proxied call into a cross-origin redirect.
+      # Read by nginx at container start, hence RUN_TIME. The backend's real
+      # public origin, not its frbit.app default, which 301-redirects here.
       - key: BACKEND_ORIGIN
         scope: RUN_TIME
-        value: https://backend.kompaz.igne.link
+        value: https://backend.kompaz.staging.igne.link
       - key: BACKEND_HOST
         scope: RUN_TIME
-        value: backend.kompaz.igne.link
+        value: backend.kompaz.staging.igne.link
 
     health_check:
       http_path: /

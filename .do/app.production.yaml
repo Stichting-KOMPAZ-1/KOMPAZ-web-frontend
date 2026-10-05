@@ -6,7 +6,10 @@
 # BACKEND_ORIGIN to point at yet. Fill in the two values below once it is
 # deployed, then:
 #   doctl apps create --spec .do/app.production.yaml
-# Then put the id it prints into the DO_APP_ID_PRODUCTION repository secret.
+# Then put the id it prints into the DO_APP_ID_PRODUCTION repository secret, and
+# point the domain at it: igne.link is on Cloudflare, so a CNAME from the
+# hostname to the app's *.ondigitalocean.app domain, DNS only (grey cloud), so
+# DigitalOcean can issue its certificate.
 #
 # After creation DigitalOcean holds the live spec. This file is the bootstrap and
 # the record of which variables an environment needs -- it is not kept in sync
@@ -44,6 +47,14 @@ services:
       - key: VITE_API_BASEURL
         scope: BUILD_TIME
         value: /api
+
+      # The backend the API client is generated from: the build fetches
+      # {VITE_API_ORIGIN}/docs/api.json, so it is BUILD_TIME and the bundle never
+      # calls it. Without it the build asks for /docs/api.json, generates no
+      # client and fails on "Could not resolve ./heyapi/client.gen".
+      - key: VITE_API_ORIGIN
+        scope: BUILD_TIME
+        value: https://CHANGE_ME
 
       # Read by nginx at container start, hence RUN_TIME. Use the backend's real
       # public origin, not its frbit.app default, if that ends up redirecting the
