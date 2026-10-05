@@ -1,0 +1,35 @@
+@use "/src/style/breakpoints.scss" as bp;
+@use "/src/style/surface.scss" as surface;
+
+.page {
+	display: flex;
+	grid-column: main;
+	flex-direction: column;
+	gap: var(--unit-6);
+	padding-block: var(--unit-6);
+}
+
+.back {
+	align-self: flex-start;
+}
+
+.content {
+	display: flex;
+	flex-direction: column;
+	gap: var(--unit-8);
+
+	@include bp.desktop {
+		gap: var(--unit-12);
+	}
+}
+
+.intro {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: var(--unit-1);
+
+	@include bp.desktop {
+		max-width: var(--unit-120);
+	}
+}
