@@ -32,6 +32,12 @@
 .logo {
 	display: flex;
 	flex: 0 0 auto;
+	border-radius: var(--radius-8);
+
+	&:focus-visible {
+		outline: var(--border-width-1) solid var(--color-action);
+		outline-offset: 2px;
+	}
 }
 
 .logoMark {
