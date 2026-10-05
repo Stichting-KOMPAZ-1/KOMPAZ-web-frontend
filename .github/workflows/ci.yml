@@ -40,6 +40,8 @@ jobs:
       # nothing to resolve until this has run.
       - name: Build
         run: bun run build
+        env:
+          VITE_API_ORIGIN: ${{ vars.VITE_API_ORIGIN }}
 
       - name: Typecheck & lint
         run: bun run check

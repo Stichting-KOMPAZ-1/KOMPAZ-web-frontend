@@ -24,17 +24,6 @@ export type CheckboxGroupProps = Omit<
 	className?: string;
 };
 
-/**
- * Related checkboxes answering one question.
- *
- * @example
- * <CheckboxGroup
- * 	legend="Care programmes"
- * 	options={programmes}
- * 	value={selected}
- * 	onValueChange={setSelected}
- * />
- */
 export function CheckboxGroup({
 	legend,
 	hint,

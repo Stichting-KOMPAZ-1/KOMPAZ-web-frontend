@@ -1,7 +1,10 @@
-import { Link, linkOptions } from "@tanstack/react-router";
+import { useQueryClient } from "@tanstack/react-query";
+import { Link, linkOptions, useNavigate } from "@tanstack/react-router";
 import clsx from "clsx";
+import Button from "components/button/button";
 import { Select } from "components/form";
 import Icon from "components/icon/icon";
+import { authRevoke } from "lib/heyapi";
 import { useLocale } from "lib/i18n";
 import * as m from "lib/paraglide/messages";
 import type { Locale } from "lib/paraglide/runtime";
@@ -24,6 +27,8 @@ const links = linkOptions([
 
 const AppHeader = () => {
 	const locale = useLocale();
+	const navigate = useNavigate();
+	const queryClient = useQueryClient();
 
 	const languageOptions = locales
 		.toSorted((a, b) => a.localeCompare(b, locale))
@@ -34,6 +39,12 @@ const AppHeader = () => {
 					type: "language",
 				}).of(lang) ?? "",
 		}));
+
+	const handleLogout = async () => {
+		await authRevoke().catch(() => undefined);
+		queryClient.clear();
+		await navigate({ to: "/login" });
+	};
 
 	return (
 		<header>
@@ -55,6 +66,7 @@ const AppHeader = () => {
 							setLocale(value as Locale)
 						}
 					/>
+					<Button onClick={handleLogout}>{m.nav_logout()}</Button>
 				</div>
 			</div>
 		</header>

@@ -13,12 +13,6 @@ type Props = Omit<
 	renderLabel?: (isSubmitting: boolean) => React.ReactNode;
 };
 
-/**
- * A submit button that announces the form's submitting state.
- *
- * @example
- * <FormButton isSubmitting={isSubmitting}>Submit</FormButton>
- */
 function FormButton({
 	isSubmitting,
 	loadingLabel = "Saving...",

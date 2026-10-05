@@ -7,6 +7,7 @@ import {
 	EyeOff,
 	Info,
 	type LucideIcon,
+	Mail,
 	TriangleAlert,
 } from "lucide-react";
 
@@ -21,6 +22,7 @@ const icons = {
 	eye: Eye,
 	"eye-off": EyeOff,
 	info: Info,
+	mail: Mail,
 	"triangle-alert": TriangleAlert,
 } satisfies Record<string, LucideIcon>;
 
@@ -28,19 +30,10 @@ export type IconName = keyof typeof icons;
 
 export type IconProps = {
 	name: IconName;
-	/** The design's px sizes. */
 	size?: 14 | 16 | 20;
 	className?: string;
 };
 
-/**
- * A decorative icon, hidden from assistive technology.
- *
- * @example
- * <Button type="button" aria-label={m.home_title()}>
- * 	<Icon name="info" />
- * </Button>
- */
 const Icon = ({ name, size = 16, className }: IconProps) => {
 	const LucideGlyph = icons[name];
 
