@@ -36,7 +36,7 @@ export type IconName = keyof typeof icons;
 
 export type IconProps = {
 	name: IconName;
-	size?: 14 | 16 | 20;
+	size?: 14 | 16 | 20 | 24;
 	className?: string;
 };
 
