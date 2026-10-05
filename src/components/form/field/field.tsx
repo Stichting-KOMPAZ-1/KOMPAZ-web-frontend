@@ -9,27 +9,10 @@ type Styled<TProps> = Omit<TProps, "className"> & {
 	className?: string;
 };
 
-/**
- * Groups one control with its label, hint and error, and wires the `id`,
- * `aria-describedby` and `aria-invalid` between them.
- *
- * @example
- * <Field invalid={error !== undefined} touched={meta.isTouched}>
- * 	<FieldLabel>Email address</FieldLabel>
- * 	<Input name="email" type="email" />
- * 	<FieldError match={error !== undefined}>{error}</FieldError>
- * </Field>
- */
 export function Field({ className, ...props }: Styled<BaseField.Root.Props>) {
 	return <BaseField.Root {...props} className={clsx(style.root, className)} />;
 }
 
-/**
- * The visible "optional" label.
- *
- * @example
- * <FieldLabel>Phone<FieldOptional /></FieldLabel>
- */
 export function FieldOptional() {
 	return <span className={style.optional}>&nbsp;({m.forms_optional()})</span>;
 }
@@ -57,12 +40,6 @@ export function FieldHint({
 	);
 }
 
-/**
- * The control's error message. `match` decides whether it shows.
- *
- * @example
- * <FieldError match={error !== undefined}>{error}</FieldError>
- */
 export function FieldError({
 	className,
 	children,

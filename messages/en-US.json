@@ -9,7 +9,19 @@
 
 	"loading_message": "Loading...",
 
+	"nav_logout": "Log out",
+
 	"home_title": "Home",
+
+	"login_title": "Log in to the ZelfZorg platform",
+	"login_subtitle": "Enter your email address to receive a login link.",
+	"login_form_label": "Log in",
+	"login_email": "Email address",
+	"login_email_placeholder": "name@organisation.nl",
+	"login_submit": "Email me a login link",
+	"login_submitting": "Sending...",
+	"login_sent_body": "Check your mailbox! If {email} is in our system, an email with a login link is on its way to it.",
+	"login_link_invalid_body": "This login link has expired. Enter your email address to request a new one.",
 
 	"error_unknown": "Unknown error.",
 

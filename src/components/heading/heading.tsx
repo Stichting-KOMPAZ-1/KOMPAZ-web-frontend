@@ -8,12 +8,6 @@ type TextProps = React.ComponentPropsWithoutRef<"h1"> & {
 	size: "small" | "medium" | "large";
 };
 
-/**
- * A heading, or short text styled like one.
- *
- * @example
- * <Heading el="h2" size="large">Care programmes</Heading>
- */
 export const Heading = ({
 	el = "p",
 	size,
@@ -32,12 +26,6 @@ export const Heading = ({
 
 type HeadingProps = Omit<TextProps, "el">;
 
-/**
- * `Heading` with the element fixed, named after the tag.
- *
- * @example
- * <H2 size="large">Care programmes</H2>
- */
 export const H1 = (props: HeadingProps) => <Heading el="h1" {...props} />;
 export const H2 = (props: HeadingProps) => <Heading el="h2" {...props} />;
 export const H3 = (props: HeadingProps) => <Heading el="h3" {...props} />;
