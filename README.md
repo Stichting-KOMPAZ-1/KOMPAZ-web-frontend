@@ -93,16 +93,17 @@ on would let an unverified commit deploy itself.
 
 ### 🔧 First-time setup
 
-1. Create each app from its spec and note the id it prints:
+Development and staging already exist, and their ids are in the repository
+secrets. These steps are for production, or for rebuilding an app.
+
+1. Create the app from its spec and note the id it prints:
 
    ```sh
-   doctl apps create --spec .do/app.development.yaml
-   doctl apps create --spec .do/app.staging.yaml
    doctl apps create --spec .do/app.production.yaml
    ```
 
 2. Set the repository secrets: `DIGITALOCEAN_ACCESS_TOKEN` (a write-scoped API
-   token) plus the three app ids above.
+   token) plus the app id above.
 
 3. Point the domain at the app. `igne.link` is on Cloudflare: add a `CNAME` from
    the app's hostname (`kompaz.staging` for staging) to the app's
@@ -124,11 +125,15 @@ reverse-proxies `/api` to the backend, using two runtime variables.
 | Variable           | Scope      | Example                 |
 | ------------------ | ---------- | ----------------------- |
 | `VITE_API_BASEURL` | build time | `/api`                  |
+| `VITE_API_ORIGIN`  | build time | `https://kompaz.frb.io` |
 | `BACKEND_ORIGIN`   | runtime    | `https://kompaz.frb.io` |
 | `BACKEND_HOST`     | runtime    | `kompaz.frb.io`         |
 
 `VITE_API_BASEURL` is inlined into the bundle by Vite and so must be a build-time
-variable. The other two are read by nginx when the container starts, which is why
+variable. `VITE_API_ORIGIN` is build-time too, for another reason: the build
+generates the API client from `{VITE_API_ORIGIN}/docs/api.json`, so every app
+needs it set to its own backend or its build fails. The bundle never calls it.
+The other two are read by nginx when the container starts, which is why
 one image can serve either environment. Both are required — the container refuses
 to start without them rather than failing later on an nginx syntax error.
 

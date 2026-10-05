@@ -1,8 +1,7 @@
 # App Platform spec for the staging frontend.
 #
-# Apply once to create the app:
-#   doctl apps create --spec .do/app.staging.yaml
-# Then put the id it prints into the DO_APP_ID_STAGING repository secret.
+# The app already exists (created 2026-10-01); its id is the DO_APP_ID_STAGING
+# repository secret, so there is nothing to apply.
 #
 # After creation DigitalOcean holds the live spec. This file is the bootstrap and
 # the record of which variables an environment needs -- it is not kept in sync
@@ -46,6 +45,14 @@ services:
       - key: VITE_API_BASEURL
         scope: BUILD_TIME
         value: /api
+
+      # The backend the API client is generated from: the build fetches
+      # {VITE_API_ORIGIN}/docs/api.json, so it is BUILD_TIME and the bundle never
+      # calls it. Without it the build asks for /docs/api.json, generates no
+      # client and fails on "Could not resolve ./heyapi/client.gen".
+      - key: VITE_API_ORIGIN
+        scope: BUILD_TIME
+        value: https://backend.kompaz.staging.igne.link
 
       # Read by nginx at container start, hence RUN_TIME. The backend's real
       # public origin, not its frbit.app default, which 301-redirects here.

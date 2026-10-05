@@ -50,6 +50,14 @@ services:
         scope: BUILD_TIME
         value: /api
 
+      # The backend the API client is generated from: the build fetches
+      # {VITE_API_ORIGIN}/docs/api.json, so it is BUILD_TIME and the bundle never
+      # calls it. Without it the build asks for /docs/api.json, generates no
+      # client and fails on "Could not resolve ./heyapi/client.gen".
+      - key: VITE_API_ORIGIN
+        scope: BUILD_TIME
+        value: https://backend.kompaz.igne.link
+
       # Read by nginx at container start, hence RUN_TIME. The app's own frbit.app
       # domain 301-redirects here, so pointing at that one instead would turn
       # every proxied call into a cross-origin redirect.
