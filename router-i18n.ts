@@ -43,6 +43,14 @@ export const translatedPathnames = createTranslatedPathnames({
 		"en-US": "/login",
 		"nl-NL": "/inloggen",
 	},
+	"/admin": {
+		"en-US": "/admin",
+		"nl-NL": "/beheer",
+	},
+	"/profile": {
+		"en-US": "/profile",
+		"nl-NL": "/profiel",
+	},
 	"/form-example": {
 		"en-US": "/form-example",
 		"nl-NL": "/formulier-voorbeeld",
