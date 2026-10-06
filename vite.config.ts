@@ -21,7 +21,7 @@ export default defineConfig(({ mode }) => {
 			paraglideVitePlugin({
 				project: "./project.inlang",
 				outdir: "./src/lib/paraglide",
-				strategy: ["url", "localStorage", "baseLocale"],
+				strategy: ["localStorage", "baseLocale"],
 				emitTsDeclarations: true,
 				urlPatterns: translatedPathnames,
 				localStorageKey: `${name}-lang`,
