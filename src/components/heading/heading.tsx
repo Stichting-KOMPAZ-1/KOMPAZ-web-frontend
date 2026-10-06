@@ -5,7 +5,7 @@ import style from "./heading.module.scss";
 
 type TextProps = React.ComponentPropsWithoutRef<"h1"> & {
 	el?: "p" | "span" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
-	size: "14-16" | "16-18" | "20-24" | "24-32" | "32-40" | "40-56";
+	size: "16-18" | "18-20" | "20-24" | "24-32";
 };
 
 export const Heading = ({

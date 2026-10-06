@@ -1,4 +1,5 @@
 @use "sass:math";
+@use "/src/style/breakpoints.scss" as bp;
 
 // Global utility classes, used as plain strings: `className="sr-only"`.
 
@@ -22,8 +23,8 @@
 @function create-clamp(
 	$clamp-min-rem,
 	$clamp-max-rem,
-	$width-min-px: 320px,
-	$width-max-px: 1200px
+	$width-min-px: bp.$mobile,
+	$width-max-px: bp.$desktop
 ) {
 	$width-min-rem: px-to-rem($width-min-px);
 	$width-max-rem: px-to-rem($width-max-px);
