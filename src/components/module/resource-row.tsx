@@ -9,6 +9,7 @@ type Props = {
 	href?: string;
 	to?: LinkComponentProps["to"];
 	params?: LinkComponentProps["params"];
+	search?: LinkComponentProps["search"];
 	highlight?: boolean;
 };
 
@@ -18,6 +19,7 @@ const ResourceRow = ({
 	href,
 	to,
 	params,
+	search,
 	highlight = false,
 }: Props) => (
 	<li className={style.row}>
@@ -25,7 +27,7 @@ const ResourceRow = ({
 			<Icon name={icon} size={24} />
 		</span>
 		{to ? (
-			<Link className={style.link} to={to} params={params}>
+			<Link className={style.link} to={to} params={params} search={search}>
 				{title}
 				<Icon name="arrow-right" />
 			</Link>

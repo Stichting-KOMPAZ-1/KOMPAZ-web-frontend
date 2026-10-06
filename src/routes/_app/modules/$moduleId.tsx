@@ -59,8 +59,9 @@ function ModulePage() {
 								key={eLearning.id}
 								icon="graduation-cap"
 								title={eLearning.name}
-								to="/modules/$moduleId/e-learnings/$eLearningId"
-								params={{ moduleId, eLearningId: eLearning.id }}
+								to="/e-learnings/$eLearningId"
+								params={{ eLearningId: eLearning.id }}
+								search={{ module: moduleId }}
 								highlight
 							/>
 						)}
