@@ -5,7 +5,7 @@
 .address {
 	display: grid;
 	grid-template-columns: 2fr 1fr 1fr;
-	gap: var(--unit-4);
+	gap: var(--unit-16);
 }
 
 .addressError {
@@ -13,7 +13,7 @@
 }
 
 .devMessage {
-	margin: var(--unit-4) 0;
+	margin: var(--unit-16) 0;
 	color: grey;
 
 	.code {
@@ -23,7 +23,7 @@
 }
 
 .success {
-	margin: var(--unit-4) 0;
+	margin: var(--unit-16) 0;
 	background-color: chartreuse;
 	color: green;
 	font-weight: 700;
@@ -34,12 +34,12 @@
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
-	gap: var(--unit-4);
+	gap: var(--unit-16);
 }
 
 .pillShowcase {
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
-	gap: var(--unit-4);
+	gap: var(--unit-16);
 }

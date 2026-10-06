@@ -2,7 +2,7 @@
 	display: flex;
 	flex: 1;
 	flex-direction: column;
-	gap: var(--unit-1);
+	gap: var(--unit-4);
 	width: 100%;
 }
 
@@ -27,7 +27,7 @@
 .error {
 	display: flex;
 	align-items: center;
-	gap: var(--unit-1);
+	gap: var(--unit-4);
 	color: var(--color-text-error);
 	font: var(--font-body-regular-12-14);
 

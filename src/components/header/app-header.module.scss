@@ -20,12 +20,12 @@
 	display: flex;
 	grid-column: 1 / -1;
 	align-items: center;
-	gap: var(--unit-8);
-	padding-inline: var(--unit-3);
-	min-height: var(--unit-16);
+	gap: var(--unit-32);
+	padding-inline: var(--unit-12);
+	min-height: var(--unit-64);
 
 	@include bp.desktop {
-		padding-inline: var(--unit-6);
+		padding-inline: var(--unit-24);
 	}
 }
 
@@ -41,10 +41,10 @@
 }
 
 .logoMark {
-	width: var(--unit-8);
+	width: var(--unit-32);
 
 	@include bp.desktop {
-		width: var(--unit-10);
+		width: var(--unit-40);
 	}
 }
 
@@ -59,9 +59,9 @@
 .account {
 	display: flex;
 	align-items: center;
-	gap: var(--unit-3);
+	gap: var(--unit-12);
 
 	@include bp.desktop {
-		gap: var(--unit-6);
+		gap: var(--unit-24);
 	}
 }

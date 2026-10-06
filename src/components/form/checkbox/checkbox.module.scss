@@ -3,7 +3,7 @@
 .option {
 	display: flex;
 	align-items: center;
-	gap: var(--unit-3);
+	gap: var(--unit-12);
 	cursor: pointer;
 	font: var(--font-body-regular-12-14);
 }
@@ -17,8 +17,8 @@
 	border: var(--border-width-1) solid var(--color-border);
 	border-radius: var(--radius-4);
 	background: var(--color-white);
-	width: var(--unit-8);
-	height: var(--unit-8);
+	width: var(--unit-32);
+	height: var(--unit-32);
 
 	@media not (prefers-reduced-motion) {
 		transition:
@@ -50,7 +50,7 @@
 .group {
 	display: flex;
 	flex-direction: column;
-	gap: var(--unit-3);
+	gap: var(--unit-12);
 }
 
 .legend {

@@ -7,7 +7,7 @@
 	position: relative;
 	flex: 1;
 	align-items: center;
-	min-height: var(--unit-10);
+	min-height: var(--unit-40);
 	min-width: 0;
 	width: 100%;
 
@@ -27,8 +27,8 @@
 	outline: none;
 	border: none;
 	background: none;
-	padding: 0 var(--unit-3);
-	padding-right: calc(var(--unit-3) + var(--unit-4) + var(--unit-2));
+	padding: 0 var(--unit-12);
+	padding-right: calc(var(--unit-12) + var(--unit-16) + var(--unit-8));
 	min-width: 0;
 	color: inherit;
 	font: var(--font-body-regular-12-14);
@@ -37,7 +37,7 @@
 .chevron {
 	display: inline-flex;
 	position: absolute;
-	right: var(--unit-3);
+	right: var(--unit-12);
 	pointer-events: none;
 	color: inherit;
 }
