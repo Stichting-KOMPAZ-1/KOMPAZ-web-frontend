@@ -1,10 +1,10 @@
-import { useQuery } from "@tanstack/react-query";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import ButtonLink from "components/button/button-link";
 import { Heading } from "components/heading/heading";
 import Icon from "components/icon/icon";
-import LoadingIndicator from "components/loading-indicator/loading-indicator";
-import SystemMessage from "components/system-message/system-message";
+import PageError from "components/page/page-error";
+import PageLoading from "components/page/page-loading";
 import { eLearningShowOptions } from "lib/heyapi/@tanstack/react-query.gen";
 import * as m from "lib/paraglide/messages";
 import { makePageTitle } from "lib/title";
@@ -21,39 +21,16 @@ export const Route = createFileRoute(
 	head: ({ loaderData }) => ({
 		meta: [{ title: makePageTitle(loaderData?.name ?? "") }],
 	}),
-	errorComponent: () => (
-		<div className={style.page}>
-			<SystemMessage variant="error">{m.elearning_load_error()}</SystemMessage>
-		</div>
-	),
+	errorComponent: () => <PageError>{m.elearning_load_error()}</PageError>,
+	pendingComponent: PageLoading,
 	component: ELearningPage,
 });
 
 function ELearningPage() {
 	const { moduleId, eLearningId } = Route.useParams();
-	const {
-		data: eLearning,
-		isPending,
-		isError,
-	} = useQuery(eLearningShowOptions({ path: { eLearning: eLearningId } }));
-
-	if (isPending) {
-		return (
-			<div className={style.page}>
-				<LoadingIndicator />
-			</div>
-		);
-	}
-
-	if (isError) {
-		return (
-			<div className={style.page}>
-				<SystemMessage variant="error">
-					{m.elearning_load_error()}
-				</SystemMessage>
-			</div>
-		);
-	}
+	const { data: eLearning } = useSuspenseQuery(
+		eLearningShowOptions({ path: { eLearning: eLearningId } }),
+	);
 
 	return (
 		<div className={style.page}>

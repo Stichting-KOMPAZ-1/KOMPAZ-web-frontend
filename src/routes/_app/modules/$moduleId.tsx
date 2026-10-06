@@ -1,13 +1,13 @@
-import { useQuery } from "@tanstack/react-query";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import ButtonLink from "components/button/button-link";
 import { Heading } from "components/heading/heading";
 import Icon from "components/icon/icon";
-import LoadingIndicator from "components/loading-indicator/loading-indicator";
 import ResourceRow from "components/module/resource-row";
 import ResourceSection from "components/module/resource-section";
+import PageError from "components/page/page-error";
+import PageLoading from "components/page/page-loading";
 import Pill from "components/pill/pill";
-import SystemMessage from "components/system-message/system-message";
 import { moduleShowOptions } from "lib/heyapi/@tanstack/react-query.gen";
 import * as m from "lib/paraglide/messages";
 import { makePageTitle } from "lib/title";
@@ -22,37 +22,16 @@ export const Route = createFileRoute("/_app/modules/$moduleId")({
 	head: ({ loaderData }) => ({
 		meta: [{ title: makePageTitle(loaderData?.name ?? "") }],
 	}),
-	errorComponent: () => (
-		<div className={style.page}>
-			<SystemMessage variant="error">{m.module_load_error()}</SystemMessage>
-		</div>
-	),
+	errorComponent: () => <PageError>{m.module_load_error()}</PageError>,
+	pendingComponent: PageLoading,
 	component: ModulePage,
 });
 
 function ModulePage() {
 	const { moduleId } = Route.useParams();
-	const {
-		data: module,
-		isPending,
-		isError,
-	} = useQuery(moduleShowOptions({ path: { module: moduleId } }));
-
-	if (isPending) {
-		return (
-			<div className={style.page}>
-				<LoadingIndicator />
-			</div>
-		);
-	}
-
-	if (isError) {
-		return (
-			<div className={style.page}>
-				<SystemMessage variant="error">{m.module_load_error()}</SystemMessage>
-			</div>
-		);
-	}
+	const { data: module } = useSuspenseQuery(
+		moduleShowOptions({ path: { module: moduleId } }),
+	);
 
 	return (
 		<div className={style.page}>
