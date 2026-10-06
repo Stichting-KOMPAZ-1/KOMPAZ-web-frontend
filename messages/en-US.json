@@ -39,7 +39,11 @@
 	"login_submit": "Email me a login link",
 	"login_submitting": "Sending...",
 	"login_sent_body": "Check your mailbox! If {email} is in our system, an email with a login link is on its way to it.",
-	"login_link_invalid_body": "This login link has expired. Enter your email address to request a new one.",
+	"login_link_title": "Continue to the ZelfZorg platform",
+	"login_link_subtitle": "Press the button to log in. Your link works once, and is only used when you press the button.",
+	"login_link_submit": "Continue to the platform",
+	"login_link_submitting": "Logging in...",
+	"login_link_invalid_body": "This login link is no longer valid. Enter your email address to request a new one.",
 
 	"error_unknown": "Unknown error.",
 

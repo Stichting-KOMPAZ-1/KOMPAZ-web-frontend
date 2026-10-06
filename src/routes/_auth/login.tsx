@@ -1,12 +1,17 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import LogoMark from "assets/icons/logo-mark.svg?react";
+import Button from "components/button/button";
 import { H1 } from "components/heading/heading";
 import { LoginForm } from "components/login/login-form";
 import { problemDetail } from "lib/api/error-helpers";
-import { authRedeem } from "lib/heyapi";
-import { authMeOptions } from "lib/heyapi/@tanstack/react-query.gen";
+import {
+	authMeOptions,
+	authRedeemMutation,
+} from "lib/heyapi/@tanstack/react-query.gen";
 import * as m from "lib/paraglide/messages";
 import { makePageTitle } from "lib/title";
+import { useEffect, useState } from "react";
 import z from "zod";
 
 import style from "./login.module.scss";
@@ -22,22 +27,15 @@ export const Route = createFileRoute("/_auth/login")({
 		meta: [{ title: makePageTitle(m.login_title()) }],
 	}),
 	beforeLoad: async ({ context, search }) => {
-		if (!search.token) {
-			try {
-				await context.queryClient.ensureQueryData({
-					...authMeOptions(),
-					retry: false,
-				});
-			} catch {
-				return { linkError: undefined };
-			}
-			throw redirect({ to: search.redirect ?? "/" });
-		}
+		if (search.token) return;
 
-		const { data, error } = await authRedeem({ body: { token: search.token } });
-
-		if (!data) {
-			return { linkError: problemDetail(error) ?? m.login_link_invalid_body() };
+		try {
+			await context.queryClient.ensureQueryData({
+				...authMeOptions(),
+				retry: false,
+			});
+		} catch {
+			return;
 		}
 
 		throw redirect({ to: search.redirect ?? "/" });
@@ -46,19 +44,61 @@ export const Route = createFileRoute("/_auth/login")({
 });
 
 function LoginPage() {
-	const { linkError } = Route.useRouteContext();
+	const search = Route.useSearch();
+	const navigate = Route.useNavigate();
+	const queryClient = useQueryClient();
+	const [token] = useState(search.token);
+
+	const redeem = useMutation({
+		...authRedeemMutation(),
+		gcTime: 0,
+		onSuccess: async () => {
+			queryClient.clear();
+			await navigate({ to: search.redirect ?? "/" });
+		},
+	});
+
+	useEffect(() => {
+		if (search.token === undefined) return;
+		void navigate({
+			search: (previous) => ({ ...previous, token: undefined }),
+			replace: true,
+		});
+	}, [search.token, navigate]);
+
+	const isLinkPending = token !== undefined && !redeem.isError;
 
 	return (
 		<div className={style.login}>
 			<div className={style.header}>
 				<LogoMark className={style.logo} />
 				<H1 size="20-24" className={style.title}>
-					{m.login_title()}
+					{isLinkPending ? m.login_link_title() : m.login_title()}
 				</H1>
-				<p className={style.description}>{m.login_subtitle()}</p>
+				<p className={style.description}>
+					{isLinkPending ? m.login_link_subtitle() : m.login_subtitle()}
+				</p>
 			</div>
 
-			<LoginForm error={linkError} />
+			{isLinkPending ? (
+				<Button
+					size="large"
+					className={style.redeem}
+					disabled={redeem.isPending}
+					focusableWhenDisabled
+					onClick={() => redeem.mutate({ body: { token } })}
+				>
+					{redeem.isPending ? m.login_link_submitting() : m.login_link_submit()}
+				</Button>
+			) : (
+				<LoginForm
+					error={
+						redeem.isError
+							? (problemDetail(redeem.error) ?? m.login_link_invalid_body())
+							: undefined
+					}
+				/>
+			)}
 		</div>
 	);
 }

@@ -39,7 +39,11 @@
 	"login_submit": "E-mail mij een login-link",
 	"login_submitting": "Bezig met versturen...",
 	"login_sent_body": "Controleer je mailbox! Als het opgegeven e-mailadres {email} in ons systeem staat, ontvang je daar e-mail met een inloglink.",
-	"login_link_invalid_body": "Deze login-link is verlopen. Vul je e-mailadres in om een nieuwe aan te vragen.",
+	"login_link_title": "Doorgaan naar het ZelfZorg platform",
+	"login_link_subtitle": "Klik op de knop om in te loggen. Je link werkt één keer en wordt pas gebruikt als je op de knop klikt.",
+	"login_link_submit": "Doorgaan naar het platform",
+	"login_link_submitting": "Bezig met inloggen...",
+	"login_link_invalid_body": "Deze login-link is niet meer geldig. Vul je e-mailadres in om een nieuwe aan te vragen.",
 
 	"error_unknown": "Onbekende fout.",
 
