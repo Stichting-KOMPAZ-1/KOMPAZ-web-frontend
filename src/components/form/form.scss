@@ -17,7 +17,7 @@
 
 @mixin control-box {
 	border: var(--border-width-1) solid var(--color-text-muted);
-	border-radius: var(--radius-10);
+	border-radius: var(--radius-12);
 	background: var(--color-white);
 
 	@media not (prefers-reduced-motion) {
