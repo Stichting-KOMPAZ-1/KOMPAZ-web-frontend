@@ -1,7 +1,7 @@
 // Shared mixins
 
 @mixin card {
-	border-radius: var(--radius-14);
+	border-radius: var(--radius-12);
 	box-shadow: var(--shadow-kompaz);
 	background: var(--color-surface-page);
 	padding: var(--unit-6);
