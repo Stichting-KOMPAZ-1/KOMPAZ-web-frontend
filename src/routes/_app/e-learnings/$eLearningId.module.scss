@@ -4,8 +4,8 @@
 	display: flex;
 	grid-column: main;
 	flex-direction: column;
-	gap: var(--unit-6);
-	padding-block: var(--unit-6);
+	gap: var(--unit-24);
+	padding-block: var(--unit-24);
 }
 
 .back {
@@ -15,10 +15,10 @@
 .content {
 	display: flex;
 	flex-direction: column;
-	gap: var(--unit-8);
+	gap: var(--unit-32);
 
 	@include bp.desktop {
-		gap: var(--unit-12);
+		gap: var(--unit-48);
 	}
 }
 

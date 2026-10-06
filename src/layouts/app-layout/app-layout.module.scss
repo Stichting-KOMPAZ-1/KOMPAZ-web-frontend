@@ -1,7 +1,7 @@
 @use "/src/style/breakpoints.scss" as bp;
 
 .layout {
-	--page-inset: var(--unit-2);
+	--page-inset: var(--unit-8);
 	--content-max: 1280px;
 	--gutter: max(var(--page-inset), (100cqi - var(--content-max)) / 2);
 	display: grid;
@@ -12,12 +12,12 @@
 		repeat(4, 1fr)
 		[main-end]
 		var(--gutter);
-	gap: var(--unit-4);
+	gap: var(--unit-16);
 	width: 100cqi;
 	min-height: 100cqb;
 
 	@include bp.desktop {
-		--page-inset: var(--unit-6);
+		--page-inset: var(--unit-24);
 		grid-template-columns:
 			var(--gutter)
 			[main-start]

@@ -6,9 +6,9 @@
 	display: flex;
 	flex: 1;
 	align-items: center;
-	gap: var(--unit-2);
-	padding: 0 var(--unit-3);
-	min-height: var(--unit-10);
+	gap: var(--unit-8);
+	padding: 0 var(--unit-12);
+	min-height: var(--unit-40);
 	width: 100%;
 
 	&:has(input[aria-invalid="true"]) {

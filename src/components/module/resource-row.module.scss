@@ -6,13 +6,13 @@
 
 	display: flex;
 	align-items: center;
-	gap: var(--unit-3);
+	gap: var(--unit-12);
 	border: var(--border-width-1) solid var(--color-border-muted);
 	border-radius: var(--radius-12);
-	padding: var(--unit-3);
+	padding: var(--unit-12);
 
 	@include bp.desktop {
-		padding: var(--unit-6);
+		padding: var(--unit-24);
 	}
 }
 
@@ -21,7 +21,7 @@
 	flex: 0 0 auto;
 	border-radius: var(--radius-12);
 	background: var(--color-surface-accent);
-	padding: var(--unit-3);
+	padding: var(--unit-12);
 	color: var(--color-surface-accent-strong);
 }
 
@@ -35,7 +35,7 @@
 .link {
 	display: flex;
 	align-items: center;
-	gap: var(--unit-2);
+	gap: var(--unit-8);
 	color: var(--color-action-soft);
 	font: var(--font-body-regular-14-16);
 	text-decoration: none;
