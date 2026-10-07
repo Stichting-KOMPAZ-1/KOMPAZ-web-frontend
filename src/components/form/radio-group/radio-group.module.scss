@@ -17,6 +17,9 @@
 	gap: var(--unit-12);
 	cursor: pointer;
 	font: var(--font-body-regular-12-14);
+	&:has([data-disabled]) {
+		@include form.choice-label-disabled;
+	}
 }
 
 .radio {
@@ -37,6 +40,7 @@
 
 	&[data-checked] {
 		border-color: var(--color-action);
+		color: var(--color-action);
 	}
 
 	&:focus-visible {
@@ -44,14 +48,19 @@
 	}
 
 	&[data-disabled] {
-		@include form.disabled;
+		@include form.choice-disabled;
+	}
+
+	&[data-checked][data-disabled] {
+		border-color: var(--color-action-disabled);
+		color: var(--color-action-disabled);
 	}
 }
 
 .indicator {
 	display: inline-flex;
 	border-radius: var(--radius-full);
-	background: var(--color-action);
 	width: var(--unit-16);
 	height: var(--unit-16);
+	background: currentcolor;
 }

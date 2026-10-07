@@ -3,11 +3,6 @@
 // .selector { @include form.control-box; }
 @use "/src/style/focus.scss" as focus;
 
-@mixin disabled {
-	opacity: 0.5;
-	cursor: not-allowed;
-}
-
 @mixin invalid {
 	border-color: var(--color-text-error);
 	color: var(--color-text-error);
@@ -46,4 +41,15 @@
 	::placeholder {
 		color: var(--color-text-disabled);
 	}
+}
+
+@mixin choice-disabled {
+	border-color: var(--color-border-disabled);
+	background: var(--color-surface-disabled);
+	cursor: not-allowed;
+}
+
+@mixin choice-label-disabled {
+	color: var(--color-text-disabled);
+	cursor: not-allowed;
 }
