@@ -45,8 +45,4 @@
 	&:focus-visible {
 		@include focus.ring;
 	}
-
-	&:disabled {
-		@include form.disabled;
-	}
 }
