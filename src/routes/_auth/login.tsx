@@ -11,7 +11,6 @@ import {
 } from "lib/heyapi/@tanstack/react-query.gen";
 import * as m from "lib/paraglide/messages";
 import { makePageTitle } from "lib/title";
-import { useEffect, useState } from "react";
 import z from "zod";
 
 import style from "./login.module.scss";
@@ -47,24 +46,19 @@ function LoginPage() {
 	const search = Route.useSearch();
 	const navigate = Route.useNavigate();
 	const queryClient = useQueryClient();
-	const [token] = useState(search.token);
+	const token = search.token;
 
 	const redeem = useMutation({
 		...authRedeemMutation(),
 		gcTime: 0,
 		onSuccess: async () => {
 			queryClient.clear();
-			await navigate({ to: search.redirect ?? "/" });
+			await navigate({
+				search: (previous) => ({ ...previous, token: undefined }),
+				replace: true,
+			});
 		},
 	});
-
-	useEffect(() => {
-		if (search.token === undefined) return;
-		void navigate({
-			search: (previous) => ({ ...previous, token: undefined }),
-			replace: true,
-		});
-	}, [search.token, navigate]);
 
 	const isLinkPending = token !== undefined && !redeem.isError;
 
@@ -84,11 +78,13 @@ function LoginPage() {
 				<Button
 					size="large"
 					className={style.redeem}
-					disabled={redeem.isPending}
+					disabled={redeem.isPending || redeem.isSuccess}
 					focusableWhenDisabled
 					onClick={() => redeem.mutate({ body: { token } })}
 				>
-					{redeem.isPending ? m.login_link_submitting() : m.login_link_submit()}
+					{redeem.isPending || redeem.isSuccess
+						? m.login_link_submitting()
+						: m.login_link_submit()}
 				</Button>
 			) : (
 				<LoginForm
