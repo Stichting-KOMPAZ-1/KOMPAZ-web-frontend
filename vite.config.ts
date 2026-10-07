@@ -10,7 +10,13 @@ import svgr from "vite-plugin-svgr";
 import viteTsConfigPaths from "vite-tsconfig-paths";
 
 import { name } from "./package.json";
+import { baseLocale } from "./project.inlang/settings.json";
 import { translatedPathnames } from "./router-i18n";
+
+const documentLocale = () => ({
+	name: "document-locale",
+	transformIndexHtml: (html: string) => html.replaceAll("%LOCALE%", baseLocale),
+});
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
@@ -18,10 +24,11 @@ export default defineConfig(({ mode }) => {
 
 	return {
 		plugins: [
+			documentLocale(),
 			paraglideVitePlugin({
 				project: "./project.inlang",
 				outdir: "./src/lib/paraglide",
-				strategy: ["url", "localStorage", "baseLocale"],
+				strategy: ["localStorage", "baseLocale"],
 				emitTsDeclarations: true,
 				urlPatterns: translatedPathnames,
 				localStorageKey: `${name}-lang`,
