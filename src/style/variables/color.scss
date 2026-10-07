@@ -29,6 +29,11 @@
 	--color-text-success: var(--seed-success);
 	--color-text-warning: var(--seed-warning);
 	--color-text-on-fill: var(--color-white);
+	--color-text-on-accent-strong: color-mix(
+		in oklch shorter hue,
+		var(--seed-secondary),
+		white 90%
+	);
 
 	--color-surface-page: var(--color-white);
 	--color-surface-page-soft: color-mix(
@@ -56,6 +61,7 @@
 		var(--seed-success),
 		white 90%
 	);
+	--color-surface-accent-strong: var(--seed-secondary);
 	--color-surface-warning: color-mix(
 		in oklch shorter hue,
 		var(--seed-warning),
@@ -84,5 +90,10 @@
 		in oklch shorter hue,
 		var(--seed-primary),
 		white 80%
+	);
+	--color-border-muted: color-mix(
+		in oklch shorter hue,
+		var(--seed-secondary),
+		white 92%
 	);
 }

@@ -19,6 +19,18 @@
 	"admin_title": "Administration",
 	"profile_title": "Profile",
 
+	"module_back_to_library": "Back to library",
+	"module_elearnings_title": "E-learnings",
+	"module_videos_title": "Videos",
+	"module_links_title": "Extra links",
+	"module_load_error": "This module could not be loaded.",
+
+	"elearning_back_to_module": "Back to module",
+	"elearning_chapters_title": "Chapters",
+	"elearning_chapters_empty": "This e-learning has no chapters yet.",
+	"elearning_chapter_summary": "Summary",
+	"elearning_load_error": "This e-learning could not be loaded.",
+
 	"login_title": "Log in to the ZelfZorg platform",
 	"login_subtitle": "Enter your email address to receive a login link.",
 	"login_form_label": "Log in",

@@ -19,6 +19,18 @@
 	"admin_title": "Beheer",
 	"profile_title": "Profiel",
 
+	"module_back_to_library": "Terug naar bibliotheek",
+	"module_elearnings_title": "E-learnings",
+	"module_videos_title": "Video's",
+	"module_links_title": "Extra links",
+	"module_load_error": "Deze module kon niet worden geladen.",
+
+	"elearning_back_to_module": "Terug naar module",
+	"elearning_chapters_title": "Hoofdstukken",
+	"elearning_chapters_empty": "Deze e-learning heeft nog geen hoofdstukken.",
+	"elearning_chapter_summary": "Samenvatting",
+	"elearning_load_error": "Deze e-learning kon niet worden geladen.",
+
 	"login_title": "Login op het ZelfZorg platform",
 	"login_subtitle": "Vul je e-mailadres in om een login-link te ontvangen.",
 	"login_form_label": "Inloggen",

@@ -7,6 +7,7 @@ import { ErrorText } from "components/error-text/error-text";
 import { Form, FormButton, SubmitError } from "components/form";
 import { H1 } from "components/heading/heading";
 import Icon from "components/icon/icon";
+import Pill from "components/pill/pill";
 import { submitHandler, useAppForm, useIsSubmitting } from "lib/forms";
 import {
 	getFieldErrors,
@@ -121,7 +122,7 @@ function FormTest() {
 
 	return (
 		<div className={style.page}>
-			<H1 size="medium">Form example</H1>
+			<H1 size="16-18">Form example</H1>
 
 			<Form
 				label="Form example"
@@ -216,7 +217,7 @@ function FormTest() {
 			)}
 			{mutation.isSuccess && <p className={style.success}>Success!</p>}
 
-			<H1 size="medium">Button variants</H1>
+			<H1 size="16-18">Button variants</H1>
 			<div className={style.buttonShowcase}>
 				<Button>
 					<Icon name="check" />
@@ -274,6 +275,18 @@ function FormTest() {
 					<Icon name="info" />
 					ButtonLink link style
 				</ButtonLink>
+			</div>
+
+			<H1 size="16-18">Pill variants</H1>
+			<div className={style.pillShowcase}>
+				<Pill>Uitgenodigd</Pill>
+				<Pill variant="accent-strong">Uitgenodigd</Pill>
+				<Pill variant="error">Verlopen</Pill>
+				<Pill variant="success">Uitgenodigd</Pill>
+				<Pill variant="accent">
+					<Icon name="check" />
+					With icon
+				</Pill>
 			</div>
 		</div>
 	);

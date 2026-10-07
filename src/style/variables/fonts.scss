@@ -1,4 +1,47 @@
+@use "/src/style/utilities.scss" as utils;
+
 @import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+
+$family-heading: "Inter";
+
+$font-mobile-size-titles-size-14-16: 0.875rem;
+$font-mobile-size-titles-size-16-18: 1rem;
+$font-mobile-size-titles-size-20-24: 1.25rem;
+$font-mobile-size-titles-size-24-32: 1.5rem;
+$font-mobile-size-titles-size-32-40: 2rem;
+$font-mobile-size-titles-size-40-56: 2.5rem;
+
+$font-desktop-size-titles-size-14-16: 1rem;
+$font-desktop-size-titles-size-16-18: 1.125rem;
+$font-desktop-size-titles-size-20-24: 1.5rem;
+$font-desktop-size-titles-size-24-32: 2rem;
+$font-desktop-size-titles-size-32-40: 2.5rem;
+$font-desktop-size-titles-size-40-56: 3.5rem;
+
+$heading-size-14-16: utils.create-clamp(
+	$font-mobile-size-titles-size-14-16,
+	$font-desktop-size-titles-size-14-16
+);
+$heading-size-16-18: utils.create-clamp(
+	$font-mobile-size-titles-size-16-18,
+	$font-desktop-size-titles-size-16-18
+);
+$heading-size-20-24: utils.create-clamp(
+	$font-mobile-size-titles-size-20-24,
+	$font-desktop-size-titles-size-20-24
+);
+$heading-size-24-32: utils.create-clamp(
+	$font-mobile-size-titles-size-24-32,
+	$font-desktop-size-titles-size-24-32
+);
+$heading-size-32-40: utils.create-clamp(
+	$font-mobile-size-titles-size-32-40,
+	$font-desktop-size-titles-size-32-40
+);
+$heading-size-40-56: utils.create-clamp(
+	$font-mobile-size-titles-size-40-56,
+	$font-desktop-size-titles-size-40-56
+);
 
 :root {
 	// Used in `font` shorthand property.
@@ -21,7 +64,16 @@
 	--font-body-bold-18: 700 1.125rem / 140% "Inter";
 	--font-body-bold-20: 700 1.25rem / 140% "Inter";
 
-	--font-heading-16: 600 1rem / 120% "Inter";
-	--font-heading-18: 600 1.125rem / 120% "Inter";
-	--font-heading-24: 600 1.5rem / 120% "Inter";
+	--font-heading-size-14-16: 700 #{$heading-size-14-16} / 120%
+		#{$family-heading};
+	--font-heading-size-16-18: 700 #{$heading-size-16-18} / 120%
+		#{$family-heading};
+	--font-heading-size-20-24: 700 #{$heading-size-20-24} / 120%
+		#{$family-heading};
+	--font-heading-size-24-32: 700 #{$heading-size-24-32} / 120%
+		#{$family-heading};
+	--font-heading-size-32-40: 700 #{$heading-size-32-40} / 120%
+		#{$family-heading};
+	--font-heading-size-40-56: 700 #{$heading-size-40-56} / 120%
+		#{$family-heading};
 }
