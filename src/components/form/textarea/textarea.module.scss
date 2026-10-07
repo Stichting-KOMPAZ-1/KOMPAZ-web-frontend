@@ -13,7 +13,7 @@
 	}
 
 	&:has(textarea:disabled) {
-		@include form.disabled;
+		@include form.control-box-disabled;
 	}
 }
 

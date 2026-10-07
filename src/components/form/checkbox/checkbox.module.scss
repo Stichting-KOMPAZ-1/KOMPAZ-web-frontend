@@ -1,3 +1,4 @@
+@use "/src/style/focus.scss" as focus;
 @use "../form.scss";
 
 .option {
@@ -32,8 +33,7 @@
 	}
 
 	&:focus-visible {
-		outline: 3px solid var(--color-action);
-		outline-offset: 2px;
+		@include focus.ring;
 	}
 
 	&[data-disabled] {
