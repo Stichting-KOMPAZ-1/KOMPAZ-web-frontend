@@ -1,5 +1,4 @@
 @use "/src/style/breakpoints.scss" as bp;
-@use "/src/style/surface.scss" as surface;
 
 .page {
 	display: flex;
@@ -23,13 +22,52 @@
 	}
 }
 
+.hero {
+	display: grid;
+	align-items: start;
+	gap: var(--unit-32);
+
+	@include bp.desktop {
+		grid-template-columns: 1fr 1fr;
+		gap: var(--unit-48);
+	}
+}
+
 .intro {
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
-	gap: var(--unit-4);
+	gap: var(--unit-12);
 
 	@include bp.desktop {
-		max-width: var(--unit-480);
+		gap: var(--unit-32);
 	}
+}
+
+.titles {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: var(--unit-4);
+}
+
+.frame {
+	order: -1;
+	border-radius: var(--radius-20);
+	background: var(--color-border-muted);
+	padding: var(--unit-16);
+	rotate: -1.35deg;
+
+	@include bp.desktop {
+		order: 0;
+	}
+}
+
+.image {
+	display: block;
+	border-radius: var(--radius-20);
+	width: 100%;
+	aspect-ratio: 3 / 2;
+	object-fit: cover;
+	rotate: 1.35deg;
 }

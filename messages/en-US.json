@@ -26,10 +26,41 @@
 	"module_load_error": "This module could not be loaded.",
 
 	"elearning_back_to_module": "Back to module",
-	"elearning_chapters_title": "Chapters",
+	"elearning_back_to_library": "Back to library",
+	"elearning_back_to_overview": "Back to overview",
+	"elearning_label": "E-learning",
+	"elearning_image_alt": "Image for {name}",
+	"elearning_start": "Start learning",
+	"elearning_questions": "Questions about this e-learning?",
+	"elearning_contact": "Get in touch",
+	"elearning_chapter_number": "Chapter {number}",
+	"elearning_part_count": [
+		{
+			"declarations": ["input count", "local countPlural = count: plural"],
+			"selectors": ["countPlural"],
+			"match": {
+				"countPlural=one": "1 part",
+				"countPlural=other": "{count} parts"
+			}
+		}
+	],
+	"elearning_contents_title": "What this e-learning covers",
+	"elearning_chapter_count": [
+		{
+			"declarations": ["input count", "local countPlural = count: plural"],
+			"selectors": ["countPlural"],
+			"match": {
+				"countPlural=one": "1 chapter",
+				"countPlural=other": "{count} chapters"
+			}
+		}
+	],
 	"elearning_chapters_empty": "This e-learning has no chapters yet.",
 	"elearning_chapter_summary": "Summary",
+	"elearning_summary_view": "View summary",
 	"elearning_load_error": "This e-learning could not be loaded.",
+	"elearning_chapter_not_found": "This chapter is not part of this e-learning.",
+	"elearning_part_load_error": "This part could not be loaded.",
 
 	"login_title": "Log in to the ZelfZorg platform",
 	"login_subtitle": "Enter your email address to receive a login link.",
