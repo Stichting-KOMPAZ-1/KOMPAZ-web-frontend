@@ -1,3 +1,4 @@
+@use "/src/style/focus.scss" as focus;
 @use "../form.scss";
 
 .option {
@@ -6,6 +7,9 @@
 	gap: var(--unit-12);
 	cursor: pointer;
 	font: var(--font-body-regular-12-14);
+	&:has([data-disabled]) {
+		@include form.choice-label-disabled;
+	}
 }
 
 .checkbox {
@@ -29,22 +33,27 @@
 	&[data-checked] {
 		border-color: var(--color-action);
 		background: var(--color-action);
+		color: var(--color-text-on-fill);
 	}
 
 	&:focus-visible {
-		outline: 3px solid var(--color-action);
-		outline-offset: 2px;
+		@include focus.ring;
 	}
 
 	&[data-disabled] {
-		@include form.disabled;
+		@include form.choice-disabled;
+	}
+
+	&[data-checked][data-disabled] {
+		border-color: var(--color-action-disabled);
+		background: var(--color-action-disabled);
+		color: var(--color-text-disabled-on-fill);
 	}
 }
 
 .indicator {
 	display: inline-flex;
 	align-items: center;
-	color: var(--color-text-on-fill);
 }
 
 .group {

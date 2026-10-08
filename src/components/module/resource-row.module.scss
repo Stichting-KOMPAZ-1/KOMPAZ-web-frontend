@@ -1,3 +1,4 @@
+@use "/src/style/focus.scss" as focus;
 @use "/src/style/breakpoints.scss" as bp;
 @use "/src/style/surface.scss" as surface;
 
@@ -46,8 +47,8 @@
 	}
 
 	&:focus-visible {
-		outline: var(--border-width-1) solid var(--color-action);
-		outline-offset: 2px;
+		@include focus.ring;
+
 		border-radius: var(--radius-8);
 	}
 }

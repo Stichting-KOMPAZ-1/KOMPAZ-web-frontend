@@ -1,3 +1,5 @@
+@use "/src/style/focus.scss" as focus;
+
 .button {
 	display: inline-flex;
 	align-items: center;
@@ -21,16 +23,15 @@
 	}
 
 	&:focus-visible {
-		outline: var(--border-width-1) solid var(--color-text-on-fill);
-		outline-offset: 2px;
-		box-shadow: 0 0 0 4px var(--color-action);
+		@include focus.ring;
 	}
 
 	&:disabled,
 	&[aria-disabled="true"],
 	&[data-disabled] {
-		opacity: 0.6;
 		cursor: not-allowed;
+		background: var(--color-action-disabled);
+		color: var(--color-text-disabled-on-fill);
 	}
 
 	&.size-large {
@@ -50,6 +51,14 @@
 			background-color: transparent;
 			border-color: var(--color-action-soft-hover);
 			color: var(--color-action-soft-hover);
+		}
+
+		&:disabled,
+		&[aria-disabled="true"],
+		&[data-disabled] {
+			background: transparent;
+			border-color: var(--color-action-disabled);
+			color: var(--color-text-disabled-soft);
 		}
 
 		&.size-large {
@@ -73,10 +82,11 @@
 			color: var(--color-action-soft-hover);
 		}
 
-		&:focus-visible {
-			outline: var(--border-width-1) solid var(--color-action);
-			outline-offset: 2px;
-			box-shadow: none;
+		&:disabled,
+		&[aria-disabled="true"],
+		&[data-disabled] {
+			background: transparent;
+			color: var(--color-text-disabled-soft);
 		}
 	}
 }

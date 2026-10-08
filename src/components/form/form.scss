@@ -1,10 +1,7 @@
 // Shared form mixins.
 // @use "../form.scss";
 // .selector { @include form.control-box; }
-@mixin disabled {
-	opacity: 0.5;
-	cursor: not-allowed;
-}
+@use "/src/style/focus.scss" as focus;
 
 @mixin invalid {
 	border-color: var(--color-text-error);
@@ -27,8 +24,32 @@
 	}
 
 	&:focus-within {
-		outline: 3px solid var(--color-action);
-		outline-offset: 2px;
-		border-color: var(--color-action);
+		@include focus.ring;
 	}
+}
+
+@mixin control-box-disabled {
+	border-color: var(--color-border-disabled);
+	background: var(--color-surface-disabled);
+	color: var(--color-text-disabled);
+	cursor: not-allowed;
+
+	:disabled {
+		cursor: not-allowed;
+	}
+
+	::placeholder {
+		color: var(--color-text-disabled);
+	}
+}
+
+@mixin choice-disabled {
+	border-color: var(--color-border-disabled);
+	background: var(--color-surface-disabled);
+	cursor: not-allowed;
+}
+
+@mixin choice-label-disabled {
+	color: var(--color-text-disabled);
+	cursor: not-allowed;
 }
