@@ -1,11 +1,12 @@
+@use "/src/style/focus.scss" as focus;
 @use "/src/style/breakpoints.scss" as bp;
 
 .row {
 	display: flex;
 	align-items: center;
-	gap: var(--unit-2);
+	gap: var(--unit-8);
 	border-bottom: var(--border-width-1) solid var(--color-border-muted);
-	padding: var(--unit-2);
+	padding: var(--unit-8);
 
 	&:first-child {
 		border-top: var(--border-width-1) solid var(--color-border-muted);
@@ -16,7 +17,7 @@
 	display: flex;
 	flex: 1 1 auto;
 	align-items: center;
-	gap: var(--unit-2);
+	gap: var(--unit-8);
 	border-radius: var(--radius-4);
 	color: var(--color-action-soft);
 	font: var(--font-body-regular-14-16);
@@ -31,8 +32,7 @@
 	}
 
 	&:focus-visible {
-		outline: var(--border-width-1) solid var(--color-action);
-		outline-offset: 2px;
+		@include focus.ring;
 	}
 }
 

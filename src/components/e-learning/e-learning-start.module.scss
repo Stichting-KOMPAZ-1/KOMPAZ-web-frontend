@@ -6,20 +6,20 @@
 
 	display: flex;
 	flex-direction: column;
-	gap: var(--unit-4);
+	gap: var(--unit-16);
 	border: var(--border-width-1) solid var(--color-border-muted);
-	padding: var(--unit-3);
+	padding: var(--unit-12);
 	width: 100%;
 
 	@include bp.desktop {
-		padding: var(--unit-6);
+		padding: var(--unit-24);
 	}
 }
 
 .text {
 	display: flex;
 	flex-direction: column;
-	gap: var(--unit-1);
+	gap: var(--unit-4);
 }
 
 .eyebrow {
@@ -35,9 +35,9 @@
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
-	gap: var(--unit-1);
+	gap: var(--unit-4);
 	border-top: var(--border-width-1) solid var(--color-border-muted);
-	padding-block-start: var(--unit-4);
+	padding-block-start: var(--unit-16);
 	color: var(--color-text-accent);
 	font: var(--font-body-regular-12-14);
 }

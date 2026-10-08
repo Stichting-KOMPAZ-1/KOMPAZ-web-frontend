@@ -25,11 +25,11 @@
 .hero {
 	display: grid;
 	align-items: start;
-	gap: var(--unit-8);
+	gap: var(--unit-32);
 
 	@include bp.desktop {
 		grid-template-columns: 1fr 1fr;
-		gap: var(--unit-12);
+		gap: var(--unit-48);
 	}
 }
 
@@ -37,10 +37,10 @@
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
-	gap: var(--unit-3);
+	gap: var(--unit-12);
 
 	@include bp.desktop {
-		gap: var(--unit-8);
+		gap: var(--unit-32);
 	}
 }
 
@@ -48,14 +48,14 @@
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
-	gap: var(--unit-1);
+	gap: var(--unit-4);
 }
 
 .frame {
 	order: -1;
 	border-radius: var(--radius-20);
 	background: var(--color-border-muted);
-	padding: var(--unit-4);
+	padding: var(--unit-16);
 	rotate: -1.35deg;
 
 	@include bp.desktop {

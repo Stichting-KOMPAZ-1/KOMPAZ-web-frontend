@@ -7,13 +7,13 @@
 	justify-content: center;
 	border-radius: var(--radius-12);
 	background: var(--color-surface-accent-strong);
-	width: var(--unit-9);
-	height: var(--unit-9);
+	width: var(--unit-36);
+	height: var(--unit-36);
 	color: var(--color-text-on-fill);
 	font: var(--font-heading-semibold-18-20);
 
 	@include bp.desktop {
-		width: var(--unit-12);
-		height: var(--unit-12);
+		width: var(--unit-48);
+		height: var(--unit-48);
 	}
 }
