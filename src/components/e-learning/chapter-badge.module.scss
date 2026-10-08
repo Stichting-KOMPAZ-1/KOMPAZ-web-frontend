@@ -1,0 +1,29 @@
+@use "/src/style/breakpoints.scss" as bp;
+
+.badge {
+	display: flex;
+	flex: 0 0 auto;
+	align-items: center;
+	justify-content: center;
+	border-radius: var(--radius-12);
+	background: var(--color-surface-accent-strong);
+	color: var(--color-text-on-fill);
+
+	&.size-default {
+		width: var(--unit-36);
+		height: var(--unit-36);
+		font: var(--font-heading-semibold-18-20);
+
+		@include bp.desktop {
+			width: var(--unit-48);
+			height: var(--unit-48);
+		}
+	}
+
+	&.size-large {
+		aspect-ratio: 1;
+		padding: var(--unit-12);
+		min-width: var(--unit-64);
+		font: var(--font-heading-semibold-24-32);
+	}
+}
