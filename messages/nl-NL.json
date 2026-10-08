@@ -38,6 +38,17 @@
 			}
 		}
 	],
+	"elearning_contents_title": "Inhoud van de e-learning",
+	"elearning_chapter_count": [
+		{
+			"declarations": ["input count", "local countPlural = count: plural"],
+			"selectors": ["countPlural"],
+			"match": {
+				"countPlural=one": "1 hoofdstuk",
+				"countPlural=other": "{count} hoofdstukken"
+			}
+		}
+	],
 	"elearning_chapters_title": "Hoofdstukken",
 	"elearning_chapters_empty": "Deze e-learning heeft nog geen hoofdstukken.",
 	"elearning_chapter_summary": "Samenvatting",

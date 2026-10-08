@@ -38,6 +38,17 @@
 			}
 		}
 	],
+	"elearning_contents_title": "What this e-learning covers",
+	"elearning_chapter_count": [
+		{
+			"declarations": ["input count", "local countPlural = count: plural"],
+			"selectors": ["countPlural"],
+			"match": {
+				"countPlural=one": "1 chapter",
+				"countPlural=other": "{count} chapters"
+			}
+		}
+	],
 	"elearning_chapters_title": "Chapters",
 	"elearning_chapters_empty": "This e-learning has no chapters yet.",
 	"elearning_chapter_summary": "Summary",
