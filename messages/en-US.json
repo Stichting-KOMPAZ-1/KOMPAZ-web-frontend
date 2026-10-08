@@ -52,6 +52,7 @@
 	"elearning_chapters_title": "Chapters",
 	"elearning_chapters_empty": "This e-learning has no chapters yet.",
 	"elearning_chapter_summary": "Summary",
+	"elearning_summary_view": "View summary",
 	"elearning_load_error": "This e-learning could not be loaded.",
 
 	"login_title": "Log in to the ZelfZorg platform",

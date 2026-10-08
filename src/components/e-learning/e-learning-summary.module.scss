@@ -1,0 +1,56 @@
+@use "/src/style/breakpoints.scss" as bp;
+@use "/src/style/surface.scss" as surface;
+
+.card {
+	@include surface.card;
+
+	display: flex;
+	align-items: flex-start;
+	gap: var(--unit-3);
+	border: var(--border-width-1) solid var(--color-border-muted);
+	padding: var(--unit-3);
+
+	@include bp.desktop {
+		gap: var(--unit-6);
+		padding: var(--unit-6);
+	}
+}
+
+.icon {
+	display: flex;
+	flex: 0 0 auto;
+	border-radius: var(--radius-12);
+	background: var(--color-surface-accent);
+	padding: var(--unit-3);
+	color: var(--color-surface-accent-strong);
+}
+
+.body {
+	display: flex;
+	flex: 1 1 auto;
+	flex-direction: column;
+	gap: var(--unit-1);
+	min-width: 0;
+}
+
+.header {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	gap: var(--unit-3);
+
+	@include bp.desktop {
+		flex-direction: row;
+		flex-wrap: wrap;
+		align-items: center;
+	}
+}
+
+.action {
+	flex: 1 0 auto;
+	justify-content: center;
+
+	@include bp.desktop {
+		flex: 0 0 auto;
+	}
+}
