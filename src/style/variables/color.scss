@@ -5,6 +5,7 @@
 :root {
 	--seed-primary: #6f203a;
 	--seed-secondary: #032d49;
+	--seed-secondary-soft: #eaf6fe;
 	--seed-error: #b3271b;
 	--seed-success: #1f7a45;
 	--seed-warning: #8a5a05;
@@ -46,11 +47,7 @@
 		var(--seed-primary),
 		white 90%
 	);
-	--color-surface-accent: color-mix(
-		in oklch shorter hue,
-		var(--seed-secondary),
-		white 90%
-	);
+	--color-surface-accent: oklch(from var(--seed-secondary-soft) l c h);
 	--color-surface-error: color-mix(
 		in oklch shorter hue,
 		var(--seed-error),
