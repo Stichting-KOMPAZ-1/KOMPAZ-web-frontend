@@ -27,6 +27,7 @@
 
 	"elearning_back_to_module": "Back to module",
 	"elearning_back_to_library": "Back to library",
+	"elearning_back_to_overview": "Back to overview",
 	"elearning_label": "E-learning",
 	"elearning_image_alt": "Image for {name}",
 	"elearning_start": "Start learning",
@@ -58,6 +59,7 @@
 	"elearning_chapter_summary": "Summary",
 	"elearning_summary_view": "View summary",
 	"elearning_load_error": "This e-learning could not be loaded.",
+	"elearning_part_load_error": "This part could not be loaded.",
 
 	"login_title": "Log in to the ZelfZorg platform",
 	"login_subtitle": "Enter your email address to receive a login link.",

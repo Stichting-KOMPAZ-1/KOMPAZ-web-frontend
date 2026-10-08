@@ -55,6 +55,10 @@ export const translatedPathnames = createTranslatedPathnames({
 		"en-US": "/e-learnings/$eLearningId",
 		"nl-NL": "/e-learnings/$eLearningId",
 	},
+	"/e-learnings/$eLearningId/parts/$partId": {
+		"en-US": "/e-learnings/$eLearningId/parts/$partId",
+		"nl-NL": "/e-learnings/$eLearningId/parts/$partId",
+	},
 	"/profile": {
 		"en-US": "/profile",
 		"nl-NL": "/profiel",
