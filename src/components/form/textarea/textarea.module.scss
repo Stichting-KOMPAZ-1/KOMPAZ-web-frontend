@@ -5,7 +5,7 @@
 
 	display: flex;
 	flex: 1;
-	padding: var(--unit-2) var(--unit-3);
+	padding: var(--unit-8) var(--unit-12);
 	width: 100%;
 
 	&:has(textarea[aria-invalid="true"]) {
