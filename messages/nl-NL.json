@@ -26,6 +26,9 @@
 	"module_load_error": "Deze module kon niet worden geladen.",
 
 	"elearning_back_to_module": "Terug naar module",
+	"elearning_back_to_library": "Terug naar bibliotheek",
+	"elearning_label": "E-learning",
+	"elearning_image_alt": "Afbeelding bij {name}",
 	"elearning_start": "Begin met leren",
 	"elearning_questions": "Vragen over deze e-learning?",
 	"elearning_contact": "Neem contact op",
@@ -51,7 +54,6 @@
 			}
 		}
 	],
-	"elearning_chapters_title": "Hoofdstukken",
 	"elearning_chapters_empty": "Deze e-learning heeft nog geen hoofdstukken.",
 	"elearning_chapter_summary": "Samenvatting",
 	"elearning_summary_view": "Bekijk samenvatting",
