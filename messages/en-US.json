@@ -26,6 +26,18 @@
 	"module_load_error": "This module could not be loaded.",
 
 	"elearning_back_to_module": "Back to module",
+	"elearning_start": "Start learning",
+	"elearning_chapter_number": "Chapter {number}",
+	"elearning_part_count": [
+		{
+			"declarations": ["input count", "local countPlural = count: plural"],
+			"selectors": ["countPlural"],
+			"match": {
+				"countPlural=one": "1 part",
+				"countPlural=other": "{count} parts"
+			}
+		}
+	],
 	"elearning_chapters_title": "Chapters",
 	"elearning_chapters_empty": "This e-learning has no chapters yet.",
 	"elearning_chapter_summary": "Summary",

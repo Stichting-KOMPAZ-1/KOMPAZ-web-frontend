@@ -26,6 +26,18 @@
 	"module_load_error": "Deze module kon niet worden geladen.",
 
 	"elearning_back_to_module": "Terug naar module",
+	"elearning_start": "Begin met leren",
+	"elearning_chapter_number": "Hoofdstuk {number}",
+	"elearning_part_count": [
+		{
+			"declarations": ["input count", "local countPlural = count: plural"],
+			"selectors": ["countPlural"],
+			"match": {
+				"countPlural=one": "1 onderdeel",
+				"countPlural=other": "{count} onderdelen"
+			}
+		}
+	],
 	"elearning_chapters_title": "Hoofdstukken",
 	"elearning_chapters_empty": "Deze e-learning heeft nog geen hoofdstukken.",
 	"elearning_chapter_summary": "Samenvatting",

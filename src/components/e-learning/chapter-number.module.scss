@@ -1,0 +1,19 @@
+@use "/src/style/breakpoints.scss" as bp;
+
+.number {
+	display: flex;
+	flex: 0 0 auto;
+	align-items: center;
+	justify-content: center;
+	border-radius: var(--radius-12);
+	background: var(--color-surface-accent-strong);
+	width: var(--unit-9);
+	height: var(--unit-9);
+	color: var(--color-text-on-fill);
+	font: var(--font-heading-semibold-18-20);
+
+	@include bp.desktop {
+		width: var(--unit-12);
+		height: var(--unit-12);
+	}
+}
