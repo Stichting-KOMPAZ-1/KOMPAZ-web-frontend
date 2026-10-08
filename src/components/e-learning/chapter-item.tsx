@@ -2,7 +2,7 @@ import { Heading } from "components/heading/heading";
 import type { ChapterResource } from "lib/heyapi";
 import * as m from "lib/paraglide/messages";
 
-import ChapterNumber from "./chapter-number";
+import ChapterBadge from "./chapter-badge";
 import PartList from "./part-list";
 
 import style from "./chapter-item.module.scss";
@@ -25,7 +25,7 @@ const ChapterItem = ({
 	nextPartId,
 }: Props) => (
 	<li className={style.chapter}>
-		<ChapterNumber number={number} />
+		<ChapterBadge number={number} />
 
 		<div className={style.body}>
 			<p className={style.eyebrow}>{m.elearning_chapter_number({ number })}</p>
