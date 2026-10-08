@@ -9,7 +9,7 @@
 	padding: var(--unit-2) var(--unit-3);
 	color: var(--color-text-on-fill);
 	outline: none;
-	font: var(--font-body-semibold-16);
+	font: var(--font-body-semibold-14-16);
 	text-decoration: none;
 
 	@media not (prefers-reduced-motion) {
@@ -35,7 +35,7 @@
 
 	&.size-large {
 		padding: var(--unit-3) var(--unit-6);
-		font: var(--font-body-semibold-18);
+		font: var(--font-body-semibold-16-18);
 	}
 
 	&.variant-secondary {
@@ -44,7 +44,7 @@
 		color: var(--color-action-soft);
 		padding: calc(var(--unit-2) - var(--border-width-2))
 			calc(var(--unit-3) - var(--border-width-2));
-		font: var(--font-body-regular-16);
+		font: var(--font-body-regular-14-16);
 
 		&:hover:not(:disabled):not([aria-disabled="true"]):not([data-disabled]) {
 			background-color: transparent;
@@ -55,7 +55,7 @@
 		&.size-large {
 			padding: calc(var(--unit-3) - var(--border-width-2))
 				calc(var(--unit-6) - var(--border-width-2));
-			font: var(--font-body-regular-18);
+			font: var(--font-body-regular-16-18);
 		}
 	}
 
@@ -64,7 +64,7 @@
 		border: none;
 		color: var(--color-action-soft);
 		padding: var(--unit-2);
-		font: var(--font-body-regular-16);
+		font: var(--font-body-regular-14-16);
 		min-height: var(--unit-8);
 		min-width: var(--unit-6);
 

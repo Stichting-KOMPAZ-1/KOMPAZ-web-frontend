@@ -2,78 +2,83 @@
 
 @import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
 
-$family-heading: "Inter";
+$family: "Inter";
 
-$font-mobile-size-titles-size-14-16: 0.875rem;
-$font-mobile-size-titles-size-16-18: 1rem;
-$font-mobile-size-titles-size-20-24: 1.25rem;
-$font-mobile-size-titles-size-24-32: 1.5rem;
-$font-mobile-size-titles-size-32-40: 2rem;
-$font-mobile-size-titles-size-40-56: 2.5rem;
+// Mirrors the Figma `Typography` collection, whose every size is a
+// Mobile -> Desktop pair. Tokens are used in the `font` shorthand:
+// grammar: <weight> <font-size> / <line-height> <font-family>;
 
-$font-desktop-size-titles-size-14-16: 1rem;
-$font-desktop-size-titles-size-16-18: 1.125rem;
-$font-desktop-size-titles-size-20-24: 1.5rem;
-$font-desktop-size-titles-size-24-32: 2rem;
-$font-desktop-size-titles-size-32-40: 2.5rem;
-$font-desktop-size-titles-size-40-56: 3.5rem;
+$mobile-body-12-12: 0.75rem;
+$mobile-body-12-14: 0.75rem;
+$mobile-body-14-16: 0.875rem;
+$mobile-body-16-18: 1rem;
+$mobile-body-18-20: 1.125rem;
 
-$heading-size-14-16: utils.create-clamp(
-	$font-mobile-size-titles-size-14-16,
-	$font-desktop-size-titles-size-14-16
+$desktop-body-12-12: 0.75rem;
+$desktop-body-12-14: 0.875rem;
+$desktop-body-14-16: 1rem;
+$desktop-body-16-18: 1.125rem;
+$desktop-body-18-20: 1.25rem;
+
+$mobile-heading-16-18: 1rem;
+$mobile-heading-18-20: 1.125rem;
+$mobile-heading-20-24: 1.25rem;
+$mobile-heading-24-32: 1.5rem;
+
+$desktop-heading-16-18: 1.125rem;
+$desktop-heading-18-20: 1.25rem;
+$desktop-heading-20-24: 1.5rem;
+$desktop-heading-24-32: 2rem;
+
+$body-12-12: utils.create-clamp($mobile-body-12-12, $desktop-body-12-12);
+$body-12-14: utils.create-clamp($mobile-body-12-14, $desktop-body-12-14);
+$body-14-16: utils.create-clamp($mobile-body-14-16, $desktop-body-14-16);
+$body-16-18: utils.create-clamp($mobile-body-16-18, $desktop-body-16-18);
+$body-18-20: utils.create-clamp($mobile-body-18-20, $desktop-body-18-20);
+
+$heading-16-18: utils.create-clamp(
+	$mobile-heading-16-18,
+	$desktop-heading-16-18
 );
-$heading-size-16-18: utils.create-clamp(
-	$font-mobile-size-titles-size-16-18,
-	$font-desktop-size-titles-size-16-18
+$heading-18-20: utils.create-clamp(
+	$mobile-heading-18-20,
+	$desktop-heading-18-20
 );
-$heading-size-20-24: utils.create-clamp(
-	$font-mobile-size-titles-size-20-24,
-	$font-desktop-size-titles-size-20-24
+$heading-20-24: utils.create-clamp(
+	$mobile-heading-20-24,
+	$desktop-heading-20-24
 );
-$heading-size-24-32: utils.create-clamp(
-	$font-mobile-size-titles-size-24-32,
-	$font-desktop-size-titles-size-24-32
-);
-$heading-size-32-40: utils.create-clamp(
-	$font-mobile-size-titles-size-32-40,
-	$font-desktop-size-titles-size-32-40
-);
-$heading-size-40-56: utils.create-clamp(
-	$font-mobile-size-titles-size-40-56,
-	$font-desktop-size-titles-size-40-56
+$heading-24-32: utils.create-clamp(
+	$mobile-heading-24-32,
+	$desktop-heading-24-32
 );
 
 :root {
-	// Used in `font` shorthand property.
-	// grammar: <weight> <font-size> / <line-height> <font-family>;
-	--font-body-regular-12: 400 0.75rem / 140% "Inter";
-	--font-body-regular-14: 400 0.875rem / 140% "Inter";
-	--font-body-regular-16: 400 1rem / 140% "Inter";
-	--font-body-regular-18: 400 1.125rem / 140% "Inter";
-	--font-body-regular-20: 400 1.25rem / 140% "Inter";
+	--font-body-regular-12-12: 400 #{$body-12-12} / 140% #{$family};
+	--font-body-regular-12-14: 400 #{$body-12-14} / 140% #{$family};
+	--font-body-regular-14-16: 400 #{$body-14-16} / 140% #{$family};
+	--font-body-regular-16-18: 400 #{$body-16-18} / 140% #{$family};
+	--font-body-regular-18-20: 400 #{$body-18-20} / 140% #{$family};
 
-	--font-body-semibold-12: 600 0.75rem / 140% "Inter";
-	--font-body-semibold-14: 600 0.875rem / 140% "Inter";
-	--font-body-semibold-16: 600 1rem / 140% "Inter";
-	--font-body-semibold-18: 600 1.125rem / 140% "Inter";
-	--font-body-semibold-20: 600 1.25rem / 140% "Inter";
+	--font-body-semibold-12-12: 600 #{$body-12-12} / 140% #{$family};
+	--font-body-semibold-12-14: 600 #{$body-12-14} / 140% #{$family};
+	--font-body-semibold-14-16: 600 #{$body-14-16} / 140% #{$family};
+	--font-body-semibold-16-18: 600 #{$body-16-18} / 140% #{$family};
+	--font-body-semibold-18-20: 600 #{$body-18-20} / 140% #{$family};
 
-	--font-body-bold-12: 700 0.75rem / 140% "Inter";
-	--font-body-bold-14: 700 0.875rem / 140% "Inter";
-	--font-body-bold-16: 700 1rem / 140% "Inter";
-	--font-body-bold-18: 700 1.125rem / 140% "Inter";
-	--font-body-bold-20: 700 1.25rem / 140% "Inter";
+	--font-body-bold-12-12: 700 #{$body-12-12} / 140% #{$family};
+	--font-body-bold-12-14: 700 #{$body-12-14} / 140% #{$family};
+	--font-body-bold-14-16: 700 #{$body-14-16} / 140% #{$family};
+	--font-body-bold-16-18: 700 #{$body-16-18} / 140% #{$family};
+	--font-body-bold-18-20: 700 #{$body-18-20} / 140% #{$family};
 
-	--font-heading-size-14-16: 700 #{$heading-size-14-16} / 120%
-		#{$family-heading};
-	--font-heading-size-16-18: 700 #{$heading-size-16-18} / 120%
-		#{$family-heading};
-	--font-heading-size-20-24: 700 #{$heading-size-20-24} / 120%
-		#{$family-heading};
-	--font-heading-size-24-32: 700 #{$heading-size-24-32} / 120%
-		#{$family-heading};
-	--font-heading-size-32-40: 700 #{$heading-size-32-40} / 120%
-		#{$family-heading};
-	--font-heading-size-40-56: 700 #{$heading-size-40-56} / 120%
-		#{$family-heading};
+	--font-heading-semibold-16-18: 600 #{$heading-16-18} / 140% #{$family};
+	--font-heading-semibold-18-20: 600 #{$heading-18-20} / 140% #{$family};
+	--font-heading-semibold-20-24: 600 #{$heading-20-24} / 140% #{$family};
+	--font-heading-semibold-24-32: 600 #{$heading-24-32} / 140% #{$family};
+
+	--font-heading-bold-16-18: 700 #{$heading-16-18} / 140% #{$family};
+	--font-heading-bold-18-20: 700 #{$heading-18-20} / 140% #{$family};
+	--font-heading-bold-20-24: 700 #{$heading-20-24} / 140% #{$family};
+	--font-heading-bold-24-32: 700 #{$heading-24-32} / 140% #{$family};
 }
