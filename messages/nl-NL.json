@@ -59,6 +59,7 @@
 	"elearning_chapter_summary": "Samenvatting",
 	"elearning_summary_view": "Bekijk samenvatting",
 	"elearning_load_error": "Deze e-learning kon niet worden geladen.",
+	"elearning_chapter_not_found": "Dit hoofdstuk hoort niet bij deze e-learning.",
 	"elearning_part_load_error": "Dit onderdeel kon niet worden geladen.",
 
 	"login_title": "Login op het ZelfZorg platform",

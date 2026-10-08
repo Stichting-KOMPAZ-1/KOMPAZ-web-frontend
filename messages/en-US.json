@@ -59,6 +59,7 @@
 	"elearning_chapter_summary": "Summary",
 	"elearning_summary_view": "View summary",
 	"elearning_load_error": "This e-learning could not be loaded.",
+	"elearning_chapter_not_found": "This chapter is not part of this e-learning.",
 	"elearning_part_load_error": "This part could not be loaded.",
 
 	"login_title": "Log in to the ZelfZorg platform",
