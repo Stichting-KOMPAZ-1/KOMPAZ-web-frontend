@@ -87,5 +87,7 @@
 
 	"error_unknown": "Onbekende fout.",
 
-	"not_found_title": "Niet gevonden"
+	"not_found_title": "Niet gevonden",
+	"not_found_body": "Deze pagina bestaat niet of is verplaatst.",
+	"not_found_home": "Terug naar home"
 }

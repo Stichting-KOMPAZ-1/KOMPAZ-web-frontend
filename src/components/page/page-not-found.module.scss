@@ -1,0 +1,19 @@
+.page {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	justify-items: center;
+	gap: var(--unit-24);
+	padding: var(--unit-24);
+	min-height: 100cqb;
+	text-align: center;
+}
+
+.text {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: var(--unit-8);
+	max-width: var(--unit-480);
+}
