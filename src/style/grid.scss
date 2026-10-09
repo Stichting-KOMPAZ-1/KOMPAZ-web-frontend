@@ -1,0 +1,10 @@
+// Page grid mixin, layered on the subgrid declared in app-layout.
+// @use "/src/style/grid.scss" as grid;
+// .page { @include grid.columns; }
+
+@mixin columns {
+	display: grid;
+	grid-template-columns: subgrid;
+	grid-column: main;
+	align-content: start;
+}
