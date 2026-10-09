@@ -6,8 +6,7 @@ import {
 	redirect,
 	Scripts,
 } from "@tanstack/react-router";
-import { H1 } from "components/heading/heading";
-import * as m from "lib/paraglide/messages";
+import PageNotFound from "components/page/page-not-found";
 import {
 	baseLocale,
 	getUrlOrigin,
@@ -15,14 +14,6 @@ import {
 	shouldRedirect,
 } from "lib/paraglide/runtime";
 import type { RouterContext } from "lib/router";
-
-import style from "./not-found.module.scss";
-
-const NotFoundPage = () => (
-	<H1 size="16-18" className={style.page}>
-		{m.not_found_title()}
-	</H1>
-);
 
 export const Route = createRootRouteWithContext<RouterContext>()({
 	head: ({ matches }) => {
@@ -56,5 +47,5 @@ export const Route = createRootRouteWithContext<RouterContext>()({
 		</>
 	),
 	errorComponent: (error) => <ErrorComponent error={error} />,
-	notFoundComponent: NotFoundPage,
+	notFoundComponent: PageNotFound,
 });
