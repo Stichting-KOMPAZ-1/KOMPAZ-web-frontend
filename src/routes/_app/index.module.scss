@@ -1,3 +1,5 @@
+@use "/src/style/grid.scss" as grid;
+
 .page {
-	grid-column: main;
+	@include grid.columns;
 }
