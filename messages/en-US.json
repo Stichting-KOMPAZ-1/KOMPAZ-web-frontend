@@ -28,12 +28,17 @@
 	"elearning_back_to_module": "Back to module",
 	"elearning_back_to_library": "Back to library",
 	"elearning_back_to_overview": "Back to overview",
+	"elearning_back_to_chapter": "Back to chapter",
+	"elearning_back_to_summary": "Back to summary",
 	"elearning_label": "E-learning",
 	"elearning_image_alt": "Image for {name}",
 	"elearning_start": "Start learning",
 	"elearning_questions": "Questions about this e-learning?",
 	"elearning_contact": "Get in touch",
 	"elearning_chapter_number": "Chapter {number}",
+	"elearning_chapter_previous": "Previous",
+	"elearning_chapter_next": "Next",
+	"elearning_finish": "Finish",
 	"elearning_part_count": [
 		{
 			"declarations": ["input count", "local countPlural = count: plural"],

@@ -28,12 +28,17 @@
 	"elearning_back_to_module": "Terug naar module",
 	"elearning_back_to_library": "Terug naar bibliotheek",
 	"elearning_back_to_overview": "Terug naar overzicht",
+	"elearning_back_to_chapter": "Terug naar hoofdstuk",
+	"elearning_back_to_summary": "Terug naar samenvatting",
 	"elearning_label": "E-learning",
 	"elearning_image_alt": "Afbeelding bij {name}",
 	"elearning_start": "Begin met leren",
 	"elearning_questions": "Vragen over deze e-learning?",
 	"elearning_contact": "Neem contact op",
 	"elearning_chapter_number": "Hoofdstuk {number}",
+	"elearning_chapter_previous": "Vorige",
+	"elearning_chapter_next": "Volgende",
+	"elearning_finish": "Afronden",
 	"elearning_part_count": [
 		{
 			"declarations": ["input count", "local countPlural = count: plural"],
