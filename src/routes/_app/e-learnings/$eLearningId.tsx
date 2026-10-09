@@ -96,22 +96,24 @@ function ELearningPage() {
 					</div>
 				</header>
 
-				<ELearningContents
-					chapters={numbered}
-					eLearningId={eLearningId}
-					completedPartIds={noProgress}
-					openChapterId={nextChapter?.id}
-					nextPartId={nextPart?.id}
-				/>
-
-				{summaries.map((summary) => (
-					<ELearningSummary
-						key={summary.id}
-						chapter={summary}
+				<div className={style.chapters}>
+					<ELearningContents
+						chapters={numbered}
 						eLearningId={eLearningId}
 						completedPartIds={noProgress}
+						openChapterId={nextChapter?.id}
+						nextPartId={nextPart?.id}
 					/>
-				))}
+
+					{summaries.map((summary) => (
+						<ELearningSummary
+							key={summary.id}
+							chapter={summary}
+							eLearningId={eLearningId}
+							completedPartIds={noProgress}
+						/>
+					))}
+				</div>
 			</article>
 		</div>
 	);
