@@ -36,9 +36,13 @@
 	"elearning_questions": "Vragen over deze e-learning?",
 	"elearning_contact": "Neem contact op",
 	"elearning_chapter_number": "Hoofdstuk {number}",
+	"elearning_chapter_number_of": "Hoofdstuk {number} van {total}",
 	"elearning_chapter_previous": "Vorige",
 	"elearning_chapter_next": "Volgende",
 	"elearning_finish": "Afronden",
+	"elearning_chapter_start": "Begin met dit hoofdstuk",
+	"elearning_chapter_parts_title": "Onderdelen ({count})",
+	"elearning_chapter_parts_empty": "Dit hoofdstuk heeft nog geen onderdelen.",
 	"elearning_part_count": [
 		{
 			"declarations": ["input count", "local countPlural = count: plural"],

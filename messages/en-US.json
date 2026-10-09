@@ -36,9 +36,13 @@
 	"elearning_questions": "Questions about this e-learning?",
 	"elearning_contact": "Get in touch",
 	"elearning_chapter_number": "Chapter {number}",
+	"elearning_chapter_number_of": "Chapter {number} of {total}",
 	"elearning_chapter_previous": "Previous",
 	"elearning_chapter_next": "Next",
 	"elearning_finish": "Finish",
+	"elearning_chapter_start": "Start this chapter",
+	"elearning_chapter_parts_title": "Parts ({count})",
+	"elearning_chapter_parts_empty": "This chapter has no parts yet.",
 	"elearning_part_count": [
 		{
 			"declarations": ["input count", "local countPlural = count: plural"],
