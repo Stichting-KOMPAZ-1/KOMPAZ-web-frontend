@@ -19,6 +19,7 @@ export const findChapter = (
 	[...eLearning.numberedChapters, ...eLearning.summaryChapters].find(
 		(chapter) => chapter.id === chapterId,
 	);
+
 export const splitChapters = (chapters: readonly ChapterResource[]) => ({
 	numberedChapters: chapters.filter((chapter) => !chapter.isSummary),
 	summaryChapters: chapters.filter((chapter) => chapter.isSummary),

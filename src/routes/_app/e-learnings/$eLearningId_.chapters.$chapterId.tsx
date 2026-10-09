@@ -1,11 +1,13 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, retainSearchParams } from "@tanstack/react-router";
 import ButtonLink from "components/button/button-link";
+import ChapterDetail from "components/e-learning/chapter-detail";
 import {
+	buildSteps,
 	eLearningSearchSchema,
 	findChapter,
+	stepPath,
 } from "components/e-learning/e-learning";
-import { Heading } from "components/heading/heading";
 import Icon from "components/icon/icon";
 import PageError from "components/page/page-error";
 import PageLoading from "components/page/page-loading";
@@ -14,6 +16,9 @@ import * as m from "lib/paraglide/messages";
 import { makePageTitle } from "lib/title";
 
 import style from "./$eLearningId_.chapters.$chapterId.module.scss";
+
+// TODO: KOM-66 implements it further
+const noProgress: ReadonlySet<string> = new Set();
 
 export const Route = createFileRoute(
 	"/_app/e-learnings/$eLearningId_/chapters/$chapterId",
@@ -44,7 +49,19 @@ function ChapterPage() {
 		eLearningShowOptions({ path: { eLearning: eLearningId } }),
 	);
 
+	const index = eLearning.numberedChapters.findIndex(
+		(candidate) => candidate.id === chapterId,
+	);
+
 	const chapter = findChapter(eLearning, chapterId);
+
+	const steps = buildSteps(eLearning.chapters);
+	const position = steps.findIndex(
+		(step) => step.kind === "chapter" && step.id === chapterId,
+	);
+
+	// TODO: KOM-66 marks the e-learning as completed on the last step
+	const nextStep = steps[position + 1];
 
 	return (
 		<div className={style.page}>
@@ -58,9 +75,18 @@ function ChapterPage() {
 			</ButtonLink>
 
 			{chapter ? (
-				<Heading el="h1" size="24-32">
-					{chapter.name}
-				</Heading>
+				<ChapterDetail
+					chapter={chapter}
+					eLearningId={eLearningId}
+					completedPartIds={noProgress}
+					number={index === -1 ? undefined : index + 1}
+					total={index === -1 ? undefined : eLearning.numberedChapters.length}
+					previousTo={stepPath(steps[position - 1], eLearningId)}
+					nextTo={
+						stepPath(nextStep, eLearningId) ?? `/e-learnings/${eLearningId}`
+					}
+					isLastStep={!nextStep}
+				/>
 			) : (
 				<PageError>{m.elearning_chapter_not_found()}</PageError>
 			)}
