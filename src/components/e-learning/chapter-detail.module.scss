@@ -1,0 +1,71 @@
+@use "/src/style/breakpoints.scss" as bp;
+
+.card {
+	display: flex;
+	flex-direction: column;
+	gap: var(--unit-24);
+	margin-inline: auto;
+	width: 100%;
+	max-width: var(--unit-640);
+
+	@include bp.desktop {
+		gap: var(--unit-48);
+	}
+}
+
+.main {
+	display: flex;
+	align-items: flex-start;
+	gap: var(--unit-12);
+}
+
+.badge {
+	display: none;
+
+	@include bp.desktop {
+		display: block;
+	}
+}
+
+.body {
+	display: flex;
+	flex: 1 1 auto;
+	flex-direction: column;
+	gap: var(--unit-24);
+	min-width: 0;
+
+	@include bp.desktop {
+		gap: var(--unit-36);
+	}
+}
+
+.intro {
+	display: flex;
+	flex-direction: column;
+	gap: var(--unit-4);
+}
+
+.eyebrow {
+	font: var(--font-body-regular-14-16);
+	text-transform: uppercase;
+}
+
+.description {
+	font: var(--font-body-regular-16-18);
+	white-space: pre-line;
+}
+
+.parts {
+	display: flex;
+	flex-direction: column;
+	gap: var(--unit-4);
+}
+
+.empty {
+	font: var(--font-body-regular-14-16);
+}
+
+.list {
+	display: flex;
+	flex-direction: column;
+}
