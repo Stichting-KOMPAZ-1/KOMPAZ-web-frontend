@@ -1,14 +1,14 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, retainSearchParams } from "@tanstack/react-router";
 import ButtonLink from "components/button/button-link";
+import ELearningContents from "components/e-learning/e-learning-contents";
+import ELearningStart from "components/e-learning/e-learning-start";
+import ELearningSummary from "components/e-learning/e-learning-summary";
 import {
 	eLearningSearchSchema,
 	findNextChapter,
 	findNextPart,
-} from "components/e-learning/e-learning";
-import ELearningContents from "components/e-learning/e-learning-contents";
-import ELearningStart from "components/e-learning/e-learning-start";
-import ELearningSummary from "components/e-learning/e-learning-summary";
+} from "components/e-learning/e-learning-utils";
 import { Heading } from "components/heading/heading";
 import Icon from "components/icon/icon";
 import PageError from "components/page/page-error";

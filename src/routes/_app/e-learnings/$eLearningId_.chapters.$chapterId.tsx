@@ -7,7 +7,7 @@ import {
 	eLearningSearchSchema,
 	findChapter,
 	stepPath,
-} from "components/e-learning/e-learning";
+} from "components/e-learning/e-learning-utils";
 import Icon from "components/icon/icon";
 import PageError from "components/page/page-error";
 import PageLoading from "components/page/page-loading";

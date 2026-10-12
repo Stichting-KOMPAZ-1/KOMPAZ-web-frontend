@@ -5,7 +5,7 @@ import {
 	buildSteps,
 	eLearningSearchSchema,
 	stepPath,
-} from "components/e-learning/e-learning";
+} from "components/e-learning/e-learning-utils";
 import StepNav from "components/e-learning/step-nav";
 import { Heading } from "components/heading/heading";
 import Icon from "components/icon/icon";
