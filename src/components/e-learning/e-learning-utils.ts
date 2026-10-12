@@ -30,26 +30,40 @@ export const orderChapters = (chapters: readonly ChapterResource[]) => {
 	return [...numberedChapters, ...summaryChapters];
 };
 
-type Step =
-	| { kind: "chapter"; id: string }
-	| { kind: "part"; id: string; chapterId: string };
+type Step = { kind: "chapter" | "part"; id: string };
 
-export const buildSteps = (chapters: readonly ChapterResource[]): Step[] =>
+const buildSteps = (chapters: readonly ChapterResource[]): Step[] =>
 	orderChapters(chapters).flatMap((chapter) => [
 		{ kind: "chapter" as const, id: chapter.id },
-		...chapter.parts.map((part) => ({
-			kind: "part" as const,
-			id: part.id,
-			chapterId: chapter.id,
-		})),
+		...chapter.parts.map((part) => ({ kind: "part" as const, id: part.id })),
 	]);
 
-export const stepPath = (step: Step | undefined, eLearningId: string) => {
+const stepPath = (step: Step | undefined, eLearningId: string) => {
 	if (!step) return undefined;
 
 	return step.kind === "chapter"
 		? `/e-learnings/${eLearningId}/chapters/${step.id}`
 		: `/e-learnings/${eLearningId}/parts/${step.id}`;
+};
+
+export const stepLinks = (
+	chapters: readonly ChapterResource[],
+	current: Step,
+	eLearningId: string,
+) => {
+	const steps = buildSteps(chapters);
+	const position = steps.findIndex(
+		(step) => step.kind === current.kind && step.id === current.id,
+	);
+
+	const next = position === -1 ? undefined : steps[position + 1];
+
+	return {
+		previousTo: stepPath(steps[position - 1], eLearningId),
+		// TODO: KOM-66 marks the e-learning as completed instead of leaving it
+		nextTo: stepPath(next, eLearningId) ?? `/e-learnings/${eLearningId}`,
+		isLastStep: !next,
+	};
 };
 
 const isChapterComplete = (

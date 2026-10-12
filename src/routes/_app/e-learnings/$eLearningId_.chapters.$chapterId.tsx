@@ -3,10 +3,9 @@ import { createFileRoute, retainSearchParams } from "@tanstack/react-router";
 import ButtonLink from "components/button/button-link";
 import ChapterDetail from "components/e-learning/chapter-detail";
 import {
-	buildSteps,
 	eLearningSearchSchema,
 	findChapter,
-	stepPath,
+	stepLinks,
 } from "components/e-learning/e-learning-utils";
 import Icon from "components/icon/icon";
 import PageError from "components/page/page-error";
@@ -55,13 +54,11 @@ function ChapterPage() {
 
 	const chapter = findChapter(eLearning, chapterId);
 
-	const steps = buildSteps(eLearning.chapters);
-	const position = steps.findIndex(
-		(step) => step.kind === "chapter" && step.id === chapterId,
+	const { previousTo, nextTo, isLastStep } = stepLinks(
+		eLearning.chapters,
+		{ kind: "chapter", id: chapterId },
+		eLearningId,
 	);
-
-	// TODO: KOM-66 marks the e-learning as completed on the last step
-	const nextStep = steps[position + 1];
 
 	return (
 		<div className={style.page}>
@@ -81,11 +78,9 @@ function ChapterPage() {
 					completedPartIds={noProgress}
 					number={index === -1 ? undefined : index + 1}
 					total={index === -1 ? undefined : eLearning.numberedChapters.length}
-					previousTo={stepPath(steps[position - 1], eLearningId)}
-					nextTo={
-						stepPath(nextStep, eLearningId) ?? `/e-learnings/${eLearningId}`
-					}
-					isLastStep={!nextStep}
+					previousTo={previousTo}
+					nextTo={nextTo}
+					isLastStep={isLastStep}
 				/>
 			) : (
 				<PageError>{m.elearning_chapter_not_found()}</PageError>

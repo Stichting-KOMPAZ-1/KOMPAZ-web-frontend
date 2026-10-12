@@ -2,9 +2,8 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, retainSearchParams } from "@tanstack/react-router";
 import ButtonLink from "components/button/button-link";
 import {
-	buildSteps,
 	eLearningSearchSchema,
-	stepPath,
+	stepLinks,
 } from "components/e-learning/e-learning-utils";
 import StepNav from "components/e-learning/step-nav";
 import { Heading } from "components/heading/heading";
@@ -58,17 +57,15 @@ function PartPage() {
 		eLearningShowOptions({ path: { eLearning: eLearningId } }),
 	);
 
-	const steps = buildSteps(eLearning.chapters);
-	const position = steps.findIndex(
-		(step) => step.kind === "part" && step.id === partId,
+	const { previousTo, nextTo, isLastStep } = stepLinks(
+		eLearning.chapters,
+		{ kind: "part", id: partId },
+		eLearningId,
 	);
 
 	const chapter = eLearning.chapters.find(
 		(candidate) => candidate.id === part.chapterId,
 	);
-
-	// TODO: KOM-66 marks the e-learning steps as completed
-	const nextStep = steps[position + 1];
 
 	return (
 		<div className={style.page}>
@@ -89,14 +86,12 @@ function PartPage() {
 				</Heading>
 
 				<StepNav
-					previousTo={stepPath(steps[position - 1], eLearningId)}
-					nextTo={
-						stepPath(nextStep, eLearningId) ?? `/e-learnings/${eLearningId}`
-					}
+					previousTo={previousTo}
+					nextTo={nextTo}
 					nextLabel={
-						nextStep ? m.elearning_chapter_next() : m.elearning_finish()
+						isLastStep ? m.elearning_finish() : m.elearning_chapter_next()
 					}
-					hideNextIcon={!nextStep}
+					hideNextIcon={isLastStep}
 				/>
 			</div>
 		</div>
