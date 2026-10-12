@@ -1,3 +1,5 @@
+@use "/src/style/focus.scss" as focus;
+
 @use "/src/style/breakpoints.scss" as bp;
 
 .header {
@@ -35,8 +37,7 @@
 	border-radius: var(--radius-12);
 
 	&:focus-visible {
-		outline: var(--border-width-1) solid var(--color-action);
-		outline-offset: 2px;
+		@include focus.ring;
 	}
 }
 

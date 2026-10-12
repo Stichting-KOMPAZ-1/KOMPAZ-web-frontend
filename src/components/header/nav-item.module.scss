@@ -1,3 +1,5 @@
+@use "/src/style/focus.scss" as focus;
+
 @use "/src/style/breakpoints.scss" as bp;
 
 .item {
@@ -15,8 +17,7 @@
 	}
 
 	&:focus-visible {
-		outline: var(--border-width-1) solid var(--color-action);
-		outline-offset: 2px;
+		@include focus.ring;
 	}
 
 	&[data-status="active"] {
