@@ -43,7 +43,6 @@ const ELearningSummary = ({
 			<PartList
 				parts={chapter.parts}
 				eLearningId={eLearningId}
-				chapterId={chapter.id}
 				completedPartIds={completedPartIds}
 			/>
 		</div>

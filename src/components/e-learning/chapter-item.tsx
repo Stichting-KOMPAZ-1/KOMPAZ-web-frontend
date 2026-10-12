@@ -42,7 +42,6 @@ const ChapterItem = ({
 			<PartList
 				parts={chapter.parts}
 				eLearningId={eLearningId}
-				chapterId={chapter.id}
 				completedPartIds={completedPartIds}
 				defaultOpen={open}
 				nextPartId={nextPartId}

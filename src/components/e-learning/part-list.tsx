@@ -10,7 +10,6 @@ import style from "./part-list.module.scss";
 type Props = {
 	parts: readonly PartSummaryResource[];
 	eLearningId: string;
-	chapterId: string;
 	completedPartIds: ReadonlySet<string>;
 	defaultOpen?: boolean;
 	nextPartId?: string;
@@ -19,7 +18,6 @@ type Props = {
 const PartList = ({
 	parts,
 	eLearningId,
-	chapterId,
 	completedPartIds,
 	defaultOpen = false,
 	nextPartId,
@@ -33,15 +31,11 @@ const PartList = ({
 
 			<Collapsible.Panel className={style.panel}>
 				<ul className={style.list}>
-					{parts.map((part, index) => (
+					{parts.map((part) => (
 						<PartRow
 							key={part.id}
 							part={part}
-							to={
-								index === 0
-									? `/e-learnings/${eLearningId}/chapters/${chapterId}`
-									: `/e-learnings/${eLearningId}/parts/${part.id}`
-							}
+							to={`/e-learnings/${eLearningId}/parts/${part.id}`}
 							done={completedPartIds.has(part.id)}
 							callToAction={
 								part.id === nextPartId ? m.elearning_start() : undefined
