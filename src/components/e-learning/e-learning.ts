@@ -6,8 +6,8 @@ export const eLearningSearchSchema = z.object({
 });
 
 export const splitChapters = (chapters: readonly ChapterResource[]) => ({
-	numbered: chapters.filter((chapter) => !chapter.isSummary),
-	summaries: chapters.filter((chapter) => chapter.isSummary),
+	numberedChapters: chapters.filter((chapter) => !chapter.isSummary),
+	summaryChapters: chapters.filter((chapter) => chapter.isSummary),
 });
 
 const isChapterComplete = (

@@ -46,8 +46,10 @@ function ELearningPage() {
 		eLearningShowOptions({ path: { eLearning: eLearningId } }),
 	);
 
-	const { numbered, summaries } = splitChapters(eLearning.chapters);
-	const nextChapter = findNextChapter(numbered, noProgress);
+	const { numberedChapters, summaryChapters } = splitChapters(
+		eLearning.chapters,
+	);
+	const nextChapter = findNextChapter(numberedChapters, noProgress);
 	const nextPart = findNextPart(nextChapter, noProgress);
 
 	return (
@@ -81,7 +83,7 @@ function ELearningPage() {
 						{nextChapter && (
 							<ELearningStart
 								chapter={nextChapter}
-								number={numbered.indexOf(nextChapter) + 1}
+								number={numberedChapters.indexOf(nextChapter) + 1}
 								eLearningId={eLearningId}
 							/>
 						)}
@@ -97,14 +99,14 @@ function ELearningPage() {
 				</header>
 
 				<ELearningContents
-					chapters={numbered}
+					chapters={numberedChapters}
 					eLearningId={eLearningId}
 					completedPartIds={noProgress}
 					openChapterId={nextChapter?.id}
 					nextPartId={nextPart?.id}
 				/>
 
-				{summaries.map((summary) => (
+				{summaryChapters.map((summary) => (
 					<ELearningSummary
 						key={summary.id}
 						chapter={summary}
