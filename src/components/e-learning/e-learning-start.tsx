@@ -1,4 +1,3 @@
-import Button from "components/button/button";
 import ButtonLink from "components/button/button-link";
 import { Heading } from "components/heading/heading";
 import Icon from "components/icon/icon";
@@ -6,9 +5,6 @@ import type { ChapterResource } from "lib/heyapi";
 import * as m from "lib/paraglide/messages";
 
 import style from "./e-learning-start.module.scss";
-
-// oxlint-disable-next-line jsx-a11y/anchor-has-content, jsx-a11y/control-has-associated-label -- base-ui merges the button's children into this anchor
-const contactLink = <a href="#contact" />;
 
 type Props = {
 	chapter: ChapterResource;
@@ -35,11 +31,10 @@ const ELearningStart = ({ chapter, number, eLearningId }: Props) => (
 		<p className={style.footer}>
 			<Icon name="circle-question-mark" />
 			<span className={style.question}>{m.elearning_questions()}</span>
-			{/* TODO: KOM-61 link it to the page footer with the contact information */}
-			<Button variant="link" nativeButton={false} render={contactLink}>
+			<ButtonLink variant="link" to="." hash="contact">
 				{m.elearning_contact()}
 				<Icon name="chevron-right" />
-			</Button>
+			</ButtonLink>
 		</p>
 	</div>
 );
