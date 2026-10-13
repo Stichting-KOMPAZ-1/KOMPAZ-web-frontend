@@ -47,9 +47,13 @@
 .sections {
 	grid-column: main;
 
-	display: flex;
-	flex-direction: column;
-	gap: var(--unit-32);
+	display: grid;
+	grid-template-columns: subgrid;
+	row-gap: var(--unit-32);
+
+	& > * {
+		grid-column: 1 / -1;
+	}
 }
 
 .attribution {
