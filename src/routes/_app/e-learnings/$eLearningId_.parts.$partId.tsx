@@ -3,6 +3,7 @@ import { createFileRoute, retainSearchParams } from "@tanstack/react-router";
 import ButtonLink from "components/button/button-link";
 import {
 	eLearningSearchSchema,
+	findChapter,
 	stepLinks,
 } from "components/e-learning/e-learning-utils";
 import StepNav from "components/e-learning/step-nav";
@@ -57,14 +58,12 @@ function PartPage() {
 		eLearningShowOptions({ path: { eLearning: eLearningId } }),
 	);
 
+	const chapter = findChapter(eLearning, part.chapterId);
+
 	const { previousTo, nextTo, isLastStep } = stepLinks(
-		eLearning.chapters,
+		eLearning,
 		{ kind: "part", id: partId },
 		eLearningId,
-	);
-
-	const chapter = eLearning.chapters.find(
-		(candidate) => candidate.id === part.chapterId,
 	);
 
 	return (

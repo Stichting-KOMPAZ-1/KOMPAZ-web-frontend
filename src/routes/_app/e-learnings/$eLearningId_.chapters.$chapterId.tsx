@@ -32,7 +32,7 @@ export const Route = createFileRoute(
 		meta: [
 			{
 				title: makePageTitle(
-					findChapter(loaderData, params.chapterId)?.name ?? "",
+					(loaderData && findChapter(loaderData, params.chapterId)?.name) ?? "",
 				),
 			},
 		],
@@ -55,7 +55,7 @@ function ChapterPage() {
 	const chapter = findChapter(eLearning, chapterId);
 
 	const { previousTo, nextTo, isLastStep } = stepLinks(
-		eLearning.chapters,
+		eLearning,
 		{ kind: "chapter", id: chapterId },
 		eLearningId,
 	);

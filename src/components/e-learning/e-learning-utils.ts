@@ -9,20 +9,23 @@ export const eLearningSearchSchema = z.object({
 	module: z.optional(z.string()),
 });
 
-export const findChapter = (
-	eLearning:
-		| Pick<ELearningResource, "numberedChapters" | "summaryChapters">
-		| undefined,
-	chapterId: string,
-): ChapterResource | undefined =>
-	eLearning &&
-	[...eLearning.numberedChapters, ...eLearning.summaryChapters].find(
-		(chapter) => chapter.id === chapterId,
-	);
+type ChapterSplit = Pick<
+	ELearningResource,
+	"numberedChapters" | "summaryChapters"
+>;
+
+export const chaptersInReadingOrder = ({
+	numberedChapters,
+	summaryChapters,
+}: ChapterSplit) => [...numberedChapters, ...summaryChapters];
+
+export const findChapter = (eLearning: ChapterSplit, chapterId: string) =>
+	chaptersInReadingOrder(eLearning).find((chapter) => chapter.id === chapterId);
+
 type Step = { kind: "chapter" | "part"; id: string };
 
-const buildSteps = (chapters: readonly ChapterResource[]): Step[] =>
-	chapters.flatMap((chapter) => [
+const buildSteps = (eLearning: ChapterSplit): Step[] =>
+	chaptersInReadingOrder(eLearning).flatMap((chapter) => [
 		{ kind: "chapter" as const, id: chapter.id },
 		...chapter.parts.map((part) => ({ kind: "part" as const, id: part.id })),
 	]);
@@ -36,11 +39,11 @@ const stepPath = (step: Step | undefined, eLearningId: string) => {
 };
 
 export const stepLinks = (
-	chapters: readonly ChapterResource[],
+	eLearning: ChapterSplit,
 	current: Step,
 	eLearningId: string,
 ) => {
-	const steps = buildSteps(chapters);
+	const steps = buildSteps(eLearning);
 	const position = steps.findIndex(
 		(step) => step.kind === current.kind && step.id === current.id,
 	);
