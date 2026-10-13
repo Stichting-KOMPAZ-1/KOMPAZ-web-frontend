@@ -19,21 +19,10 @@ export const findChapter = (
 	[...eLearning.numberedChapters, ...eLearning.summaryChapters].find(
 		(chapter) => chapter.id === chapterId,
 	);
-
-export const splitChapters = (chapters: readonly ChapterResource[]) => ({
-	numberedChapters: chapters.filter((chapter) => !chapter.isSummary),
-	summaryChapters: chapters.filter((chapter) => chapter.isSummary),
-});
-
-export const orderChapters = (chapters: readonly ChapterResource[]) => {
-	const { numberedChapters, summaryChapters } = splitChapters(chapters);
-	return [...numberedChapters, ...summaryChapters];
-};
-
 type Step = { kind: "chapter" | "part"; id: string };
 
 const buildSteps = (chapters: readonly ChapterResource[]): Step[] =>
-	orderChapters(chapters).flatMap((chapter) => [
+	chapters.flatMap((chapter) => [
 		{ kind: "chapter" as const, id: chapter.id },
 		...chapter.parts.map((part) => ({ kind: "part" as const, id: part.id })),
 	]);
