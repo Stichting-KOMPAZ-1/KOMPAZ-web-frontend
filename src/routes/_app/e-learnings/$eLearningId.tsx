@@ -5,7 +5,6 @@ import {
 	eLearningSearchSchema,
 	findNextChapter,
 	findNextPart,
-	splitChapters,
 } from "components/e-learning/e-learning";
 import ELearningContents from "components/e-learning/e-learning-contents";
 import ELearningStart from "components/e-learning/e-learning-start";
@@ -46,9 +45,7 @@ function ELearningPage() {
 		eLearningShowOptions({ path: { eLearning: eLearningId } }),
 	);
 
-	const { numberedChapters, summaryChapters } = splitChapters(
-		eLearning.chapters,
-	);
+	const { numberedChapters, summaryChapters } = eLearning;
 	const nextChapter = findNextChapter(numberedChapters, noProgress);
 	const nextPart = findNextPart(nextChapter, noProgress);
 
