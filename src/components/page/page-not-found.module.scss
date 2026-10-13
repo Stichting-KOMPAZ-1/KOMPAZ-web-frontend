@@ -1,3 +1,5 @@
+@use "/src/style/breakpoints.scss" as bp;
+
 .page {
 	display: flex;
 	flex-direction: column;
@@ -8,6 +10,10 @@
 	padding: var(--unit-24);
 	min-height: 100cqb;
 	text-align: center;
+
+	@include bp.desktop {
+		gap: var(--unit-32);
+	}
 }
 
 .text {
