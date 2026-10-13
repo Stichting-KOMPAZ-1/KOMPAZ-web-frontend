@@ -85,4 +85,12 @@
 	@include bp.desktop {
 		gap: var(--unit-48);
 	}
+
+	&:last-child {
+		padding-block-end: var(--unit-24);
+
+		@include bp.desktop {
+			padding-block-end: var(--unit-32);
+		}
+	}
 }

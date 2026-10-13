@@ -85,6 +85,7 @@ function ELearningPage() {
 								chapter={nextChapter}
 								number={numberedChapters.indexOf(nextChapter) + 1}
 								eLearningId={eLearningId}
+								hasContacts={contacts.length > 0}
 							/>
 						)}
 					</div>
