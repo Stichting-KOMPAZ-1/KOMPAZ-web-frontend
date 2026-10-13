@@ -1,6 +1,8 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, retainSearchParams } from "@tanstack/react-router";
 import ButtonLink from "components/button/button-link";
+import ContactSection from "components/contact/contact-section";
+import { useModuleContacts } from "components/contact/use-module-contacts";
 import ELearningContents from "components/e-learning/e-learning-contents";
 import ELearningStart from "components/e-learning/e-learning-start";
 import ELearningSummary from "components/e-learning/e-learning-summary";
@@ -41,6 +43,7 @@ export const Route = createFileRoute("/_app/e-learnings/$eLearningId")({
 function ELearningPage() {
 	const { eLearningId } = Route.useParams();
 	const { module: moduleId } = Route.useSearch();
+	const contacts = useModuleContacts(moduleId);
 	const { data: eLearning } = useSuspenseQuery(
 		eLearningShowOptions({ path: { eLearning: eLearningId } }),
 	);
@@ -113,6 +116,8 @@ function ELearningPage() {
 						/>
 					))}
 				</div>
+
+				<ContactSection contacts={contacts} />
 			</article>
 		</div>
 	);

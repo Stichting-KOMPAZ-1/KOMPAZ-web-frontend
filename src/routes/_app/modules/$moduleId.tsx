@@ -1,6 +1,7 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import ButtonLink from "components/button/button-link";
+import ContactSection from "components/contact/contact-section";
 import { Heading } from "components/heading/heading";
 import Icon from "components/icon/icon";
 import ResourceRow from "components/module/resource-row";
@@ -95,6 +96,7 @@ function ModulePage() {
 					{module.sourceAttribution && (
 						<p className={style.attribution}>{module.sourceAttribution}</p>
 					)}
+					<ContactSection contacts={module.contacts} />
 				</div>
 			</article>
 		</div>

@@ -1,6 +1,8 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, retainSearchParams } from "@tanstack/react-router";
 import ButtonLink from "components/button/button-link";
+import ContactSection from "components/contact/contact-section";
+import { useModuleContacts } from "components/contact/use-module-contacts";
 import {
 	eLearningSearchSchema,
 	findChapter,
@@ -49,6 +51,8 @@ export const Route = createFileRoute(
 
 function PartPage() {
 	const { eLearningId, partId } = Route.useParams();
+	const { module: moduleId } = Route.useSearch();
+	const contacts = useModuleContacts(moduleId);
 	const { data: part } = useSuspenseQuery(
 		eLearningPartOptions({
 			path: { eLearning: eLearningId, part: partId },
@@ -92,6 +96,8 @@ function PartPage() {
 					hideNextIcon={isLastStep}
 				/>
 			</div>
+
+			<ContactSection contacts={contacts} />
 		</div>
 	);
 }

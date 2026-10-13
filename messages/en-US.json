@@ -85,6 +85,9 @@
 	"login_link_submitting": "Logging in...",
 	"login_link_invalid_body": "This login link is no longer valid. Enter your email address to request a new one.",
 
+	"contact_title": "Any questions?",
+	"contact_subtitle": "Get in touch with us!",
+
 	"error_unknown": "Unknown error.",
 
 	"not_found_title": "Not found",
