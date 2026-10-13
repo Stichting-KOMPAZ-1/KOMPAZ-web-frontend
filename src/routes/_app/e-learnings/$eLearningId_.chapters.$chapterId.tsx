@@ -54,11 +54,10 @@ function ChapterPage() {
 
 	const chapter = findChapter(eLearning, chapterId);
 
-	const { previousTo, nextTo, isLastStep } = stepLinks(
-		eLearning,
-		{ kind: "chapter", id: chapterId },
-		eLearningId,
-	);
+	const { previousTo, nextTo, isLastStep } = stepLinks(eLearning, {
+		kind: "chapter",
+		id: chapterId,
+	});
 
 	return (
 		<div className={style.page}>

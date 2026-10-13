@@ -60,11 +60,10 @@ function PartPage() {
 
 	const chapter = findChapter(eLearning, part.chapterId);
 
-	const { previousTo, nextTo, isLastStep } = stepLinks(
-		eLearning,
-		{ kind: "part", id: partId },
-		eLearningId,
-	);
+	const { previousTo, nextTo, isLastStep } = stepLinks(eLearning, {
+		kind: "part",
+		id: partId,
+	});
 
 	return (
 		<div className={style.page}>

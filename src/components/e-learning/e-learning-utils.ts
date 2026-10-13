@@ -11,7 +11,7 @@ export const eLearningSearchSchema = z.object({
 
 type ChapterSplit = Pick<
 	ELearningResource,
-	"numberedChapters" | "summaryChapters"
+	"id" | "numberedChapters" | "summaryChapters"
 >;
 
 export const chaptersInReadingOrder = ({
@@ -38,11 +38,7 @@ const stepPath = (step: Step | undefined, eLearningId: string) => {
 		: `/e-learnings/${eLearningId}/parts/${step.id}`;
 };
 
-export const stepLinks = (
-	eLearning: ChapterSplit,
-	current: Step,
-	eLearningId: string,
-) => {
+export const stepLinks = (eLearning: ChapterSplit, current: Step) => {
 	const steps = buildSteps(eLearning);
 	const position = steps.findIndex(
 		(step) => step.kind === current.kind && step.id === current.id,
@@ -51,9 +47,9 @@ export const stepLinks = (
 	const next = position === -1 ? undefined : steps[position + 1];
 
 	return {
-		previousTo: stepPath(steps[position - 1], eLearningId),
+		previousTo: stepPath(steps[position - 1], eLearning.id),
 		// TODO: KOM-66 marks the e-learning as completed instead of leaving it
-		nextTo: stepPath(next, eLearningId) ?? `/e-learnings/${eLearningId}`,
+		nextTo: stepPath(next, eLearning.id) ?? `/e-learnings/${eLearning.id}`,
 		isLastStep: !next,
 	};
 };
