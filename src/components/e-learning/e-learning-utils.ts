@@ -9,22 +9,17 @@ export const eLearningSearchSchema = z.object({
 	module: z.optional(z.string()),
 });
 
-type ChapterSplit = Pick<
-	ELearningResource,
-	"id" | "numberedChapters" | "summaryChapters"
->;
-
 export const chaptersInReadingOrder = ({
 	numberedChapters,
 	summaryChapters,
-}: ChapterSplit) => [...numberedChapters, ...summaryChapters];
+}: ELearningResource) => [...numberedChapters, ...summaryChapters];
 
-export const findChapter = (eLearning: ChapterSplit, chapterId: string) =>
+export const findChapter = (eLearning: ELearningResource, chapterId: string) =>
 	chaptersInReadingOrder(eLearning).find((chapter) => chapter.id === chapterId);
 
 type Step = { kind: "chapter" | "part"; id: string };
 
-const buildSteps = (eLearning: ChapterSplit): Step[] =>
+const buildSteps = (eLearning: ELearningResource): Step[] =>
 	chaptersInReadingOrder(eLearning).flatMap((chapter) => [
 		{ kind: "chapter" as const, id: chapter.id },
 		...chapter.parts.map((part) => ({ kind: "part" as const, id: part.id })),
@@ -38,7 +33,7 @@ const stepPath = (step: Step | undefined, eLearningId: string) => {
 		: `/e-learnings/${eLearningId}/parts/${step.id}`;
 };
 
-export const stepLinks = (eLearning: ChapterSplit, current: Step) => {
+export const stepLinks = (eLearning: ELearningResource, current: Step) => {
 	const steps = buildSteps(eLearning);
 	const position = steps.findIndex(
 		(step) => step.kind === current.kind && step.id === current.id,
