@@ -1,9 +1,9 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, retainSearchParams } from "@tanstack/react-router";
 import ButtonLink from "components/button/button-link";
+import ChapterDetail from "components/chapter/chapter-detail";
 import ContactSection from "components/contact/contact-section";
 import { useModuleContacts } from "components/contact/use-module-contacts";
-import ChapterDetail from "components/e-learning/chapter-detail";
 import {
 	eLearningSearchSchema,
 	findChapter,

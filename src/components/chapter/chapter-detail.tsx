@@ -1,10 +1,10 @@
+import PartRow from "components/chapter-part/part-row";
+import StepNav from "components/e-learning/step-nav";
 import { Heading } from "components/heading/heading";
 import type { ChapterResource } from "lib/heyapi";
 import * as m from "lib/paraglide/messages";
 
 import ChapterBadge from "./chapter-badge";
-import PartRow from "./part-row";
-import StepNav from "./step-nav";
 
 import style from "./chapter-detail.module.scss";
 
