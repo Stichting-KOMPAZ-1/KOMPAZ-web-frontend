@@ -72,6 +72,8 @@
 	"elearning_load_error": "Deze e-learning kon niet worden geladen.",
 	"elearning_chapter_not_found": "Dit hoofdstuk hoort niet bij deze e-learning.",
 	"elearning_part_load_error": "Dit onderdeel kon niet worden geladen.",
+	"elearning_block_video": "Video",
+	"elearning_block_video_link": "Bekijk de video",
 
 	"login_title": "Login op het ZelfZorg platform",
 	"login_subtitle": "Vul je e-mailadres in om een login-link te ontvangen.",
