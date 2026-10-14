@@ -9,8 +9,10 @@ type Props = {
 	contacts: readonly ModuleContactResource[];
 };
 
-const ContactSection = ({ contacts }: Props) =>
-	contacts.length === 0 ? null : (
+const ContactSection = ({ contacts }: Props) => {
+	if (contacts.length === 0) return null;
+
+	return (
 		<section id="contact" className={style.section}>
 			<div className={style.intro}>
 				<Heading el="h2" size="20-24">
@@ -26,5 +28,6 @@ const ContactSection = ({ contacts }: Props) =>
 			</ul>
 		</section>
 	);
+};
 
 export default ContactSection;
