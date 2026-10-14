@@ -1,7 +1,10 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, retainSearchParams } from "@tanstack/react-router";
 import ButtonLink from "components/button/button-link";
-import { eLearningSearchSchema } from "components/e-learning/e-learning";
+import {
+	eLearningSearchSchema,
+	findChapter,
+} from "components/e-learning/e-learning";
 import { Heading } from "components/heading/heading";
 import Icon from "components/icon/icon";
 import PageError from "components/page/page-error";
@@ -25,9 +28,7 @@ export const Route = createFileRoute(
 		meta: [
 			{
 				title: makePageTitle(
-					loaderData?.chapters.find(
-						(chapter) => chapter.id === params.chapterId,
-					)?.name ?? "",
+					findChapter(loaderData, params.chapterId)?.name ?? "",
 				),
 			},
 		],
@@ -43,9 +44,7 @@ function ChapterPage() {
 		eLearningShowOptions({ path: { eLearning: eLearningId } }),
 	);
 
-	const chapter = eLearning.chapters.find(
-		(candidate) => candidate.id === chapterId,
-	);
+	const chapter = findChapter(eLearning, chapterId);
 
 	return (
 		<div className={style.page}>

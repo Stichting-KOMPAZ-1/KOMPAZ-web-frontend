@@ -1,9 +1,24 @@
-import type { ChapterResource, PartSummaryResource } from "lib/heyapi";
+import type {
+	ChapterResource,
+	ELearningResource,
+	PartSummaryResource,
+} from "lib/heyapi";
 import z from "zod";
 
 export const eLearningSearchSchema = z.object({
 	module: z.optional(z.string()),
 });
+
+export const findChapter = (
+	eLearning:
+		| Pick<ELearningResource, "numberedChapters" | "summaryChapters">
+		| undefined,
+	chapterId: string,
+): ChapterResource | undefined =>
+	eLearning &&
+	[...eLearning.numberedChapters, ...eLearning.summaryChapters].find(
+		(chapter) => chapter.id === chapterId,
+	);
 
 const isChapterComplete = (
 	chapter: ChapterResource,
