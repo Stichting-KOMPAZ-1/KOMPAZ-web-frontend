@@ -1,45 +1,48 @@
 @use "/src/style/breakpoints.scss" as bp;
+@use "/src/style/grid.scss" as grid;
 
 .page {
-	display: flex;
-	grid-column: main;
-	flex-direction: column;
-	gap: var(--unit-24);
+	@include grid.columns;
+
+	row-gap: var(--unit-24);
 	padding-block: var(--unit-24);
+
+	@include bp.desktop {
+		row-gap: var(--unit-32);
+	}
 }
 
 .back {
-	align-self: flex-start;
+	grid-column: main;
+	justify-self: start;
 }
 
 .content {
-	display: flex;
-	flex-direction: column;
-	gap: var(--unit-32);
+	@include grid.columns;
+
+	row-gap: var(--unit-32);
 
 	@include bp.desktop {
-		gap: var(--unit-48);
+		row-gap: var(--unit-48);
 	}
 }
 
 .hero {
-	display: grid;
-	align-items: start;
-	gap: var(--unit-32);
+	@include grid.columns;
 
-	@include bp.desktop {
-		grid-template-columns: 1fr 1fr;
-		gap: var(--unit-48);
-	}
+	align-items: start;
+	row-gap: var(--unit-32);
 }
 
 .intro {
+	grid-column: main;
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
 	gap: var(--unit-12);
 
 	@include bp.desktop {
+		grid-column: main-start / 7;
 		gap: var(--unit-32);
 	}
 }
@@ -52,6 +55,7 @@
 }
 
 .frame {
+	grid-column: main;
 	order: -1;
 	border-radius: var(--radius-20);
 	background: var(--color-border-muted);
@@ -59,6 +63,7 @@
 	rotate: -1.35deg;
 
 	@include bp.desktop {
+		grid-column: 7 / main-end;
 		order: 0;
 	}
 }
@@ -70,4 +75,15 @@
 	aspect-ratio: 3 / 2;
 	object-fit: cover;
 	rotate: 1.35deg;
+}
+
+.chapters {
+	grid-column: main;
+	display: flex;
+	flex-direction: column;
+	gap: var(--unit-32);
+
+	@include bp.desktop {
+		gap: var(--unit-48);
+	}
 }

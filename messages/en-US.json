@@ -87,5 +87,7 @@
 
 	"error_unknown": "Unknown error.",
 
-	"not_found_title": "Not found"
+	"not_found_title": "Not found",
+	"not_found_body": "This page does not exist or has moved.",
+	"not_found_home": "Back to home"
 }

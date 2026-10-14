@@ -1,20 +1,30 @@
+@use "/src/style/breakpoints.scss" as bp;
+@use "/src/style/grid.scss" as grid;
+
 .page {
-	display: flex;
-	grid-column: main;
-	flex-direction: column;
-	gap: var(--unit-24);
+	@include grid.columns;
+
+	row-gap: var(--unit-24);
 	padding-block: var(--unit-24);
+
+	@include bp.desktop {
+		row-gap: var(--unit-32);
+	}
 }
 
 .back {
-	align-self: flex-start;
+	grid-column: main;
+	justify-self: start;
 }
 
 .content {
+	grid-column: main;
+
 	display: flex;
 	flex-direction: column;
 	gap: var(--unit-24);
-	margin-inline: auto;
-	width: 100%;
-	max-width: var(--unit-640);
+
+	@include bp.desktop {
+		grid-column: 2 / 12;
+	}
 }
