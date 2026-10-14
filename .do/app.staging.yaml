@@ -51,6 +51,12 @@ services:
         scope: BUILD_TIME
         value: https://backend.kompaz.staging.igne.link
 
+      # Google Analytics 4, inlined into the bundle. Staging's own property, so
+      # test traffic here never lands in production's figures.
+      - key: VITE_GA_MEASUREMENT_ID
+        scope: BUILD_TIME
+        value: G-1ZC5NDVVJJ
+
       # Read by nginx at container start, hence RUN_TIME. The backend's real
       # public origin, not its frbit.app default, which 301-redirects here.
       - key: BACKEND_ORIGIN
