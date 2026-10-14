@@ -12,8 +12,7 @@ type Props = {
 };
 
 const ContentBlock = ({ block }: Props) => {
-	const media = blockMedia(block);
-	if (!block.title && !media) {
+	if (!block.title && !hasContent(block)) {
 		return null;
 	}
 
@@ -24,9 +23,20 @@ const ContentBlock = ({ block }: Props) => {
 					{block.title}
 				</Heading>
 			)}
-			{media}
+			{blockMedia(block)}
 		</section>
 	);
+};
+
+const hasContent = (block: ContentBlockResource) => {
+	switch (block.type) {
+		case "Text":
+			return Boolean(block.body);
+		case "Image":
+			return Boolean(block.fileUrl);
+		case "Video":
+			return Boolean(block.fileUrl || block.videoUrl);
+	}
 };
 
 const blockMedia = (block: ContentBlockResource) => {
