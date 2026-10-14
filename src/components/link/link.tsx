@@ -3,13 +3,13 @@ import clsx from "clsx";
 import * as m from "lib/paraglide/messages";
 import type React from "react";
 
-import style from "./text-link.module.scss";
+import style from "./link.module.scss";
 
 type StyleProps = {
 	inline?: boolean;
 };
 
-const TextLinkAnchor = ({
+const LinkAnchor = ({
 	inline = false,
 	className,
 	children,
@@ -20,18 +20,18 @@ const TextLinkAnchor = ({
 	</a>
 );
 
-export const TextLink = createLink(TextLinkAnchor);
+export const Link = createLink(LinkAnchor);
 
-type TextAnchorProps = React.ComponentPropsWithoutRef<"a"> & StyleProps;
+type AnchorProps = React.ComponentPropsWithoutRef<"a"> & StyleProps;
 
-export const TextAnchor = ({
+export const Anchor = ({
 	inline = false,
 	className,
 	children,
 	target,
 	rel = target === "_blank" ? "noopener noreferrer" : undefined,
 	...props
-}: TextAnchorProps) => (
+}: AnchorProps) => (
 	<a
 		className={clsx(style.link, inline && style.inline, className)}
 		target={target}
