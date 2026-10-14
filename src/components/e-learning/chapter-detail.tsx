@@ -12,8 +12,8 @@ type Props = {
 	chapter: ChapterResource;
 	eLearningId: string;
 	completedPartIds: ReadonlySet<string>;
-	number?: number;
-	total?: number;
+	chapterNumber?: number;
+	totalChapters?: number;
 	previousTo?: string;
 	nextTo?: string;
 	isLastStep?: boolean;
@@ -23,13 +23,13 @@ const ChapterDetail = ({
 	chapter,
 	eLearningId,
 	completedPartIds,
-	number,
-	total,
+	chapterNumber,
+	totalChapters,
 	previousTo,
 	nextTo,
 	isLastStep = false,
 }: Props) => {
-	const isSummary = number === undefined || total === undefined;
+	const isSummary = chapterNumber === undefined || totalChapters === undefined;
 	const hasParts = chapter.parts.length > 0;
 
 	const nextLabel = isLastStep
@@ -44,7 +44,7 @@ const ChapterDetail = ({
 		<article className={style.card}>
 			<div className={style.main}>
 				<span className={style.badge}>
-					<ChapterBadge number={number} size="large" />
+					<ChapterBadge number={chapterNumber} size="large" />
 				</span>
 
 				<div className={style.body}>
@@ -52,7 +52,10 @@ const ChapterDetail = ({
 						<p className={style.eyebrow}>
 							{isSummary
 								? m.elearning_chapter_summary()
-								: m.elearning_chapter_number_of({ number, total })}
+								: m.elearning_chapter_number_of({
+										number: chapterNumber,
+										total: totalChapters,
+									})}
 						</p>
 
 						<Heading el="h1" size="24-32">

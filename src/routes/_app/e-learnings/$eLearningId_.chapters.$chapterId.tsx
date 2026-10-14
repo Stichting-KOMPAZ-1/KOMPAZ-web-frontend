@@ -75,8 +75,10 @@ function ChapterPage() {
 					chapter={chapter}
 					eLearningId={eLearningId}
 					completedPartIds={noProgress}
-					number={index === -1 ? undefined : index + 1}
-					total={index === -1 ? undefined : eLearning.numberedChapters.length}
+					chapterNumber={index === -1 ? undefined : index + 1}
+					totalChapters={
+						index === -1 ? undefined : eLearning.numberedChapters.length
+					}
 					previousTo={previousTo}
 					nextTo={nextTo}
 					isLastStep={isLastStep}
