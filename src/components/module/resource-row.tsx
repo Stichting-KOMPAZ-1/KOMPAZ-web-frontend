@@ -1,5 +1,6 @@
-import { Link, type LinkComponentProps } from "@tanstack/react-router";
+import type { LinkComponentProps } from "@tanstack/react-router";
 import Icon, { type IconName } from "components/icon/icon";
+import { TextAnchor, TextLink } from "components/link/text-link";
 
 import style from "./resource-row.module.scss";
 
@@ -27,20 +28,15 @@ const ResourceRow = ({
 			<Icon name={icon} size={24} />
 		</span>
 		{to ? (
-			<Link className={style.link} to={to} params={params} search={search}>
+			<TextLink className={style.link} to={to} params={params} search={search}>
 				{title}
 				<Icon name="arrow-right" />
-			</Link>
+			</TextLink>
 		) : href ? (
-			<a
-				className={style.link}
-				href={href}
-				target="_blank"
-				rel="noreferrer noopener"
-			>
+			<TextAnchor className={style.link} href={href} newTab>
 				{title}
 				<Icon name="external-link" />
-			</a>
+			</TextAnchor>
 		) : (
 			<span>{title}</span>
 		)}

@@ -1,4 +1,3 @@
-@use "/src/style/link.scss" as link;
 @use "/src/style/surface.scss" as surface;
 
 .card {
@@ -51,8 +50,6 @@
 }
 
 .link {
-	@include link.text;
-
 	overflow-wrap: anywhere;
 }
 

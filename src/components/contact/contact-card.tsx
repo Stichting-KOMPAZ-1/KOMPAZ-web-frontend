@@ -1,5 +1,6 @@
 import { Heading } from "components/heading/heading";
 import Icon from "components/icon/icon";
+import { TextAnchor } from "components/link/text-link";
 import type { ModuleContactResource } from "lib/heyapi";
 
 import style from "./contact-card.module.scss";
@@ -27,9 +28,9 @@ const ContactCard = ({ contact }: Props) => (
 						<span className={style.iconBlock}>
 							<Icon name="mail" size={24} />
 						</span>
-						<a className={style.link} href={`mailto:${contact.email}`}>
+						<TextAnchor className={style.link} href={`mailto:${contact.email}`}>
 							{contact.email}
-						</a>
+						</TextAnchor>
 					</p>
 				)}
 
@@ -39,9 +40,9 @@ const ContactCard = ({ contact }: Props) => (
 							<Icon name="phone" size={24} />
 						</span>
 						<span className={style.stacked}>
-							<a className={style.link} href={`tel:${contact.phone}`}>
+							<TextAnchor className={style.link} href={`tel:${contact.phone}`}>
 								{contact.phone}
-							</a>
+							</TextAnchor>
 							{contact.availability && (
 								<span className={style.availability}>
 									{contact.availability}
