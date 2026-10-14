@@ -76,6 +76,8 @@
 	"elearning_chapter_not_found": "This chapter is not part of this e-learning.",
 	"elearning_part_load_error": "This part could not be loaded.",
 
+	"shared_elearning_unavailable": "This e-learning is not available (anymore). Ask your care provider for a new link.",
+
 	"login_title": "Log in to the ZelfZorg platform",
 	"login_subtitle": "Enter your email address to receive a login link.",
 	"login_form_label": "Log in",

@@ -63,6 +63,14 @@ export const translatedPathnames = createTranslatedPathnames({
 		"en-US": "/e-learnings/$eLearningId/parts/$partId",
 		"nl-NL": "/e-learnings/$eLearningId/parts/$partId",
 	},
+	"/$organizationSlug/$eLearningSlug": {
+		"en-US": "/$organizationSlug/$eLearningSlug",
+		"nl-NL": "/$organizationSlug/$eLearningSlug",
+	},
+	"/$organizationSlug/qr/$eLearningSlug": {
+		"en-US": "/$organizationSlug/qr/$eLearningSlug",
+		"nl-NL": "/$organizationSlug/qr/$eLearningSlug",
+	},
 	"/profile": {
 		"en-US": "/profile",
 		"nl-NL": "/profiel",
