@@ -3,6 +3,7 @@ import { createFileRoute, retainSearchParams } from "@tanstack/react-router";
 import ButtonLink from "components/button/button-link";
 import ContactSection from "components/contact/contact-section";
 import { useModuleContacts } from "components/contact/use-module-contacts";
+import ContentBlock from "components/content-block/content-block";
 import {
 	eLearningSearchSchema,
 	findChapter,
@@ -83,9 +84,15 @@ function PartPage() {
 			</ButtonLink>
 
 			<div className={style.content}>
-				<Heading el="h1" size="24-32">
-					{part.name}
-				</Heading>
+				<div className={style.blocks}>
+					<Heading el="h1" size="24-32">
+						{part.name}
+					</Heading>
+
+					{part.blocks.map((block) => (
+						<ContentBlock key={block.id} block={block} />
+					))}
+				</div>
 
 				<StepNav
 					previousTo={previousTo}
