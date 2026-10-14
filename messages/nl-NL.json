@@ -26,10 +26,41 @@
 	"module_load_error": "Deze module kon niet worden geladen.",
 
 	"elearning_back_to_module": "Terug naar module",
-	"elearning_chapters_title": "Hoofdstukken",
+	"elearning_back_to_library": "Terug naar bibliotheek",
+	"elearning_back_to_overview": "Terug naar overzicht",
+	"elearning_label": "E-learning",
+	"elearning_image_alt": "Afbeelding bij {name}",
+	"elearning_start": "Begin met leren",
+	"elearning_questions": "Vragen over deze e-learning?",
+	"elearning_contact": "Neem contact op",
+	"elearning_chapter_number": "Hoofdstuk {number}",
+	"elearning_part_count": [
+		{
+			"declarations": ["input count", "local countPlural = count: plural"],
+			"selectors": ["countPlural"],
+			"match": {
+				"countPlural=one": "1 onderdeel",
+				"countPlural=other": "{count} onderdelen"
+			}
+		}
+	],
+	"elearning_contents_title": "Inhoud van de e-learning",
+	"elearning_chapter_count": [
+		{
+			"declarations": ["input count", "local countPlural = count: plural"],
+			"selectors": ["countPlural"],
+			"match": {
+				"countPlural=one": "1 hoofdstuk",
+				"countPlural=other": "{count} hoofdstukken"
+			}
+		}
+	],
 	"elearning_chapters_empty": "Deze e-learning heeft nog geen hoofdstukken.",
 	"elearning_chapter_summary": "Samenvatting",
+	"elearning_summary_view": "Bekijk samenvatting",
 	"elearning_load_error": "Deze e-learning kon niet worden geladen.",
+	"elearning_chapter_not_found": "Dit hoofdstuk hoort niet bij deze e-learning.",
+	"elearning_part_load_error": "Dit onderdeel kon niet worden geladen.",
 
 	"login_title": "Login op het ZelfZorg platform",
 	"login_subtitle": "Vul je e-mailadres in om een login-link te ontvangen.",

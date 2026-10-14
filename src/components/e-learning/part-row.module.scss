@@ -1,0 +1,51 @@
+@use "/src/style/focus.scss" as focus;
+@use "/src/style/breakpoints.scss" as bp;
+
+.row {
+	display: flex;
+	align-items: center;
+	gap: var(--unit-8);
+	border-bottom: var(--border-width-1) solid var(--color-border-muted);
+	padding: var(--unit-8);
+
+	&:first-child {
+		border-top: var(--border-width-1) solid var(--color-border-muted);
+	}
+}
+
+.link {
+	display: flex;
+	flex: 1 1 auto;
+	align-items: center;
+	gap: var(--unit-8);
+	border-radius: var(--radius-4);
+	color: var(--color-action-soft);
+	font: var(--font-body-regular-14-16);
+	text-decoration: none;
+
+	&:hover {
+		color: var(--color-action-soft-hover);
+
+		.name {
+			text-decoration: underline;
+		}
+	}
+
+	&:focus-visible {
+		@include focus.ring;
+	}
+}
+
+.name {
+	flex: 1 1 auto;
+	color: var(--color-text-default);
+}
+
+.callToAction {
+	display: none;
+
+	@include bp.desktop {
+		display: inline;
+		white-space: nowrap;
+	}
+}

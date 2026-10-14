@@ -1,0 +1,11 @@
+.page {
+	display: flex;
+	grid-column: main;
+	flex-direction: column;
+	gap: var(--unit-24);
+	padding-block: var(--unit-24);
+}
+
+.back {
+	align-self: flex-start;
+}

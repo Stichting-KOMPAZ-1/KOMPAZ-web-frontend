@@ -1,0 +1,16 @@
+.status {
+	display: flex;
+	flex: 0 0 auto;
+	align-items: center;
+	justify-content: center;
+	border: var(--border-width-2) solid var(--color-text-accent);
+	border-radius: var(--radius-full);
+	width: var(--unit-20);
+	height: var(--unit-20);
+}
+
+.done {
+	border-color: var(--color-text-success);
+	background: var(--color-text-success);
+	color: var(--color-text-on-fill);
+}
