@@ -1,5 +1,6 @@
 import type { QueryClient } from "@tanstack/react-query";
 import { createRouter, RouterProvider } from "@tanstack/react-router";
+import { trackPageView } from "lib/analytics";
 import { deLocalizeUrl, localizeUrl } from "lib/paraglide/runtime";
 
 import { routeTree } from "../routeTree.gen";
@@ -19,6 +20,10 @@ const router = createRouter({
 		input: ({ url }) => deLocalizeUrl(url),
 		output: ({ url }) => localizeUrl(url),
 	},
+});
+
+router.subscribe("onResolved", ({ toLocation }) => {
+	trackPageView(toLocation.pathname);
 });
 
 export const AppRouter = ({ queryClient }: RouterContext) => {

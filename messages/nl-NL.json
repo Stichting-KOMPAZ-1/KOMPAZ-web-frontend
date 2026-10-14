@@ -9,6 +9,11 @@
 
 	"loading_message": "Bezig met laden...",
 
+	"consent_label": "Toestemming voor analytische cookies",
+	"consent_message": "We gebruiken analytische cookies van Google Analytics om te zien hoe het platform wordt gebruikt, bijvoorbeeld hoe vaak een e-learning via een QR-code wordt geopend. Mogen we deze cookies plaatsen?",
+	"consent_accept": "Accepteren",
+	"consent_decline": "Weigeren",
+
 	"nav_label": "Hoofdnavigatie",
 	"nav_home": "Home",
 	"nav_admin": "Beheer",
