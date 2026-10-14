@@ -22,24 +22,25 @@ const TextLinkAnchor = ({
 
 export const TextLink = createLink(TextLinkAnchor);
 
-type TextAnchorProps = React.ComponentPropsWithoutRef<"a"> &
-	StyleProps & {
-		newTab?: boolean;
-	};
+type TextAnchorProps = React.ComponentPropsWithoutRef<"a"> & StyleProps;
 
 export const TextAnchor = ({
 	inline = false,
-	newTab = false,
 	className,
 	children,
+	target,
+	rel = target === "_blank" ? "noopener noreferrer" : undefined,
 	...props
 }: TextAnchorProps) => (
 	<a
 		className={clsx(style.link, inline && style.inline, className)}
-		{...(newTab && { target: "_blank", rel: "noopener noreferrer" })}
+		target={target}
+		rel={rel}
 		{...props}
 	>
 		{children}
-		{newTab && <span className="sr-only"> {m.link_new_tab()}</span>}
+		{target === "_blank" && (
+			<span className="sr-only"> {m.link_new_tab()}</span>
+		)}
 	</a>
 );

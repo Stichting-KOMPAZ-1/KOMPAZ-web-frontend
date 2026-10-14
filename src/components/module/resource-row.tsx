@@ -33,7 +33,7 @@ const ResourceRow = ({
 				<Icon name="arrow-right" />
 			</TextLink>
 		) : href ? (
-			<TextAnchor className={style.link} href={href} newTab>
+			<TextAnchor className={style.link} href={href} target="_blank">
 				{title}
 				<Icon name="external-link" />
 			</TextAnchor>
