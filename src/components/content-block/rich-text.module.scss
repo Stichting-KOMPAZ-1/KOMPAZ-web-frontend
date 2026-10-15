@@ -1,0 +1,51 @@
+.text {
+	display: flex;
+	flex-direction: column;
+	gap: var(--unit-16);
+
+	strong {
+		font-weight: 700;
+	}
+
+	em {
+		font-style: italic;
+	}
+
+	del {
+		text-decoration: line-through;
+	}
+
+	ul,
+	ol {
+		display: flex;
+		flex-direction: column;
+		gap: var(--unit-4);
+		margin: 0;
+		padding-inline-start: var(--unit-24);
+	}
+
+	ul {
+		list-style: disc;
+	}
+
+	ol {
+		list-style: decimal;
+	}
+
+	blockquote {
+		margin: 0;
+		border-inline-start: var(--border-width-2) solid var(--color-border);
+		padding-inline-start: var(--unit-16);
+		font-style: italic;
+	}
+
+	pre {
+		margin: 0;
+		border-radius: var(--radius-8);
+		background: var(--color-surface-muted);
+		padding: var(--unit-12);
+		overflow-x: auto;
+		font-family: monospace;
+		white-space: pre-wrap;
+	}
+}
