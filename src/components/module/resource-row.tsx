@@ -1,5 +1,6 @@
 import { Link, type LinkComponentProps } from "@tanstack/react-router";
 import Icon, { type IconName } from "components/icon/icon";
+import type React from "react";
 
 import style from "./resource-row.module.scss";
 
@@ -11,6 +12,7 @@ type Props = {
 	params?: LinkComponentProps["params"];
 	search?: LinkComponentProps["search"];
 	highlight?: boolean;
+	action?: React.ReactNode;
 };
 
 const ResourceRow = ({
@@ -21,6 +23,7 @@ const ResourceRow = ({
 	params,
 	search,
 	highlight = false,
+	action,
 }: Props) => (
 	<li className={style.row}>
 		<span className={highlight ? style.iconBlockHighlight : style.iconBlock}>
@@ -44,6 +47,7 @@ const ResourceRow = ({
 		) : (
 			<span>{title}</span>
 		)}
+		{action}
 	</li>
 );
 

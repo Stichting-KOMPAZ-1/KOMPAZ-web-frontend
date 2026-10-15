@@ -31,6 +31,11 @@
 	"module_videos_title": "Video's",
 	"module_links_title": "Extra links",
 	"module_load_error": "Deze module kon niet worden geladen.",
+	"module_copy_video_link": "Kopieer video-link",
+	"module_video_link_copied": "Video-link gekopieerd!",
+	"module_copy_link": "Kopieer link",
+	"module_link_copied": "Link gekopieerd!",
+	"module_copy_failed": "Kopiëren mislukt",
 
 	"elearning_back_to_module": "Terug naar module",
 	"elearning_back_to_library": "Terug naar bibliotheek",
