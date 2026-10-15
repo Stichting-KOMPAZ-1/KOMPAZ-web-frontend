@@ -9,6 +9,7 @@
 
 	"loading_message": "Loading...",
 
+	"link_new_tab": "(opens in a new tab)",
 	"consent_label": "Consent for analytics cookies",
 	"consent_message": "We use analytics cookies from Google Analytics to see how the platform is used, for example how often an e-learning is opened through a QR code. May we set these cookies?",
 	"consent_accept": "Accept",
