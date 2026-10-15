@@ -85,6 +85,9 @@
 	"login_link_submitting": "Bezig met inloggen...",
 	"login_link_invalid_body": "Deze login-link is niet meer geldig. Vul je e-mailadres in om een nieuwe aan te vragen.",
 
+	"contact_title": "Heb je vragen?",
+	"contact_subtitle": "Neem contact met ons op!",
+
 	"error_unknown": "Onbekende fout.",
 
 	"not_found_title": "Niet gevonden",

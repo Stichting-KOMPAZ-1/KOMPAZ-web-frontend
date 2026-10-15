@@ -1,0 +1,22 @@
+// Shared link mixin.
+// @use "/src/style/link.scss" as link;
+// .link { @include link.text; }
+
+@use "/src/style/focus.scss" as focus;
+
+@mixin text {
+	color: var(--color-action-soft);
+	font: var(--font-body-regular-14-16);
+	text-decoration: none;
+
+	&:hover {
+		color: var(--color-action-soft-hover);
+		text-decoration: underline;
+	}
+
+	&:focus-visible {
+		@include focus.ring;
+
+		border-radius: var(--radius-8);
+	}
+}

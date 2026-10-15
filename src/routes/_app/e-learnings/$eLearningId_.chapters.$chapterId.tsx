@@ -1,6 +1,8 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, retainSearchParams } from "@tanstack/react-router";
 import ButtonLink from "components/button/button-link";
+import ContactSection from "components/contact/contact-section";
+import { useModuleContacts } from "components/contact/use-module-contacts";
 import ChapterDetail from "components/e-learning/chapter-detail";
 import {
 	eLearningSearchSchema,
@@ -44,6 +46,8 @@ export const Route = createFileRoute(
 
 function ChapterPage() {
 	const { eLearningId, chapterId } = Route.useParams();
+	const { module: moduleId } = Route.useSearch();
+	const contacts = useModuleContacts(moduleId);
 	const { data: eLearning } = useSuspenseQuery(
 		eLearningShowOptions({ path: { eLearning: eLearningId } }),
 	);
@@ -86,6 +90,8 @@ function ChapterPage() {
 			) : (
 				<PageError>{m.elearning_chapter_not_found()}</PageError>
 			)}
+
+			<ContactSection contacts={contacts} />
 		</div>
 	);
 }

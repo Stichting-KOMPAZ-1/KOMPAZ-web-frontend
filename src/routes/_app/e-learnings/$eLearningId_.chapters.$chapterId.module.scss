@@ -5,7 +5,6 @@
 	@include grid.columns;
 
 	row-gap: var(--unit-24);
-	padding-block: var(--unit-24);
 
 	@include bp.desktop {
 		row-gap: var(--unit-32);

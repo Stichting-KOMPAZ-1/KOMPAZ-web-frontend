@@ -5,7 +5,6 @@
 	@include grid.columns;
 
 	row-gap: var(--unit-24);
-	padding-block: var(--unit-24);
 
 	@include bp.desktop {
 		row-gap: var(--unit-32);
@@ -48,9 +47,13 @@
 .sections {
 	grid-column: main;
 
-	display: flex;
-	flex-direction: column;
-	gap: var(--unit-32);
+	display: grid;
+	grid-template-columns: subgrid;
+	row-gap: var(--unit-32);
+
+	& > * {
+		grid-column: 1 / -1;
+	}
 }
 
 .attribution {

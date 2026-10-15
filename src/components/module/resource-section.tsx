@@ -9,8 +9,10 @@ type Props<T> = {
 	children: (item: T) => React.ReactNode;
 };
 
-const ResourceSection = <T,>({ title, items, children }: Props<T>) =>
-	items.length === 0 ? null : (
+const ResourceSection = <T,>({ title, items, children }: Props<T>) => {
+	if (items.length === 0) return null;
+
+	return (
 		<section className={style.section}>
 			<Heading el="h2" size="20-24">
 				{title}
@@ -18,5 +20,6 @@ const ResourceSection = <T,>({ title, items, children }: Props<T>) =>
 			<ul className={style.list}>{items.map((item) => children(item))}</ul>
 		</section>
 	);
+};
 
 export default ResourceSection;

@@ -10,9 +10,15 @@ type Props = {
 	chapter: ChapterResource;
 	number: number;
 	eLearningId: string;
+	hasContacts: boolean;
 };
 
-const ELearningStart = ({ chapter, number, eLearningId }: Props) => (
+const ELearningStart = ({
+	chapter,
+	number,
+	eLearningId,
+	hasContacts,
+}: Props) => (
 	<div className={style.card}>
 		<div className={style.text}>
 			<p className={style.eyebrow}>{m.elearning_chapter_number({ number })}</p>
@@ -28,14 +34,16 @@ const ELearningStart = ({ chapter, number, eLearningId }: Props) => (
 			<Icon name="arrow-right" />
 		</ButtonLink>
 
-		<p className={style.footer}>
-			<Icon name="circle-question-mark" />
-			<span className={style.question}>{m.elearning_questions()}</span>
-			<ButtonLink variant="link" to="." hash="contact">
-				{m.elearning_contact()}
-				<Icon name="chevron-right" />
-			</ButtonLink>
-		</p>
+		{hasContacts && (
+			<p className={style.footer}>
+				<Icon name="circle-question-mark" />
+				<span className={style.question}>{m.elearning_questions()}</span>
+				<ButtonLink variant="link" to="." hash="contact">
+					{m.elearning_contact()}
+					<Icon name="chevron-right" />
+				</ButtonLink>
+			</p>
+		)}
 	</div>
 );
 

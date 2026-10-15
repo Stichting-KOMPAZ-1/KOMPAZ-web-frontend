@@ -21,8 +21,10 @@ const PartList = ({
 	completedPartIds,
 	defaultOpen = false,
 	nextPartId,
-}: Props) =>
-	parts.length === 0 ? null : (
+}: Props) => {
+	if (parts.length === 0) return null;
+
+	return (
 		<Collapsible.Root className={style.root} defaultOpen={defaultOpen}>
 			<Collapsible.Trigger className={style.trigger}>
 				{m.elearning_part_count({ count: parts.length })}
@@ -46,5 +48,6 @@ const PartList = ({
 			</Collapsible.Panel>
 		</Collapsible.Root>
 	);
+};
 
 export default PartList;
