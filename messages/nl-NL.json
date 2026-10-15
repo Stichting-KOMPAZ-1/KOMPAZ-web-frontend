@@ -16,6 +16,9 @@
 	"consent_change_later": "Je kunt je keuze later altijd wijzigen via ‘Cookie-instellingen’ onderaan de pagina.",
 	"consent_settings": "Cookie-instellingen",
 
+	"modal_close": "Sluiten",
+	"modal_cancel": "Annuleren",
+
 	"nav_label": "Hoofdnavigatie",
 	"nav_home": "Home",
 	"nav_admin": "Beheer",
