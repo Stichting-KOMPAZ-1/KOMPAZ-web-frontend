@@ -11,20 +11,35 @@ import { useState } from "react";
 import style from "./consent-banner.module.scss";
 
 function ConsentBanner() {
-	const [answered, setAnswered] = useState(() => readConsent() !== null);
+	const [open, setOpen] = useState(() => readConsent() === null);
 
-	if (!isAnalyticsEnabled() || answered) {
+	if (!isAnalyticsEnabled()) {
 		return null;
+	}
+
+	// Withdrawing consent has to be as easy as giving it, so once answered the
+	// choice stays one click away on every page.
+	if (!open) {
+		return (
+			<Button
+				variant="link"
+				className={style.settings}
+				onClick={() => setOpen(true)}
+			>
+				{m.consent_settings()}
+			</Button>
+		);
 	}
 
 	const answer = (choice: ConsentChoice) => {
 		saveConsent(choice);
-		setAnswered(true);
+		setOpen(false);
 	};
 
 	return (
 		<section className={style.banner} aria-label={m.consent_label()}>
 			<p className={style.message}>{m.consent_message()}</p>
+			<p className={style.message}>{m.consent_change_later()}</p>
 			<div className={style.actions}>
 				<Button variant="secondary" onClick={() => answer("denied")}>
 					{m.consent_decline()}

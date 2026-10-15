@@ -13,6 +13,8 @@
 	"consent_message": "We gebruiken analytische cookies van Google Analytics om te zien hoe het platform wordt gebruikt, bijvoorbeeld hoe vaak een e-learning via een QR-code wordt geopend. Mogen we deze cookies plaatsen?",
 	"consent_accept": "Accepteren",
 	"consent_decline": "Weigeren",
+	"consent_change_later": "Je kunt je keuze later altijd wijzigen via ‘Cookie-instellingen’ onderaan de pagina.",
+	"consent_settings": "Cookie-instellingen",
 
 	"nav_label": "Hoofdnavigatie",
 	"nav_home": "Home",
