@@ -53,7 +53,9 @@ export function readConsent(): ConsentChoice | null {
 
 /**
  * Records the visitor's answer and tells the tag. Only `granted` lets Google
- * Analytics store cookies; until then it measures nothing per visitor.
+ * Analytics store cookies; until then it measures nothing per visitor. Saying
+ * no after an earlier yes also removes the cookies that yes left behind, since
+ * the tag only stops writing them.
  *
  * @example
  * saveConsent("granted");
@@ -67,6 +69,36 @@ export function saveConsent(choice: ConsentChoice): void {
 
 	if (isAnalyticsEnabled()) {
 		gtag("consent", "update", { analytics_storage: choice });
+	}
+
+	if (choice === "denied") {
+		removeAnalyticsCookies();
+	}
+}
+
+/**
+ * Expires Google Analytics' own cookies (`_ga`, `_ga_<id>`). The tag sets them
+ * on the highest domain it is allowed to, so they are expired on this host and
+ * on every domain above it; a browser ignores the ones that do not apply.
+ *
+ * @example
+ * removeAnalyticsCookies(); // after consent is withdrawn
+ */
+export function removeAnalyticsCookies(): void {
+	const names = document.cookie
+		.split(";")
+		.map((cookie) => cookie.split("=")[0]?.trim() ?? "")
+		.filter((name) => name === "_ga" || name.startsWith("_ga_"));
+
+	const labels = window.location.hostname.split(".");
+	const domains = labels.map((_, index) => labels.slice(index).join("."));
+
+	for (const name of names) {
+		document.cookie = `${name}=; Max-Age=0; path=/`;
+
+		for (const domain of domains) {
+			document.cookie = `${name}=; Max-Age=0; path=/; domain=.${domain}`;
+		}
 	}
 }
 
