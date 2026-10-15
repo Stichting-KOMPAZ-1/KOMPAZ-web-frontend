@@ -105,7 +105,7 @@ function FormTest() {
 		options: [],
 		contact: "",
 		country: "",
-		note: "",
+		note: "This note is read-only.",
 	};
 
 	const form = useAppForm({
@@ -134,6 +134,7 @@ function FormTest() {
 						<field.Input
 							label="Your e-mail"
 							autoComplete="email"
+							readOnly
 							placeholder="name@organisation.nl"
 						/>
 					)}
@@ -199,7 +200,7 @@ function FormTest() {
 
 				<form.AppField name="note">
 					{(field) => (
-						<field.Textarea label="Anything else?" optional rows={4} />
+						<field.Textarea label="Anything else?" optional rows={4} readOnly />
 					)}
 				</form.AppField>
 

@@ -12,6 +12,10 @@
 		@include form.invalid;
 	}
 
+	&:has(textarea[readonly]:not(:disabled)) {
+		@include form.control-box-readonly;
+	}
+
 	&:has(textarea:disabled) {
 		@include form.control-box-disabled;
 	}
