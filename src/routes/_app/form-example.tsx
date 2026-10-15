@@ -7,6 +7,7 @@ import { ErrorText } from "components/error-text/error-text";
 import { Form, FormButton, SubmitError } from "components/form";
 import { H1 } from "components/heading/heading";
 import Icon from "components/icon/icon";
+import Modal from "components/modal/modal";
 import Pill from "components/pill/pill";
 import { submitHandler, useAppForm, useIsSubmitting } from "lib/forms";
 import {
@@ -15,7 +16,7 @@ import {
 	type ValidationProblemDetails,
 } from "lib/forms/validation-helpers";
 import { makePageTitle } from "lib/title";
-import { useState } from "react";
+import { useId, useRef, useState } from "react";
 import z from "zod";
 
 import style from "./form-example.module.scss";
@@ -105,7 +106,7 @@ function FormTest() {
 		options: [],
 		contact: "",
 		country: "",
-		note: "",
+		note: "This note is read-only.",
 	};
 
 	const form = useAppForm({
@@ -134,6 +135,7 @@ function FormTest() {
 						<field.Input
 							label="Your e-mail"
 							autoComplete="email"
+							readOnly
 							placeholder="name@organisation.nl"
 						/>
 					)}
@@ -199,7 +201,7 @@ function FormTest() {
 
 				<form.AppField name="note">
 					{(field) => (
-						<field.Textarea label="Anything else?" optional rows={4} />
+						<field.Textarea label="Anything else?" optional rows={4} readOnly />
 					)}
 				</form.AppField>
 
@@ -288,6 +290,120 @@ function FormTest() {
 					With icon
 				</Pill>
 			</div>
+			<H1 size="16-18">Modal</H1>
+			<div className={style.buttonShowcase}>
+				<InviteModalExample />
+				<Modal
+					trigger={<Button variant="secondary">Open confirm modal</Button>}
+					title="Uitnodiging intrekken"
+					description="Weet je zeker dat je deze uitnodiging wilt intrekken?"
+					action={<Button>Intrekken</Button>}
+				/>
+			</div>
 		</div>
+	);
+}
+
+const inviteSchema = z.object({
+	name: z.string().trim().min(1, "Vul een naam in"),
+	email: z.email("Vul een geldig e-mailadres in"),
+});
+type InviteValues = z.infer<typeof inviteSchema>;
+
+const inviteDefaultValues: InviteValues = { name: "", email: "" };
+
+const fakeInvite = async (body: InviteValues) =>
+	new Promise((resolve, reject) =>
+		setTimeout(() => {
+			if (body.email.endsWith("@fail.nl")) {
+				reject({
+					title: "Uitnodiging kon niet worden verstuurd.",
+					errors: { email: ["Dit e-mailadres is al uitgenodigd"] },
+				});
+			} else {
+				resolve({ message: "Success" });
+			}
+		}, 1500),
+	);
+
+function InviteModalExample() {
+	const formId = useId();
+	const nameRef = useRef<HTMLInputElement>(null);
+	const [open, setOpen] = useState(false);
+	const [invited, setInvited] = useState<string>();
+
+	const mutation = useMutation({
+		mutationFn: ({ body }: { body: InviteValues }) => fakeInvite(body),
+	});
+
+	const form = useAppForm({
+		defaultValues: inviteDefaultValues,
+		validationLogic: revalidateLogic(),
+		validators: {
+			onDynamic: inviteSchema,
+			onSubmitAsync: ({ value }) =>
+				mutateAndValidate(mutation, { body: value }),
+		},
+		onSubmit: ({ value }) => {
+			setInvited(value.email);
+			setOpen(false);
+		},
+	});
+
+	const isSubmitting = useIsSubmitting(form);
+
+	return (
+		<>
+			<Modal
+				open={open}
+				onOpenChange={setOpen}
+				onOpenChangeComplete={(isOpen) => {
+					if (!isOpen) form.reset();
+				}}
+				trigger={<Button>Open form modal</Button>}
+				initialFocus={nameRef}
+				title="Nieuwe uitnodiging"
+				action={
+					<FormButton
+						form={formId}
+						isSubmitting={isSubmitting}
+						loadingLabel="Versturen..."
+					>
+						<Icon name="mail" />
+						Versturen
+					</FormButton>
+				}
+			>
+				<Form
+					id={formId}
+					label="Nieuwe uitnodiging"
+					className={style.modalForm}
+					onSubmit={submitHandler(form)}
+				>
+					<form.AppField name="name">
+						{(field) => (
+							<field.Input
+								ref={nameRef}
+								label="Naam"
+								autoComplete="name"
+								placeholder="Volledige naam"
+							/>
+						)}
+					</form.AppField>
+					<form.AppField name="email">
+						{(field) => (
+							<field.Input
+								label="E-mail"
+								type="email"
+								autoComplete="email"
+								placeholder="Naam@organisatie.nl"
+							/>
+						)}
+					</form.AppField>
+					<SubmitError form={form} hideWhenFieldsFail />
+				</Form>
+			</Modal>
+			{invited && <p>Uitnodiging verstuurd naar {invited}</p>}
+		</>
 	);
 }

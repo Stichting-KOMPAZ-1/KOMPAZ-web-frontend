@@ -22,6 +22,7 @@ import {
 	TriangleAlert,
 	UserCog,
 	Video,
+	X,
 } from "lucide-react";
 
 import style from "./icon.module.scss";
@@ -50,6 +51,7 @@ const icons = {
 	"triangle-alert": TriangleAlert,
 	"user-cog": UserCog,
 	video: Video,
+	x: X,
 } satisfies Record<string, LucideIcon>;
 
 export type IconName = keyof typeof icons;
