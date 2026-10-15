@@ -93,6 +93,7 @@ function LoginPage() {
 							? (problemDetail(redeem.error) ?? m.login_link_invalid_body())
 							: undefined
 					}
+					redirect={search.redirect}
 				/>
 			)}
 		</div>

@@ -19,9 +19,11 @@ import style from "./login-form.module.scss";
 
 type Props = {
 	error?: string;
+	/** The page to land on once the emailed link is opened, passed on by the login page. */
+	redirect?: string;
 };
 
-export function LoginForm({ error }: Props) {
+export function LoginForm({ error, redirect }: Props) {
 	const mutation = useMutation({
 		...authRequestMagicLinkMutation(),
 		gcTime: 0,
@@ -35,7 +37,7 @@ export function LoginForm({ error }: Props) {
 		validators: {
 			onDynamic: zRequestMagicLinkRequest,
 			onSubmitAsync: ({ value }) =>
-				mutateAndValidate(mutation, { body: value }),
+				mutateAndValidate(mutation, { body: { ...value, redirect } }),
 		},
 	});
 
