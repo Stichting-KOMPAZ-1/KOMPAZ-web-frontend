@@ -10,6 +10,12 @@
 	"loading_message": "Loading...",
 
 	"link_new_tab": "(opens in a new tab)",
+	"consent_label": "Consent for analytics cookies",
+	"consent_message": "We use analytics cookies from Google Analytics to see how the platform is used, for example how often an e-learning is opened through a QR code. May we set these cookies?",
+	"consent_accept": "Accept",
+	"consent_decline": "Decline",
+	"consent_change_later": "You can always change your choice later through ‘Cookie settings’ at the bottom of the page.",
+	"consent_settings": "Cookie settings",
 
 	"nav_label": "Main navigation",
 	"nav_home": "Home",
@@ -72,6 +78,8 @@
 	"elearning_load_error": "This e-learning could not be loaded.",
 	"elearning_chapter_not_found": "This chapter is not part of this e-learning.",
 	"elearning_part_load_error": "This part could not be loaded.",
+
+	"shared_elearning_unavailable": "This e-learning is not available (anymore). Ask your care provider for a new link.",
 
 	"login_title": "Log in to the ZelfZorg platform",
 	"login_subtitle": "Enter your email address to receive a login link.",

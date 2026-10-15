@@ -10,6 +10,12 @@
 	"loading_message": "Bezig met laden...",
 
 	"link_new_tab": "(opent in een nieuw tabblad)",
+	"consent_label": "Toestemming voor analytische cookies",
+	"consent_message": "We gebruiken analytische cookies van Google Analytics om te zien hoe het platform wordt gebruikt, bijvoorbeeld hoe vaak een e-learning via een QR-code wordt geopend. Mogen we deze cookies plaatsen?",
+	"consent_accept": "Accepteren",
+	"consent_decline": "Weigeren",
+	"consent_change_later": "Je kunt je keuze later altijd wijzigen via ‘Cookie-instellingen’ onderaan de pagina.",
+	"consent_settings": "Cookie-instellingen",
 
 	"nav_label": "Hoofdnavigatie",
 	"nav_home": "Home",
@@ -72,6 +78,8 @@
 	"elearning_load_error": "Deze e-learning kon niet worden geladen.",
 	"elearning_chapter_not_found": "Dit hoofdstuk hoort niet bij deze e-learning.",
 	"elearning_part_load_error": "Dit onderdeel kon niet worden geladen.",
+
+	"shared_elearning_unavailable": "Deze e-learning is niet (meer) beschikbaar. Vraag je zorgverlener om een nieuwe link.",
 
 	"login_title": "Login op het ZelfZorg platform",
 	"login_subtitle": "Vul je e-mailadres in om een login-link te ontvangen.",

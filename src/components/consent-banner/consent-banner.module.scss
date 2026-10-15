@@ -1,0 +1,40 @@
+@use "/src/style/breakpoints.scss" as bp;
+@use "/src/style/surface.scss" as surface;
+
+.banner {
+	@include surface.card;
+
+	position: fixed;
+	right: var(--unit-16);
+	bottom: var(--unit-16);
+	left: var(--unit-16);
+	z-index: var(--layer-consent);
+	display: flex;
+	flex-direction: column;
+	gap: var(--unit-16);
+
+	@include bp.desktop {
+		left: auto;
+		max-width: var(--unit-448);
+	}
+}
+
+.message {
+	margin: 0;
+	font: var(--font-body-regular-14-16);
+	color: var(--color-text-default);
+}
+
+.actions {
+	display: flex;
+	justify-content: flex-end;
+	gap: var(--unit-8);
+}
+
+.settings {
+	position: fixed;
+	bottom: var(--unit-8);
+	left: var(--unit-8);
+	z-index: var(--layer-consent);
+	font: var(--font-body-regular-14-16);
+}

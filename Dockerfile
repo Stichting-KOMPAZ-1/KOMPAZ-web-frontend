@@ -11,8 +11,10 @@ WORKDIR /app
 #                      path; nginx proxies it to the backend (default.conf.template).
 #   VITE_API_ORIGIN  - backend the API client is generated from, at build time
 #                      only: the bundle never calls it directly.
+#   VITE_GA_MEASUREMENT_ID - Google Analytics 4 measurement ID; empty loads none.
 ARG VITE_API_BASEURL=/api
 ARG VITE_API_ORIGIN
+ARG VITE_GA_MEASUREMENT_ID=
 
 # No lifecycle scripts in the image. The one that matters is `prepare`, which
 # installs the git hooks: there is no git here and no repository to hook into
@@ -25,7 +27,7 @@ RUN bun install --frozen-lockfile --ignore-scripts
 COPY . .
 RUN sed -i '/^\[install\]/a ignoreScripts = true' bunfig.toml
 
-RUN printf 'VITE_API_BASEURL=%s\nVITE_API_ORIGIN=%s\n' "$VITE_API_BASEURL" "$VITE_API_ORIGIN" > .env
+RUN printf 'VITE_API_BASEURL=%s\nVITE_API_ORIGIN=%s\nVITE_GA_MEASUREMENT_ID=%s\n' "$VITE_API_BASEURL" "$VITE_API_ORIGIN" "$VITE_GA_MEASUREMENT_ID" > .env
 
 # The Vite plugins emit the API client (src/lib/heyapi) and the paraglide
 # messages (src/lib/paraglide) as part of this build, which is why neither is
