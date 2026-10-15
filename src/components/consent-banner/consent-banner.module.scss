@@ -15,7 +15,7 @@
 
 	@include bp.desktop {
 		left: auto;
-		max-width: 28rem;
+		max-width: var(--unit-448);
 	}
 }
 
