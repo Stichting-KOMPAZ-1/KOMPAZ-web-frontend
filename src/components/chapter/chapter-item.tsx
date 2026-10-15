@@ -1,9 +1,9 @@
+import PartList from "components/chapter-part/part-list";
 import { Heading } from "components/heading/heading";
 import type { ChapterResource } from "lib/heyapi";
 import * as m from "lib/paraglide/messages";
 
 import ChapterBadge from "./chapter-badge";
-import PartList from "./part-list";
 
 import style from "./chapter-item.module.scss";
 

@@ -1,10 +1,9 @@
 import ButtonLink from "components/button/button-link";
+import PartList from "components/chapter-part/part-list";
 import { Heading } from "components/heading/heading";
 import Icon from "components/icon/icon";
 import type { ChapterResource } from "lib/heyapi";
 import * as m from "lib/paraglide/messages";
-
-import PartList from "./part-list";
 
 import style from "./e-learning-summary.module.scss";
 

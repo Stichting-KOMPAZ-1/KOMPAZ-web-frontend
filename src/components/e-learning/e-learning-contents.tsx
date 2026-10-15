@@ -1,8 +1,7 @@
+import ChapterItem from "components/chapter/chapter-item";
 import { Heading } from "components/heading/heading";
 import type { ChapterResource } from "lib/heyapi";
 import * as m from "lib/paraglide/messages";
-
-import ChapterItem from "./chapter-item";
 
 import style from "./e-learning-contents.module.scss";
 
