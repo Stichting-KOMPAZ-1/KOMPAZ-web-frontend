@@ -7,6 +7,9 @@ The web client for KOMPAZ.
 
 - [KOMPAZ web frontend](#kompaz-web-frontend)
   - [🏃‍♂️ Getting started](#️-getting-started)
+    - [🔗 Links](#-links)
+    - [👤 Test accounts](#-test-accounts)
+    - [✉️ Logging in](#️-logging-in)
     - [🟢 OpenAPI](#-openapi)
   - [🚀 Deployments](#-deployments)
     - [🔁 Github Workflows](#-github-workflows)
@@ -16,6 +19,8 @@ The web client for KOMPAZ.
 
 ## 🏃‍♂️ Getting started
 
+The local `.env` is in 1Password, in the shared vault under **Kompaz frontend local .env**. [`.env.example`](./.env.example) explains each variable.
+
 To run this project, [use `bun`](https://bun.sh/):
 
 ```sh
@@ -23,6 +28,28 @@ To run this project, [use `bun`](https://bun.sh/):
 bun install
 bun run dev
 ```
+
+
+
+### 🔗 Links
+
+The project's Slack channel has bookmarks to the Figma design, the Jira board, Mailtrap and the project folder on Google Drive.
+
+### 👤 Test accounts
+
+Test accounts are listed in **Test Instructions - Kompaz** in the project folder on Google Drive.
+
+### ✉️ Logging in
+
+There are no passwords: you enter your e-mail address and the backend mails you a login link. Every e-mail the backend sends, login links included, goes to Mailtrap, not to a real inbox.
+
+**On development**, open the link from Mailtrap and confirm.
+
+**On local**, the link in the e-mail doesn't work as is. The backend builds it from its own frontend URL, so it points at the development site, not at your dev server. Opening it would log you in on development, because the session cookie belongs to the site that redeems the token. So:
+
+1. Request a login link on your local login page.
+2. Open the e-mail in Mailtrap and copy the `token` value from the link.
+3. Open your local login page with it: `https://localhost:5173/inloggen?token=<token>` (or `/login?token=<token>` in English), then confirm.
 
 ### 🟢 OpenAPI
 
