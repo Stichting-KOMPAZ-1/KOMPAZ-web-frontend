@@ -37,30 +37,23 @@ export type FormWithState<TState> = {
 	};
 };
 
-/**
- * Whether the form is mid-submit.
- *
- * @example
- * const isSubmitting = useIsSubmitting(form);
- * // => false
- */
 export const useIsSubmitting = (
 	form: FormWithState<{ isSubmitting: boolean }>,
 ): boolean => useSelector(form.store, (s) => s.isSubmitting);
 
-/**
- * The message under the submit button after a failed submit.
- *
- * @example
- * const error = useSubmitError(form);
- * // => "Some fields need attention. Check the messages above."
- */
+type FieldMeta = Partial<Record<string, { errors: unknown[] }>>;
+
+const anyFieldFailed = (fieldMeta: FieldMeta): boolean =>
+	Object.values(fieldMeta).some(
+		(meta) => meta !== undefined && meta.errors.length > 0,
+	);
+
 export const useSubmitError = (
 	form: FormWithState<{
 		isSubmitting: boolean;
 		submissionAttempts: number;
 		errorMap: { onSubmit?: unknown };
-		fieldMeta: Partial<Record<string, { errors: unknown[] }>>;
+		fieldMeta: FieldMeta;
 	}>,
 ): string | undefined =>
 	useSelector(form.store, (s) => {
@@ -68,33 +61,20 @@ export const useSubmitError = (
 			return undefined;
 		}
 
-		const hasFieldError = Object.values(s.fieldMeta).some(
-			(meta) => meta !== undefined && meta.errors.length > 0,
-		);
-
 		return (
 			errorText(s.errorMap.onSubmit) ??
-			(hasFieldError ? m.forms_invalid() : undefined)
+			(anyFieldFailed(s.fieldMeta) ? m.forms_invalid() : undefined)
 		);
 	});
 
-/**
- * How many times a submit has been attempted.
- *
- * @example
- * const attempts = useSubmitAttempts(form);
- * // => 2
- */
+export const useHasFieldErrors = (
+	form: FormWithState<{ fieldMeta: FieldMeta }>,
+): boolean => useSelector(form.store, (s) => anyFieldFailed(s.fieldMeta));
+
 export const useSubmitAttempts = (
 	form: FormWithState<{ submissionAttempts: number }>,
 ): number => useSelector(form.store, (s) => s.submissionAttempts);
 
-/**
- * The `onSubmit` for a `<Form>`.
- *
- * @example
- * <Form onSubmit={submitHandler(form)}>
- */
 export const submitHandler =
 	(form: {
 		handleSubmit: () => Promise<void>;

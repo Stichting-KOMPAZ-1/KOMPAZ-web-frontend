@@ -5,15 +5,9 @@ import style from "./heading.module.scss";
 
 type TextProps = React.ComponentPropsWithoutRef<"h1"> & {
 	el?: "p" | "span" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
-	size: "small" | "medium" | "large";
+	size: "16-18" | "18-20" | "20-24" | "24-32";
 };
 
-/**
- * A heading, or short text styled like one.
- *
- * @example
- * <Heading el="h2" size="large">Care programmes</Heading>
- */
 export const Heading = ({
 	el = "p",
 	size,
@@ -32,12 +26,6 @@ export const Heading = ({
 
 type HeadingProps = Omit<TextProps, "el">;
 
-/**
- * `Heading` with the element fixed, named after the tag.
- *
- * @example
- * <H2 size="large">Care programmes</H2>
- */
 export const H1 = (props: HeadingProps) => <Heading el="h1" {...props} />;
 export const H2 = (props: HeadingProps) => <Heading el="h2" {...props} />;
 export const H3 = (props: HeadingProps) => <Heading el="h3" {...props} />;

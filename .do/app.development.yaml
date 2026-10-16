@@ -50,6 +50,20 @@ services:
         scope: BUILD_TIME
         value: /api
 
+      # The backend the API client is generated from: the build fetches
+      # {VITE_API_ORIGIN}/docs/api.json, so it is BUILD_TIME and the bundle never
+      # calls it. Without it the build asks for /docs/api.json, generates no
+      # client and fails on "Could not resolve ./heyapi/client.gen".
+      - key: VITE_API_ORIGIN
+        scope: BUILD_TIME
+        value: https://backend.kompaz.igne.link
+
+      # Google Analytics 4, inlined into the bundle. Each environment has a property
+      # of its own, so test traffic never lands in another environment's figures.
+      - key: VITE_GA_MEASUREMENT_ID
+        scope: BUILD_TIME
+        value: G-YY2ML72VP1
+
       # Read by nginx at container start, hence RUN_TIME. The app's own frbit.app
       # domain 301-redirects here, so pointing at that one instead would turn
       # every proxied call into a cross-origin redirect.

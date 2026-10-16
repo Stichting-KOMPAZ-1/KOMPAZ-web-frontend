@@ -39,6 +39,42 @@ function createTranslatedPathnames(
  * Add a route's translations here, keyed by its router path.
  */
 export const translatedPathnames = createTranslatedPathnames({
+	"/login": {
+		"en-US": "/login",
+		"nl-NL": "/inloggen",
+	},
+	"/admin": {
+		"en-US": "/admin",
+		"nl-NL": "/beheer",
+	},
+	"/modules/$moduleId": {
+		"en-US": "/modules/$moduleId",
+		"nl-NL": "/modules/$moduleId",
+	},
+	"/e-learnings/$eLearningId": {
+		"en-US": "/e-learnings/$eLearningId",
+		"nl-NL": "/e-learnings/$eLearningId",
+	},
+	"/e-learnings/$eLearningId/chapters/$chapterId": {
+		"en-US": "/e-learnings/$eLearningId/chapters/$chapterId",
+		"nl-NL": "/e-learnings/$eLearningId/chapters/$chapterId",
+	},
+	"/e-learnings/$eLearningId/parts/$partId": {
+		"en-US": "/e-learnings/$eLearningId/parts/$partId",
+		"nl-NL": "/e-learnings/$eLearningId/parts/$partId",
+	},
+	"/delen/$organizationSlug/$eLearningSlug": {
+		"en-US": "/delen/$organizationSlug/$eLearningSlug",
+		"nl-NL": "/delen/$organizationSlug/$eLearningSlug",
+	},
+	"/delen/$organizationSlug/qr/$eLearningSlug": {
+		"en-US": "/delen/$organizationSlug/qr/$eLearningSlug",
+		"nl-NL": "/delen/$organizationSlug/qr/$eLearningSlug",
+	},
+	"/profile": {
+		"en-US": "/profile",
+		"nl-NL": "/profiel",
+	},
 	"/form-example": {
 		"en-US": "/form-example",
 		"nl-NL": "/formulier-voorbeeld",

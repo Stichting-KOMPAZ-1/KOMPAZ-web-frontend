@@ -8,12 +8,6 @@ export type CheckboxProps = Omit<BaseCheckbox.Root.Props, "className"> & {
 	className?: string;
 };
 
-/**
- * The box on its own.
- *
- * @example
- * <Checkbox checked={value} onCheckedChange={setValue} />
- */
 export function Checkbox({ className, ...props }: CheckboxProps) {
 	return (
 		<BaseCheckbox.Root {...props} className={clsx(style.checkbox, className)}>
@@ -24,16 +18,6 @@ export function Checkbox({ className, ...props }: CheckboxProps) {
 	);
 }
 
-/**
- * A checkbox and its text as one clickable row.
- *
- * @example
- * <CheckboxOption
- * 	label="Open for registration"
- * 	checked={value}
- * 	onCheckedChange={setValue}
- * />
- */
 export function CheckboxOption({
 	label,
 	className,

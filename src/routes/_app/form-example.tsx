@@ -7,6 +7,7 @@ import { ErrorText } from "components/error-text/error-text";
 import { Form, FormButton, SubmitError } from "components/form";
 import { H1 } from "components/heading/heading";
 import Icon from "components/icon/icon";
+import Pill from "components/pill/pill";
 import { submitHandler, useAppForm, useIsSubmitting } from "lib/forms";
 import {
 	getFieldErrors,
@@ -19,8 +20,6 @@ import z from "zod";
 
 import style from "./form-example.module.scss";
 
-// An example of tanstack form AppFields and error handling.
-// Prefer generated schemas and paraglide messages in real routes.
 const validationSchema = z.object({
 	email: z.email(),
 	postalCode: z.string().regex(/\d{4}\s?[a-zA-Z]{2}/, {
@@ -43,8 +42,7 @@ const fakeSubmit = async (_value: any, ok = true) =>
 			if (ok) {
 				resolve({ message: "Success" });
 			} else {
-				// Note: the fields this app reads out of the backend's rfc9457
-				// problem details, with its camelCase field names.
+				// The backend's rfc9457 problem details use camelCase field names.
 				reject({
 					title: "Een of meer velden zijn niet correct ingevuld.",
 					errors: {
@@ -124,7 +122,7 @@ function FormTest() {
 
 	return (
 		<div className={style.page}>
-			<H1 size="medium">Form example</H1>
+			<H1 size="16-18">Form example</H1>
 
 			<Form
 				label="Form example"
@@ -141,10 +139,6 @@ function FormTest() {
 					)}
 				</form.AppField>
 
-				{/*
-				  Good candidate to use with `withFieldGroup`:
-				  https://tanstack.com/form/latest/docs/framework/solid/guides/form-composition#reusing-groups-of-fields-in-multiple-forms
-				*/}
 				<div className={style.address}>
 					<form.AppField name="postalCode">
 						{(field) => <field.Input label="Postal code" noError />}
@@ -223,7 +217,7 @@ function FormTest() {
 			)}
 			{mutation.isSuccess && <p className={style.success}>Success!</p>}
 
-			<H1 size="medium">Button variants</H1>
+			<H1 size="16-18">Button variants</H1>
 			<div className={style.buttonShowcase}>
 				<Button>
 					<Icon name="check" />
@@ -281,6 +275,18 @@ function FormTest() {
 					<Icon name="info" />
 					ButtonLink link style
 				</ButtonLink>
+			</div>
+
+			<H1 size="16-18">Pill variants</H1>
+			<div className={style.pillShowcase}>
+				<Pill>Uitgenodigd</Pill>
+				<Pill variant="accent-strong">Uitgenodigd</Pill>
+				<Pill variant="error">Verlopen</Pill>
+				<Pill variant="success">Uitgenodigd</Pill>
+				<Pill variant="accent">
+					<Icon name="check" />
+					With icon
+				</Pill>
 			</div>
 		</div>
 	);

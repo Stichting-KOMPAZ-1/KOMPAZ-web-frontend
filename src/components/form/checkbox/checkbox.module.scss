@@ -1,12 +1,15 @@
+@use "/src/style/focus.scss" as focus;
 @use "../form.scss";
 
 .option {
 	display: flex;
 	align-items: center;
-	gap: var(--unit-3);
+	gap: var(--unit-12);
 	cursor: pointer;
-	color: var(--color-text-default);
-	font: var(--font-body-regular-14);
+	font: var(--font-body-regular-12-14);
+	&:has([data-disabled]) {
+		@include form.choice-label-disabled;
+	}
 }
 
 .checkbox {
@@ -16,10 +19,10 @@
 	align-items: center;
 	outline: none;
 	border: var(--border-width-1) solid var(--color-border);
-	border-radius: var(--radius-8);
+	border-radius: var(--radius-4);
 	background: var(--color-white);
-	width: var(--unit-8);
-	height: var(--unit-8);
+	width: var(--unit-32);
+	height: var(--unit-32);
 
 	@media not (prefers-reduced-motion) {
 		transition:
@@ -30,31 +33,35 @@
 	&[data-checked] {
 		border-color: var(--color-action);
 		background: var(--color-action);
+		color: var(--color-text-on-fill);
 	}
 
 	&:focus-visible {
-		outline: 3px solid var(--color-action);
-		outline-offset: 2px;
+		@include focus.ring;
 	}
 
 	&[data-disabled] {
-		@include form.disabled;
+		@include form.choice-disabled;
+	}
+
+	&[data-checked][data-disabled] {
+		border-color: var(--color-action-disabled);
+		background: var(--color-action-disabled);
+		color: var(--color-text-disabled-on-fill);
 	}
 }
 
 .indicator {
 	display: inline-flex;
 	align-items: center;
-	color: var(--color-text-on-fill);
 }
 
 .group {
 	display: flex;
 	flex-direction: column;
-	gap: var(--unit-3);
+	gap: var(--unit-12);
 }
 
 .legend {
-	color: var(--color-text-default);
-	font: var(--font-body-semibold-14);
+	font: var(--font-body-semibold-12-14);
 }

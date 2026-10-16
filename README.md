@@ -55,7 +55,15 @@ Bun build of the SPA served by nginx on port 8080.
 | Branch        | App                       | Backend                            | Repository secret       |
 | ------------- | ------------------------- | ---------------------------------- | ----------------------- |
 | `develop`     | `kompaz-web-frontend-dev` | `https://backend.kompaz.igne.link` | `DO_APP_ID_DEVELOPMENT` |
+| `staging`     | `kompaz-web-frontend-staging` | `https://backend.kompaz.staging.igne.link` | `DO_APP_ID_STAGING` |
 | `main`        | `kompaz-web-frontend`     | not deployed yet                   | `DO_APP_ID_PRODUCTION`  |
+
+A release is promoted, never skipped ahead: feature branches merge into
+`develop`, a pull request from `develop` into `staging` ships it to staging
+(`https://kompaz.staging.igne.link`), and a pull request from `staging` into
+`main` ships what staging already ran to production. The backend follows the
+same order with its own `development` → `staging` → `main`, so promote both
+together when a change spans them.
 
 > The production backend has no code deployed — its fortrabbit app answers every
 > path with fortrabbit's own 403 page and has no custom domain — so
@@ -70,7 +78,7 @@ Bun build of the SPA served by nginx on port 8080.
 ### 🔁 The pipeline
 
 [`.github/workflows/ci.yml`](./.github/workflows/ci.yml) runs `bun run build`
-followed by `bun run check` on every pull request and on pushes to the two
+followed by `bun run check` on every pull request and on pushes to the three
 deploying branches. Only once those pass does it call
 `doctl apps create-deployment --wait` for the matching app, so a build or
 typecheck failure never reaches DigitalOcean's builder.
@@ -80,25 +88,8 @@ paraglide messages (`src/lib/paraglide`) are emitted by Vite plugins during the
 build, so on a clean checkout there is nothing for `tsc` to resolve until it has
 run.
 
-Because CI owns the trigger, `deploy_on_push` is `false` on both apps. Turning it
+Because CI owns the trigger, `deploy_on_push` is `false` on every app. Turning it
 on would let an unverified commit deploy itself.
-
-### 🔧 First-time setup
-
-1. Create each app from its spec and note the id it prints:
-
-   ```sh
-   doctl apps create --spec .do/app.development.yaml
-   doctl apps create --spec .do/app.production.yaml
-   ```
-
-2. Set the repository secrets: `DIGITALOCEAN_ACCESS_TOKEN` (a write-scoped API
-   token) plus the two app ids above.
-
-3. Replace the `CHANGE_ME` backend values in the specs, or set them in the
-   DigitalOcean dashboard. DigitalOcean owns the live spec once an app exists, so
-   the files under [`.do/`](./.do) are the bootstrap and a record of which
-   variables an environment needs — they are not synced automatically.
 
 ### 🌐 How requests reach the backend
 
@@ -110,11 +101,15 @@ reverse-proxies `/api` to the backend, using two runtime variables.
 | Variable           | Scope      | Example                 |
 | ------------------ | ---------- | ----------------------- |
 | `VITE_API_BASEURL` | build time | `/api`                  |
+| `VITE_API_ORIGIN`  | build time | `https://kompaz.frb.io` |
 | `BACKEND_ORIGIN`   | runtime    | `https://kompaz.frb.io` |
 | `BACKEND_HOST`     | runtime    | `kompaz.frb.io`         |
 
 `VITE_API_BASEURL` is inlined into the bundle by Vite and so must be a build-time
-variable. The other two are read by nginx when the container starts, which is why
+variable. `VITE_API_ORIGIN` is build-time too, for another reason: the build
+generates the API client from `{VITE_API_ORIGIN}/docs/api.json`, so every app
+needs it set to its own backend or its build fails. The bundle never calls it.
+The other two are read by nginx when the container starts, which is why
 one image can serve either environment. Both are required — the container refuses
 to start without them rather than failing later on an nginx syntax error.
 

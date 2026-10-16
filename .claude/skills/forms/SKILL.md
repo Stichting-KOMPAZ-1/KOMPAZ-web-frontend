@@ -57,6 +57,11 @@ failed submit it shows the API's form-level error, or — when fields are at
 fault — a generic note that points up to them. Each field keeps its own
 inline error.
 
+On a form short enough that the field error is already in view, pass
+`hideWhenFieldsFail` to keep the banner from repeating it. The message still
+goes into the live region, so the failure is announced either way; it is only
+taken off the screen, and only while a field is showing an error of its own.
+
 Every form uses `useAppForm` from `src/lib/forms`. Never a `useState` per
 field, never a second form library.
 

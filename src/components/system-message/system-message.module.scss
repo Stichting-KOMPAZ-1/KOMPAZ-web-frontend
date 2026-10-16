@@ -1,0 +1,20 @@
+.message {
+	font: var(--font-body-regular-14-16);
+	padding: var(--unit-12);
+	border-radius: var(--radius-12);
+}
+
+.variant-success {
+	background: var(--color-surface-success);
+	color: var(--color-text-success);
+}
+
+.variant-error {
+	background: var(--color-surface-error);
+	color: var(--color-text-error);
+}
+
+.variant-warning {
+	background: var(--color-surface-warning);
+	color: var(--color-text-warning);
+}

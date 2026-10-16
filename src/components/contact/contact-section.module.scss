@@ -1,0 +1,37 @@
+@use "/src/style/breakpoints.scss" as bp;
+
+.section {
+	grid-column: main;
+	margin-inline: calc(50% - 50cqi);
+
+	display: flex;
+	flex-direction: column;
+	gap: var(--unit-24);
+	background: var(--color-surface-accent-strong);
+	padding-block: var(--unit-48);
+	padding-inline: var(--main-inset);
+	color: var(--color-text-on-accent-strong);
+
+	@include bp.desktop {
+		padding-block: var(--unit-80);
+	}
+}
+
+.intro {
+	display: flex;
+	flex-direction: column;
+}
+
+.subtitle {
+	font: var(--font-body-regular-16-18);
+}
+
+.list {
+	display: grid;
+	gap: var(--unit-24);
+
+	@include bp.desktop {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: var(--unit-32) var(--grid-gap);
+	}
+}

@@ -12,7 +12,6 @@ type Props = Omit<
 	className?: string;
 };
 
-/** A single-choice question bound to the field it is rendered in. */
 export function TSFRadioGroup({ label, className, ...props }: Props) {
 	const field = useFieldContext<string>();
 	const error = visibleError(field.state.meta);

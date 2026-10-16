@@ -9,6 +9,11 @@
 
 @use "/src/style/utilities.scss";
 
+:root {
+	--layer-header: 10;
+	--layer-consent: 20;
+}
+
 #root {
 	isolation: isolate;
 }
@@ -20,7 +25,7 @@ textarea {
 }
 
 body {
-	background-color: white;
-	color: black;
-	font: var(--font-body-regular-16);
+	background-color: var(--color-surface-page-soft);
+	color: var(--color-text-default);
+	font: var(--font-body-regular-14-16);
 }

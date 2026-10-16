@@ -5,7 +5,7 @@
 
 	display: flex;
 	flex: 1;
-	padding: var(--unit-2) var(--unit-3);
+	padding: var(--unit-8) var(--unit-12);
 	width: 100%;
 
 	&:has(textarea[aria-invalid="true"]) {
@@ -13,7 +13,7 @@
 	}
 
 	&:has(textarea:disabled) {
-		@include form.disabled;
+		@include form.control-box-disabled;
 	}
 }
 
@@ -26,7 +26,7 @@
 	min-width: 0;
 	resize: vertical;
 	color: inherit;
-	font: var(--font-body-regular-14);
+	font: var(--font-body-regular-12-14);
 
 	&::placeholder {
 		color: var(--color-text-muted);

@@ -1,23 +1,25 @@
+@use "/src/style/focus.scss" as focus;
 @use "../form.scss";
 
 .group {
 	display: flex;
 	flex-direction: column;
-	gap: var(--unit-3);
+	gap: var(--unit-12);
 }
 
 .legend {
-	color: var(--color-text-default);
-	font: var(--font-body-semibold-14);
+	font: var(--font-body-semibold-12-14);
 }
 
 .option {
 	display: flex;
 	align-items: center;
-	gap: var(--unit-3);
+	gap: var(--unit-12);
 	cursor: pointer;
-	color: var(--color-text-default);
-	font: var(--font-body-regular-14);
+	font: var(--font-body-regular-12-14);
+	&:has([data-disabled]) {
+		@include form.choice-label-disabled;
+	}
 }
 
 .radio {
@@ -29,8 +31,8 @@
 	border: var(--border-width-1) solid var(--color-border);
 	border-radius: var(--radius-full);
 	background: var(--color-white);
-	width: var(--unit-8);
-	height: var(--unit-8);
+	width: var(--unit-32);
+	height: var(--unit-32);
 
 	@media not (prefers-reduced-motion) {
 		transition: border-color 0.2s ease;
@@ -38,22 +40,27 @@
 
 	&[data-checked] {
 		border-color: var(--color-action);
+		color: var(--color-action);
 	}
 
 	&:focus-visible {
-		outline: 3px solid var(--color-action);
-		outline-offset: 2px;
+		@include focus.ring;
 	}
 
 	&[data-disabled] {
-		@include form.disabled;
+		@include form.choice-disabled;
+	}
+
+	&[data-checked][data-disabled] {
+		border-color: var(--color-action-disabled);
+		color: var(--color-action-disabled);
 	}
 }
 
 .indicator {
 	display: inline-flex;
 	border-radius: var(--radius-full);
-	background: var(--color-action);
-	width: var(--unit-4);
-	height: var(--unit-4);
+	width: var(--unit-16);
+	height: var(--unit-16);
+	background: currentcolor;
 }

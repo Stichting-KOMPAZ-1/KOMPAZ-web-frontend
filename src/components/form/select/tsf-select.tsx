@@ -15,7 +15,6 @@ type Props = Omit<
 	className?: string;
 };
 
-/** A dropdown bound to the field it is rendered in. */
 export function TSFSelect({
 	label,
 	hint,

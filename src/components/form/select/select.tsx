@@ -15,12 +15,6 @@ export type SelectProps = Omit<Field.Control.Props, "className"> & {
 	className?: string;
 };
 
-/**
- * A dropdown inside a `<Field>`.
- *
- * @example
- * <Select name="status" options={[{ value: "open", label: "Open" }]} />
- */
 export function Select({ options, className, ...props }: SelectProps) {
 	// oxlint-disable-next-line jsx-a11y/control-has-associated-label -- base-ui's Field wires the label onto this control at runtime, which the rule cannot see
 	const nativeSelect = <select />;

@@ -1,0 +1,62 @@
+@use "/src/style/link.scss" as link;
+@use "/src/style/surface.scss" as surface;
+
+.card {
+	@include surface.card;
+
+	display: flex;
+	flex-direction: column;
+	gap: var(--unit-12);
+	border: var(--border-width-1) solid var(--color-border-muted);
+	color: var(--color-text-default);
+}
+
+.identity {
+	display: flex;
+	flex-direction: column;
+}
+
+.role {
+	color: var(--color-text-accent);
+	font: var(--font-body-regular-12-14);
+	text-transform: uppercase;
+}
+
+.details {
+	display: flex;
+	flex-direction: column;
+	gap: var(--unit-12);
+}
+
+.detail {
+	display: flex;
+	align-items: center;
+	gap: var(--unit-12);
+	min-width: 0;
+}
+
+.iconBlock {
+	display: flex;
+	flex: 0 0 auto;
+	border-radius: var(--radius-12);
+	background: var(--color-surface-accent);
+	padding: var(--unit-12);
+	color: var(--color-surface-accent-strong);
+}
+
+.stacked {
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+}
+
+.link {
+	@include link.text;
+
+	overflow-wrap: anywhere;
+}
+
+.availability {
+	color: var(--color-text-accent);
+	font: var(--font-body-regular-12-14);
+}

@@ -8,12 +8,6 @@ type FormProps = React.ComponentProps<"form"> & {
 	label?: string;
 };
 
-/**
- * A form with its own validation and an optional disabled state.
- *
- * @example
- * <Form onSubmit={submitHandler(form)}>
- */
 const Form = ({
 	children,
 	className,

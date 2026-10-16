@@ -10,12 +10,6 @@ export type InputProps = Omit<Field.Control.Props, "className"> & {
 	className?: string;
 };
 
-/**
- * The text control inside a `<Field>`.
- *
- * @example
- * <Input name="email" type="email" autoComplete="email" />
- */
 export function Input({ className, type = "text", ...props }: InputProps) {
 	const [revealed, setRevealed] = useState(false);
 	const isPassword = type === "password";

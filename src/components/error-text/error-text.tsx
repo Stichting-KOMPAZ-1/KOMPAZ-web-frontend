@@ -21,12 +21,6 @@ type Props = Readonly<
 		)
 >;
 
-/**
- * One or more error messages. Renders nothing when there are none.
- *
- * @example
- * <ErrorText>{errorText(field.state.meta.errors)}</ErrorText>
- */
 export function ErrorText({
 	el = "p",
 	className,

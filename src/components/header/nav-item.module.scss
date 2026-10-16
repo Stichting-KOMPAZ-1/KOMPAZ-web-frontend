@@ -1,0 +1,39 @@
+@use "/src/style/focus.scss" as focus;
+
+@use "/src/style/breakpoints.scss" as bp;
+
+.item {
+	display: flex;
+	align-items: center;
+	gap: var(--unit-4);
+	border-radius: var(--radius-12);
+	padding: var(--unit-8);
+	color: var(--color-action);
+	font: var(--font-body-regular-14-16);
+	text-decoration: none;
+
+	&:hover {
+		background: var(--color-surface-muted);
+	}
+
+	&:focus-visible {
+		@include focus.ring;
+	}
+
+	&[data-status="active"] {
+		background: var(--color-nav-selected);
+		color: var(--color-text-on-nav-selected);
+	}
+}
+
+.label {
+	white-space: nowrap;
+}
+
+.desktopOnly {
+	display: none;
+
+	@include bp.desktop {
+		display: inline;
+	}
+}

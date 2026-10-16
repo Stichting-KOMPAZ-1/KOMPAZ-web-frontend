@@ -1,5 +1,11 @@
+@use "/src/style/breakpoints.scss" as bp;
+
 .layout {
-	--gutter: calc((100cqi - 500px) / 2);
+	--page-inset: var(--unit-8);
+	--content-max: 1280px;
+	--gutter: max(var(--page-inset), (100cqi - var(--content-max)) / 2);
+	--grid-gap: var(--unit-16);
+	--main-inset: calc(var(--gutter) + var(--grid-gap));
 	display: grid;
 	grid-template-rows: min-content 1fr;
 	grid-template-columns:
@@ -8,18 +14,19 @@
 		repeat(4, 1fr)
 		[main-end]
 		var(--gutter);
-	gap: var(--unit-4);
+	gap: var(--grid-gap);
 	width: 100cqi;
 	min-height: 100cqb;
 
-	@media (min-width: 992px) {
-		--gutter: calc((100cqi - 1440px) / 2);
+	@include bp.desktop {
+		--page-inset: var(--unit-24);
 		grid-template-columns:
 			var(--gutter)
 			[main-start]
 			repeat(12, 1fr)
 			[main-end]
 			var(--gutter);
+		--grid-gap: var(--unit-24);
 	}
 
 	& > * {

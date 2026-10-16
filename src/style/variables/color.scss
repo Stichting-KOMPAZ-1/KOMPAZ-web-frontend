@@ -1,15 +1,20 @@
 // Two tiers:
 //   seed  ->  semantic token  ->  component
+// Components may only ever reference a semantic token.
 
 :root {
 	--seed-primary: #6f203a;
 	--seed-secondary: #032d49;
+	--seed-secondary-soft: #eaf6fe;
 	--seed-error: #b3271b;
 	--seed-success: #1f7a45;
 	--seed-warning: #8a5a05;
+	--seed-focus: #4164ff;
+	--seed-disabled: #585858;
+	--seed-disabled-strong: #505050;
+	--seed-disabled-soft: #e3e3e3;
 	--color-white: #ffffff;
 
-	// Components may only ever reference a semantic token.
 	--color-text-default: color-mix(
 		in oklch shorter hue,
 		var(--seed-primary),
@@ -26,20 +31,38 @@
 		white 30%
 	);
 	--color-text-error: var(--seed-error);
+	--color-text-success: var(--seed-success);
 	--color-text-warning: var(--seed-warning);
 	--color-text-on-fill: var(--color-white);
+	--color-text-on-accent-strong: color-mix(
+		in oklch shorter hue,
+		var(--seed-secondary),
+		white 90%
+	);
+	--color-text-disabled: var(--seed-disabled);
+	--color-text-disabled-on-fill: color-mix(
+		in srgb,
+		var(--color-text-on-fill) 60%,
+		var(--color-action-disabled)
+	);
+	--color-text-disabled-soft: color-mix(
+		in srgb,
+		var(--color-text-disabled) 60%,
+		var(--color-surface-page)
+	);
 
 	--color-surface-page: var(--color-white);
+	--color-surface-page-soft: color-mix(
+		in oklch shorter hue,
+		var(--seed-secondary),
+		white 96%
+	);
 	--color-surface-muted: color-mix(
 		in oklch shorter hue,
 		var(--seed-primary),
 		white 90%
 	);
-	--color-surface-accent: color-mix(
-		in oklch shorter hue,
-		var(--seed-secondary),
-		white 90%
-	);
+	--color-surface-accent: oklch(from var(--seed-secondary-soft) l c h);
 	--color-surface-error: color-mix(
 		in oklch shorter hue,
 		var(--seed-error),
@@ -50,11 +73,13 @@
 		var(--seed-success),
 		white 90%
 	);
+	--color-surface-accent-strong: var(--seed-secondary);
 	--color-surface-warning: color-mix(
 		in oklch shorter hue,
 		var(--seed-warning),
 		white 90%
 	);
+	--color-surface-disabled: var(--seed-disabled-soft);
 
 	--color-action: var(--seed-primary);
 	--color-action-soft: color-mix(
@@ -67,11 +92,25 @@
 		var(--seed-primary),
 		white 15%
 	);
+	--color-action-disabled: var(--seed-disabled);
 	--color-nav-selected: var(--seed-secondary);
+	--color-text-on-nav-selected: color-mix(
+		in oklch shorter hue,
+		var(--seed-primary),
+		white 90%
+	);
 
 	--color-border: color-mix(
 		in oklch shorter hue,
 		var(--seed-primary),
 		white 80%
 	);
+	--color-border-muted: color-mix(
+		in oklch shorter hue,
+		var(--seed-secondary),
+		white 92%
+	);
+	--color-border-disabled: var(--seed-disabled-strong);
+
+	--color-focus: var(--seed-focus);
 }

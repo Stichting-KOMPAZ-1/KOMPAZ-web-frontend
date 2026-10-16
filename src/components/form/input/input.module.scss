@@ -1,3 +1,4 @@
+@use "/src/style/focus.scss" as focus;
 @use "../form.scss";
 
 .control {
@@ -6,9 +7,9 @@
 	display: flex;
 	flex: 1;
 	align-items: center;
-	gap: var(--unit-2);
-	padding: 0 var(--unit-3);
-	min-height: var(--unit-10);
+	gap: var(--unit-8);
+	padding: 0 var(--unit-12);
+	min-height: var(--unit-40);
 	width: 100%;
 
 	&:has(input[aria-invalid="true"]) {
@@ -16,7 +17,7 @@
 	}
 
 	&:has(input:disabled) {
-		@include form.disabled;
+		@include form.control-box-disabled;
 	}
 }
 
@@ -28,7 +29,7 @@
 	padding: 0;
 	min-width: 0;
 	color: inherit;
-	font: var(--font-body-regular-14);
+	font: var(--font-body-regular-12-14);
 
 	&::placeholder {
 		color: var(--color-text-muted);
@@ -42,11 +43,6 @@
 	color: inherit;
 
 	&:focus-visible {
-		outline: none;
-		text-decoration: underline;
-	}
-
-	&:disabled {
-		@include form.disabled;
+		@include focus.ring;
 	}
 }

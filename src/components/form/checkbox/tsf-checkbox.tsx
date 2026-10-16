@@ -12,7 +12,6 @@ type Props = Omit<
 	className?: string;
 };
 
-/** One standalone checkbox bound to the field it is rendered in. */
 export function TSFCheckbox({ hint, className, ...props }: Props) {
 	const field = useFieldContext<boolean>();
 	const error = visibleError(field.state.meta);

@@ -1,0 +1,11 @@
+.layout {
+	display: grid;
+	align-content: center;
+	justify-items: center;
+	padding: var(--unit-24);
+	min-height: 100cqb;
+}
+
+.page {
+	width: min(420px, 100%);
+}

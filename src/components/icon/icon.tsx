@@ -1,13 +1,27 @@
 import clsx from "clsx";
 import {
+	ArrowLeft,
+	ArrowRight,
 	Check,
 	ChevronDown,
+	ChevronRight,
+	CircleQuestionMark,
 	ClipboardList,
+	ExternalLink,
 	Eye,
 	EyeOff,
+	FileText,
+	GraduationCap,
 	Info,
+	Link,
+	LogOut,
 	type LucideIcon,
+	Mail,
+	Phone,
+	Shield,
 	TriangleAlert,
+	UserCog,
+	Video,
 } from "lucide-react";
 
 import style from "./icon.module.scss";
@@ -15,32 +29,37 @@ import style from "./icon.module.scss";
 // Keys are lucide's own icon names, so a name can be looked up directly on
 // https://lucide.dev/icons.
 const icons = {
+	"arrow-left": ArrowLeft,
+	"arrow-right": ArrowRight,
 	check: Check,
 	"chevron-down": ChevronDown,
+	"chevron-right": ChevronRight,
+	"circle-question-mark": CircleQuestionMark,
 	"clipboard-list": ClipboardList,
+	"external-link": ExternalLink,
 	eye: Eye,
 	"eye-off": EyeOff,
+	"file-text": FileText,
+	"graduation-cap": GraduationCap,
 	info: Info,
+	link: Link,
+	"log-out": LogOut,
+	mail: Mail,
+	phone: Phone,
+	shield: Shield,
 	"triangle-alert": TriangleAlert,
+	"user-cog": UserCog,
+	video: Video,
 } satisfies Record<string, LucideIcon>;
 
 export type IconName = keyof typeof icons;
 
 export type IconProps = {
 	name: IconName;
-	/** The design's px sizes. */
-	size?: 14 | 16 | 20;
+	size?: 14 | 16 | 20 | 24;
 	className?: string;
 };
 
-/**
- * A decorative icon, hidden from assistive technology.
- *
- * @example
- * <Button type="button" aria-label={m.home_title()}>
- * 	<Icon name="info" />
- * </Button>
- */
 const Icon = ({ name, size = 16, className }: IconProps) => {
 	const LucideGlyph = icons[name];
 
