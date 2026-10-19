@@ -1,0 +1,10 @@
+@use "/src/style/link.scss" as link;
+
+.link {
+	@include link.text;
+}
+
+.inline {
+	font: inherit;
+	text-decoration: underline;
+}

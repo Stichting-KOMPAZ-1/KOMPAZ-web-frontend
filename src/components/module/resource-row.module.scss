@@ -1,5 +1,4 @@
 @use "/src/style/breakpoints.scss" as bp;
-@use "/src/style/link.scss" as link;
 @use "/src/style/surface.scss" as surface;
 
 .row {
@@ -34,8 +33,6 @@
 }
 
 .link {
-	@include link.text;
-
 	display: flex;
 	align-items: center;
 	gap: var(--unit-8);
