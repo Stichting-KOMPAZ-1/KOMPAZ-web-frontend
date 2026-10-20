@@ -1,0 +1,23 @@
+@use "/src/style/breakpoints.scss" as bp;
+
+.trigger {
+	flex: 0 0 auto;
+	margin-inline-start: auto;
+}
+
+.triggerLabel {
+	position: absolute;
+	clip-path: inset(50%);
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	white-space: nowrap;
+
+	@include bp.desktop {
+		position: static;
+		clip-path: none;
+		width: auto;
+		height: auto;
+		overflow: visible;
+	}
+}

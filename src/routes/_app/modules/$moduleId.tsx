@@ -7,6 +7,7 @@ import Icon from "components/icon/icon";
 import CopyLinkButton from "components/module/copy-link-button";
 import ResourceRow from "components/module/resource-row";
 import ResourceSection from "components/module/resource-section";
+import ShareELearningModal from "components/module/share-e-learning-modal";
 import PageError from "components/page/page-error";
 import PageLoading from "components/page/page-loading";
 import Pill from "components/pill/pill";
@@ -65,6 +66,12 @@ function ModulePage() {
 								params={{ eLearningId: eLearning.id }}
 								search={{ module: moduleId }}
 								highlight
+								action={
+									<ShareELearningModal
+										eLearning={eLearning}
+										moduleId={moduleId}
+									/>
+								}
 							/>
 						)}
 					</ResourceSection>
