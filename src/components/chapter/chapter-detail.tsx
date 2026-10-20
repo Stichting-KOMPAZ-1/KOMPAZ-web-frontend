@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import PartRow from "components/chapter-part/part-row";
 import StepNav from "components/e-learning/step-nav";
 import { Heading } from "components/heading/heading";
@@ -17,6 +18,7 @@ type Props = {
 	previousTo?: string;
 	nextTo?: string;
 	isLastStep?: boolean;
+	className?: string;
 };
 
 const ChapterDetail = ({
@@ -28,6 +30,7 @@ const ChapterDetail = ({
 	previousTo,
 	nextTo,
 	isLastStep = false,
+	className,
 }: Props) => {
 	const isSummary = chapterNumber === undefined || totalChapters === undefined;
 	const hasParts = chapter.parts.length > 0;
@@ -41,7 +44,7 @@ const ChapterDetail = ({
 				: m.elearning_chapter_start();
 
 	return (
-		<article className={style.card}>
+		<article className={clsx(style.card, className)}>
 			<div className={style.main}>
 				<span className={style.badge}>
 					<ChapterBadge number={chapterNumber} size="large" />
