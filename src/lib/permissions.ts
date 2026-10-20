@@ -10,7 +10,7 @@ const roleRank: Record<UserRole, number> = {
 
 type User = Pick<UserResource, "role">;
 
-export const hasRole = (user: User, role: UserRole) =>
+const hasRole = (user: User, role: UserRole) =>
 	roleRank[user.role] >= roleRank[role];
 
 export const canManageOrganization = (user: User) =>
