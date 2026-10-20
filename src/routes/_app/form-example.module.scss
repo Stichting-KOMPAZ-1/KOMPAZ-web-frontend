@@ -1,15 +1,20 @@
+@use "/src/style/breakpoints.scss" as bp;
+
 .page {
 	grid-column: main;
 }
 
 .address {
 	display: grid;
-	grid-template-columns: 2fr 1fr 1fr;
 	gap: var(--unit-16);
+
+	@include bp.desktop {
+		grid-template-columns: 2fr 1fr 1fr;
+	}
 }
 
 .addressError {
-	grid-column: span 3;
+	grid-column: 1 / -1;
 }
 
 .devMessage {

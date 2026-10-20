@@ -33,6 +33,8 @@ const validationSchema = z.object({
 	contact: z.string().min(1, "Kies een contactvoorkeur"),
 	country: z.string().min(1, "Kies een land"),
 	note: z.string(),
+	memberId: z.string(),
+	terms: z.string(),
 });
 type ValidationType = z.infer<typeof validationSchema>;
 
@@ -106,7 +108,9 @@ function FormTest() {
 		options: [],
 		contact: "",
 		country: "",
-		note: "This note is read-only.",
+		note: "",
+		memberId: "KOM-000123",
+		terms: "These terms are read-only.",
 	};
 
 	const form = useAppForm({
@@ -135,7 +139,6 @@ function FormTest() {
 						<field.Input
 							label="Your e-mail"
 							autoComplete="email"
-							readOnly
 							placeholder="name@organisation.nl"
 						/>
 					)}
@@ -201,8 +204,16 @@ function FormTest() {
 
 				<form.AppField name="note">
 					{(field) => (
-						<field.Textarea label="Anything else?" optional rows={4} readOnly />
+						<field.Textarea label="Anything else?" optional rows={4} />
 					)}
+				</form.AppField>
+
+				<form.AppField name="memberId">
+					{(field) => <field.Input label="Member ID" readOnly />}
+				</form.AppField>
+
+				<form.AppField name="terms">
+					{(field) => <field.Textarea label="Terms" rows={2} readOnly />}
 				</form.AppField>
 
 				<FormButton isSubmitting={isSubmitting}>Submit</FormButton>
