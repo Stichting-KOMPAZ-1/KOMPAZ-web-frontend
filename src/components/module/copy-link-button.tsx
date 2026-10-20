@@ -30,9 +30,16 @@ const CopyLinkButton = ({ url, label, copiedLabel }: Props) => {
 		setTimeout(() => setStatus("idle"), RESET_DELAY_MS);
 	};
 
+	const icon =
+		status === "copied"
+			? "check"
+			: status === "failed"
+				? "triangle-alert"
+				: "copy";
+
 	return (
 		<Button variant="secondary" onClick={copy}>
-			<Icon name={status === "copied" ? "check" : "copy"} />
+			<Icon name={icon} />
 			<span className={style.label} aria-live="polite">
 				{status === "copied"
 					? copiedLabel
