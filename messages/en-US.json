@@ -35,6 +35,11 @@
 	"module_videos_title": "Videos",
 	"module_links_title": "Extra links",
 	"module_load_error": "This module could not be loaded.",
+	"module_copy_video_link": "Copy video link",
+	"module_video_link_copied": "Video link copied!",
+	"module_copy_link": "Copy link",
+	"module_link_copied": "Link copied!",
+	"module_copy_failed": "Copying failed",
 
 	"elearning_back_to_module": "Back to module",
 	"elearning_back_to_library": "Back to library",
