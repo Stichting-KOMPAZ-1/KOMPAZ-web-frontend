@@ -1,0 +1,96 @@
+@use "/src/style/breakpoints.scss" as bp;
+@use "/src/style/focus.scss" as focus;
+
+.item {
+	grid-column: 1 / -1;
+	display: grid;
+
+	@include bp.desktop {
+		grid-column: span 6;
+	}
+
+	@include bp.desktop-medium {
+		grid-column: span 4;
+	}
+}
+
+.card {
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+	border-radius: var(--radius-20);
+	box-shadow: var(--shadow-kompaz);
+	background: var(--color-surface-page);
+	padding-bottom: var(--unit-24);
+	color: inherit;
+	text-decoration: none;
+
+	@media not (prefers-reduced-motion) {
+		transition: box-shadow 0.2s ease;
+	}
+
+	&:hover {
+		box-shadow:
+			var(--shadow-kompaz),
+			0 0 0 var(--border-width-2) var(--color-border);
+	}
+
+	&:focus-visible {
+		@include focus.ring;
+	}
+}
+
+.media {
+	position: relative;
+	flex: 0 0 auto;
+	background: var(--color-surface-accent);
+	height: var(--unit-192);
+}
+
+.image {
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.inDevelopment::after {
+	position: absolute;
+	inset: 0;
+	background: color-mix(
+		in oklch,
+		var(--color-surface-page-soft) 80%,
+		transparent
+	);
+	content: "";
+}
+
+.pills {
+	position: absolute;
+	inset-block-start: var(--unit-12);
+	inset-inline-start: var(--unit-12);
+	z-index: 1;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: var(--unit-4);
+}
+
+.pill {
+	text-transform: uppercase;
+}
+
+.body {
+	display: flex;
+	flex-direction: column;
+	padding: var(--unit-12);
+}
+
+.description {
+	display: -webkit-box;
+	overflow: hidden;
+	font: var(--font-body-regular-14-16);
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 3;
+	line-clamp: 3;
+}

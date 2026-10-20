@@ -23,12 +23,18 @@
 	"nav_label": "Main navigation",
 	"nav_home": "Home",
 	"nav_admin": "Administration",
+	"nav_library": "Library",
 	"nav_profile": "Profile",
 	"nav_logout": "Log out",
 
-	"home_title": "Home",
+	"library_title": "Library",
 	"admin_title": "Administration",
 	"profile_title": "Profile",
+
+	"library_all_modules": "All modules ({count})",
+	"library_in_development": "In development",
+	"library_empty": "There are no modules available yet.",
+	"library_load_error": "The library could not be loaded.",
 
 	"module_back_to_library": "Back to library",
 	"module_elearnings_title": "E-learnings",

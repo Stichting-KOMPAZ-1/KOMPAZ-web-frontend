@@ -23,12 +23,18 @@
 	"nav_label": "Hoofdnavigatie",
 	"nav_home": "Home",
 	"nav_admin": "Beheer",
+	"nav_library": "Bibliotheek",
 	"nav_profile": "Profiel",
 	"nav_logout": "Uitloggen",
 
-	"home_title": "Home",
+	"library_title": "Bibliotheek",
 	"admin_title": "Beheer",
 	"profile_title": "Profiel",
+
+	"library_all_modules": "Alle modulen ({count})",
+	"library_in_development": "In ontwikkeling",
+	"library_empty": "Er zijn nog geen modulen beschikbaar.",
+	"library_load_error": "De bibliotheek kon niet worden geladen.",
 
 	"module_back_to_library": "Terug naar bibliotheek",
 	"module_elearnings_title": "E-learnings",
