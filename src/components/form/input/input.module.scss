@@ -16,6 +16,10 @@
 		@include form.invalid;
 	}
 
+	&:has(input[readonly]:not(:disabled)) {
+		@include form.control-box-readonly;
+	}
+
 	&:has(input:disabled) {
 		@include form.control-box-disabled;
 	}

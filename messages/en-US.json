@@ -17,6 +17,9 @@
 	"consent_change_later": "You can always change your choice later through ‘Cookie settings’ at the bottom of the page.",
 	"consent_settings": "Cookie settings",
 
+	"modal_close": "Close",
+	"modal_cancel": "Cancel",
+
 	"nav_label": "Main navigation",
 	"nav_home": "Home",
 	"nav_admin": "Administration",
