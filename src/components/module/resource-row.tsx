@@ -42,7 +42,7 @@ const ResourceRow = ({
 		) : (
 			<span>{title}</span>
 		)}
-		{action}
+		{action && <div className={style.action}>{action}</div>}
 	</li>
 );
 

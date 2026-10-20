@@ -31,7 +31,7 @@ const CopyLinkButton = ({ url, label, copiedLabel }: Props) => {
 	};
 
 	return (
-		<Button variant="secondary" className={style.button} onClick={copy}>
+		<Button variant="secondary" onClick={copy}>
 			<Icon name={status === "copied" ? "check" : "copy"} />
 			<span className={style.label} aria-live="polite">
 				{status === "copied"
