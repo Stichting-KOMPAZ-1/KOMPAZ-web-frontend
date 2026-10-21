@@ -1,5 +1,6 @@
 import ButtonLink from "components/button/button-link";
 import PartList from "components/chapter-part/part-list";
+import { useELearningNavigation } from "components/e-learning/e-learning-navigation";
 import { Heading } from "components/heading/heading";
 import Icon from "components/icon/icon";
 import type { ChapterResource } from "lib/heyapi";
@@ -9,43 +10,38 @@ import style from "./e-learning-summary.module.scss";
 
 type Props = {
 	chapter: ChapterResource;
-	eLearningId: string;
 	completedPartIds: ReadonlySet<string>;
 };
 
-const ELearningSummary = ({
-	chapter,
-	eLearningId,
-	completedPartIds,
-}: Props) => (
-	<section className={style.card}>
-		<span className={style.icon}>
-			<Icon name="file-text" size={24} />
-		</span>
+const ELearningSummary = ({ chapter, completedPartIds }: Props) => {
+	const navigation = useELearningNavigation();
 
-		<div className={style.body}>
-			<div className={style.header}>
-				<Heading el="h2" size="20-24">
-					{chapter.name}
-				</Heading>
+	return (
+		<section className={style.card}>
+			<span className={style.icon}>
+				<Icon name="file-text" size={24} />
+			</span>
 
-				<ButtonLink
-					variant="secondary"
-					className={style.action}
-					to={`/e-learnings/${eLearningId}/chapters/${chapter.id}`}
-				>
-					{m.elearning_summary_view()}
-					<Icon name="arrow-right" />
-				</ButtonLink>
+			<div className={style.body}>
+				<div className={style.header}>
+					<Heading el="h2" size="20-24">
+						{chapter.name}
+					</Heading>
+
+					<ButtonLink
+						variant="secondary"
+						className={style.action}
+						{...navigation.chapter(chapter.id)}
+					>
+						{m.elearning_summary_view()}
+						<Icon name="arrow-right" />
+					</ButtonLink>
+				</div>
+
+				<PartList parts={chapter.parts} completedPartIds={completedPartIds} />
 			</div>
-
-			<PartList
-				parts={chapter.parts}
-				eLearningId={eLearningId}
-				completedPartIds={completedPartIds}
-			/>
-		</div>
-	</section>
-);
+		</section>
+	);
+};
 
 export default ELearningSummary;

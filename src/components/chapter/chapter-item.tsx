@@ -10,7 +10,6 @@ import style from "./chapter-item.module.scss";
 type Props = {
 	chapter: ChapterResource;
 	number: number;
-	eLearningId: string;
 	completedPartIds: ReadonlySet<string>;
 	open?: boolean;
 	nextPartId?: string;
@@ -19,7 +18,6 @@ type Props = {
 const ChapterItem = ({
 	chapter,
 	number,
-	eLearningId,
 	completedPartIds,
 	open = false,
 	nextPartId,
@@ -41,7 +39,6 @@ const ChapterItem = ({
 
 			<PartList
 				parts={chapter.parts}
-				eLearningId={eLearningId}
 				completedPartIds={completedPartIds}
 				defaultOpen={open}
 				nextPartId={nextPartId}

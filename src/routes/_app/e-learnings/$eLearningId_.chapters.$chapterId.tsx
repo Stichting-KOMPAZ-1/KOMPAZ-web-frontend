@@ -5,9 +5,13 @@ import ChapterDetail from "components/chapter/chapter-detail";
 import ContactSection from "components/contact/contact-section";
 import { useModuleContacts } from "components/contact/use-module-contacts";
 import {
+	ELearningNavigationContext,
+	privateELearningNavigation,
+} from "components/e-learning/e-learning-navigation";
+import {
 	eLearningSearchSchema,
 	findChapter,
-	stepLinks,
+	stepNavigation,
 } from "components/e-learning/e-learning-utils";
 import Icon from "components/icon/icon";
 import PageError from "components/page/page-error";
@@ -58,41 +62,44 @@ function ChapterPage() {
 
 	const chapter = findChapter(eLearning, chapterId);
 
-	const { previousTo, nextTo, isLastStep } = stepLinks(eLearning, {
-		kind: "chapter",
-		id: chapterId,
-	});
+	const navigation = privateELearningNavigation(eLearningId);
+	const { previousTo, nextTo, isLastStep } = stepNavigation(
+		eLearning,
+		{ kind: "chapter", id: chapterId },
+		navigation,
+	);
 
 	return (
-		<div className={style.page}>
-			<ButtonLink
-				to={`/e-learnings/${eLearningId}`}
-				variant="link"
-				className={style.back}
-			>
-				<Icon name="arrow-left" />
-				{m.elearning_back_to_overview()}
-			</ButtonLink>
+		<ELearningNavigationContext value={navigation}>
+			<div className={style.page}>
+				<ButtonLink
+					{...navigation.overview}
+					variant="link"
+					className={style.back}
+				>
+					<Icon name="arrow-left" />
+					{m.elearning_back_to_overview()}
+				</ButtonLink>
 
-			{chapter ? (
-				<ChapterDetail
-					chapter={chapter}
-					eLearningId={eLearningId}
-					completedPartIds={noProgress}
-					chapterNumber={index === -1 ? undefined : index + 1}
-					totalChapters={
-						index === -1 ? undefined : eLearning.numberedChapters.length
-					}
-					previousTo={previousTo}
-					nextTo={nextTo}
-					isLastStep={isLastStep}
-					className={style.detail}
-				/>
-			) : (
-				<PageError>{m.elearning_chapter_not_found()}</PageError>
-			)}
+				{chapter ? (
+					<ChapterDetail
+						chapter={chapter}
+						completedPartIds={noProgress}
+						chapterNumber={index === -1 ? undefined : index + 1}
+						totalChapters={
+							index === -1 ? undefined : eLearning.numberedChapters.length
+						}
+						previousTo={previousTo}
+						nextTo={nextTo}
+						isLastStep={isLastStep}
+						className={style.detail}
+					/>
+				) : (
+					<PageError>{m.elearning_chapter_not_found()}</PageError>
+				)}
 
-			<ContactSection contacts={contacts} />
-		</div>
+				<ContactSection contacts={contacts} />
+			</div>
+		</ELearningNavigationContext>
 	);
 }
