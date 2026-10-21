@@ -1,0 +1,61 @@
+@use "/src/style/focus.scss" as focus;
+
+@use "/src/style/breakpoints.scss" as bp;
+
+.header {
+	position: sticky;
+	top: 0;
+	z-index: var(--layer-header);
+	border-bottom: var(--border-width-1) solid var(--color-border);
+	background: var(--color-surface-page);
+
+	@media not (prefers-reduced-motion) {
+		transition: translate 0.2s ease;
+	}
+}
+
+.hidden {
+	translate: 0 -100%;
+}
+
+.bar {
+	display: flex;
+	grid-column: 1 / -1;
+	align-items: center;
+	gap: var(--unit-32);
+	padding-inline: var(--unit-12);
+	min-height: var(--unit-64);
+
+	@include bp.desktop {
+		padding-inline: var(--unit-24);
+	}
+}
+
+.logo {
+	display: flex;
+	flex: 0 0 auto;
+	border-radius: var(--radius-12);
+
+	&:focus-visible {
+		@include focus.ring;
+	}
+}
+
+.logoMark {
+	width: var(--unit-32);
+
+	@include bp.desktop {
+		width: var(--unit-40);
+	}
+}
+
+.organizationLogo {
+	width: auto;
+	max-width: var(--unit-192);
+	height: var(--unit-32);
+	object-fit: contain;
+
+	@include bp.desktop {
+		height: var(--unit-40);
+	}
+}
