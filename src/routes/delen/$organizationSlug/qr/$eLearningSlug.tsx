@@ -1,21 +1,15 @@
-import { createFileRoute } from "@tanstack/react-router";
-import PageError from "components/page/page-error";
-import PageLoading from "components/page/page-loading";
-import * as m from "lib/paraglide/messages";
-import { openSharedELearning } from "lib/shared-e-learning";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 
+// TODO: KOM-110 decides whether the QR code encodes the share URL with UTM parameters instead
 export const Route = createFileRoute(
 	"/delen/$organizationSlug/qr/$eLearningSlug",
 )({
-	loader: ({ context, params, preload }) =>
-		openSharedELearning({
-			queryClient: context.queryClient,
-			...params,
-			source: "qr",
-			preload,
-		}),
-	errorComponent: () => (
-		<PageError>{m.shared_elearning_unavailable()}</PageError>
-	),
-	pendingComponent: PageLoading,
+	beforeLoad: ({ params }) => {
+		throw redirect({
+			to: "/delen/$organizationSlug/$eLearningSlug",
+			params,
+			search: { utm_source: "qr", utm_medium: "qr" },
+			replace: true,
+		});
+	},
 });

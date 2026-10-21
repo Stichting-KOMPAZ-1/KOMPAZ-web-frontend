@@ -12,6 +12,7 @@ import type { ModuleContactResource } from "lib/heyapi";
 import { sharedELearningShowOptions } from "lib/heyapi/@tanstack/react-query.gen";
 import * as m from "lib/paraglide/messages";
 import { makePageTitle } from "lib/title";
+import z from "zod";
 
 import style from "./index.module.scss";
 
@@ -21,8 +22,13 @@ const noContacts: readonly ModuleContactResource[] = [];
 export const Route = createFileRoute(
 	"/delen/$organizationSlug/$eLearningSlug/",
 )({
+	validateSearch: z.object({
+		utm_source: z.optional(z.string()),
+		utm_medium: z.optional(z.string()),
+	}),
+	loaderDeps: ({ search }) => ({ source: search.utm_source }),
 	staleTime: Infinity,
-	loader: async ({ context, params, preload }) => {
+	loader: async ({ context, params, deps, preload }) => {
 		const eLearning = await context.queryClient.ensureQueryData(
 			sharedELearningShowOptions({ path: params }),
 		);
@@ -31,7 +37,7 @@ export const Route = createFileRoute(
 			track("elearning_open", {
 				organization: params.organizationSlug,
 				elearning: params.eLearningSlug,
-				source: "link",
+				source: deps.source === "qr" ? "qr" : "link",
 			});
 		}
 
