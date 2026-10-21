@@ -7,7 +7,6 @@ import style from "./e-learning-contents.module.scss";
 
 type Props = {
 	chapters: readonly ChapterResource[];
-	eLearningId: string;
 	completedPartIds: ReadonlySet<string>;
 	openChapterId?: string;
 	nextPartId?: string;
@@ -15,7 +14,6 @@ type Props = {
 
 const ELearningContents = ({
 	chapters,
-	eLearningId,
 	completedPartIds,
 	openChapterId,
 	nextPartId,
@@ -39,7 +37,6 @@ const ELearningContents = ({
 						key={chapter.id}
 						chapter={chapter}
 						number={index + 1}
-						eLearningId={eLearningId}
 						completedPartIds={completedPartIds}
 						open={chapter.id === openChapterId}
 						nextPartId={nextPartId}
