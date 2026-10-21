@@ -23,6 +23,24 @@ export const privateELearningNavigation = (
 	}),
 });
 
+export const publicELearningNavigation = (
+	organizationSlug: string,
+	eLearningSlug: string,
+): ELearningNavigation => ({
+	overview: {
+		to: "/delen/$organizationSlug/$eLearningSlug",
+		params: { organizationSlug, eLearningSlug },
+	},
+	chapter: (chapterId) => ({
+		to: "/delen/$organizationSlug/$eLearningSlug/chapters/$chapterId",
+		params: { organizationSlug, eLearningSlug, chapterId },
+	}),
+	part: (partId) => ({
+		to: "/delen/$organizationSlug/$eLearningSlug/parts/$partId",
+		params: { organizationSlug, eLearningSlug, partId },
+	}),
+});
+
 export const ELearningNavigationContext =
 	createContext<ELearningNavigation | null>(null);
 
