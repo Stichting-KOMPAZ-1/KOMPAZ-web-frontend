@@ -49,12 +49,9 @@
 	"module_share_link_copied": "Link copied!",
 	"module_share_qr_alt": "QR code for {name}",
 	"module_share_download_qr": "Download QR code",
-	"module_share_organization_form": "Choose an organization",
 	"module_share_organization_label": "Organization",
-	"module_share_organization_required": "Choose an organization.",
-	"module_share_organizations_empty": "This module is not switched on for any organization yet.",
+	"module_share_organizations_empty": "No organization shares this e-learning yet.",
 	"module_share_organizations_error": "The organizations could not be loaded.",
-	"module_share_show_links": "Show link and QR code",
 
 	"elearning_back_to_module": "Back to module",
 	"elearning_back_to_library": "Back to library",

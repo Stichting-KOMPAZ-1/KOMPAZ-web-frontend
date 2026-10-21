@@ -1,3 +1,4 @@
+@use "/src/style/a11y.scss";
 @use "/src/style/breakpoints.scss" as bp;
 
 .trigger {
@@ -6,18 +7,9 @@
 }
 
 .triggerLabel {
-	position: absolute;
-	clip-path: inset(50%);
-	width: 1px;
-	height: 1px;
-	overflow: hidden;
-	white-space: nowrap;
+	@include a11y.sr-only;
 
 	@include bp.desktop {
-		position: static;
-		clip-path: none;
-		width: auto;
-		height: auto;
-		overflow: visible;
+		@include a11y.not-sr-only;
 	}
 }

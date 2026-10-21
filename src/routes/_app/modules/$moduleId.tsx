@@ -66,12 +66,7 @@ function ModulePage() {
 								params={{ eLearningId: eLearning.id }}
 								search={{ module: moduleId }}
 								highlight
-								action={
-									<ShareELearningModal
-										eLearning={eLearning}
-										moduleId={moduleId}
-									/>
-								}
+								action={<ShareELearningModal eLearning={eLearning} />}
 							/>
 						)}
 					</ResourceSection>

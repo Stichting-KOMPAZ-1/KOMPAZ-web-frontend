@@ -6,16 +6,15 @@ import * as m from "lib/paraglide/messages";
 import { usePermissions } from "lib/permissions";
 
 import ShareELearningLinks from "./share-e-learning-links";
-import ShareOrganizationForm from "./share-organization-form";
+import ShareELearningOrganizationLinks from "./share-e-learning-organization-links";
 
 import style from "./share-e-learning-modal.module.scss";
 
 type Props = {
 	eLearning: ELearningSummaryResource;
-	moduleId: string;
 };
 
-const ShareELearningModal = ({ eLearning, moduleId }: Props) => {
+const ShareELearningModal = ({ eLearning }: Props) => {
 	const { name, shareUrl, qrCodeUrl } = eLearning;
 	const { canShareForAnyOrganization } = usePermissions();
 
@@ -37,7 +36,7 @@ const ShareELearningModal = ({ eLearning, moduleId }: Props) => {
 			}
 		>
 			{canShareForAnyOrganization ? (
-				<ShareOrganizationForm moduleId={moduleId} />
+				<ShareELearningOrganizationLinks id={eLearning.id} name={name} />
 			) : (
 				<ShareELearningLinks
 					name={name}
