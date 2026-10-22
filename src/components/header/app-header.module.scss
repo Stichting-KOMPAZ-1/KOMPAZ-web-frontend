@@ -56,6 +56,16 @@
 	min-width: 0;
 }
 
+.links {
+	display: flex;
+	align-items: center;
+	gap: var(--unit-4);
+
+	@include bp.desktop {
+		gap: var(--unit-8);
+	}
+}
+
 .account {
 	display: flex;
 	align-items: center;
