@@ -1,0 +1,98 @@
+# Proposes proxy/proxy.json to the shared development and staging proxies on
+# every merge: it opens (or updates) a pull request in
+# IGNE-Agency/igne-proxy-shared, which merges by itself once it is approved.
+# Needs the repository secret PROXY_SHARED_TOKEN: a token that may push
+# branches and open pull requests in igne-proxy-shared. See docs/deployment.md
+# of @igne-agency/proxy.
+name: Proxy sync
+
+on:
+  push:
+    # The branch that holds this repository's current proxy.json.
+    branches: [develop]
+    paths: [proxy/proxy.json, .github/workflows/proxy-sync.yml]
+  workflow_dispatch:
+
+concurrency: proxy-sync
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      # A broken file never reaches the shared proxies.
+      - run: npm ci && npm run check
+        working-directory: proxy
+
+      - uses: actions/checkout@v4
+        with:
+          repository: IGNE-Agency/igne-proxy-shared
+          token: ${{ secrets.PROXY_SHARED_TOKEN }}
+          path: shared
+
+      - name: Propose the change
+        working-directory: shared
+        env:
+          GH_TOKEN: ${{ secrets.PROXY_SHARED_TOKEN }}
+        run: |
+          project="$(node -p "require('../proxy/proxy.json').project")"
+          branch="sync/$project"
+          source="${{ github.repository }}@${GITHUB_SHA::7}"
+
+          git switch -c "$branch"
+          cp ../proxy/proxy.json "projects/$project.json"
+
+          # The same checks as igne-proxy-shared's own CI, with every other
+          # project next to this one: hostnames used twice, hostnames outside
+          # the wildcard domains, a basicAuth.secret, origins that do not answer.
+          npm ci --silent
+          npm run check
+          npm run check:shared -- "projects/$project.json"
+
+          git add "projects/$project.json"
+
+          if git diff --cached --quiet; then
+            echo "projects/$project.json is already up to date."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "chore: update $project from $source"
+          git push --force origin "$branch"
+
+          # An earlier pull request of this branch may be merged already; only an
+          # open one is updated by the push above.
+          pr="$(gh pr list --head "$branch" --state open --json url --jq '.[0].url // empty')"
+
+          if [ -z "$pr" ]; then
+            pr="$(gh pr create --head "$branch" --base main \
+              --title "chore: update $project" \
+              --body "proxy/proxy.json of $source.")"
+          fi
+
+          echo "Pull request: $pr"
+
+          # With a review rule on main: turn on auto-merge, it merges after the
+          # approval. Without one the pull request is mergeable at once ("clean"),
+          # GitHub refuses auto-merge, and it is merged here: the checks above are
+          # the same as igne-proxy-shared's own. GitHub still refuses a direct merge
+          # that a rule forbids, so this never skips a required review.
+          for attempt in 1 2 3 4; do
+            if gh pr merge "$pr" --auto --merge; then
+              exit 0
+            fi
+            if [ "$(gh pr view "$pr" --json mergeStateStatus --jq .mergeStateStatus)" = CLEAN ] \
+              && gh pr merge "$pr" --merge; then
+              exit 0
+            fi
+            sleep 15
+          done
+
+          echo "::warning::Auto-merge could not be turned on; merge $pr after its review."
