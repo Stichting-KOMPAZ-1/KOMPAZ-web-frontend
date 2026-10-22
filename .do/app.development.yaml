@@ -21,15 +21,14 @@ alerts:
 # proxy (proxy/proxy.json), which reaches this app on its own .ondigitalocean.app
 # hostname. A hostname here would take the name away from the proxy.
 
-services:
+static_sites:
   - name: web
-    dockerfile_path: /Dockerfile
-    source_dir: /
-    http_port: 8080
-    instance_count: 1
-    # Runtime is nginx serving static files, which needs a fraction of this. The Viqio app runs apps-s-1vcpu-1gb, but that is the
-    # professional tier at $12/month against $5 here for memory nothing uses.
-    instance_size_slug: apps-s-1vcpu-0.5gb
+    # A static site: App Platform picks the Bun buildpack from bun.lock, installs the
+    # packages and runs the build, and serves dist/ from its CDN. No container to
+    # run or pay for. Page loads of SPA routes get index.html from the proxy
+    # (spaFallback in proxy/proxy.json).
+    build_command: bun run build
+    output_dir: dist
 
     github:
       repo: Stichting-KOMPAZ-1/KOMPAZ-web-frontend
@@ -62,9 +61,6 @@ services:
       - key: VITE_GA_MEASUREMENT_ID
         scope: BUILD_TIME
         value: G-YY2ML72VP1
-
-    health_check:
-      http_path: /
 
 ingress:
   rules:

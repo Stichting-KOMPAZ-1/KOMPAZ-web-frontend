@@ -7,7 +7,8 @@
 			"origins": {
 				"web": {
 					"url": "https://kompaz-web-frontend-dev-w3vsm.ondigitalocean.app",
-					"repository": "https://github.com/Stichting-KOMPAZ-1/KOMPAZ-web-frontend"
+					"repository": "https://github.com/Stichting-KOMPAZ-1/KOMPAZ-web-frontend",
+					"spaFallback": true
 				},
 				"api": {
 					"url": "https://backend.kompaz.igne.link",
@@ -35,7 +36,8 @@
 			"origins": {
 				"web": {
 					"url": "https://kompaz-web-frontend-staging-erw3f.ondigitalocean.app",
-					"repository": "https://github.com/Stichting-KOMPAZ-1/KOMPAZ-web-frontend"
+					"repository": "https://github.com/Stichting-KOMPAZ-1/KOMPAZ-web-frontend",
+					"spaFallback": true
 				},
 				"api": {
 					"url": "https://backend.kompaz.staging.igne.link",

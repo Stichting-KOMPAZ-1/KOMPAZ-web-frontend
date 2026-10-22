@@ -24,14 +24,14 @@ alerts:
 # hostname is decided, add a `production` environment to proxy/proxy.json and the
 # proxy service of @igne-agency/proxy's docs/templates/.do/app.yaml here.
 
-services:
+static_sites:
   - name: web
-    dockerfile_path: /Dockerfile
-    source_dir: /
-    http_port: 8080
-    instance_count: 1
-    # See the development spec: nginx needs a fraction of this.
-    instance_size_slug: apps-s-1vcpu-0.5gb
+    # A static site: App Platform picks the Bun buildpack from bun.lock, installs the
+    # packages and runs the build, and serves dist/ from its CDN. No container to
+    # run or pay for. Page loads of SPA routes get index.html from the proxy
+    # (spaFallback in proxy/proxy.json).
+    build_command: bun run build
+    output_dir: dist
 
     github:
       repo: Stichting-KOMPAZ-1/KOMPAZ-web-frontend
@@ -55,9 +55,6 @@ services:
       - key: VITE_API_ORIGIN
         scope: BUILD_TIME
         value: https://CHANGE_ME
-
-    health_check:
-      http_path: /
 
 ingress:
   rules:

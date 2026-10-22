@@ -75,9 +75,8 @@ To overwrite any general settings, create a `settings.local.json` file.
 
 ## 🚀 Deployments
 
-The app is hosted on **DigitalOcean App Platform**, one app per environment, each
-building this repository's [`Dockerfile`](./Dockerfile) itself. The image is a
-Bun build of the SPA served by nginx on port 8080. Visitors reach it through
+The app is hosted on **DigitalOcean App Platform** as a static site, one app per
+environment: App Platform runs `bun run build` and serves `dist/`. Visitors reach it through
 IGNE's shared proxy ([`@igne-agency/proxy`](https://www.npmjs.com/package/@igne-agency/proxy)),
 which also sends the backend's paths to the backend.
 
@@ -135,10 +134,11 @@ the origin [`proxy/proxy.json`](./proxy/proxy.json) names for it.
 | `/nova`, `/nova-api`, `/nova-vendor`, `/vendor/nova`, `/beheer` | the backend: the admin panel, see below     |
 | everything else                                          | this app (`web`), on its own `….ondigitalocean.app` hostname |
 
-The proxy also adds `Strict-Transport-Security` and `X-Content-Type-Options`, and
-`X-Robots-Tag: noindex` on development and staging. Everything else this app's
-pages send (the Content-Security-Policy, caching) still comes from nginx,
-[`default.conf`](./default.conf).
+The proxy also serves `index.html` for page loads of the SPA's routes
+(`spaFallback`), adds `Strict-Transport-Security` and `X-Content-Type-Options`,
+and `X-Robots-Tag: noindex` on development and staging. A static site sends no
+headers of its own, so there is no Content-Security-Policy; caching is App
+Platform's.
 
 **Changing a path.** A new route prefix on the backend needs a line in
 `proxy/proxy.json`, or it gets this app's `index.html` (a POST gets a 405). The
@@ -183,19 +183,14 @@ Three things this depends on:
 - **Nova's magic links are built from `APP_URL`, not `FRONTEND_URL`.** They keep
   pointing at the backend's domain until `APP_URL` is changed to this one.
 
-Nova never gets this app's Content-Security-Policy: its layout carries inline
-`<script>` blocks and no CSP nonce, so the app's `script-src 'self'` would stop
-the panel from booting. The backend sets the panel's own headers.
-
 Changing `NOVA_PATH` on the backend means changing `proxy/proxy.json` to match.
 
-### 🛠️ Running the production image locally
+### 🛠️ Trying the build locally
 
 ```sh
-docker build -t kompaz-fe .
-docker run --rm -p 8080:8080 kompaz-fe
+bun run build
 ```
 
-The image serves only the SPA. To try it with the backend behind it, run the
-proxy in front of it as `@igne-agency/proxy`'s `docs/local-development.md`
-describes.
+`dist/` is what App Platform serves. To try it with the backend behind it, serve
+`dist/` and run the proxy in front of it as `@igne-agency/proxy`'s
+`docs/local-development.md` describes.
