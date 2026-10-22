@@ -41,7 +41,9 @@ server {
     # googletagmanager.com, which reports to google-analytics.com and
     # analytics.google.com. These are the sources Google documents for GA4; without
     # them the tag is blocked and measures nothing, with no error in the app.
-    add_header Content-Security-Policy "default-src 'self'; script-src 'self' https://*.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob: https://*.google-analytics.com https://*.googletagmanager.com; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'" always;
+    # frame-src lists the video players embedVideoUrl in
+    # src/components/content-block/content-block-utils.ts produces; keep the two in sync.
+    add_header Content-Security-Policy "default-src 'self'; script-src 'self' https://*.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob: https://*.google-analytics.com https://*.googletagmanager.com; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com; frame-src https://www.youtube-nocookie.com https://player.vimeo.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'" always;
 
     # Set via the map above so it lives at server level: an add_header inside a
     # location block would drop every server-level header for that location.

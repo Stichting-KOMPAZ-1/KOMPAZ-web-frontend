@@ -40,7 +40,6 @@ const Video = ({ fileUrl, videoUrl, title }: Props) => {
 			allow="encrypted-media; fullscreen; picture-in-picture"
 			// oxlint-disable-next-line react/iframe-missing-sandbox -- the players need scripts and their own origin, which only allowlisted cross-origin hosts get
 			sandbox="allow-scripts allow-same-origin allow-presentation allow-popups"
-			allowFullScreen
 		/>
 	);
 };

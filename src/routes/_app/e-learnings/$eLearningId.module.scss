@@ -87,10 +87,10 @@
 	}
 
 	&:last-child {
-		padding-block-end: var(--unit-24);
+		padding-block-end: var(--unit-32);
 
 		@include bp.desktop {
-			padding-block-end: var(--unit-32);
+			padding-block-end: var(--unit-48);
 		}
 	}
 }
