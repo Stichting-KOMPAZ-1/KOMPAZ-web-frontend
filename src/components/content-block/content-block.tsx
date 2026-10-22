@@ -1,6 +1,7 @@
 import RichText from "components/rich-text/rich-text";
 import type { ContentBlockResource } from "lib/heyapi";
 
+import Checkboxes from "./checkboxes";
 import Image from "./image";
 import Instruction from "./instruction";
 import TitledBlock from "./titled-block";
@@ -40,6 +41,12 @@ const ContentBlock = ({ block }: Props) => {
 			);
 		case "Instruction":
 			return <Instruction block={block} />;
+		case "Checkboxes":
+			return (
+				<TitledBlock title={block.title}>
+					<Checkboxes body={block.body} options={block.checkboxes ?? []} />
+				</TitledBlock>
+			);
 	}
 };
 
@@ -53,6 +60,8 @@ const hasContent = (block: ContentBlockResource) => {
 			return Boolean(block.fileUrl || block.videoUrl);
 		case "Instruction":
 			return Boolean(block.body || block.fileUrl);
+		case "Checkboxes":
+			return Boolean(block.body || block.checkboxes?.length);
 	}
 };
 
