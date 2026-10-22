@@ -16,10 +16,14 @@ const hasRole = (user: User, role: UserRole) =>
 export const canManageOrganization = (user: User) =>
 	hasRole(user, "Administrator");
 
+export const canShareForAnyOrganization = (user: User) =>
+	hasRole(user, "PlatformAdministrator");
+
 export const usePermissions = () => {
 	const { data: user } = useSuspenseQuery(authMeOptions());
 
 	return {
 		canManageOrganization: canManageOrganization(user),
+		canShareForAnyOrganization: canShareForAnyOrganization(user),
 	};
 };

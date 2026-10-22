@@ -1,0 +1,15 @@
+@use "/src/style/a11y.scss";
+@use "/src/style/breakpoints.scss" as bp;
+
+.trigger {
+	flex: 0 0 auto;
+	margin-inline-start: auto;
+}
+
+.triggerLabel {
+	@include a11y.sr-only;
+
+	@include bp.desktop {
+		@include a11y.not-sr-only;
+	}
+}
