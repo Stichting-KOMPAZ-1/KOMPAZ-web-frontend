@@ -1,11 +1,10 @@
-import { Heading } from "components/heading/heading";
 import type { ContentBlockResource } from "lib/heyapi";
 
 import Image from "./image";
+import Instruction from "./instruction";
 import RichText from "./rich-text";
+import TitledBlock from "./titled-block";
 import Video from "./video";
-
-import style from "./content-block.module.scss";
 
 type Props = {
 	block: ContentBlockResource;
@@ -16,16 +15,32 @@ const ContentBlock = ({ block }: Props) => {
 		return null;
 	}
 
-	return (
-		<section className={style.block}>
-			{block.title && (
-				<Heading el="h2" size="20-24">
-					{block.title}
-				</Heading>
-			)}
-			{blockMedia(block)}
-		</section>
-	);
+	switch (block.type) {
+		case "Text":
+			return (
+				<TitledBlock title={block.title}>
+					<RichText html={block.body} />
+				</TitledBlock>
+			);
+		case "Image":
+			return (
+				<TitledBlock title={block.title}>
+					<Image src={block.fileUrl} />
+				</TitledBlock>
+			);
+		case "Video":
+			return (
+				<TitledBlock title={block.title}>
+					<Video
+						fileUrl={block.fileUrl}
+						videoUrl={block.videoUrl}
+						title={block.title}
+					/>
+				</TitledBlock>
+			);
+		case "Instruction":
+			return <Instruction block={block} />;
+	}
 };
 
 const hasContent = (block: ContentBlockResource) => {
@@ -36,23 +51,8 @@ const hasContent = (block: ContentBlockResource) => {
 			return Boolean(block.fileUrl);
 		case "Video":
 			return Boolean(block.fileUrl || block.videoUrl);
-	}
-};
-
-const blockMedia = (block: ContentBlockResource) => {
-	switch (block.type) {
-		case "Text":
-			return <RichText html={block.body} />;
-		case "Image":
-			return <Image src={block.fileUrl} />;
-		case "Video":
-			return (
-				<Video
-					fileUrl={block.fileUrl}
-					videoUrl={block.videoUrl}
-					title={block.title}
-				/>
-			);
+		case "Instruction":
+			return Boolean(block.body || block.fileUrl);
 	}
 };
 
