@@ -36,9 +36,16 @@ const AppHeader = () => {
 					<LogoMark aria-hidden="true" className={style.logoMark} />
 				</Link>
 				<nav className={style.nav} aria-label={m.nav_label()}>
-					{canManageOrganization && (
-						<NavItem to="/admin" icon="shield" label={m.nav_admin()} />
-					)}
+					<div className={style.links}>
+						{canManageOrganization && (
+							<NavItem to="/admin" icon="shield" label={m.nav_admin()} />
+						)}
+						<NavItem
+							to="/"
+							activeOptions={{ exact: true }}
+							label={m.nav_library()}
+						/>
+					</div>
 					<div className={style.account}>
 						<NavItem
 							to="/profile"
