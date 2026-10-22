@@ -1,8 +1,8 @@
+import RichText from "components/rich-text/rich-text";
 import type { ContentBlockResource } from "lib/heyapi";
 
 import Image from "./image";
 import Instruction from "./instruction";
-import RichText from "./rich-text";
 import TitledBlock from "./titled-block";
 import Video from "./video";
 
