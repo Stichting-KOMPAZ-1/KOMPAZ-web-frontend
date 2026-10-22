@@ -29,7 +29,7 @@ const ShareELearningLinks = ({ name, shareUrl, qrCodeUrl }: Props) => {
 					</Field>
 					<CopyLinkButton
 						url={shareUrl}
-						label={m.module_share_copy_link()}
+						label={m.module_copy_link()}
 						copiedLabel={m.module_share_link_copied()}
 					/>
 				</>
