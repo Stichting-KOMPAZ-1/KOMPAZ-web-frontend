@@ -1,5 +1,9 @@
 import clsx from "clsx";
 import PartRow from "components/chapter-part/part-row";
+import {
+	type ELearningNavigationLink,
+	useELearningNavigation,
+} from "components/e-learning/e-learning-navigation";
 import StepNav from "components/e-learning/step-nav";
 import { Heading } from "components/heading/heading";
 import type { ChapterResource } from "lib/heyapi";
@@ -11,19 +15,17 @@ import style from "./chapter-detail.module.scss";
 
 type Props = {
 	chapter: ChapterResource;
-	eLearningId: string;
 	completedPartIds: ReadonlySet<string>;
 	chapterNumber?: number;
 	totalChapters?: number;
-	previousTo?: string;
-	nextTo?: string;
+	previousTo?: ELearningNavigationLink;
+	nextTo?: ELearningNavigationLink;
 	isLastStep?: boolean;
 	className?: string;
 };
 
 const ChapterDetail = ({
 	chapter,
-	eLearningId,
 	completedPartIds,
 	chapterNumber,
 	totalChapters,
@@ -32,6 +34,7 @@ const ChapterDetail = ({
 	isLastStep = false,
 	className,
 }: Props) => {
+	const navigation = useELearningNavigation();
 	const isSummary = chapterNumber === undefined || totalChapters === undefined;
 	const hasParts = chapter.parts.length > 0;
 
@@ -81,7 +84,7 @@ const ChapterDetail = ({
 									<PartRow
 										key={part.id}
 										part={part}
-										to={`/e-learnings/${eLearningId}/parts/${part.id}`}
+										link={navigation.part(part.id)}
 										done={completedPartIds.has(part.id)}
 									/>
 								))}

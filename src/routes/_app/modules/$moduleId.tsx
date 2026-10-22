@@ -117,8 +117,9 @@ function ModulePage() {
 					{module.sourceAttribution && (
 						<p className={style.attribution}>{module.sourceAttribution}</p>
 					)}
-					<ContactSection contacts={module.contacts} />
 				</div>
+
+				<ContactSection contacts={module.contacts} />
 			</article>
 		</div>
 	);
