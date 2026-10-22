@@ -21,6 +21,7 @@ export type CheckboxGroupProps = Omit<
 	optional?: boolean;
 	hint?: string;
 	options: CheckboxGroupOption[];
+	strikethrough?: boolean;
 	className?: string;
 };
 
@@ -29,6 +30,7 @@ export function CheckboxGroup({
 	hint,
 	optional = false,
 	options,
+	strikethrough,
 	className,
 	...props
 }: CheckboxGroupProps) {
@@ -46,7 +48,11 @@ export function CheckboxGroup({
 			{hint && <FieldHint>{hint}</FieldHint>}
 			{options.map(({ value, label }) => (
 				<BaseField.Item key={value}>
-					<CheckboxOption value={value} label={label} />
+					<CheckboxOption
+						value={value}
+						label={label}
+						strikethrough={strikethrough}
+					/>
 				</BaseField.Item>
 			))}
 		</Fieldset.Root>

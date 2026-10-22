@@ -20,13 +20,20 @@ export function Checkbox({ className, ...props }: CheckboxProps) {
 
 export function CheckboxOption({
 	label,
+	strikethrough = false,
 	className,
 	...props
-}: CheckboxProps & { label: string }) {
+}: CheckboxProps & { label: string; strikethrough?: boolean }) {
 	return (
-		<label className={clsx(style.option, className)}>
+		<label
+			className={clsx(
+				style.option,
+				strikethrough && style.strikethrough,
+				className,
+			)}
+		>
 			<Checkbox {...props} />
-			<span>{label}</span>
+			<span className={style.label}>{label}</span>
 		</label>
 	);
 }
