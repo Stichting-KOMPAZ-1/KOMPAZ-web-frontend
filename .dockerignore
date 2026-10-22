@@ -18,3 +18,4 @@ src/lib/paraglide
 src/routeTree.gen.ts
 project.inlang/.meta.json
 project.inlang/.gitignore
+proxy

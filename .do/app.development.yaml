@@ -17,9 +17,9 @@ alerts:
   - rule: DEPLOYMENT_FAILED
   - rule: DOMAIN_FAILED
 
-domains:
-  - domain: kompaz.igne.link
-    type: PRIMARY
+# No domains: kompaz.develop.igne.link is served by IGNE's shared development
+# proxy (proxy/proxy.json), which reaches this app on its own .ondigitalocean.app
+# hostname. A hostname here would take the name away from the proxy.
 
 services:
   - name: web
@@ -27,8 +27,7 @@ services:
     source_dir: /
     http_port: 8080
     instance_count: 1
-    # Runtime is nginx serving static files and proxying, which needs a
-    # fraction of this. The Viqio app runs apps-s-1vcpu-1gb, but that is the
+    # Runtime is nginx serving static files, which needs a fraction of this. The Viqio app runs apps-s-1vcpu-1gb, but that is the
     # professional tier at $12/month against $5 here for memory nothing uses.
     instance_size_slug: apps-s-1vcpu-0.5gb
 
@@ -45,7 +44,7 @@ services:
 
     envs:
       # Inlined into the bundle by Vite, hence BUILD_TIME. A path rather than a
-      # URL: nginx proxies it to the backend on this same origin.
+      # URL: the proxy in front sends it to the backend on this same origin.
       - key: VITE_API_BASEURL
         scope: BUILD_TIME
         value: /api
@@ -63,16 +62,6 @@ services:
       - key: VITE_GA_MEASUREMENT_ID
         scope: BUILD_TIME
         value: G-YY2ML72VP1
-
-      # Read by nginx at container start, hence RUN_TIME. The app's own frbit.app
-      # domain 301-redirects here, so pointing at that one instead would turn
-      # every proxied call into a cross-origin redirect.
-      - key: BACKEND_ORIGIN
-        scope: RUN_TIME
-        value: https://backend.kompaz.igne.link
-      - key: BACKEND_HOST
-        scope: RUN_TIME
-        value: backend.kompaz.igne.link
 
     health_check:
       http_path: /

@@ -13,11 +13,9 @@ alerts:
   - rule: DEPLOYMENT_FAILED
   - rule: DOMAIN_FAILED
 
-# kompaz.staging.igne.link, following the naming policy, in front of the
-# backend's backend.kompaz.staging.igne.link (en-jf4twu).
-domains:
-  - domain: kompaz.staging.igne.link
-    type: PRIMARY
+# No domains: kompaz.staging.igne.link is served by IGNE's shared staging
+# proxy (proxy/proxy.json), which reaches this app on its own .ondigitalocean.app
+# hostname. A hostname here would take the name away from the proxy.
 
 services:
   - name: web
@@ -38,7 +36,7 @@ services:
 
     envs:
       # Inlined into the bundle by Vite, hence BUILD_TIME. A path rather than a
-      # URL: nginx proxies it to the backend on this same origin.
+      # URL: the proxy in front sends it to the backend on this same origin.
       - key: VITE_API_BASEURL
         scope: BUILD_TIME
         value: /api
@@ -56,15 +54,6 @@ services:
       - key: VITE_GA_MEASUREMENT_ID
         scope: BUILD_TIME
         value: G-1ZC5NDVVJJ
-
-      # Read by nginx at container start, hence RUN_TIME. The backend's real
-      # public origin, not its frbit.app default, which 301-redirects here.
-      - key: BACKEND_ORIGIN
-        scope: RUN_TIME
-        value: https://backend.kompaz.staging.igne.link
-      - key: BACKEND_HOST
-        scope: RUN_TIME
-        value: backend.kompaz.staging.igne.link
 
     health_check:
       http_path: /

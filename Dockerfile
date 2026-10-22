@@ -8,7 +8,8 @@ WORKDIR /app
 # import.meta.env has to be present here, not at container start. App Platform
 # passes BUILD_TIME env vars to the Dockerfile build as build args.
 #   VITE_API_BASEURL - path the app sends API requests to. Stays a same-origin
-#                      path; nginx proxies it to the backend (default.conf.template).
+#                      path; the proxy in front sends it to the backend
+#                      (proxy/proxy.json).
 #   VITE_API_ORIGIN  - backend the API client is generated from, at build time
 #                      only: the bundle never calls it directly.
 #   VITE_GA_MEASUREMENT_ID - Google Analytics 4 measurement ID; empty loads none.
@@ -34,21 +35,13 @@ RUN printf 'VITE_API_BASEURL=%s\nVITE_API_ORIGIN=%s\nVITE_GA_MEASUREMENT_ID=%s\n
 # committed and why nothing has to be generated before it.
 RUN bun run build
 
-# --- Serve stage: nginx serves the build and proxies the API ---
+# --- Serve stage: nginx serves the build with its headers ---
+# Only the SPA: the proxy in front (proxy/proxy.json) sends the backend's paths
+# to the backend, so this image needs no backend address and serves any
+# environment as built.
 FROM nginx:1.27-alpine
 
-# Where /api is proxied. Runtime rather than build-time on purpose: the bundle
-# only ever knows the relative path, so one image can serve any environment.
-#   BACKEND_ORIGIN - scheme + host, e.g. https://kompaz.frb.io
-#   BACKEND_HOST   - bare host, for the Host header and TLS SNI
-ENV BACKEND_ORIGIN=""
-ENV BACKEND_HOST=""
-# Substitute only these two. nginx's own runtime variables ($uri, $status,
-# $remote_addr, ...) share the ${} syntax and must survive envsubst untouched.
-ENV NGINX_ENVSUBST_FILTER="^BACKEND_"
-
-COPY docker-entrypoint.d/ /docker-entrypoint.d/
-COPY default.conf.template proxy-backend.inc.template /etc/nginx/templates/
+COPY default.conf /etc/nginx/conf.d/default.conf
 COPY --from=build /app/dist /usr/share/nginx/html
 
 EXPOSE 8080
