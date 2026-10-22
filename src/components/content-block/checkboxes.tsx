@@ -18,6 +18,7 @@ const Checkboxes = ({ body, options }: Props) => (
 						label,
 						value: String(index),
 					}))}
+					strikethrough
 				/>
 			</Field>
 		)}
