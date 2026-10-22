@@ -29,9 +29,24 @@
 	@include grid.columns;
 
 	gap: var(--unit-24);
+	padding-block-end: var(--unit-40);
 
-	@include bp.desktop-large {
+	@include bp.desktop-wide {
 		gap: var(--unit-32);
+		padding-block-end: var(--unit-80);
+	}
+}
+
+.item {
+	grid-column: 1 / -1;
+	display: grid;
+
+	@include bp.desktop {
+		grid-column: span 6;
+	}
+
+	@include bp.desktop-wide {
+		grid-column: span 4;
 	}
 }
 

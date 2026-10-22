@@ -39,7 +39,9 @@ function LibraryPage() {
 				{modules.items.length > 0 ? (
 					<ul className={style.modules}>
 						{modules.items.map((module) => (
-							<ModuleCard key={module.id} module={module} />
+							<li key={module.id} className={style.item}>
+								<ModuleCard module={module} />
+							</li>
 						))}
 					</ul>
 				) : (
