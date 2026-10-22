@@ -43,7 +43,9 @@ server {
     # them the tag is blocked and measures nothing, with no error in the app.
     # frame-src lists the video players embedVideoUrl in
     # src/components/content-block/content-block-utils.ts produces; keep the two in sync.
-    add_header Content-Security-Policy "default-src 'self'; script-src 'self' https://*.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob: https://*.google-analytics.com https://*.googletagmanager.com; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com; frame-src https://www.youtube-nocookie.com https://player.vimeo.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'" always;
+    # media-src allows videos uploaded through the admin panel, which the backend
+    # serves from Azure Blob Storage with a storage account per environment.
+    add_header Content-Security-Policy "default-src 'self'; script-src 'self' https://*.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob: https://*.google-analytics.com https://*.googletagmanager.com; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com; frame-src https://www.youtube-nocookie.com https://player.vimeo.com; media-src 'self' https://*.blob.core.windows.net; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'" always;
 
     # Set via the map above so it lives at server level: an add_header inside a
     # location block would drop every server-level header for that location.
