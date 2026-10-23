@@ -1,5 +1,6 @@
-import { Link, type LinkComponentProps } from "@tanstack/react-router";
+import type { LinkComponentProps } from "@tanstack/react-router";
 import Icon, { type IconName } from "components/icon/icon";
+import { Anchor, Link } from "components/link/link";
 
 import style from "./resource-row.module.scss";
 
@@ -11,6 +12,7 @@ type Props = {
 	params?: LinkComponentProps["params"];
 	search?: LinkComponentProps["search"];
 	highlight?: boolean;
+	action?: React.ReactNode;
 };
 
 const ResourceRow = ({
@@ -21,6 +23,7 @@ const ResourceRow = ({
 	params,
 	search,
 	highlight = false,
+	action,
 }: Props) => (
 	<li className={style.row}>
 		<span className={highlight ? style.iconBlockHighlight : style.iconBlock}>
@@ -32,18 +35,14 @@ const ResourceRow = ({
 				<Icon name="arrow-right" />
 			</Link>
 		) : href ? (
-			<a
-				className={style.link}
-				href={href}
-				target="_blank"
-				rel="noreferrer noopener"
-			>
+			<Anchor className={style.link} href={href} target="_blank">
 				{title}
 				<Icon name="external-link" />
-			</a>
+			</Anchor>
 		) : (
 			<span>{title}</span>
 		)}
+		{action && <div className={style.action}>{action}</div>}
 	</li>
 );
 

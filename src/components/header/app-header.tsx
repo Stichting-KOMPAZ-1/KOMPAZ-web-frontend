@@ -8,6 +8,7 @@ import { useHideOnScrollDown } from "hooks/use-hide-on-scroll-down";
 import { authRevoke } from "lib/heyapi";
 import { authMeOptions } from "lib/heyapi/@tanstack/react-query.gen";
 import * as m from "lib/paraglide/messages";
+import { usePermissions } from "lib/permissions";
 
 import NavItem from "./nav-item";
 
@@ -19,6 +20,7 @@ const AppHeader = () => {
 	const navigate = useNavigate();
 	const queryClient = useQueryClient();
 	const { data: user } = useQuery(authMeOptions());
+	const { canManageOrganization } = usePermissions();
 	const hidden = useHideOnScrollDown(headerHeight);
 
 	const handleLogout = async () => {
@@ -34,7 +36,16 @@ const AppHeader = () => {
 					<LogoMark aria-hidden="true" className={style.logoMark} />
 				</Link>
 				<nav className={style.nav} aria-label={m.nav_label()}>
-					<NavItem to="/admin" icon="shield" label={m.nav_admin()} />
+					<div className={style.links}>
+						{canManageOrganization && (
+							<NavItem to="/admin" icon="shield" label={m.nav_admin()} />
+						)}
+						<NavItem
+							to="/"
+							activeOptions={{ exact: true }}
+							label={m.nav_library()}
+						/>
+					</div>
 					<div className={style.account}>
 						<NavItem
 							to="/profile"

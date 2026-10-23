@@ -9,6 +9,7 @@
 
 	"loading_message": "Loading...",
 
+	"link_new_tab": "(opens in a new tab)",
 	"consent_label": "Consent for analytics cookies",
 	"consent_message": "We use analytics cookies from Google Analytics to see how the platform is used, for example how often an e-learning is opened through a QR code. May we set these cookies?",
 	"consent_accept": "Accept",
@@ -16,21 +17,46 @@
 	"consent_change_later": "You can always change your choice later through ‘Cookie settings’ at the bottom of the page.",
 	"consent_settings": "Cookie settings",
 
+	"modal_close": "Close",
+	"modal_cancel": "Cancel",
+
 	"nav_label": "Main navigation",
 	"nav_home": "Home",
 	"nav_admin": "Administration",
+	"nav_library": "Library",
 	"nav_profile": "Profile",
 	"nav_logout": "Log out",
 
-	"home_title": "Home",
+	"library_title": "Library",
 	"admin_title": "Administration",
 	"profile_title": "Profile",
+
+	"library_all_modules": "All modules ({count})",
+	"library_in_development": "In development",
+	"library_empty": "There are no modules available yet.",
+	"library_load_error": "The library could not be loaded.",
 
 	"module_back_to_library": "Back to library",
 	"module_elearnings_title": "E-learnings",
 	"module_videos_title": "Videos",
 	"module_links_title": "Extra links",
 	"module_load_error": "This module could not be loaded.",
+	"module_copy_video_link": "Copy video link",
+	"module_video_link_copied": "Video link copied!",
+	"module_copy_link": "Copy link",
+	"module_link_copied": "Link copied!",
+	"module_copy_failed": "Copying failed",
+	"module_share_elearning": "Share e-learning",
+	"module_share_title": "Share e-learning",
+	"module_share_qr_label": "QR code",
+	"module_share_organization_description": "Select the organization within which you want to share this e-learning.",
+	"module_share_link_label": "Link",
+	"module_share_link_copied": "Link copied!",
+	"module_share_qr_alt": "QR code for {name}",
+	"module_share_download_qr": "Download QR code",
+	"module_share_organization_label": "Organization",
+	"module_share_organizations_empty": "No organization shares this e-learning yet.",
+	"module_share_organizations_error": "The organizations could not be loaded.",
 
 	"elearning_back_to_module": "Back to module",
 	"elearning_back_to_library": "Back to library",
@@ -77,6 +103,8 @@
 	"elearning_load_error": "This e-learning could not be loaded.",
 	"elearning_chapter_not_found": "This chapter is not part of this e-learning.",
 	"elearning_part_load_error": "This part could not be loaded.",
+	"elearning_block_video": "Video",
+	"elearning_block_video_link": "Watch the video",
 
 	"shared_elearning_unavailable": "This e-learning is not available (anymore). Ask your care provider for a new link.",
 

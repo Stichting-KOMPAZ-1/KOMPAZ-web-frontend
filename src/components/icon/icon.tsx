@@ -7,6 +7,8 @@ import {
 	ChevronRight,
 	CircleQuestionMark,
 	ClipboardList,
+	Copy,
+	Download,
 	ExternalLink,
 	Eye,
 	EyeOff,
@@ -18,10 +20,12 @@ import {
 	type LucideIcon,
 	Mail,
 	Phone,
+	Share2,
 	Shield,
 	TriangleAlert,
 	UserCog,
 	Video,
+	X,
 } from "lucide-react";
 
 import style from "./icon.module.scss";
@@ -36,6 +40,8 @@ const icons = {
 	"chevron-right": ChevronRight,
 	"circle-question-mark": CircleQuestionMark,
 	"clipboard-list": ClipboardList,
+	copy: Copy,
+	download: Download,
 	"external-link": ExternalLink,
 	eye: Eye,
 	"eye-off": EyeOff,
@@ -46,10 +52,12 @@ const icons = {
 	"log-out": LogOut,
 	mail: Mail,
 	phone: Phone,
+	"share-2": Share2,
 	shield: Shield,
 	"triangle-alert": TriangleAlert,
 	"user-cog": UserCog,
 	video: Video,
+	x: X,
 } satisfies Record<string, LucideIcon>;
 
 export type IconName = keyof typeof icons;

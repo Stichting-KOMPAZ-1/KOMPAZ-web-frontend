@@ -43,6 +43,12 @@
 	}
 }
 
+@mixin control-box-readonly {
+	border-color: var(--color-border-disabled);
+	background: var(--color-surface-disabled);
+	color: var(--color-text-disabled);
+}
+
 @mixin choice-disabled {
 	border-color: var(--color-border-disabled);
 	background: var(--color-surface-disabled);

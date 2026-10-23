@@ -4,10 +4,10 @@
 .page {
 	@include grid.columns;
 
-	row-gap: var(--unit-24);
+	row-gap: var(--unit-32);
 
 	@include bp.desktop {
-		row-gap: var(--unit-32);
+		row-gap: var(--unit-48);
 	}
 }
 
@@ -25,5 +25,24 @@
 
 	@include bp.desktop {
 		grid-column: 2 / 12;
+		gap: var(--unit-48);
+	}
+
+	&:last-child {
+		padding-block-end: var(--unit-32);
+
+		@include bp.desktop {
+			padding-block-end: var(--unit-48);
+		}
+	}
+}
+
+.blocks {
+	display: flex;
+	flex-direction: column;
+	gap: var(--unit-32);
+
+	@include bp.desktop {
+		gap: var(--unit-36);
 	}
 }

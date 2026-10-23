@@ -3,12 +3,13 @@
 .button {
 	display: inline-flex;
 	align-items: center;
-	gap: var(--unit-4);
+	gap: var(--unit-8);
 	cursor: pointer;
-	border: none;
+	border: var(--border-width-1) solid transparent;
 	border-radius: var(--radius-8);
 	background: var(--color-action-soft);
-	padding: var(--unit-8) var(--unit-12);
+	padding: calc(var(--unit-8) - var(--border-width-1))
+		calc(var(--unit-12) - var(--border-width-1));
 	color: var(--color-text-on-fill);
 	outline: none;
 	font: var(--font-body-semibold-14-16);
@@ -35,17 +36,17 @@
 	}
 
 	&.size-large {
+		gap: var(--unit-12);
 		font: var(--font-body-semibold-16-18);
-		padding: var(--unit-12) var(--unit-24);
+		padding: calc(var(--unit-12) - var(--border-width-1))
+			calc(var(--unit-16) - var(--border-width-1));
 	}
 
 	&.variant-secondary {
 		background: transparent;
-		border: var(--border-width-2) solid var(--color-action-soft);
+		border-color: var(--color-action-soft);
 		color: var(--color-action-soft);
 		font: var(--font-body-regular-14-16);
-		padding: calc(var(--unit-8) - var(--border-width-2))
-			calc(var(--unit-12) - var(--border-width-2));
 
 		&:hover:not(:disabled):not([aria-disabled="true"]):not([data-disabled]) {
 			background-color: transparent;
@@ -63,8 +64,6 @@
 
 		&.size-large {
 			font: var(--font-body-regular-16-18);
-			padding: calc(var(--unit-12) - var(--border-width-2))
-				calc(var(--unit-24) - var(--border-width-2));
 		}
 	}
 

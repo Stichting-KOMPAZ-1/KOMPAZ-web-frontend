@@ -4,8 +4,10 @@ import ButtonLink from "components/button/button-link";
 import ContactSection from "components/contact/contact-section";
 import { Heading } from "components/heading/heading";
 import Icon from "components/icon/icon";
+import CopyLinkButton from "components/module/copy-link-button";
 import ResourceRow from "components/module/resource-row";
 import ResourceSection from "components/module/resource-section";
+import ShareELearningModal from "components/module/share-e-learning-modal";
 import PageError from "components/page/page-error";
 import PageLoading from "components/page/page-loading";
 import Pill from "components/pill/pill";
@@ -64,6 +66,7 @@ function ModulePage() {
 								params={{ eLearningId: eLearning.id }}
 								search={{ module: moduleId }}
 								highlight
+								action={<ShareELearningModal eLearning={eLearning} />}
 							/>
 						)}
 					</ResourceSection>
@@ -72,14 +75,25 @@ function ModulePage() {
 						title={m.module_videos_title()}
 						items={module.videos}
 					>
-						{(video) => (
-							<ResourceRow
-								key={video.id}
-								icon="video"
-								title={video.title}
-								href={video.url ?? video.fileUrl ?? undefined}
-							/>
-						)}
+						{(video) => {
+							const url = video.url ?? video.fileUrl ?? undefined;
+
+							return (
+								<ResourceRow
+									key={video.id}
+									icon="video"
+									title={video.title}
+									href={url}
+									action={
+										<CopyLinkButton
+											url={url}
+											label={m.module_copy_video_link()}
+											copiedLabel={m.module_video_link_copied()}
+										/>
+									}
+								/>
+							);
+						}}
 					</ResourceSection>
 
 					<ResourceSection title={m.module_links_title()} items={module.links}>
@@ -89,6 +103,13 @@ function ModulePage() {
 								icon="link"
 								title={link.title}
 								href={link.url}
+								action={
+									<CopyLinkButton
+										url={link.url}
+										label={m.module_copy_link()}
+										copiedLabel={m.module_link_copied()}
+									/>
+								}
 							/>
 						)}
 					</ResourceSection>

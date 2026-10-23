@@ -86,6 +86,7 @@ function ChapterPage() {
 					previousTo={previousTo}
 					nextTo={nextTo}
 					isLastStep={isLastStep}
+					className={style.detail}
 				/>
 			) : (
 				<PageError>{m.elearning_chapter_not_found()}</PageError>

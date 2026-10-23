@@ -9,6 +9,7 @@
 
 	"loading_message": "Bezig met laden...",
 
+	"link_new_tab": "(opent in een nieuw tabblad)",
 	"consent_label": "Toestemming voor analytische cookies",
 	"consent_message": "We gebruiken analytische cookies van Google Analytics om te zien hoe het platform wordt gebruikt, bijvoorbeeld hoe vaak een e-learning via een QR-code wordt geopend. Mogen we deze cookies plaatsen?",
 	"consent_accept": "Accepteren",
@@ -16,21 +17,46 @@
 	"consent_change_later": "Je kunt je keuze later altijd wijzigen via ‘Cookie-instellingen’ onderaan de pagina.",
 	"consent_settings": "Cookie-instellingen",
 
+	"modal_close": "Sluiten",
+	"modal_cancel": "Annuleren",
+
 	"nav_label": "Hoofdnavigatie",
 	"nav_home": "Home",
 	"nav_admin": "Beheer",
+	"nav_library": "Bibliotheek",
 	"nav_profile": "Profiel",
 	"nav_logout": "Uitloggen",
 
-	"home_title": "Home",
+	"library_title": "Bibliotheek",
 	"admin_title": "Beheer",
 	"profile_title": "Profiel",
+
+	"library_all_modules": "Alle modulen ({count})",
+	"library_in_development": "In ontwikkeling",
+	"library_empty": "Er zijn nog geen modulen beschikbaar.",
+	"library_load_error": "De bibliotheek kon niet worden geladen.",
 
 	"module_back_to_library": "Terug naar bibliotheek",
 	"module_elearnings_title": "E-learnings",
 	"module_videos_title": "Video's",
 	"module_links_title": "Extra links",
 	"module_load_error": "Deze module kon niet worden geladen.",
+	"module_copy_video_link": "Kopieer video-link",
+	"module_video_link_copied": "Video-link gekopieerd!",
+	"module_copy_link": "Kopieer link",
+	"module_link_copied": "Link gekopieerd!",
+	"module_copy_failed": "Kopiëren mislukt",
+	"module_share_elearning": "Deel e-learning",
+	"module_share_title": "Deel e-learning",
+	"module_share_qr_label": "QR-code",
+	"module_share_organization_description": "Selecteer de organisatie waarbinnen u deze e-learning wilt delen.",
+	"module_share_link_label": "Link",
+	"module_share_link_copied": "Link gekopieerd!",
+	"module_share_qr_alt": "QR-code voor {name}",
+	"module_share_download_qr": "QR-code downloaden",
+	"module_share_organization_label": "Organisatie",
+	"module_share_organizations_empty": "Nog geen enkele organisatie deelt deze e-learning.",
+	"module_share_organizations_error": "De organisaties konden niet worden geladen.",
 
 	"elearning_back_to_module": "Terug naar module",
 	"elearning_back_to_library": "Terug naar bibliotheek",
@@ -77,6 +103,8 @@
 	"elearning_load_error": "Deze e-learning kon niet worden geladen.",
 	"elearning_chapter_not_found": "Dit hoofdstuk hoort niet bij deze e-learning.",
 	"elearning_part_load_error": "Dit onderdeel kon niet worden geladen.",
+	"elearning_block_video": "Video",
+	"elearning_block_video_link": "Bekijk de video",
 
 	"shared_elearning_unavailable": "Deze e-learning is niet (meer) beschikbaar. Vraag je zorgverlener om een nieuwe link.",
 

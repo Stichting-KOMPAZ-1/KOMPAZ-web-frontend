@@ -1,4 +1,5 @@
 import { QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import ErrorBoundary from "components/error-boundary/error-boundary";
 import renderErrorFallback from "components/error-fallback/error-fallback";
 import LoadingIndicator from "components/loading-indicator/loading-indicator";
@@ -38,6 +39,7 @@ const App = () => {
 				<Suspense fallback={<LoadingIndicator />}>
 					<QueryClientProvider client={queryClient}>
 						<AppRouter queryClient={queryClient} />
+						<ReactQueryDevtools />
 					</QueryClientProvider>
 				</Suspense>
 			</ErrorBoundary>

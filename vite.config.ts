@@ -1,3 +1,4 @@
+import { readFileSync } from "node:fs";
 import * as path from "node:path";
 
 import { heyApiPlugin } from "@hey-api/vite-plugin";
@@ -17,6 +18,31 @@ const documentLocale = () => ({
 	name: "document-locale",
 	transformIndexHtml: (html: string) => html.replaceAll("%LOCALE%", baseLocale),
 });
+
+type ProxyHost = {
+	origin?: string;
+	primary?: boolean;
+	paths?: Record<string, unknown>;
+};
+
+/**
+ * The paths the backend serves, read from the development environment in
+ * proxy/proxy.json so the dev server and the proxy can never disagree: every
+ * path of its primary hostname that goes to another origin than the frontend.
+ */
+const backendPaths = (): string[] => {
+	const { environments } = JSON.parse(
+		readFileSync(path.resolve(__dirname, "proxy/proxy.json"), "utf8"),
+	);
+	const hosts: ProxyHost[] = Object.values(environments.development.hosts);
+	const host = hosts.find((candidate) => candidate.primary) ?? hosts[0];
+
+	return Object.entries(host.paths ?? {})
+		.filter(
+			([, origin]) => typeof origin === "string" && origin !== host.origin,
+		)
+		.map(([prefix]) => prefix);
+};
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
@@ -125,30 +151,24 @@ export default defineConfig(({ mode }) => {
 		},
 		server: {
 			open: true,
-			proxy: {
-				[env.VITE_API_BASEURL]: {
-					target: env.VITE_API_ORIGIN,
-					secure: true,
-					changeOrigin: true,
-					...(env.VITE_API_STATEFUL_ORIGIN && {
-						headers: {
-							Origin: env.VITE_API_STATEFUL_ORIGIN,
-							Referer: `${env.VITE_API_STATEFUL_ORIGIN}/`,
-						},
-					}),
-				},
-				[env.VITE_API_CSRF_PATH]: {
-					target: env.VITE_API_ORIGIN,
-					secure: true,
-					changeOrigin: true,
-					...(env.VITE_API_STATEFUL_ORIGIN && {
-						headers: {
-							Origin: env.VITE_API_STATEFUL_ORIGIN,
-							Referer: `${env.VITE_API_STATEFUL_ORIGIN}/`,
-						},
-					}),
-				},
-			},
+			// The backend's paths of proxy/proxy.json go to VITE_API_ORIGIN, the same
+			// list the proxy in front of every environment uses.
+			proxy: Object.fromEntries(
+				backendPaths().map((prefix) => [
+					prefix,
+					{
+						target: env.VITE_API_ORIGIN,
+						secure: true,
+						changeOrigin: true,
+						...(env.VITE_API_STATEFUL_ORIGIN && {
+							headers: {
+								Origin: env.VITE_API_STATEFUL_ORIGIN,
+								Referer: `${env.VITE_API_STATEFUL_ORIGIN}/`,
+							},
+						}),
+					},
+				]),
+			),
 		},
 	};
 });

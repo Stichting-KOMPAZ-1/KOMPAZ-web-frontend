@@ -1,0 +1,15 @@
+{
+	"name": "proxy",
+	"private": true,
+	"description": "Public entry point of this project: routes the browser-facing hostnames to the frontend and the backend.",
+	"scripts": {
+		"start": "igne-proxy start",
+		"check": "igne-proxy check proxy.json"
+	},
+	"dependencies": {
+		"@igne-agency/proxy": "1.1.0"
+	},
+	"engines": {
+		"node": ">=22.15"
+	}
+}

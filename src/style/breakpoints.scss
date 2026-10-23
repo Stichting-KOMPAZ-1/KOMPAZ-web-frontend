@@ -1,8 +1,15 @@
 $mobile: 390px;
 $desktop: 768px;
+$desktop-wide: 992px;
 
 @mixin desktop {
 	@media (min-width: $desktop) {
+		@content;
+	}
+}
+
+@mixin desktop-wide {
+	@media (min-width: $desktop-wide) {
 		@content;
 	}
 }

@@ -4,15 +4,26 @@ import Icon, { type IconName } from "components/icon/icon";
 
 import style from "./nav-item.module.scss";
 
-type Props = Pick<LinkComponentProps, "to"> & {
-	icon: IconName;
+type Props = Pick<LinkComponentProps, "to" | "activeOptions"> & {
+	icon?: IconName;
 	label: string;
 	hideLabelOnMobile?: boolean;
 };
 
-const NavItem = ({ to, icon, label, hideLabelOnMobile = false }: Props) => (
-	<Link to={to} className={style.item} aria-label={label}>
-		<Icon name={icon} />
+const NavItem = ({
+	to,
+	activeOptions,
+	icon,
+	label,
+	hideLabelOnMobile = false,
+}: Props) => (
+	<Link
+		to={to}
+		activeOptions={activeOptions}
+		className={style.item}
+		aria-label={label}
+	>
+		{icon && <Icon name={icon} />}
 		<span className={clsx(style.label, hideLabelOnMobile && style.desktopOnly)}>
 			{label}
 		</span>

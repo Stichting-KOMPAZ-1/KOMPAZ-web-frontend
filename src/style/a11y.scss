@@ -1,0 +1,20 @@
+// Visually hide content while keeping it available to screen readers.
+// @use "/src/style/a11y.scss"; .label { @include a11y.sr-only; }
+
+@mixin sr-only {
+	position: absolute;
+	clip-path: inset(50%);
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	white-space: nowrap;
+}
+
+@mixin not-sr-only {
+	position: static;
+	clip-path: none;
+	width: auto;
+	height: auto;
+	overflow: visible;
+	white-space: normal;
+}

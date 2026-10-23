@@ -1,0 +1,64 @@
+{
+	"project": "kompaz",
+	"description": "KOMPAZ web: the React frontend and the Laravel backend with Nova on one hostname per environment.",
+	"environments": {
+		"development": {
+			"branch": "develop",
+			"origins": {
+				"web": {
+					"url": "https://kompaz-web-frontend-dev-w3vsm.ondigitalocean.app",
+					"repository": "https://github.com/Stichting-KOMPAZ-1/KOMPAZ-web-frontend",
+					"spaFallback": true
+				},
+				"api": {
+					"url": "https://backend.kompaz.igne.link",
+					"repository": "https://github.com/Stichting-KOMPAZ-1/KOMPAZ-web-backend"
+				}
+			},
+			"hosts": {
+				"kompaz.develop.igne.link": {
+					"origin": "web",
+					"primary": true,
+					"paths": {
+						"/api": "api",
+						"/sanctum": "api",
+						"/nova": "api",
+						"/nova-api": "api",
+						"/nova-vendor": "api",
+						"/vendor/nova": "api",
+						"/beheer": "api"
+					}
+				}
+			}
+		},
+		"staging": {
+			"branch": "staging",
+			"origins": {
+				"web": {
+					"url": "https://kompaz-web-frontend-staging-erw3f.ondigitalocean.app",
+					"repository": "https://github.com/Stichting-KOMPAZ-1/KOMPAZ-web-frontend",
+					"spaFallback": true
+				},
+				"api": {
+					"url": "https://backend.kompaz.staging.igne.link",
+					"repository": "https://github.com/Stichting-KOMPAZ-1/KOMPAZ-web-backend"
+				}
+			},
+			"hosts": {
+				"kompaz.staging.igne.link": {
+					"origin": "web",
+					"primary": true,
+					"paths": {
+						"/api": "api",
+						"/sanctum": "api",
+						"/nova": "api",
+						"/nova-api": "api",
+						"/nova-vendor": "api",
+						"/vendor/nova": "api",
+						"/beheer": "api"
+					}
+				}
+			}
+		}
+	}
+}

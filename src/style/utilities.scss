@@ -1,15 +1,9 @@
 @use "sass:math";
+@use "/src/style/a11y.scss";
 @use "/src/style/breakpoints.scss" as bp;
 
-// Global utility classes, used as plain strings: `className="sr-only"`.
-
 .sr-only {
-	position: absolute;
-	clip-path: inset(50%);
-	width: 1px;
-	height: 1px;
-	overflow: hidden;
-	white-space: nowrap;
+	@include a11y.sr-only;
 }
 
 @function px-to-rem($px) {

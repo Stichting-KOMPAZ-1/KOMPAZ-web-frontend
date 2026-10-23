@@ -58,8 +58,8 @@ jobs:
         with:
           token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
 
-      # App Platform builds the Dockerfile itself; --wait makes this job fail if
-      # that build or the health check does, so a red pipeline means a bad deploy
+      # App Platform builds the static site itself; --wait makes this job fail if
+      # that build does, so a red pipeline means a bad deploy
       # rather than just a failed API call.
       - name: Trigger deployment
         run: doctl apps create-deployment "${{ secrets.DO_APP_ID_DEVELOPMENT }}" --wait
