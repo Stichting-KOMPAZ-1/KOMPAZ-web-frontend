@@ -1,7 +1,6 @@
 import { Heading } from "components/heading/heading";
+import RichText from "components/rich-text/rich-text";
 import type { ContentBlockResource } from "lib/heyapi";
-
-import RichText from "./rich-text";
 
 import style from "./instruction.module.scss";
 

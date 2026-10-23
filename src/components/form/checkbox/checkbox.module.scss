@@ -12,6 +12,10 @@
 	}
 }
 
+.strikethrough:has([data-checked]) .label {
+	text-decoration: line-through;
+}
+
 .checkbox {
 	display: inline-flex;
 	flex-shrink: 0;
