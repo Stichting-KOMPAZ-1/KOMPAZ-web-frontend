@@ -44,7 +44,7 @@ const ContentBlock = ({ block }: Props) => {
 		case "Checkboxes":
 			return (
 				<TitledBlock title={block.title}>
-					<Checkboxes body={block.body} options={block.checkboxes ?? []} />
+					<Checkboxes body={block.body} options={block.checkboxes} />
 				</TitledBlock>
 			);
 	}

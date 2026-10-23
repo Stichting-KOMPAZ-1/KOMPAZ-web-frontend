@@ -1,23 +1,21 @@
 import { CheckboxGroup, Field } from "components/form";
 import RichText from "components/rich-text/rich-text";
+import type { ContentBlockResource } from "lib/heyapi";
 
 import style from "./checkboxes.module.scss";
 
 type Props = {
 	body: string | null;
-	options: string[];
+	options: ContentBlockResource["checkboxes"];
 };
 
 const Checkboxes = ({ body, options }: Props) => (
 	<div className={style.checkboxes}>
 		<RichText html={body} />
-		{options.length > 0 && (
+		{options && options.length > 0 && (
 			<Field>
 				<CheckboxGroup
-					options={options.map((label, index) => ({
-						label,
-						value: String(index),
-					}))}
+					options={options.map(({ id, label }) => ({ label, value: id }))}
 					strikethrough
 				/>
 			</Field>
