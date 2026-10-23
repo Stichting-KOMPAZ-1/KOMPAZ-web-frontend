@@ -9,13 +9,15 @@ import style from "./e-learning-summary.module.scss";
 
 type Props = {
 	chapter: ChapterResource;
-	eLearningId: string;
+	chapterTo: string;
+	partTo: (partId: string) => string;
 	completedPartIds: ReadonlySet<string>;
 };
 
 const ELearningSummary = ({
 	chapter,
-	eLearningId,
+	chapterTo,
+	partTo,
 	completedPartIds,
 }: Props) => (
 	<section className={style.card}>
@@ -29,11 +31,7 @@ const ELearningSummary = ({
 					{chapter.name}
 				</Heading>
 
-				<ButtonLink
-					variant="secondary"
-					className={style.action}
-					to={`/e-learnings/${eLearningId}/chapters/${chapter.id}`}
-				>
+				<ButtonLink variant="secondary" className={style.action} to={chapterTo}>
 					{m.elearning_summary_view()}
 					<Icon name="arrow-right" />
 				</ButtonLink>
@@ -41,7 +39,7 @@ const ELearningSummary = ({
 
 			<PartList
 				parts={chapter.parts}
-				eLearningId={eLearningId}
+				partTo={partTo}
 				completedPartIds={completedPartIds}
 			/>
 		</div>

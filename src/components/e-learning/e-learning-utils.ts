@@ -19,21 +19,34 @@ export const findChapter = (eLearning: ELearningResource, chapterId: string) =>
 
 type Step = { kind: "chapter" | "part"; id: string };
 
+export type ELearningStepPaths = {
+	overview: string;
+	chapter: (chapterId: string) => string;
+	part: (partId: string) => string;
+};
+
 const buildSteps = (eLearning: ELearningResource): Step[] =>
 	chaptersInReadingOrder(eLearning).flatMap((chapter) => [
 		{ kind: "chapter" as const, id: chapter.id },
 		...chapter.parts.map((part) => ({ kind: "part" as const, id: part.id })),
 	]);
 
-const stepPath = (step: Step | undefined, eLearningId: string) => {
+const stepPath = (step: Step | undefined, paths: ELearningStepPaths) => {
 	if (!step) return undefined;
 
-	return step.kind === "chapter"
-		? `/e-learnings/${eLearningId}/chapters/${step.id}`
-		: `/e-learnings/${eLearningId}/parts/${step.id}`;
+	return step.kind === "chapter" ? paths.chapter(step.id) : paths.part(step.id);
 };
 
-export const stepLinks = (eLearning: ELearningResource, current: Step) => {
+export const stepLinks = (
+	eLearning: ELearningResource,
+	current: Step,
+	paths: ELearningStepPaths = {
+		overview: `/e-learnings/${eLearning.id}`,
+		chapter: (chapterId) =>
+			`/e-learnings/${eLearning.id}/chapters/${chapterId}`,
+		part: (partId) => `/e-learnings/${eLearning.id}/parts/${partId}`,
+	},
+) => {
 	const steps = buildSteps(eLearning);
 	const position = steps.findIndex(
 		(step) => step.kind === current.kind && step.id === current.id,
@@ -42,9 +55,9 @@ export const stepLinks = (eLearning: ELearningResource, current: Step) => {
 	const next = position === -1 ? undefined : steps[position + 1];
 
 	return {
-		previousTo: stepPath(steps[position - 1], eLearning.id),
+		previousTo: stepPath(steps[position - 1], paths),
 		// TODO: KOM-66 marks the e-learning as completed instead of leaving it
-		nextTo: stepPath(next, eLearning.id) ?? `/e-learnings/${eLearning.id}`,
+		nextTo: stepPath(next, paths) ?? paths.overview,
 		isLastStep: !next,
 	};
 };
