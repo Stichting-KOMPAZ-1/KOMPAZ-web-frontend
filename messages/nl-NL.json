@@ -54,7 +54,7 @@
 	"module_share_link_copied": "Link gekopieerd!",
 	"module_share_qr_alt": "QR-code voor {name}",
 	"module_share_download_qr": "QR-code downloaden",
-	"module_share_organization_label": "Organisatie",
+	"module_share_organization_label": "Organisatie en module",
 	"module_share_organizations_empty": "Nog geen enkele organisatie deelt deze e-learning.",
 	"module_share_organizations_error": "De organisaties konden niet worden geladen.",
 
