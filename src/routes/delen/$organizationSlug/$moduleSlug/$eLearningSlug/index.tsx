@@ -1,0 +1,121 @@
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { createFileRoute } from "@tanstack/react-router";
+import ContactSection from "components/contact/contact-section";
+import ELearningContents from "components/e-learning/e-learning-contents";
+import ELearningStart from "components/e-learning/e-learning-start";
+import ELearningSummary from "components/e-learning/e-learning-summary";
+import {
+	findNextChapter,
+	findNextPart,
+} from "components/e-learning/e-learning-utils";
+import { Heading } from "components/heading/heading";
+import PageError from "components/page/page-error";
+import PageLoading from "components/page/page-loading";
+import Pill from "components/pill/pill";
+import { track } from "lib/analytics";
+import { sharedELearningShowThroughModuleOptions } from "lib/heyapi/@tanstack/react-query.gen";
+import * as m from "lib/paraglide/messages";
+import { sharedELearningPaths } from "lib/shared-e-learning";
+import { makePageTitle } from "lib/title";
+import z from "zod";
+
+import style from "./index.module.scss";
+
+const noProgress: ReadonlySet<string> = new Set();
+
+export const Route = createFileRoute(
+	"/delen/$organizationSlug/$moduleSlug/$eLearningSlug/",
+)({
+	validateSearch: z.object({ utm_source: z.optional(z.string()) }),
+	loaderDeps: ({ search }) => ({ source: search.utm_source }),
+	staleTime: Infinity,
+	loader: async ({ context, params, deps, preload }) => {
+		const eLearning = await context.queryClient.ensureQueryData(
+			sharedELearningShowThroughModuleOptions({ path: params }),
+		);
+
+		if (!preload) {
+			track("elearning_open", {
+				organization: params.organizationSlug,
+				elearning: params.eLearningSlug,
+				source: deps.source === "qr" ? "qr" : "link",
+			});
+		}
+
+		return eLearning;
+	},
+	head: ({ loaderData }) => ({
+		meta: [{ title: makePageTitle(loaderData?.name ?? "") }],
+	}),
+	errorComponent: () => (
+		<PageError>{m.shared_elearning_unavailable()}</PageError>
+	),
+	pendingComponent: PageLoading,
+	component: SharedELearningPage,
+});
+
+function SharedELearningPage() {
+	const params = Route.useParams();
+	const { data: eLearning } = useSuspenseQuery(
+		sharedELearningShowThroughModuleOptions({ path: params }),
+	);
+	const paths = sharedELearningPaths(params);
+	const nextChapter = findNextChapter(eLearning.numberedChapters, noProgress);
+	const nextPart = findNextPart(nextChapter, noProgress);
+
+	return (
+		<div className={style.page}>
+			<article className={style.content}>
+				<header className={style.hero}>
+					<div className={style.intro}>
+						<div className={style.titles}>
+							<Pill variant="accent-strong">{m.elearning_label()}</Pill>
+							<Heading el="h1" size="24-32">
+								{eLearning.name}
+							</Heading>
+						</div>
+
+						{nextChapter && (
+							<ELearningStart
+								chapter={nextChapter}
+								number={eLearning.numberedChapters.indexOf(nextChapter) + 1}
+								chapterTo={paths.chapter(nextChapter.id)}
+								hasContacts={eLearning.contacts.length > 0}
+							/>
+						)}
+					</div>
+
+					<div className={style.frame}>
+						<img
+							className={style.image}
+							src={eLearning.imageUrl}
+							alt={m.elearning_image_alt({ name: eLearning.name })}
+						/>
+					</div>
+				</header>
+
+				<div className={style.chapters}>
+					<ELearningContents
+						chapters={eLearning.numberedChapters}
+						partTo={paths.part}
+						completedPartIds={noProgress}
+						openChapterId={nextChapter?.id}
+						nextPartId={nextPart?.id}
+					/>
+
+					{eLearning.summaryChapters.map((summary) => (
+						<ELearningSummary
+							key={summary.id}
+							chapter={summary}
+							chapterTo={paths.chapter(summary.id)}
+							partTo={paths.part}
+							completedPartIds={noProgress}
+						/>
+					))}
+				</div>
+
+				<ContactSection contacts={eLearning.contacts} />
+			</article>
+		</div>
+	);
+}

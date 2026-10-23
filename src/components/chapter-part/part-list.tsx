@@ -9,7 +9,7 @@ import style from "./part-list.module.scss";
 
 type Props = {
 	parts: readonly PartSummaryResource[];
-	eLearningId: string;
+	partTo: (partId: string) => string;
 	completedPartIds: ReadonlySet<string>;
 	defaultOpen?: boolean;
 	nextPartId?: string;
@@ -17,7 +17,7 @@ type Props = {
 
 const PartList = ({
 	parts,
-	eLearningId,
+	partTo,
 	completedPartIds,
 	defaultOpen = false,
 	nextPartId,
@@ -37,7 +37,7 @@ const PartList = ({
 						<PartRow
 							key={part.id}
 							part={part}
-							to={`/e-learnings/${eLearningId}/parts/${part.id}`}
+							to={partTo(part.id)}
 							done={completedPartIds.has(part.id)}
 							callToAction={
 								part.id === nextPartId ? m.elearning_start() : undefined

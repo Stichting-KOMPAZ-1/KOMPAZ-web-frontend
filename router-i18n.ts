@@ -64,8 +64,20 @@ export const translatedPathnames = createTranslatedPathnames({
 		"nl-NL": "/e-learnings/$eLearningId/parts/$partId",
 	},
 	"/delen/$organizationSlug/$moduleSlug/$eLearningSlug": {
-		"en-US": "/delen/$organizationSlug/$moduleSlug/$eLearningSlug",
+		"en-US": "/share/$organizationSlug/$moduleSlug/$eLearningSlug",
 		"nl-NL": "/delen/$organizationSlug/$moduleSlug/$eLearningSlug",
+	},
+	"/delen/$organizationSlug/$moduleSlug/$eLearningSlug/chapters/$chapterId": {
+		"en-US":
+			"/share/$organizationSlug/$moduleSlug/$eLearningSlug/chapters/$chapterId",
+		"nl-NL":
+			"/delen/$organizationSlug/$moduleSlug/$eLearningSlug/hoofdstukken/$chapterId",
+	},
+	"/delen/$organizationSlug/$moduleSlug/$eLearningSlug/parts/$partId": {
+		"en-US":
+			"/share/$organizationSlug/$moduleSlug/$eLearningSlug/parts/$partId",
+		"nl-NL":
+			"/delen/$organizationSlug/$moduleSlug/$eLearningSlug/onderdelen/$partId",
 	},
 	"/profile": {
 		"en-US": "/profile",

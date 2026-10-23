@@ -77,7 +77,7 @@ function ChapterPage() {
 			{chapter ? (
 				<ChapterDetail
 					chapter={chapter}
-					eLearningId={eLearningId}
+					partTo={(partId) => `/e-learnings/${eLearningId}/parts/${partId}`}
 					completedPartIds={noProgress}
 					chapterNumber={index === -1 ? undefined : index + 1}
 					totalChapters={
