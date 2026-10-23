@@ -5,9 +5,13 @@ import ContactSection from "components/contact/contact-section";
 import { useModuleContacts } from "components/contact/use-module-contacts";
 import ContentBlock from "components/content-block/content-block";
 import {
+	ELearningNavigationContext,
+	privateELearningNavigation,
+} from "components/e-learning/e-learning-navigation";
+import {
 	eLearningSearchSchema,
 	findChapter,
-	stepLinks,
+	stepNavigation,
 } from "components/e-learning/e-learning-utils";
 import StepNav from "components/e-learning/step-nav";
 import { Heading } from "components/heading/heading";
@@ -65,46 +69,50 @@ function PartPage() {
 
 	const chapter = findChapter(eLearning, part.chapterId);
 
-	const { previousTo, nextTo, isLastStep } = stepLinks(eLearning, {
-		kind: "part",
-		id: partId,
-	});
+	const navigation = privateELearningNavigation(eLearningId);
+	const { previousTo, nextTo, isLastStep } = stepNavigation(
+		eLearning,
+		{ kind: "part", id: partId },
+		navigation,
+	);
 
 	return (
-		<div className={style.page}>
-			<ButtonLink
-				to={`/e-learnings/${eLearningId}/chapters/${part.chapterId}`}
-				variant="link"
-				className={style.back}
-			>
-				<Icon name="arrow-left" />
-				{chapter?.isSummary
-					? m.elearning_back_to_summary()
-					: m.elearning_back_to_chapter()}
-			</ButtonLink>
+		<ELearningNavigationContext value={navigation}>
+			<div className={style.page}>
+				<ButtonLink
+					{...navigation.chapter(part.chapterId)}
+					variant="link"
+					className={style.back}
+				>
+					<Icon name="arrow-left" />
+					{chapter?.isSummary
+						? m.elearning_back_to_summary()
+						: m.elearning_back_to_chapter()}
+				</ButtonLink>
 
-			<div className={style.content}>
-				<div className={style.blocks}>
-					<Heading el="h1" size="24-32">
-						{part.name}
-					</Heading>
+				<div className={style.content}>
+					<div className={style.blocks}>
+						<Heading el="h1" size="24-32">
+							{part.name}
+						</Heading>
 
-					{part.blocks.map((block) => (
-						<ContentBlock key={block.id} block={block} />
-					))}
+						{part.blocks.map((block) => (
+							<ContentBlock key={block.id} block={block} />
+						))}
+					</div>
+
+					<StepNav
+						previousTo={previousTo}
+						nextTo={nextTo}
+						nextLabel={
+							isLastStep ? m.elearning_finish() : m.elearning_chapter_next()
+						}
+						hideNextIcon={isLastStep}
+					/>
 				</div>
 
-				<StepNav
-					previousTo={previousTo}
-					nextTo={nextTo}
-					nextLabel={
-						isLastStep ? m.elearning_finish() : m.elearning_chapter_next()
-					}
-					hideNextIcon={isLastStep}
-				/>
+				<ContactSection contacts={contacts} />
 			</div>
-
-			<ContactSection contacts={contacts} />
-		</div>
+		</ELearningNavigationContext>
 	);
 }

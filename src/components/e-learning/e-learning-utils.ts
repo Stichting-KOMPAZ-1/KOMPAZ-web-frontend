@@ -5,6 +5,8 @@ import type {
 } from "lib/heyapi";
 import z from "zod";
 
+import type { ELearningNavigation } from "./e-learning-navigation";
+
 export const eLearningSearchSchema = z.object({
 	module: z.optional(z.string()),
 });
@@ -25,15 +27,19 @@ const buildSteps = (eLearning: ELearningResource): Step[] =>
 		...chapter.parts.map((part) => ({ kind: "part" as const, id: part.id })),
 	]);
 
-const stepPath = (step: Step | undefined, eLearningId: string) => {
+const stepLink = (step: Step | undefined, navigation: ELearningNavigation) => {
 	if (!step) return undefined;
 
 	return step.kind === "chapter"
-		? `/e-learnings/${eLearningId}/chapters/${step.id}`
-		: `/e-learnings/${eLearningId}/parts/${step.id}`;
+		? navigation.chapter(step.id)
+		: navigation.part(step.id);
 };
 
-export const stepLinks = (eLearning: ELearningResource, current: Step) => {
+export const stepNavigation = (
+	eLearning: ELearningResource,
+	current: Step,
+	navigation: ELearningNavigation,
+) => {
 	const steps = buildSteps(eLearning);
 	const position = steps.findIndex(
 		(step) => step.kind === current.kind && step.id === current.id,
@@ -42,9 +48,9 @@ export const stepLinks = (eLearning: ELearningResource, current: Step) => {
 	const next = position === -1 ? undefined : steps[position + 1];
 
 	return {
-		previousTo: stepPath(steps[position - 1], eLearning.id),
+		previousTo: stepLink(steps[position - 1], navigation),
 		// TODO: KOM-66 marks the e-learning as completed instead of leaving it
-		nextTo: stepPath(next, eLearning.id) ?? `/e-learnings/${eLearning.id}`,
+		nextTo: stepLink(next, navigation) ?? navigation.overview,
 		isLastStep: !next,
 	};
 };

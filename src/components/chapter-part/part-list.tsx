@@ -1,4 +1,5 @@
 import { Collapsible } from "@base-ui/react/collapsible";
+import { useELearningNavigation } from "components/e-learning/e-learning-navigation";
 import Icon from "components/icon/icon";
 import type { PartSummaryResource } from "lib/heyapi";
 import * as m from "lib/paraglide/messages";
@@ -9,7 +10,6 @@ import style from "./part-list.module.scss";
 
 type Props = {
 	parts: readonly PartSummaryResource[];
-	eLearningId: string;
 	completedPartIds: ReadonlySet<string>;
 	defaultOpen?: boolean;
 	nextPartId?: string;
@@ -17,11 +17,12 @@ type Props = {
 
 const PartList = ({
 	parts,
-	eLearningId,
 	completedPartIds,
 	defaultOpen = false,
 	nextPartId,
 }: Props) => {
+	const navigation = useELearningNavigation();
+
 	if (parts.length === 0) return null;
 
 	return (
@@ -37,7 +38,7 @@ const PartList = ({
 						<PartRow
 							key={part.id}
 							part={part}
-							to={`/e-learnings/${eLearningId}/parts/${part.id}`}
+							link={navigation.part(part.id)}
 							done={completedPartIds.has(part.id)}
 							callToAction={
 								part.id === nextPartId ? m.elearning_start() : undefined

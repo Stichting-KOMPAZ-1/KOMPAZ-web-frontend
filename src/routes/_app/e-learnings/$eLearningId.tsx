@@ -4,6 +4,10 @@ import ButtonLink from "components/button/button-link";
 import ContactSection from "components/contact/contact-section";
 import { useModuleContacts } from "components/contact/use-module-contacts";
 import ELearningContents from "components/e-learning/e-learning-contents";
+import {
+	ELearningNavigationContext,
+	privateELearningNavigation,
+} from "components/e-learning/e-learning-navigation";
 import ELearningStart from "components/e-learning/e-learning-start";
 import ELearningSummary from "components/e-learning/e-learning-summary";
 import {
@@ -53,73 +57,73 @@ function ELearningPage() {
 	const nextPart = findNextPart(nextChapter, noProgress);
 
 	return (
-		<div className={style.page}>
-			{moduleId ? (
-				<ButtonLink
-					to={`/modules/${moduleId}`}
-					variant="link"
-					className={style.back}
-				>
-					<Icon name="arrow-left" />
-					{m.elearning_back_to_module()}
-				</ButtonLink>
-			) : (
-				<ButtonLink to="/" variant="link" className={style.back}>
-					<Icon name="arrow-left" />
-					{m.elearning_back_to_library()}
-				</ButtonLink>
-			)}
+		<ELearningNavigationContext value={privateELearningNavigation(eLearningId)}>
+			<div className={style.page}>
+				{moduleId ? (
+					<ButtonLink
+						to="/modules/$moduleId"
+						params={{ moduleId }}
+						variant="link"
+						className={style.back}
+					>
+						<Icon name="arrow-left" />
+						{m.elearning_back_to_module()}
+					</ButtonLink>
+				) : (
+					<ButtonLink to="/" variant="link" className={style.back}>
+						<Icon name="arrow-left" />
+						{m.elearning_back_to_library()}
+					</ButtonLink>
+				)}
 
-			<article className={style.content}>
-				<header className={style.hero}>
-					<div className={style.intro}>
-						<div className={style.titles}>
-							<Pill variant="accent-strong">{m.elearning_label()}</Pill>
-							<Heading el="h1" size="24-32">
-								{eLearning.name}
-							</Heading>
+				<article className={style.content}>
+					<header className={style.hero}>
+						<div className={style.intro}>
+							<div className={style.titles}>
+								<Pill variant="accent-strong">{m.elearning_label()}</Pill>
+								<Heading el="h1" size="24-32">
+									{eLearning.name}
+								</Heading>
+							</div>
+
+							{nextChapter && (
+								<ELearningStart
+									chapter={nextChapter}
+									number={numberedChapters.indexOf(nextChapter) + 1}
+									hasContacts={contacts.length > 0}
+								/>
+							)}
 						</div>
 
-						{nextChapter && (
-							<ELearningStart
-								chapter={nextChapter}
-								number={numberedChapters.indexOf(nextChapter) + 1}
-								eLearningId={eLearningId}
-								hasContacts={contacts.length > 0}
+						<div className={style.frame}>
+							<img
+								className={style.image}
+								src={eLearning.imageUrl}
+								alt={m.elearning_image_alt({ name: eLearning.name })}
 							/>
-						)}
-					</div>
+						</div>
+					</header>
 
-					<div className={style.frame}>
-						<img
-							className={style.image}
-							src={eLearning.imageUrl}
-							alt={m.elearning_image_alt({ name: eLearning.name })}
-						/>
-					</div>
-				</header>
-
-				<div className={style.chapters}>
-					<ELearningContents
-						chapters={numberedChapters}
-						eLearningId={eLearningId}
-						completedPartIds={noProgress}
-						openChapterId={nextChapter?.id}
-						nextPartId={nextPart?.id}
-					/>
-
-					{summaryChapters.map((summary) => (
-						<ELearningSummary
-							key={summary.id}
-							chapter={summary}
-							eLearningId={eLearningId}
+					<div className={style.chapters}>
+						<ELearningContents
+							chapters={numberedChapters}
 							completedPartIds={noProgress}
+							openChapterId={nextChapter?.id}
+							nextPartId={nextPart?.id}
 						/>
-					))}
-				</div>
 
-				<ContactSection contacts={contacts} />
-			</article>
-		</div>
+						{summaryChapters.map((summary) => (
+							<ELearningSummary
+								key={summary.id}
+								chapter={summary}
+								completedPartIds={noProgress}
+							/>
+						))}
+					</div>
+
+					<ContactSection contacts={contacts} />
+				</article>
+			</div>
+		</ELearningNavigationContext>
 	);
 }
