@@ -7,6 +7,7 @@ import ELearningContents from "components/e-learning/e-learning-contents";
 import ELearningStart from "components/e-learning/e-learning-start";
 import ELearningSummary from "components/e-learning/e-learning-summary";
 import {
+	eLearningPaths,
 	eLearningSearchSchema,
 	findNextChapter,
 	findNextPart,
@@ -48,6 +49,7 @@ function ELearningPage() {
 		eLearningShowOptions({ path: { eLearning: eLearningId } }),
 	);
 
+	const paths = eLearningPaths(eLearningId);
 	const { numberedChapters, summaryChapters } = eLearning;
 	const nextChapter = findNextChapter(numberedChapters, noProgress);
 	const nextPart = findNextPart(nextChapter, noProgress);
@@ -85,7 +87,7 @@ function ELearningPage() {
 							<ELearningStart
 								chapter={nextChapter}
 								number={numberedChapters.indexOf(nextChapter) + 1}
-								eLearningId={eLearningId}
+								chapterTo={paths.chapter(nextChapter.id)}
 								hasContacts={contacts.length > 0}
 							/>
 						)}
@@ -103,7 +105,7 @@ function ELearningPage() {
 				<div className={style.chapters}>
 					<ELearningContents
 						chapters={numberedChapters}
-						eLearningId={eLearningId}
+						partTo={paths.part}
 						completedPartIds={noProgress}
 						openChapterId={nextChapter?.id}
 						nextPartId={nextPart?.id}
@@ -113,7 +115,8 @@ function ELearningPage() {
 						<ELearningSummary
 							key={summary.id}
 							chapter={summary}
-							eLearningId={eLearningId}
+							chapterTo={paths.chapter(summary.id)}
+							partTo={paths.part}
 							completedPartIds={noProgress}
 						/>
 					))}

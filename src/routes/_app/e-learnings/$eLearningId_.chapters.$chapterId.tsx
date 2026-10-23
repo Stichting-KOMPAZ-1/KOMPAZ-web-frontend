@@ -5,6 +5,7 @@ import ChapterDetail from "components/chapter/chapter-detail";
 import ContactSection from "components/contact/contact-section";
 import { useModuleContacts } from "components/contact/use-module-contacts";
 import {
+	eLearningPaths,
 	eLearningSearchSchema,
 	findChapter,
 	stepLinks,
@@ -78,7 +79,7 @@ function ChapterPage() {
 			{chapter ? (
 				<ChapterDetail
 					chapter={chapter}
-					eLearningId={eLearningId}
+					partTo={eLearningPaths(eLearningId).part}
 					completedPartIds={noProgress}
 					chapterNumber={index === -1 ? undefined : index + 1}
 					totalChapters={

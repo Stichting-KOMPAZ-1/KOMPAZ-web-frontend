@@ -1,44 +1,27 @@
-import type { QueryClient } from "@tanstack/react-query";
-import { redirect } from "@tanstack/react-router";
-import { track } from "lib/analytics";
-import { sharedELearningShowThroughModuleOptions } from "lib/heyapi/@tanstack/react-query.gen";
+import { linkOptions } from "@tanstack/react-router";
+import type { ELearningStepPaths } from "components/e-learning/e-learning-utils";
 
-export type ShareSource = "link" | "qr";
-
-type Options = {
-	queryClient: QueryClient;
+type SharedELearningParams = {
 	organizationSlug: string;
 	moduleSlug: string;
 	eLearningSlug: string;
-	source: ShareSource;
-	preload: boolean;
 };
 
-export async function openSharedELearning({
-	queryClient,
-	organizationSlug,
-	moduleSlug,
-	eLearningSlug,
-	source,
-	preload,
-}: Options): Promise<never> {
-	const eLearning = await queryClient.ensureQueryData(
-		sharedELearningShowThroughModuleOptions({
-			path: { organizationSlug, moduleSlug, eLearningSlug },
+export const sharedELearningPaths = (
+	params: SharedELearningParams,
+): ELearningStepPaths => ({
+	overview: linkOptions({
+		to: "/delen/$organizationSlug/$moduleSlug/$eLearningSlug",
+		params,
+	}),
+	chapter: (chapterId) =>
+		linkOptions({
+			to: "/delen/$organizationSlug/$moduleSlug/$eLearningSlug/chapters/$chapterId",
+			params: { ...params, chapterId },
 		}),
-	);
-
-	if (!preload) {
-		track("elearning_open", {
-			organization: organizationSlug,
-			elearning: eLearningSlug,
-			source,
-		});
-	}
-
-	throw redirect({
-		to: "/e-learnings/$eLearningId",
-		params: { eLearningId: eLearning.id },
-		replace: true,
-	});
-}
+	part: (partId) =>
+		linkOptions({
+			to: "/delen/$organizationSlug/$moduleSlug/$eLearningSlug/parts/$partId",
+			params: { ...params, partId },
+		}),
+});

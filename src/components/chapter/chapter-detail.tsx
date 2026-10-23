@@ -12,7 +12,7 @@ import style from "./chapter-detail.module.scss";
 
 type Props = {
 	chapter: ChapterResource;
-	eLearningId: string;
+	partTo: (partId: string) => LinkProps;
 	completedPartIds: ReadonlySet<string>;
 	chapterNumber?: number;
 	totalChapters?: number;
@@ -24,7 +24,7 @@ type Props = {
 
 const ChapterDetail = ({
 	chapter,
-	eLearningId,
+	partTo,
 	completedPartIds,
 	chapterNumber,
 	totalChapters,
@@ -82,7 +82,7 @@ const ChapterDetail = ({
 									<PartRow
 										key={part.id}
 										part={part}
-										to={`/e-learnings/${eLearningId}/parts/${part.id}`}
+										link={partTo(part.id)}
 										done={completedPartIds.has(part.id)}
 									/>
 								))}
