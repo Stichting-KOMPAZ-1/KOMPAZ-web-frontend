@@ -15,8 +15,10 @@ export const Route = createFileRoute(
 )({
 	validateSearch: z.object({
 		module: z.optional(z.string()),
+		organizationId: z.optional(z.string()),
 	}),
-	search: { middlewares: [retainSearchParams(["module"])] },
+	search: { middlewares: [retainSearchParams(["module", "organizationId"])] },
+	staticData: { organizationFixed: true },
 	loader: ({ context, params }) =>
 		Promise.all([
 			context.queryClient.ensureQueryData(
@@ -39,7 +41,10 @@ function SharedELearningLayout() {
 		<AppLayout
 			header={
 				user ? (
-					<AppHeader logoUrl={sharedBy?.hasLogo ? sharedBy.logoUrl : null} />
+					<AppHeader
+						logoUrl={sharedBy?.hasLogo ? sharedBy.logoUrl : null}
+						organizationName={sharedBy?.name ?? null}
+					/>
 				) : (
 					<SharedHeader
 						organization={sharedBy}

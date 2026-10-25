@@ -26,6 +26,8 @@
 	"nav_profile": "Profile",
 	"nav_logout": "Log out",
 
+	"organization_picker_label": "Viewing as",
+
 	"library_title": "Library",
 	"admin_title": "Administration",
 	"profile_title": "Profile",

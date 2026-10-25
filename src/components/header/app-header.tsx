@@ -4,6 +4,8 @@ import clsx from "clsx";
 import Button from "components/button/button";
 import Icon from "components/icon/icon";
 import OrganizationLogo from "components/organization/organization-logo";
+import OrganizationPicker from "components/organization/organization-picker";
+import { useOrganizationLogoUrl } from "components/organization/organization-utils";
 import { useHideOnScrollDown } from "hooks/use-hide-on-scroll-down";
 import { authRevoke } from "lib/heyapi";
 import { authMeOptions } from "lib/heyapi/@tanstack/react-query.gen";
@@ -18,13 +20,15 @@ export const headerHeight = 64;
 
 type Props = {
 	logoUrl?: string | null;
+	organizationName?: string | null;
 };
 
-const AppHeader = ({ logoUrl }: Props) => {
+const AppHeader = ({ logoUrl, organizationName }: Props) => {
 	const navigate = useNavigate();
 	const queryClient = useQueryClient();
 	const { data: user } = useQuery(authMeOptions());
-	const { canManageOrganization } = usePermissions();
+	const { canManageOrganization, canViewAnyOrganization } = usePermissions();
+	const ownLogoUrl = useOrganizationLogoUrl();
 	const hidden = useHideOnScrollDown(headerHeight);
 
 	const handleLogout = async () => {
@@ -38,11 +42,7 @@ const AppHeader = ({ logoUrl }: Props) => {
 			<div className={style.bar}>
 				<Link to="/" className={style.logo} aria-label={m.nav_library()}>
 					<OrganizationLogo
-						src={
-							logoUrl === undefined
-								? (user?.organizationLogoUrl ?? null)
-								: logoUrl
-						}
+						src={logoUrl === undefined ? ownLogoUrl : logoUrl}
 					/>
 				</Link>
 				<nav className={style.nav} aria-label={m.nav_label()}>
@@ -73,6 +73,11 @@ const AppHeader = ({ logoUrl }: Props) => {
 					</div>
 				</nav>
 			</div>
+			{canViewAnyOrganization && (
+				<div className={style.context}>
+					<OrganizationPicker organizationName={organizationName} />
+				</div>
+			)}
 		</header>
 	);
 };

@@ -9,20 +9,35 @@ import CopyLinkButton from "components/module/copy-link-button";
 import ResourceRow from "components/module/resource-row";
 import ResourceSection from "components/module/resource-section";
 import ShareELearningModal from "components/module/share-e-learning-modal";
+import {
+	readingOrganizationFor,
+	useSelectedOrganizationId,
+	useReadingOrganizationId,
+} from "components/organization/organization-utils";
 import PageError from "components/page/page-error";
 import PageLoading from "components/page/page-loading";
 import Pill from "components/pill/pill";
-import { moduleShowOptions } from "lib/heyapi/@tanstack/react-query.gen";
+import {
+	authMeOptions,
+	moduleShowOptions,
+} from "lib/heyapi/@tanstack/react-query.gen";
 import * as m from "lib/paraglide/messages";
 import { makePageTitle } from "lib/title";
 
 import style from "./$moduleId.module.scss";
 
 export const Route = createFileRoute("/_app/modules/$moduleId")({
-	loader: ({ context, params }) =>
-		context.queryClient.ensureQueryData(
-			moduleShowOptions({ path: { module: params.moduleId } }),
-		),
+	staticData: { organizationFixed: true },
+	loaderDeps: ({ search }) => ({ organizationId: search.organizationId }),
+	loader: async ({ context, params, deps }) => {
+		const path = { module: params.moduleId };
+		const user = await context.queryClient.ensureQueryData(authMeOptions());
+		const organizationId = readingOrganizationFor(user, deps.organizationId);
+
+		return context.queryClient.ensureQueryData(
+			moduleShowOptions({ path, query: { organizationId } }),
+		);
+	},
 	head: ({ loaderData }) => ({
 		meta: [{ title: makePageTitle(loaderData?.name ?? "") }],
 	}),
@@ -33,8 +48,12 @@ export const Route = createFileRoute("/_app/modules/$moduleId")({
 
 function ModulePage() {
 	const { moduleId } = Route.useParams();
+	const selectedOrganizationId = useSelectedOrganizationId();
 	const { data: module } = useSuspenseQuery(
-		moduleShowOptions({ path: { module: moduleId } }),
+		moduleShowOptions({
+			path: { module: moduleId },
+			query: { organizationId: useReadingOrganizationId() },
+		}),
 	);
 
 	return (
@@ -73,7 +92,10 @@ function ModulePage() {
 										"/delen/$organizationSlug/$moduleSlug/$eLearningSlug"
 									}
 									params={params}
-									search={{ module: moduleId }}
+									search={{
+										module: moduleId,
+										organizationId: selectedOrganizationId,
+									}}
 									highlight
 									action={<ShareELearningModal eLearning={eLearning} />}
 								/>
