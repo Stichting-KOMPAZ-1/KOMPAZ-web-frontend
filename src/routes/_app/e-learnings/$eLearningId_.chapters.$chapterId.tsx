@@ -66,7 +66,8 @@ function ChapterPage() {
 	return (
 		<div className={style.page}>
 			<ButtonLink
-				to={`/e-learnings/${eLearningId}`}
+				to="/e-learnings/$eLearningId"
+				params={{ eLearningId }}
 				variant="link"
 				className={style.back}
 			>

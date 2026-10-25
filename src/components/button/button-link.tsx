@@ -1,12 +1,11 @@
-import { Link } from "@tanstack/react-router";
+import { Link, type LinkComponentProps } from "@tanstack/react-router";
 import clsx from "clsx";
-import type React from "react";
 
 import type { ButtonSize, ButtonVariant } from "./button";
 
 import style from "./button.module.scss";
 
-type Props = React.ComponentPropsWithoutRef<typeof Link> & {
+type Props = LinkComponentProps & {
 	size?: ButtonSize;
 	variant?: ButtonVariant;
 };

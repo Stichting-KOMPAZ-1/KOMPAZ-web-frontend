@@ -28,7 +28,8 @@ const ELearningStart = ({
 		<ButtonLink
 			size="large"
 			className={style.action}
-			to={`/e-learnings/${eLearningId}/chapters/${chapter.id}`}
+			to="/e-learnings/$eLearningId/chapters/$chapterId"
+			params={{ eLearningId, chapterId: chapter.id }}
 		>
 			{m.elearning_start()}
 			<Icon name="arrow-right" />

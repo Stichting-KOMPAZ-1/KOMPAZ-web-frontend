@@ -73,7 +73,8 @@ function PartPage() {
 	return (
 		<div className={style.page}>
 			<ButtonLink
-				to={`/e-learnings/${eLearningId}/chapters/${part.chapterId}`}
+				to="/e-learnings/$eLearningId/chapters/$chapterId"
+				params={{ eLearningId, chapterId: part.chapterId }}
 				variant="link"
 				className={style.back}
 			>
