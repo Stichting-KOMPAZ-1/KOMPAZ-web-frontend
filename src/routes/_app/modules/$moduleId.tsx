@@ -2,6 +2,7 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import ButtonLink from "components/button/button-link";
 import ContactSection from "components/contact/contact-section";
+import { sharedELearningParams } from "components/e-learning/e-learning-utils";
 import { Heading } from "components/heading/heading";
 import Icon from "components/icon/icon";
 import CopyLinkButton from "components/module/copy-link-button";
@@ -13,7 +14,6 @@ import PageLoading from "components/page/page-loading";
 import Pill from "components/pill/pill";
 import { moduleShowOptions } from "lib/heyapi/@tanstack/react-query.gen";
 import * as m from "lib/paraglide/messages";
-import { sharedELearningParams } from "lib/shared-e-learning";
 import { makePageTitle } from "lib/title";
 
 import style from "./$moduleId.module.scss";

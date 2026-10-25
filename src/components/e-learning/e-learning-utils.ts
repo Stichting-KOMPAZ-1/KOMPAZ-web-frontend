@@ -1,8 +1,9 @@
-import type { LinkProps } from "@tanstack/react-router";
+import { linkOptions } from "@tanstack/react-router";
 import type {
 	ChapterResource,
 	ELearningResource,
 	PartSummaryResource,
+	SharedELearningShowThroughModuleData,
 } from "lib/heyapi";
 
 export const chaptersInReadingOrder = ({
@@ -15,28 +16,26 @@ export const findChapter = (eLearning: ELearningResource, chapterId: string) =>
 
 type Step = { kind: "chapter" | "part"; id: string };
 
-export type ELearningStepPaths = {
-	overview: LinkProps;
-	chapter: (chapterId: string) => LinkProps;
-	part: (partId: string) => LinkProps;
-};
-
 const buildSteps = (eLearning: ELearningResource): Step[] =>
 	chaptersInReadingOrder(eLearning).flatMap((chapter) => [
 		{ kind: "chapter" as const, id: chapter.id },
 		...chapter.parts.map((part) => ({ kind: "part" as const, id: part.id })),
 	]);
 
-const stepPath = (step: Step | undefined, paths: ELearningStepPaths) => {
+type SharedELearningParams = SharedELearningShowThroughModuleData["path"];
+
+const stepLink = (params: SharedELearningParams, step: Step | undefined) => {
 	if (!step) return undefined;
 
-	return step.kind === "chapter" ? paths.chapter(step.id) : paths.part(step.id);
+	return step.kind === "chapter"
+		? chapterLink(params, step.id)
+		: partLink(params, step.id);
 };
 
 export const stepLinks = (
+	params: SharedELearningParams,
 	eLearning: ELearningResource,
 	current: Step,
-	paths: ELearningStepPaths,
 ) => {
 	const steps = buildSteps(eLearning);
 	const position = steps.findIndex(
@@ -46,9 +45,9 @@ export const stepLinks = (
 	const next = position === -1 ? undefined : steps[position + 1];
 
 	return {
-		previousTo: stepPath(steps[position - 1], paths),
+		previousTo: stepLink(params, steps[position - 1]),
 		// TODO: KOM-66 marks the e-learning as completed instead of leaving it
-		nextTo: stepPath(next, paths) ?? paths.overview,
+		nextTo: stepLink(params, next) ?? overviewLink(params),
 		isLastStep: !next,
 	};
 };
@@ -71,3 +70,38 @@ export const findNextPart = (
 	completedPartIds: ReadonlySet<string>,
 ): PartSummaryResource | undefined =>
 	chapter?.parts.find((part) => !completedPartIds.has(part.id));
+
+export const sharedELearningPath = ({
+	organizationSlug,
+	moduleSlug,
+	eLearningSlug,
+}: SharedELearningParams) => ({ organizationSlug, moduleSlug, eLearningSlug });
+
+export const overviewLink = (params: SharedELearningParams) =>
+	linkOptions({
+		to: "/delen/$organizationSlug/$moduleSlug/$eLearningSlug",
+		params: sharedELearningPath(params),
+	});
+
+export const chapterLink = (params: SharedELearningParams, chapterId: string) =>
+	linkOptions({
+		to: "/delen/$organizationSlug/$moduleSlug/$eLearningSlug/chapters/$chapterId",
+		params: { ...sharedELearningPath(params), chapterId },
+	});
+
+export const partLink = (params: SharedELearningParams, partId: string) =>
+	linkOptions({
+		to: "/delen/$organizationSlug/$moduleSlug/$eLearningSlug/parts/$partId",
+		params: { ...sharedELearningPath(params), partId },
+	});
+
+export const sharedELearningParams = (
+	shareUrl: string,
+): SharedELearningParams | undefined => {
+	const [prefix, organizationSlug, moduleSlug, eLearningSlug, ...rest] =
+		new URL(shareUrl).pathname.split("/").filter(Boolean);
+
+	if (prefix !== "delen" || !eLearningSlug || rest.length > 0) return undefined;
+
+	return { organizationSlug, moduleSlug, eLearningSlug };
+};

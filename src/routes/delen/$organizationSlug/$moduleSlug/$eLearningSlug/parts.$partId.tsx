@@ -3,7 +3,12 @@ import { createFileRoute } from "@tanstack/react-router";
 import ButtonLink from "components/button/button-link";
 import ContactSection from "components/contact/contact-section";
 import ContentBlock from "components/content-block/content-block";
-import { findChapter, stepLinks } from "components/e-learning/e-learning-utils";
+import {
+	chapterLink,
+	findChapter,
+	sharedELearningPath,
+	stepLinks,
+} from "components/e-learning/e-learning-utils";
 import StepNav from "components/e-learning/step-nav";
 import { Heading } from "components/heading/heading";
 import Icon from "components/icon/icon";
@@ -14,7 +19,6 @@ import {
 	sharedELearningShowThroughModuleOptions,
 } from "lib/heyapi/@tanstack/react-query.gen";
 import * as m from "lib/paraglide/messages";
-import { sharedELearningPaths } from "lib/shared-e-learning";
 import { makePageTitle } from "lib/title";
 
 import style from "./parts.$partId.module.scss";
@@ -23,11 +27,7 @@ export const Route = createFileRoute(
 	"/delen/$organizationSlug/$moduleSlug/$eLearningSlug/parts/$partId",
 )({
 	loader: async ({ context, params }) => {
-		const path = {
-			organizationSlug: params.organizationSlug,
-			moduleSlug: params.moduleSlug,
-			eLearningSlug: params.eLearningSlug,
-		};
+		const path = sharedELearningPath(params);
 		const [part] = await Promise.all([
 			context.queryClient.ensureQueryData(
 				sharedELearningPartThroughModuleOptions({
@@ -51,11 +51,7 @@ export const Route = createFileRoute(
 
 function SharedPartPage() {
 	const params = Route.useParams();
-	const path = {
-		organizationSlug: params.organizationSlug,
-		moduleSlug: params.moduleSlug,
-		eLearningSlug: params.eLearningSlug,
-	};
+	const path = sharedELearningPath(params);
 	const { data: part } = useSuspenseQuery(
 		sharedELearningPartThroughModuleOptions({
 			path: { ...path, part: params.partId },
@@ -64,18 +60,16 @@ function SharedPartPage() {
 	const { data: eLearning } = useSuspenseQuery(
 		sharedELearningShowThroughModuleOptions({ path }),
 	);
-	const paths = sharedELearningPaths(params);
 	const chapter = findChapter(eLearning, part.chapterId);
-	const { previousTo, nextTo, isLastStep } = stepLinks(
-		eLearning,
-		{ kind: "part", id: params.partId },
-		paths,
-	);
+	const { previousTo, nextTo, isLastStep } = stepLinks(params, eLearning, {
+		kind: "part",
+		id: params.partId,
+	});
 
 	return (
 		<div className={style.page}>
 			<ButtonLink
-				{...paths.chapter(part.chapterId)}
+				{...chapterLink(params, part.chapterId)}
 				variant="link"
 				className={style.back}
 			>

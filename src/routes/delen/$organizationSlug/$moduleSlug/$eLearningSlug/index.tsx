@@ -5,8 +5,10 @@ import ELearningContents from "components/e-learning/e-learning-contents";
 import ELearningStart from "components/e-learning/e-learning-start";
 import ELearningSummary from "components/e-learning/e-learning-summary";
 import {
+	chapterLink,
 	findNextChapter,
 	findNextPart,
+	partLink,
 } from "components/e-learning/e-learning-utils";
 import { Heading } from "components/heading/heading";
 import PageError from "components/page/page-error";
@@ -15,7 +17,6 @@ import Pill from "components/pill/pill";
 import { track } from "lib/analytics";
 import { sharedELearningShowThroughModuleOptions } from "lib/heyapi/@tanstack/react-query.gen";
 import * as m from "lib/paraglide/messages";
-import { sharedELearningPaths } from "lib/shared-e-learning";
 import { makePageTitle } from "lib/title";
 import z from "zod";
 
@@ -60,7 +61,6 @@ function SharedELearningPage() {
 	const { data: eLearning } = useSuspenseQuery(
 		sharedELearningShowThroughModuleOptions({ path: params }),
 	);
-	const paths = sharedELearningPaths(params);
 	const nextChapter = findNextChapter(eLearning.numberedChapters, noProgress);
 	const nextPart = findNextPart(nextChapter, noProgress);
 
@@ -80,7 +80,7 @@ function SharedELearningPage() {
 							<ELearningStart
 								chapter={nextChapter}
 								number={eLearning.numberedChapters.indexOf(nextChapter) + 1}
-								chapterTo={paths.chapter(nextChapter.id)}
+								chapterTo={chapterLink(params, nextChapter.id)}
 								hasContacts={eLearning.contacts.length > 0}
 							/>
 						)}
@@ -98,7 +98,7 @@ function SharedELearningPage() {
 				<div className={style.chapters}>
 					<ELearningContents
 						chapters={eLearning.numberedChapters}
-						partTo={paths.part}
+						partTo={(partId) => partLink(params, partId)}
 						completedPartIds={noProgress}
 						openChapterId={nextChapter?.id}
 						nextPartId={nextPart?.id}
@@ -108,8 +108,8 @@ function SharedELearningPage() {
 						<ELearningSummary
 							key={summary.id}
 							chapter={summary}
-							chapterTo={paths.chapter(summary.id)}
-							partTo={paths.part}
+							chapterTo={chapterLink(params, summary.id)}
+							partTo={(partId) => partLink(params, partId)}
 							completedPartIds={noProgress}
 						/>
 					))}
