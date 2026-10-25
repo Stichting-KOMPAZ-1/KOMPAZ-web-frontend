@@ -17,6 +17,7 @@ import {
 import PageError from "components/page/page-error";
 import PageLoading from "components/page/page-loading";
 import Pill from "components/pill/pill";
+import { problemDetail } from "lib/api/error-helpers";
 import {
 	authMeOptions,
 	moduleShowOptions,
@@ -41,7 +42,9 @@ export const Route = createFileRoute("/_app/modules/$moduleId")({
 	head: ({ loaderData }) => ({
 		meta: [{ title: makePageTitle(loaderData?.name ?? "") }],
 	}),
-	errorComponent: () => <PageError>{m.module_load_error()}</PageError>,
+	errorComponent: ({ error }) => (
+		<PageError>{problemDetail(error) ?? m.module_load_error()}</PageError>
+	),
 	pendingComponent: PageLoading,
 	component: ModulePage,
 });
