@@ -16,10 +16,10 @@
 	justify-self: start;
 }
 
-.detail {
-	margin-block-end: var(--unit-32);
+.detail:last-child {
+	padding-block-end: var(--unit-32);
 
 	@include bp.desktop {
-		margin-block-end: var(--unit-48);
+		padding-block-end: var(--unit-48);
 	}
 }

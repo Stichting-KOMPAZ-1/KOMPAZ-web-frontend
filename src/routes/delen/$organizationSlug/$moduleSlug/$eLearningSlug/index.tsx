@@ -145,9 +145,9 @@ function SharedELearningPage() {
 						/>
 					))}
 				</div>
-
-				<ContactSection contacts={eLearning.contacts} />
 			</article>
+
+			<ContactSection contacts={eLearning.contacts} />
 		</div>
 	);
 }
