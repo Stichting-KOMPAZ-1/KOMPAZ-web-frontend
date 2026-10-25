@@ -25,3 +25,14 @@ export const sharedELearningPaths = (
 			params: { ...params, partId },
 		}),
 });
+
+export const sharedELearningParams = (
+	shareUrl: string,
+): SharedELearningParams | undefined => {
+	const [prefix, organizationSlug, moduleSlug, eLearningSlug, ...rest] =
+		new URL(shareUrl).pathname.split("/").filter(Boolean);
+
+	if (prefix !== "delen" || !eLearningSlug || rest.length > 0) return undefined;
+
+	return { organizationSlug, moduleSlug, eLearningSlug };
+};

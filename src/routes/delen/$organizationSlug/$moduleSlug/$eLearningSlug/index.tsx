@@ -21,6 +21,7 @@ import z from "zod";
 
 import style from "./index.module.scss";
 
+// TODO: KOM-66 implements it further
 const noProgress: ReadonlySet<string> = new Set();
 
 export const Route = createFileRoute(

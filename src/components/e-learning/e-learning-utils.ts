@@ -1,14 +1,9 @@
-import { type LinkProps, linkOptions } from "@tanstack/react-router";
+import type { LinkProps } from "@tanstack/react-router";
 import type {
 	ChapterResource,
 	ELearningResource,
 	PartSummaryResource,
 } from "lib/heyapi";
-import z from "zod";
-
-export const eLearningSearchSchema = z.object({
-	module: z.optional(z.string()),
-});
 
 export const chaptersInReadingOrder = ({
 	numberedChapters,
@@ -26,23 +21,6 @@ export type ELearningStepPaths = {
 	part: (partId: string) => LinkProps;
 };
 
-export const eLearningPaths = (eLearningId: string): ELearningStepPaths => ({
-	overview: linkOptions({
-		to: "/e-learnings/$eLearningId",
-		params: { eLearningId },
-	}),
-	chapter: (chapterId) =>
-		linkOptions({
-			to: "/e-learnings/$eLearningId/chapters/$chapterId",
-			params: { eLearningId, chapterId },
-		}),
-	part: (partId) =>
-		linkOptions({
-			to: "/e-learnings/$eLearningId/parts/$partId",
-			params: { eLearningId, partId },
-		}),
-});
-
 const buildSteps = (eLearning: ELearningResource): Step[] =>
 	chaptersInReadingOrder(eLearning).flatMap((chapter) => [
 		{ kind: "chapter" as const, id: chapter.id },
@@ -58,7 +36,7 @@ const stepPath = (step: Step | undefined, paths: ELearningStepPaths) => {
 export const stepLinks = (
 	eLearning: ELearningResource,
 	current: Step,
-	paths: ELearningStepPaths = eLearningPaths(eLearning.id),
+	paths: ELearningStepPaths,
 ) => {
 	const steps = buildSteps(eLearning);
 	const position = steps.findIndex(

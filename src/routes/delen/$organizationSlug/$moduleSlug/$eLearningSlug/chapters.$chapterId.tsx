@@ -14,6 +14,7 @@ import { makePageTitle } from "lib/title";
 
 import style from "./chapters.$chapterId.module.scss";
 
+// TODO: KOM-66 implements it further
 const noProgress: ReadonlySet<string> = new Set();
 
 export const Route = createFileRoute(

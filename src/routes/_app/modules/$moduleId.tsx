@@ -13,6 +13,7 @@ import PageLoading from "components/page/page-loading";
 import Pill from "components/pill/pill";
 import { moduleShowOptions } from "lib/heyapi/@tanstack/react-query.gen";
 import * as m from "lib/paraglide/messages";
+import { sharedELearningParams } from "lib/shared-e-learning";
 import { makePageTitle } from "lib/title";
 
 import style from "./$moduleId.module.scss";
@@ -57,18 +58,26 @@ function ModulePage() {
 						title={m.module_elearnings_title()}
 						items={module.eLearnings}
 					>
-						{(eLearning) => (
-							<ResourceRow
-								key={eLearning.id}
-								icon="graduation-cap"
-								title={eLearning.name}
-								to="/e-learnings/$eLearningId"
-								params={{ eLearningId: eLearning.id }}
-								search={{ module: moduleId }}
-								highlight
-								action={<ShareELearningModal eLearning={eLearning} />}
-							/>
-						)}
+						{(eLearning) => {
+							const params = eLearning.shareUrl
+								? sharedELearningParams(eLearning.shareUrl)
+								: undefined;
+
+							return (
+								<ResourceRow
+									key={eLearning.id}
+									icon="graduation-cap"
+									title={eLearning.name}
+									to={
+										params &&
+										"/delen/$organizationSlug/$moduleSlug/$eLearningSlug"
+									}
+									params={params}
+									highlight
+									action={<ShareELearningModal eLearning={eLearning} />}
+								/>
+							);
+						}}
 					</ResourceSection>
 
 					<ResourceSection
