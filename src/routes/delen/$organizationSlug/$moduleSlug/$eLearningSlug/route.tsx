@@ -1,5 +1,6 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
+import { overviewLink } from "components/e-learning/e-learning-utils";
 import SharedHeader from "components/header/shared-header";
 import AppLayout from "layouts/app-layout/app-layout";
 import { sharedELearningShowThroughModuleOptions } from "lib/heyapi/@tanstack/react-query.gen";
@@ -21,6 +22,14 @@ function SharedELearningLayout() {
 	);
 
 	return (
-		<AppLayout header={<SharedHeader organization={eLearning.sharedBy} />} />
+		<AppLayout
+			header={
+				<SharedHeader
+					organization={eLearning.sharedBy}
+					homeLink={overviewLink(params)}
+					homeLabel={eLearning.name}
+				/>
+			}
+		/>
 	);
 }

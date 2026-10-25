@@ -1,0 +1,24 @@
+@use "/src/style/breakpoints.scss" as bp;
+
+.slot {
+	display: flex;
+	align-items: center;
+}
+
+.image {
+	max-inline-size: 100%;
+	block-size: var(--unit-32);
+	object-fit: contain;
+
+	@include bp.desktop {
+		block-size: var(--unit-40);
+	}
+}
+
+.mark {
+	width: var(--unit-32);
+
+	@include bp.desktop {
+		width: var(--unit-40);
+	}
+}

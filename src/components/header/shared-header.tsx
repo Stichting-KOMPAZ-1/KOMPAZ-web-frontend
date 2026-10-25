@@ -1,34 +1,30 @@
-import LogoMark from "assets/icons/logo-mark.svg?react";
+import { Link, type LinkProps } from "@tanstack/react-router";
 import clsx from "clsx";
+import OrganizationLogo from "components/organization/organization-logo";
 import { useHideOnScrollDown } from "hooks/use-hide-on-scroll-down";
 import type { SharedOrganizationResource } from "lib/heyapi";
 
-import style from "./shared-header.module.scss";
+import { headerHeight } from "./app-header";
 
-const headerHeight = 64;
+import style from "./app-header.module.scss";
 
 type Props = {
 	organization: SharedOrganizationResource | null;
+	homeLink: LinkProps;
+	homeLabel: string;
 };
 
-const SharedHeader = ({ organization }: Props) => {
+const SharedHeader = ({ organization, homeLink, homeLabel }: Props) => {
 	const hidden = useHideOnScrollDown(headerHeight);
 
 	return (
 		<header className={clsx(style.header, hidden && style.hidden)}>
 			<div className={style.bar}>
-				{organization?.hasLogo ? (
-					<img
-						className={style.organizationLogo}
-						src={organization.logoUrl}
-						alt={organization.name}
+				<Link {...homeLink} className={style.logo} aria-label={homeLabel}>
+					<OrganizationLogo
+						src={organization?.hasLogo ? organization.logoUrl : null}
 					/>
-				) : (
-					<LogoMark aria-hidden="true" className={style.logoMark} />
-				)}
-				{organization && (
-					<span className={style.name}>{organization.name}</span>
-				)}
+				</Link>
 			</div>
 		</header>
 	);
