@@ -1,5 +1,6 @@
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
+import ButtonLink from "components/button/button-link";
 import ContactSection from "components/contact/contact-section";
 import ELearningContents from "components/e-learning/e-learning-contents";
 import ELearningStart from "components/e-learning/e-learning-start";
@@ -11,11 +12,15 @@ import {
 	partLink,
 } from "components/e-learning/e-learning-utils";
 import { Heading } from "components/heading/heading";
+import Icon from "components/icon/icon";
 import PageError from "components/page/page-error";
 import PageLoading from "components/page/page-loading";
 import Pill from "components/pill/pill";
 import { track } from "lib/analytics";
-import { sharedELearningShowThroughModuleOptions } from "lib/heyapi/@tanstack/react-query.gen";
+import {
+	authMeOptions,
+	sharedELearningShowThroughModuleOptions,
+} from "lib/heyapi/@tanstack/react-query.gen";
 import * as m from "lib/paraglide/messages";
 import { makePageTitle } from "lib/title";
 import z from "zod";
@@ -32,11 +37,16 @@ export const Route = createFileRoute(
 	loaderDeps: ({ search }) => ({ source: search.utm_source }),
 	staleTime: Infinity,
 	loader: async ({ context, params, deps, preload }) => {
-		const eLearning = await context.queryClient.ensureQueryData(
-			sharedELearningShowThroughModuleOptions({ path: params }),
-		);
+		const [eLearning, user] = await Promise.all([
+			context.queryClient.ensureQueryData(
+				sharedELearningShowThroughModuleOptions({ path: params }),
+			),
+			context.queryClient
+				.ensureQueryData({ ...authMeOptions(), retry: false })
+				.catch(() => undefined),
+		]);
 
-		if (!preload) {
+		if (!preload && !user) {
 			track("elearning_open", {
 				organization: params.organizationSlug,
 				elearning: params.eLearningSlug,
@@ -58,6 +68,8 @@ export const Route = createFileRoute(
 
 function SharedELearningPage() {
 	const params = Route.useParams();
+	const { data: user } = useQuery({ ...authMeOptions(), retry: false });
+	const { module: moduleId } = Route.useSearch();
 	const { data: eLearning } = useSuspenseQuery(
 		sharedELearningShowThroughModuleOptions({ path: params }),
 	);
@@ -66,6 +78,24 @@ function SharedELearningPage() {
 
 	return (
 		<div className={style.page}>
+			{user &&
+				(moduleId ? (
+					<ButtonLink
+						to="/modules/$moduleId"
+						params={{ moduleId }}
+						variant="link"
+						className={style.back}
+					>
+						<Icon name="arrow-left" />
+						{m.elearning_back_to_module()}
+					</ButtonLink>
+				) : (
+					<ButtonLink to="/" variant="link" className={style.back}>
+						<Icon name="arrow-left" />
+						{m.elearning_back_to_library()}
+					</ButtonLink>
+				))}
+
 			<article className={style.content}>
 				<header className={style.hero}>
 					<div className={style.intro}>

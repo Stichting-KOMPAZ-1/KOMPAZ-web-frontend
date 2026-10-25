@@ -16,7 +16,11 @@ import style from "./app-header.module.scss";
 
 export const headerHeight = 64;
 
-const AppHeader = () => {
+type Props = {
+	logoUrl?: string | null;
+};
+
+const AppHeader = ({ logoUrl }: Props) => {
 	const navigate = useNavigate();
 	const queryClient = useQueryClient();
 	const { data: user } = useQuery(authMeOptions());
@@ -33,7 +37,13 @@ const AppHeader = () => {
 		<header className={clsx(style.header, hidden && style.hidden)}>
 			<div className={style.bar}>
 				<Link to="/" className={style.logo} aria-label={m.nav_library()}>
-					<OrganizationLogo src={user?.organizationLogoUrl ?? null} />
+					<OrganizationLogo
+						src={
+							logoUrl === undefined
+								? (user?.organizationLogoUrl ?? null)
+								: logoUrl
+						}
+					/>
 				</Link>
 				<nav className={style.nav} aria-label={m.nav_label()}>
 					<div className={style.links}>
