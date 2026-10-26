@@ -9,29 +9,14 @@ type StyleProps = {
 	inline?: boolean;
 };
 
-const LinkAnchor = ({
-	inline = false,
-	className,
-	children,
-	...props
-}: React.ComponentPropsWithRef<"a"> & StyleProps) => (
-	<a className={clsx(style.link, inline && style.inline, className)} {...props}>
-		{children}
-	</a>
-);
-
-export const Link = createLink(LinkAnchor);
-
-type AnchorProps = React.ComponentPropsWithoutRef<"a"> & StyleProps;
-
-export const Anchor = ({
+export const LinkAnchor = ({
 	inline = false,
 	className,
 	children,
 	target,
 	rel = target === "_blank" ? "noopener noreferrer" : undefined,
 	...props
-}: AnchorProps) => (
+}: React.ComponentPropsWithRef<"a"> & StyleProps) => (
 	<a
 		className={clsx(style.link, inline && style.inline, className)}
 		target={target}
@@ -44,3 +29,5 @@ export const Anchor = ({
 		)}
 	</a>
 );
+
+export const Link = createLink(LinkAnchor);
