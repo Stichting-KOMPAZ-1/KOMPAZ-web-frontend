@@ -51,21 +51,21 @@ export const translatedPathnames = createTranslatedPathnames({
 		"en-US": "/modules/$moduleId",
 		"nl-NL": "/modules/$moduleId",
 	},
-	"/e-learnings/$eLearningId": {
-		"en-US": "/e-learnings/$eLearningId",
-		"nl-NL": "/e-learnings/$eLearningId",
-	},
-	"/e-learnings/$eLearningId/chapters/$chapterId": {
-		"en-US": "/e-learnings/$eLearningId/chapters/$chapterId",
-		"nl-NL": "/e-learnings/$eLearningId/chapters/$chapterId",
-	},
-	"/e-learnings/$eLearningId/parts/$partId": {
-		"en-US": "/e-learnings/$eLearningId/parts/$partId",
-		"nl-NL": "/e-learnings/$eLearningId/parts/$partId",
-	},
 	"/delen/$organizationSlug/$moduleSlug/$eLearningSlug": {
-		"en-US": "/delen/$organizationSlug/$moduleSlug/$eLearningSlug",
+		"en-US": "/share/$organizationSlug/$moduleSlug/$eLearningSlug",
 		"nl-NL": "/delen/$organizationSlug/$moduleSlug/$eLearningSlug",
+	},
+	"/delen/$organizationSlug/$moduleSlug/$eLearningSlug/chapters/$chapterId": {
+		"en-US":
+			"/share/$organizationSlug/$moduleSlug/$eLearningSlug/chapters/$chapterId",
+		"nl-NL":
+			"/delen/$organizationSlug/$moduleSlug/$eLearningSlug/hoofdstukken/$chapterId",
+	},
+	"/delen/$organizationSlug/$moduleSlug/$eLearningSlug/parts/$partId": {
+		"en-US":
+			"/share/$organizationSlug/$moduleSlug/$eLearningSlug/parts/$partId",
+		"nl-NL":
+			"/delen/$organizationSlug/$moduleSlug/$eLearningSlug/onderdelen/$partId",
 	},
 	"/profile": {
 		"en-US": "/profile",

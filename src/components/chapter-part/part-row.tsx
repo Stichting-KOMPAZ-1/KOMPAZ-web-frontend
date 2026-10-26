@@ -1,4 +1,4 @@
-import { Link } from "@tanstack/react-router";
+import { Link, type LinkProps } from "@tanstack/react-router";
 import Icon from "components/icon/icon";
 import type { PartSummaryResource } from "lib/heyapi";
 
@@ -8,15 +8,15 @@ import style from "./part-row.module.scss";
 
 type Props = {
 	part: PartSummaryResource;
-	to: string;
+	link: LinkProps;
 	done: boolean;
 	callToAction?: string;
 };
 
-const PartRow = ({ part, to, done, callToAction }: Props) => (
+const PartRow = ({ part, link, done, callToAction }: Props) => (
 	<li className={style.row}>
 		<PartStatus done={done} />
-		<Link className={style.link} to={to}>
+		<Link className={style.link} {...link}>
 			<span className={style.name}>{part.name}</span>
 			{callToAction && (
 				<span className={style.callToAction}>{callToAction}</span>

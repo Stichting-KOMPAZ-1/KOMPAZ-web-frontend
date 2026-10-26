@@ -2,38 +2,61 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import ButtonLink from "components/button/button-link";
 import ContactSection from "components/contact/contact-section";
+import { sharedELearningParams } from "components/e-learning/e-learning-utils";
 import { Heading } from "components/heading/heading";
 import Icon from "components/icon/icon";
 import CopyLinkButton from "components/module/copy-link-button";
 import ResourceRow from "components/module/resource-row";
 import ResourceSection from "components/module/resource-section";
 import ShareELearningModal from "components/module/share-e-learning-modal";
+import {
+	readingOrganizationFor,
+	useSelectedOrganizationId,
+	useReadingOrganizationId,
+} from "components/organization/organization-utils";
 import PageError from "components/page/page-error";
 import PageLoading from "components/page/page-loading";
 import Pill from "components/pill/pill";
-import { moduleShowOptions } from "lib/heyapi/@tanstack/react-query.gen";
+import { problemDetail } from "lib/api/error-helpers";
+import {
+	authMeOptions,
+	moduleShowOptions,
+} from "lib/heyapi/@tanstack/react-query.gen";
 import * as m from "lib/paraglide/messages";
 import { makePageTitle } from "lib/title";
 
 import style from "./$moduleId.module.scss";
 
 export const Route = createFileRoute("/_app/modules/$moduleId")({
-	loader: ({ context, params }) =>
-		context.queryClient.ensureQueryData(
-			moduleShowOptions({ path: { module: params.moduleId } }),
-		),
+	staticData: { organizationFixed: true },
+	loaderDeps: ({ search }) => ({ organizationId: search.organizationId }),
+	loader: async ({ context, params, deps }) => {
+		const path = { module: params.moduleId };
+		const user = await context.queryClient.ensureQueryData(authMeOptions());
+		const organizationId = readingOrganizationFor(user, deps.organizationId);
+
+		return context.queryClient.ensureQueryData(
+			moduleShowOptions({ path, query: { organizationId } }),
+		);
+	},
 	head: ({ loaderData }) => ({
 		meta: [{ title: makePageTitle(loaderData?.name ?? "") }],
 	}),
-	errorComponent: () => <PageError>{m.module_load_error()}</PageError>,
+	errorComponent: ({ error }) => (
+		<PageError>{problemDetail(error) ?? m.module_load_error()}</PageError>
+	),
 	pendingComponent: PageLoading,
 	component: ModulePage,
 });
 
 function ModulePage() {
 	const { moduleId } = Route.useParams();
+	const selectedOrganizationId = useSelectedOrganizationId();
 	const { data: module } = useSuspenseQuery(
-		moduleShowOptions({ path: { module: moduleId } }),
+		moduleShowOptions({
+			path: { module: moduleId },
+			query: { organizationId: useReadingOrganizationId() },
+		}),
 	);
 
 	return (
@@ -57,18 +80,30 @@ function ModulePage() {
 						title={m.module_elearnings_title()}
 						items={module.eLearnings}
 					>
-						{(eLearning) => (
-							<ResourceRow
-								key={eLearning.id}
-								icon="graduation-cap"
-								title={eLearning.name}
-								to="/e-learnings/$eLearningId"
-								params={{ eLearningId: eLearning.id }}
-								search={{ module: moduleId }}
-								highlight
-								action={<ShareELearningModal eLearning={eLearning} />}
-							/>
-						)}
+						{(eLearning) => {
+							const params = eLearning.shareUrl
+								? sharedELearningParams(eLearning.shareUrl)
+								: undefined;
+
+							return (
+								<ResourceRow
+									key={eLearning.id}
+									icon="graduation-cap"
+									title={eLearning.name}
+									to={
+										params &&
+										"/delen/$organizationSlug/$moduleSlug/$eLearningSlug"
+									}
+									params={params}
+									search={{
+										module: moduleId,
+										organizationId: selectedOrganizationId,
+									}}
+									highlight
+									action={<ShareELearningModal eLearning={eLearning} />}
+								/>
+							);
+						}}
 					</ResourceSection>
 
 					<ResourceSection
@@ -117,9 +152,10 @@ function ModulePage() {
 					{module.sourceAttribution && (
 						<p className={style.attribution}>{module.sourceAttribution}</p>
 					)}
-					<ContactSection contacts={module.contacts} />
 				</div>
 			</article>
+
+			<ContactSection contacts={module.contacts} />
 		</div>
 	);
 }

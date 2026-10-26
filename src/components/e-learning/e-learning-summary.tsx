@@ -1,3 +1,4 @@
+import type { LinkProps } from "@tanstack/react-router";
 import ButtonLink from "components/button/button-link";
 import PartList from "components/chapter-part/part-list";
 import { Heading } from "components/heading/heading";
@@ -9,13 +10,15 @@ import style from "./e-learning-summary.module.scss";
 
 type Props = {
 	chapter: ChapterResource;
-	eLearningId: string;
+	chapterTo: LinkProps;
+	partTo: (partId: string) => LinkProps;
 	completedPartIds: ReadonlySet<string>;
 };
 
 const ELearningSummary = ({
 	chapter,
-	eLearningId,
+	chapterTo,
+	partTo,
 	completedPartIds,
 }: Props) => (
 	<section className={style.card}>
@@ -29,12 +32,7 @@ const ELearningSummary = ({
 					{chapter.name}
 				</Heading>
 
-				<ButtonLink
-					variant="secondary"
-					className={style.action}
-					to="/e-learnings/$eLearningId/chapters/$chapterId"
-					params={{ eLearningId, chapterId: chapter.id }}
-				>
+				<ButtonLink variant="secondary" className={style.action} {...chapterTo}>
 					{m.elearning_summary_view()}
 					<Icon name="arrow-right" />
 				</ButtonLink>
@@ -42,7 +40,7 @@ const ELearningSummary = ({
 
 			<PartList
 				parts={chapter.parts}
-				eLearningId={eLearningId}
+				partTo={partTo}
 				completedPartIds={completedPartIds}
 			/>
 		</div>

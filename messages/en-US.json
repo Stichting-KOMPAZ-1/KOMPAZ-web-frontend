@@ -21,11 +21,12 @@
 	"modal_cancel": "Cancel",
 
 	"nav_label": "Main navigation",
-	"nav_home": "Home",
 	"nav_admin": "Administration",
 	"nav_library": "Library",
 	"nav_profile": "Profile",
 	"nav_logout": "Log out",
+
+	"organization_picker_label": "Viewing as",
 
 	"library_title": "Library",
 	"admin_title": "Administration",

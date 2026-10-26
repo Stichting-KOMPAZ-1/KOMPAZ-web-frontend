@@ -1,3 +1,4 @@
+import type { LinkProps } from "@tanstack/react-router";
 import PartList from "components/chapter-part/part-list";
 import { Heading } from "components/heading/heading";
 import type { ChapterResource } from "lib/heyapi";
@@ -10,7 +11,7 @@ import style from "./chapter-item.module.scss";
 type Props = {
 	chapter: ChapterResource;
 	number: number;
-	eLearningId: string;
+	partTo: (partId: string) => LinkProps;
 	completedPartIds: ReadonlySet<string>;
 	open?: boolean;
 	nextPartId?: string;
@@ -19,7 +20,7 @@ type Props = {
 const ChapterItem = ({
 	chapter,
 	number,
-	eLearningId,
+	partTo,
 	completedPartIds,
 	open = false,
 	nextPartId,
@@ -41,7 +42,7 @@ const ChapterItem = ({
 
 			<PartList
 				parts={chapter.parts}
-				eLearningId={eLearningId}
+				partTo={partTo}
 				completedPartIds={completedPartIds}
 				defaultOpen={open}
 				nextPartId={nextPartId}
