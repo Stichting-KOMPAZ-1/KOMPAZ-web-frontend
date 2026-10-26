@@ -18,11 +18,9 @@ import PageError from "components/page/page-error";
 import PageLoading from "components/page/page-loading";
 import Pill from "components/pill/pill";
 import { problemDetail } from "lib/api/error-helpers";
-import {
-	authMeOptions,
-	moduleShowOptions,
-} from "lib/heyapi/@tanstack/react-query.gen";
+import { moduleShowOptions } from "lib/heyapi/@tanstack/react-query.gen";
 import * as m from "lib/paraglide/messages";
+import { ensureSignedInUser } from "lib/session";
 import { makePageTitle } from "lib/title";
 
 import style from "./$moduleId.module.scss";
@@ -32,7 +30,7 @@ export const Route = createFileRoute("/_app/modules/$moduleId")({
 	loaderDeps: ({ search }) => ({ organizationId: search.organizationId }),
 	loader: async ({ context, params, deps }) => {
 		const path = { module: params.moduleId };
-		const user = await context.queryClient.ensureQueryData(authMeOptions());
+		const user = await ensureSignedInUser(context.queryClient);
 		const organizationId = readingOrganizationFor(user, deps.organizationId);
 
 		return context.queryClient.ensureQueryData(

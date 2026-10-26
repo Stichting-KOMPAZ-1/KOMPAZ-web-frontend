@@ -27,7 +27,7 @@ export const Route = createFileRoute(
 			context.queryClient.ensureQueryData(
 				sharedELearningShowThroughModuleOptions({ path: params }),
 			),
-			context.queryClient.prefetchQuery({ ...authMeOptions(), retry: false }),
+			context.queryClient.prefetchQuery(authMeOptions()),
 		]),
 	errorComponent: () => (
 		<PageError>{m.shared_elearning_unavailable()}</PageError>
@@ -38,7 +38,7 @@ export const Route = createFileRoute(
 
 function SharedELearningLayout() {
 	const params = Route.useParams();
-	const { data: user } = useQuery({ ...authMeOptions(), retry: false });
+	const { data: user } = useQuery(authMeOptions());
 	const { data: eLearning } = useSuspenseQuery(
 		sharedELearningShowThroughModuleOptions({ path: params }),
 	);

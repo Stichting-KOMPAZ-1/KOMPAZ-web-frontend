@@ -1,12 +1,12 @@
-import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { useMatches, useNavigate } from "@tanstack/react-router";
 import { Field, FieldLabel, Select } from "components/form";
 import {
 	organizationsOptions,
 	useSelectedOrganizationId,
 } from "components/organization/organization-utils";
-import { authMeOptions } from "lib/heyapi/@tanstack/react-query.gen";
 import * as m from "lib/paraglide/messages";
+import { useSignedInUser } from "lib/session";
 
 import style from "./organization-picker.module.scss";
 
@@ -16,7 +16,7 @@ type Props = {
 
 const OrganizationPicker = ({ organizationName }: Props) => {
 	const navigate = useNavigate();
-	const { data: user } = useSuspenseQuery(authMeOptions());
+	const user = useSignedInUser();
 	const organizationId = useSelectedOrganizationId() ?? user.organizationId;
 	const { data, isSuccess } = useQuery({
 		enabled: organizationName === undefined,
