@@ -5,7 +5,7 @@ import type React from "react";
 import style from "./button.module.scss";
 
 export type ButtonSize = "medium" | "large";
-export type ButtonVariant = "primary" | "secondary" | "link";
+export type ButtonVariant = "primary" | "secondary" | "link" | "link-inverse";
 
 type Props = React.ComponentPropsWithoutRef<typeof BaseUIButton> & {
 	size?: ButtonSize;
