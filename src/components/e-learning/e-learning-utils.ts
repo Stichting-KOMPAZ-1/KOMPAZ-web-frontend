@@ -94,14 +94,3 @@ export const partLink = (params: SharedELearningParams, partId: string) =>
 		to: "/delen/$organizationSlug/$moduleSlug/$eLearningSlug/parts/$partId",
 		params: { ...sharedELearningPath(params), partId },
 	});
-
-export const sharedELearningParams = (
-	shareUrl: string,
-): SharedELearningParams | undefined => {
-	const [prefix, organizationSlug, moduleSlug, eLearningSlug, ...rest] =
-		new URL(shareUrl).pathname.split("/").filter(Boolean);
-
-	if (prefix !== "delen" || !eLearningSlug || rest.length > 0) return undefined;
-
-	return { organizationSlug, moduleSlug, eLearningSlug };
-};
