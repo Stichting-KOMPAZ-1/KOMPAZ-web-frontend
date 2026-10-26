@@ -3,11 +3,14 @@ import { createFileRoute, retainSearchParams } from "@tanstack/react-router";
 import { overviewLink } from "components/e-learning/e-learning-utils";
 import AppHeader from "components/header/app-header";
 import SharedHeader from "components/header/shared-header";
+import PageError from "components/page/page-error";
+import PageLoading from "components/page/page-loading";
 import AppLayout from "layouts/app-layout/app-layout";
 import {
 	authMeOptions,
 	sharedELearningShowThroughModuleOptions,
 } from "lib/heyapi/@tanstack/react-query.gen";
+import * as m from "lib/paraglide/messages";
 import z from "zod";
 
 export const Route = createFileRoute(
@@ -26,6 +29,10 @@ export const Route = createFileRoute(
 			),
 			context.queryClient.prefetchQuery({ ...authMeOptions(), retry: false }),
 		]),
+	errorComponent: () => (
+		<PageError>{m.shared_elearning_unavailable()}</PageError>
+	),
+	pendingComponent: PageLoading,
 	component: SharedELearningLayout,
 });
 
