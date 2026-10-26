@@ -21,11 +21,12 @@
 	"modal_cancel": "Annuleren",
 
 	"nav_label": "Hoofdnavigatie",
-	"nav_home": "Home",
 	"nav_admin": "Beheer",
 	"nav_library": "Bibliotheek",
 	"nav_profile": "Profiel",
 	"nav_logout": "Uitloggen",
+
+	"organization_picker_label": "Bekijken als",
 
 	"library_title": "Bibliotheek",
 	"admin_title": "Beheer",
@@ -54,7 +55,7 @@
 	"module_share_link_copied": "Link gekopieerd!",
 	"module_share_qr_alt": "QR-code voor {name}",
 	"module_share_download_qr": "QR-code downloaden",
-	"module_share_organization_label": "Organisatie",
+	"module_share_organization_label": "Organisatie en module",
 	"module_share_organizations_empty": "Nog geen enkele organisatie deelt deze e-learning.",
 	"module_share_organizations_error": "De organisaties konden niet worden geladen.",
 

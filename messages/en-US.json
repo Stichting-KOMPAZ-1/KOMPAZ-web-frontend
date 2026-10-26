@@ -21,11 +21,12 @@
 	"modal_cancel": "Cancel",
 
 	"nav_label": "Main navigation",
-	"nav_home": "Home",
 	"nav_admin": "Administration",
 	"nav_library": "Library",
 	"nav_profile": "Profile",
 	"nav_logout": "Log out",
+
+	"organization_picker_label": "Viewing as",
 
 	"library_title": "Library",
 	"admin_title": "Administration",
@@ -54,7 +55,7 @@
 	"module_share_link_copied": "Link copied!",
 	"module_share_qr_alt": "QR code for {name}",
 	"module_share_download_qr": "Download QR code",
-	"module_share_organization_label": "Organization",
+	"module_share_organization_label": "Organization and module",
 	"module_share_organizations_empty": "No organization shares this e-learning yet.",
 	"module_share_organizations_error": "The organizations could not be loaded.",
 

@@ -30,11 +30,3 @@
 	justify-content: flex-end;
 	gap: var(--unit-8);
 }
-
-.settings {
-	position: fixed;
-	bottom: var(--unit-8);
-	left: var(--unit-8);
-	z-index: var(--layer-consent);
-	font: var(--font-body-regular-14-16);
-}

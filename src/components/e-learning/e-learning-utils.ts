@@ -1,13 +1,10 @@
+import { linkOptions } from "@tanstack/react-router";
 import type {
 	ChapterResource,
 	ELearningResource,
 	PartSummaryResource,
+	SharedELearningShowThroughModuleData,
 } from "lib/heyapi";
-import z from "zod";
-
-export const eLearningSearchSchema = z.object({
-	module: z.optional(z.string()),
-});
 
 export const chaptersInReadingOrder = ({
 	numberedChapters,
@@ -25,15 +22,21 @@ const buildSteps = (eLearning: ELearningResource): Step[] =>
 		...chapter.parts.map((part) => ({ kind: "part" as const, id: part.id })),
 	]);
 
-const stepPath = (step: Step | undefined, eLearningId: string) => {
+type SharedELearningParams = SharedELearningShowThroughModuleData["path"];
+
+const stepLink = (params: SharedELearningParams, step: Step | undefined) => {
 	if (!step) return undefined;
 
 	return step.kind === "chapter"
-		? `/e-learnings/${eLearningId}/chapters/${step.id}`
-		: `/e-learnings/${eLearningId}/parts/${step.id}`;
+		? chapterLink(params, step.id)
+		: partLink(params, step.id);
 };
 
-export const stepLinks = (eLearning: ELearningResource, current: Step) => {
+export const stepLinks = (
+	params: SharedELearningParams,
+	eLearning: ELearningResource,
+	current: Step,
+) => {
 	const steps = buildSteps(eLearning);
 	const position = steps.findIndex(
 		(step) => step.kind === current.kind && step.id === current.id,
@@ -42,9 +45,9 @@ export const stepLinks = (eLearning: ELearningResource, current: Step) => {
 	const next = position === -1 ? undefined : steps[position + 1];
 
 	return {
-		previousTo: stepPath(steps[position - 1], eLearning.id),
+		previousTo: stepLink(params, steps[position - 1]),
 		// TODO: KOM-66 marks the e-learning as completed instead of leaving it
-		nextTo: stepPath(next, eLearning.id) ?? `/e-learnings/${eLearning.id}`,
+		nextTo: stepLink(params, next) ?? overviewLink(params),
 		isLastStep: !next,
 	};
 };
@@ -67,3 +70,27 @@ export const findNextPart = (
 	completedPartIds: ReadonlySet<string>,
 ): PartSummaryResource | undefined =>
 	chapter?.parts.find((part) => !completedPartIds.has(part.id));
+
+export const sharedELearningPath = ({
+	organizationSlug,
+	moduleSlug,
+	eLearningSlug,
+}: SharedELearningParams) => ({ organizationSlug, moduleSlug, eLearningSlug });
+
+export const overviewLink = (params: SharedELearningParams) =>
+	linkOptions({
+		to: "/delen/$organizationSlug/$moduleSlug/$eLearningSlug",
+		params: sharedELearningPath(params),
+	});
+
+export const chapterLink = (params: SharedELearningParams, chapterId: string) =>
+	linkOptions({
+		to: "/delen/$organizationSlug/$moduleSlug/$eLearningSlug/chapters/$chapterId",
+		params: { ...sharedELearningPath(params), chapterId },
+	});
+
+export const partLink = (params: SharedELearningParams, partId: string) =>
+	linkOptions({
+		to: "/delen/$organizationSlug/$moduleSlug/$eLearningSlug/parts/$partId",
+		params: { ...sharedELearningPath(params), partId },
+	});

@@ -1,0 +1,13 @@
+.footer {
+	display: grid;
+	grid-template-columns: subgrid;
+	grid-column: 1 / -1;
+	background: var(--color-surface-accent-strong);
+}
+
+.bar {
+	display: flex;
+	grid-column: main;
+	align-items: center;
+	padding-block: var(--unit-16);
+}

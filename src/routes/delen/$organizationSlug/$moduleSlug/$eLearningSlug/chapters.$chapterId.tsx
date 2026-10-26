@@ -1,34 +1,35 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { createFileRoute, retainSearchParams } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import ButtonLink from "components/button/button-link";
 import ChapterDetail from "components/chapter/chapter-detail";
 import ContactSection from "components/contact/contact-section";
-import { useModuleContacts } from "components/contact/use-module-contacts";
 import {
-	eLearningSearchSchema,
 	findChapter,
+	overviewLink,
+	partLink,
+	sharedELearningPath,
 	stepLinks,
 } from "components/e-learning/e-learning-utils";
 import Icon from "components/icon/icon";
 import PageError from "components/page/page-error";
 import PageLoading from "components/page/page-loading";
-import { eLearningShowOptions } from "lib/heyapi/@tanstack/react-query.gen";
+import { sharedELearningShowThroughModuleOptions } from "lib/heyapi/@tanstack/react-query.gen";
 import * as m from "lib/paraglide/messages";
 import { makePageTitle } from "lib/title";
 
-import style from "./$eLearningId_.chapters.$chapterId.module.scss";
+import style from "./chapters.$chapterId.module.scss";
 
 // TODO: KOM-66 implements it further
 const noProgress: ReadonlySet<string> = new Set();
 
 export const Route = createFileRoute(
-	"/_app/e-learnings/$eLearningId_/chapters/$chapterId",
+	"/delen/$organizationSlug/$moduleSlug/$eLearningSlug/chapters/$chapterId",
 )({
-	validateSearch: eLearningSearchSchema,
-	search: { middlewares: [retainSearchParams(["module"])] },
 	loader: ({ context, params }) =>
 		context.queryClient.ensureQueryData(
-			eLearningShowOptions({ path: { eLearning: params.eLearningId } }),
+			sharedELearningShowThroughModuleOptions({
+				path: sharedELearningPath(params),
+			}),
 		),
 	head: ({ loaderData, params }) => ({
 		meta: [
@@ -41,32 +42,29 @@ export const Route = createFileRoute(
 	}),
 	errorComponent: () => <PageError>{m.elearning_load_error()}</PageError>,
 	pendingComponent: PageLoading,
-	component: ChapterPage,
+	component: SharedChapterPage,
 });
 
-function ChapterPage() {
-	const { eLearningId, chapterId } = Route.useParams();
-	const { module: moduleId } = Route.useSearch();
-	const contacts = useModuleContacts(moduleId);
+function SharedChapterPage() {
+	const params = Route.useParams();
 	const { data: eLearning } = useSuspenseQuery(
-		eLearningShowOptions({ path: { eLearning: eLearningId } }),
+		sharedELearningShowThroughModuleOptions({
+			path: sharedELearningPath(params),
+		}),
 	);
-
 	const index = eLearning.numberedChapters.findIndex(
-		(candidate) => candidate.id === chapterId,
+		(candidate) => candidate.id === params.chapterId,
 	);
-
-	const chapter = findChapter(eLearning, chapterId);
-
-	const { previousTo, nextTo, isLastStep } = stepLinks(eLearning, {
+	const chapter = findChapter(eLearning, params.chapterId);
+	const { previousTo, nextTo, isLastStep } = stepLinks(params, eLearning, {
 		kind: "chapter",
-		id: chapterId,
+		id: params.chapterId,
 	});
 
 	return (
 		<div className={style.page}>
 			<ButtonLink
-				to={`/e-learnings/${eLearningId}`}
+				{...overviewLink(params)}
 				variant="link"
 				className={style.back}
 			>
@@ -77,7 +75,7 @@ function ChapterPage() {
 			{chapter ? (
 				<ChapterDetail
 					chapter={chapter}
-					eLearningId={eLearningId}
+					partTo={(partId) => partLink(params, partId)}
 					completedPartIds={noProgress}
 					chapterNumber={index === -1 ? undefined : index + 1}
 					totalChapters={
@@ -92,7 +90,7 @@ function ChapterPage() {
 				<PageError>{m.elearning_chapter_not_found()}</PageError>
 			)}
 
-			<ContactSection contacts={contacts} />
+			<ContactSection contacts={eLearning.contacts} />
 		</div>
 	);
 }

@@ -1,6 +1,5 @@
-import { useSuspenseQuery } from "@tanstack/react-query";
-import { authMeOptions } from "lib/heyapi/@tanstack/react-query.gen";
 import type { UserResource, UserRole } from "lib/heyapi/types.gen";
+import { useSignedInUser } from "lib/session";
 
 const roleRank: Record<UserRole, number> = {
 	Member: 0,
@@ -19,11 +18,15 @@ export const canManageOrganization = (user: User) =>
 export const canShareForAnyOrganization = (user: User) =>
 	hasRole(user, "PlatformAdministrator");
 
+export const canViewAnyOrganization = (user: User) =>
+	hasRole(user, "PlatformAdministrator");
+
 export const usePermissions = () => {
-	const { data: user } = useSuspenseQuery(authMeOptions());
+	const user = useSignedInUser();
 
 	return {
 		canManageOrganization: canManageOrganization(user),
 		canShareForAnyOrganization: canShareForAnyOrganization(user),
+		canViewAnyOrganization: canViewAnyOrganization(user),
 	};
 };

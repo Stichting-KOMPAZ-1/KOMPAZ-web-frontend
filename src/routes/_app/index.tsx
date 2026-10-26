@@ -2,18 +2,31 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { Heading } from "components/heading/heading";
 import ModuleCard from "components/module/module-card";
+import {
+	readingOrganizationFor,
+	useReadingOrganizationId,
+} from "components/organization/organization-utils";
 import PageError from "components/page/page-error";
 import PageLoading from "components/page/page-loading";
 import { moduleIndexOptions } from "lib/heyapi/@tanstack/react-query.gen";
 import * as m from "lib/paraglide/messages";
+import { ensureSignedInUser } from "lib/session";
 import { makePageTitle } from "lib/title";
 
 import style from "./index.module.scss";
 
-const modulesQuery = moduleIndexOptions({ query: { pageSize: 100 } });
+const modulesQuery = (organizationId: string | undefined) =>
+	moduleIndexOptions({ query: { pageSize: 100, organizationId } });
 
 export const Route = createFileRoute("/_app/")({
-	loader: ({ context }) => context.queryClient.ensureQueryData(modulesQuery),
+	loaderDeps: ({ search }) => ({ organizationId: search.organizationId }),
+	loader: async ({ context, deps }) => {
+		const user = await ensureSignedInUser(context.queryClient);
+
+		return context.queryClient.ensureQueryData(
+			modulesQuery(readingOrganizationFor(user, deps.organizationId)),
+		);
+	},
 	head: () => ({
 		meta: [{ title: makePageTitle(m.library_title()) }],
 	}),
@@ -23,7 +36,9 @@ export const Route = createFileRoute("/_app/")({
 });
 
 function LibraryPage() {
-	const { data: modules } = useSuspenseQuery(modulesQuery);
+	const { data: modules } = useSuspenseQuery(
+		modulesQuery(useReadingOrganizationId()),
+	);
 
 	return (
 		<div className={style.page}>

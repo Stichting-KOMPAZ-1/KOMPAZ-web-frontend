@@ -1,3 +1,4 @@
+import type { LinkProps } from "@tanstack/react-router";
 import Button from "components/button/button";
 import ButtonLink from "components/button/button-link";
 import Icon from "components/icon/icon";
@@ -6,8 +7,8 @@ import * as m from "lib/paraglide/messages";
 import style from "./step-nav.module.scss";
 
 type Props = {
-	previousTo?: string;
-	nextTo?: string;
+	previousTo?: LinkProps;
+	nextTo?: LinkProps;
 	nextLabel: string;
 	hideNextIcon?: boolean;
 };
@@ -20,7 +21,7 @@ const StepNav = ({
 }: Props) => (
 	<nav className={style.nav}>
 		{previousTo ? (
-			<ButtonLink variant="secondary" to={previousTo}>
+			<ButtonLink variant="secondary" {...previousTo}>
 				<Icon name="arrow-left" />
 				{m.elearning_chapter_previous()}
 			</ButtonLink>
@@ -32,7 +33,7 @@ const StepNav = ({
 		)}
 
 		{nextTo && (
-			<ButtonLink className={style.next} to={nextTo}>
+			<ButtonLink className={style.next} {...nextTo}>
 				{nextLabel}
 				{!hideNextIcon && <Icon name="arrow-right" />}
 			</ButtonLink>

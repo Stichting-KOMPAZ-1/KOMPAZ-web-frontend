@@ -1,6 +1,5 @@
-@use "/src/style/focus.scss" as focus;
-
 @use "/src/style/breakpoints.scss" as bp;
+@use "/src/style/focus.scss" as focus;
 
 .header {
 	position: sticky;
@@ -31,21 +30,30 @@
 	}
 }
 
-.logo {
+.context {
 	display: flex;
-	flex: 0 0 auto;
-	border-radius: var(--radius-12);
+	grid-column: 1 / -1;
+	border-top: var(--border-width-1) solid var(--color-border);
+	padding-block: var(--unit-8);
+	padding-inline: var(--unit-12);
 
-	&:focus-visible {
-		@include focus.ring;
+	@include bp.desktop {
+		padding-inline: var(--unit-24);
 	}
 }
 
-.logoMark {
-	width: var(--unit-32);
+.logo {
+	display: flex;
+	flex: 0 0 auto;
+	inline-size: var(--unit-80);
+	border-radius: var(--radius-12);
 
 	@include bp.desktop {
-		width: var(--unit-40);
+		inline-size: var(--unit-112);
+	}
+
+	&:focus-visible {
+		@include focus.ring;
 	}
 }
 

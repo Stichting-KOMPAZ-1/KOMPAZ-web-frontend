@@ -10,6 +10,14 @@
 	&:has([data-disabled]) {
 		@include form.choice-label-disabled;
 	}
+
+	&.size-small {
+		gap: var(--unit-8);
+	}
+}
+
+.strikethrough:has([data-checked]) .label {
+	text-decoration: line-through;
 }
 
 .checkbox {
@@ -49,6 +57,11 @@
 		background: var(--color-action-disabled);
 		color: var(--color-text-disabled-on-fill);
 	}
+
+	&.size-small {
+		width: var(--unit-20);
+		height: var(--unit-20);
+	}
 }
 
 .indicator {
@@ -60,6 +73,10 @@
 	display: flex;
 	flex-direction: column;
 	gap: var(--unit-12);
+
+	&.size-small {
+		gap: var(--unit-8);
+	}
 }
 
 .legend {

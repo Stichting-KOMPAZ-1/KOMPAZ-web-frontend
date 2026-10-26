@@ -1,5 +1,5 @@
 import { Heading } from "components/heading/heading";
-import { Anchor, Link } from "components/link/link";
+import { LinkAnchor, Link } from "components/link/link";
 import DOMPurify from "dompurify";
 import parse, {
 	type DOMNode,
@@ -39,9 +39,9 @@ const RichTextLink = ({
 
 	if (href.startsWith("#") || url.protocol === "mailto:") {
 		return (
-			<Anchor href={href} inline>
+			<LinkAnchor href={href} inline>
 				{children}
-			</Anchor>
+			</LinkAnchor>
 		);
 	}
 
@@ -59,9 +59,9 @@ const RichTextLink = ({
 	}
 
 	return (
-		<Anchor href={href} inline target="_blank">
+		<LinkAnchor href={href} inline target="_blank">
 			{children}
-		</Anchor>
+		</LinkAnchor>
 	);
 };
 

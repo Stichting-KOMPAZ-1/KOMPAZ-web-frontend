@@ -1,3 +1,4 @@
+import type { LinkProps } from "@tanstack/react-router";
 import clsx from "clsx";
 import PartRow from "components/chapter-part/part-row";
 import StepNav from "components/e-learning/step-nav";
@@ -11,19 +12,19 @@ import style from "./chapter-detail.module.scss";
 
 type Props = {
 	chapter: ChapterResource;
-	eLearningId: string;
+	partTo: (partId: string) => LinkProps;
 	completedPartIds: ReadonlySet<string>;
 	chapterNumber?: number;
 	totalChapters?: number;
-	previousTo?: string;
-	nextTo?: string;
+	previousTo?: LinkProps;
+	nextTo?: LinkProps;
 	isLastStep?: boolean;
 	className?: string;
 };
 
 const ChapterDetail = ({
 	chapter,
-	eLearningId,
+	partTo,
 	completedPartIds,
 	chapterNumber,
 	totalChapters,
@@ -81,7 +82,7 @@ const ChapterDetail = ({
 									<PartRow
 										key={part.id}
 										part={part}
-										to={`/e-learnings/${eLearningId}/parts/${part.id}`}
+										link={partTo(part.id)}
 										done={completedPartIds.has(part.id)}
 									/>
 								))}

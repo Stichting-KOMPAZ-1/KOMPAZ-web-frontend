@@ -14,7 +14,7 @@ import style from "./share-e-learning-organization-links.module.scss";
 type Props = Pick<ELearningSummaryResource, "id" | "name">;
 
 const ShareELearningOrganizationLinks = ({ id, name }: Props) => {
-	const [organizationId, setOrganizationId] = useState("");
+	const [shareId, setShareId] = useState("");
 	const { data, isPending, isError } = useQuery(
 		eLearningShareIndexOptions({ path: { eLearning: id } }),
 	);
@@ -26,13 +26,11 @@ const ShareELearningOrganizationLinks = ({ id, name }: Props) => {
 		return <p>{m.module_share_organizations_empty()}</p>;
 	}
 
-	const share = data.items.find(
-		(item) => item.organizationId === organizationId,
-	);
+	const share = data.items.find((item) => item.qrCodeUrl === shareId);
 
-	const options = data.items.map((organization) => ({
-		value: organization.organizationId,
-		label: organization.organizationName,
+	const options = data.items.map((item) => ({
+		value: item.qrCodeUrl,
+		label: `${item.organizationName} — ${item.moduleName}`,
 	}));
 
 	return (
@@ -41,8 +39,8 @@ const ShareELearningOrganizationLinks = ({ id, name }: Props) => {
 				<FieldLabel>{m.module_share_organization_label()}</FieldLabel>
 				<Select
 					options={options}
-					value={organizationId}
-					onChange={(event) => setOrganizationId(event.target.value)}
+					value={shareId}
+					onChange={(event) => setShareId(event.target.value)}
 				/>
 			</Field>
 			{share && (

@@ -1,3 +1,4 @@
+import type { LinkProps } from "@tanstack/react-router";
 import ButtonLink from "components/button/button-link";
 import { Heading } from "components/heading/heading";
 import Icon from "components/icon/icon";
@@ -9,27 +10,18 @@ import style from "./e-learning-start.module.scss";
 type Props = {
 	chapter: ChapterResource;
 	number: number;
-	eLearningId: string;
+	chapterTo: LinkProps;
 	hasContacts: boolean;
 };
 
-const ELearningStart = ({
-	chapter,
-	number,
-	eLearningId,
-	hasContacts,
-}: Props) => (
+const ELearningStart = ({ chapter, number, chapterTo, hasContacts }: Props) => (
 	<div className={style.card}>
 		<div className={style.text}>
 			<p className={style.eyebrow}>{m.elearning_chapter_number({ number })}</p>
 			<Heading size="18-20">{chapter.name}</Heading>
 		</div>
 
-		<ButtonLink
-			size="large"
-			className={style.action}
-			to={`/e-learnings/${eLearningId}/chapters/${chapter.id}`}
-		>
+		<ButtonLink size="large" className={style.action} {...chapterTo}>
 			{m.elearning_start()}
 			<Icon name="arrow-right" />
 		</ButtonLink>

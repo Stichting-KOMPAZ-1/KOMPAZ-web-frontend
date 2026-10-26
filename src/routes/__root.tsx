@@ -6,7 +6,6 @@ import {
 	redirect,
 	Scripts,
 } from "@tanstack/react-router";
-import ConsentBanner from "components/consent-banner/consent-banner";
 import PageNotFound from "components/page/page-not-found";
 import {
 	baseLocale,
@@ -44,7 +43,6 @@ export const Route = createRootRouteWithContext<RouterContext>()({
 		<>
 			<HeadContent />
 			<Outlet />
-			<ConsentBanner />
 			<Scripts />
 		</>
 	),

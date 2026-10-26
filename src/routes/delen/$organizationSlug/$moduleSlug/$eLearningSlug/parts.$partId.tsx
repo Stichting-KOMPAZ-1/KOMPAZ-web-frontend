@@ -1,12 +1,12 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { createFileRoute, retainSearchParams } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import ButtonLink from "components/button/button-link";
 import ContactSection from "components/contact/contact-section";
-import { useModuleContacts } from "components/contact/use-module-contacts";
 import ContentBlock from "components/content-block/content-block";
 import {
-	eLearningSearchSchema,
+	chapterLink,
 	findChapter,
+	sharedELearningPath,
 	stepLinks,
 } from "components/e-learning/e-learning-utils";
 import StepNav from "components/e-learning/step-nav";
@@ -15,28 +15,27 @@ import Icon from "components/icon/icon";
 import PageError from "components/page/page-error";
 import PageLoading from "components/page/page-loading";
 import {
-	eLearningPartOptions,
-	eLearningShowOptions,
+	sharedELearningPartThroughModuleOptions,
+	sharedELearningShowThroughModuleOptions,
 } from "lib/heyapi/@tanstack/react-query.gen";
 import * as m from "lib/paraglide/messages";
 import { makePageTitle } from "lib/title";
 
-import style from "./$eLearningId_.parts.$partId.module.scss";
+import style from "./parts.$partId.module.scss";
 
 export const Route = createFileRoute(
-	"/_app/e-learnings/$eLearningId_/parts/$partId",
+	"/delen/$organizationSlug/$moduleSlug/$eLearningSlug/parts/$partId",
 )({
-	validateSearch: eLearningSearchSchema,
-	search: { middlewares: [retainSearchParams(["module"])] },
 	loader: async ({ context, params }) => {
+		const path = sharedELearningPath(params);
 		const [part] = await Promise.all([
 			context.queryClient.ensureQueryData(
-				eLearningPartOptions({
-					path: { eLearning: params.eLearningId, part: params.partId },
+				sharedELearningPartThroughModuleOptions({
+					path: { ...path, part: params.partId },
 				}),
 			),
 			context.queryClient.ensureQueryData(
-				eLearningShowOptions({ path: { eLearning: params.eLearningId } }),
+				sharedELearningShowThroughModuleOptions({ path }),
 			),
 		]);
 
@@ -47,33 +46,30 @@ export const Route = createFileRoute(
 	}),
 	errorComponent: () => <PageError>{m.elearning_part_load_error()}</PageError>,
 	pendingComponent: PageLoading,
-	component: PartPage,
+	component: SharedPartPage,
 });
 
-function PartPage() {
-	const { eLearningId, partId } = Route.useParams();
-	const { module: moduleId } = Route.useSearch();
-	const contacts = useModuleContacts(moduleId);
+function SharedPartPage() {
+	const params = Route.useParams();
+	const path = sharedELearningPath(params);
 	const { data: part } = useSuspenseQuery(
-		eLearningPartOptions({
-			path: { eLearning: eLearningId, part: partId },
+		sharedELearningPartThroughModuleOptions({
+			path: { ...path, part: params.partId },
 		}),
 	);
 	const { data: eLearning } = useSuspenseQuery(
-		eLearningShowOptions({ path: { eLearning: eLearningId } }),
+		sharedELearningShowThroughModuleOptions({ path }),
 	);
-
 	const chapter = findChapter(eLearning, part.chapterId);
-
-	const { previousTo, nextTo, isLastStep } = stepLinks(eLearning, {
+	const { previousTo, nextTo, isLastStep } = stepLinks(params, eLearning, {
 		kind: "part",
-		id: partId,
+		id: params.partId,
 	});
 
 	return (
 		<div className={style.page}>
 			<ButtonLink
-				to={`/e-learnings/${eLearningId}/chapters/${part.chapterId}`}
+				{...chapterLink(params, part.chapterId)}
 				variant="link"
 				className={style.back}
 			>
@@ -104,7 +100,7 @@ function PartPage() {
 				/>
 			</div>
 
-			<ContactSection contacts={contacts} />
+			<ContactSection contacts={eLearning.contacts} />
 		</div>
 	);
 }

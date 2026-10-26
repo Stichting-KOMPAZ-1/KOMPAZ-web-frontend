@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import LogoMark from "assets/icons/logo-mark.svg?react";
 import Button from "components/button/button";
-import { H1 } from "components/heading/heading";
+import { Heading } from "components/heading/heading";
 import { LoginForm } from "components/login/login-form";
 import { problemDetail } from "lib/api/error-helpers";
 import {
@@ -28,14 +28,8 @@ export const Route = createFileRoute("/_auth/login")({
 	beforeLoad: async ({ context, search }) => {
 		if (search.token) return;
 
-		try {
-			await context.queryClient.ensureQueryData({
-				...authMeOptions(),
-				retry: false,
-			});
-		} catch {
-			return;
-		}
+		const user = await context.queryClient.ensureQueryData(authMeOptions());
+		if (!user) return;
 
 		throw redirect({ to: search.redirect ?? "/" });
 	},
@@ -66,9 +60,9 @@ function LoginPage() {
 		<div className={style.login}>
 			<div className={style.header}>
 				<LogoMark className={style.logo} />
-				<H1 size="20-24" className={style.title}>
+				<Heading el="h1" size="20-24" className={style.title}>
 					{isLinkPending ? m.login_link_title() : m.login_title()}
-				</H1>
+				</Heading>
 				<p className={style.description}>
 					{isLinkPending ? m.login_link_subtitle() : m.login_subtitle()}
 				</p>
