@@ -8,11 +8,9 @@ import {
 } from "components/organization/organization-utils";
 import PageError from "components/page/page-error";
 import PageLoading from "components/page/page-loading";
-import {
-	authMeOptions,
-	moduleIndexOptions,
-} from "lib/heyapi/@tanstack/react-query.gen";
+import { moduleIndexOptions } from "lib/heyapi/@tanstack/react-query.gen";
 import * as m from "lib/paraglide/messages";
+import { ensureSignedInUser } from "lib/session";
 import { makePageTitle } from "lib/title";
 
 import style from "./index.module.scss";
@@ -23,7 +21,7 @@ const modulesQuery = (organizationId: string | undefined) =>
 export const Route = createFileRoute("/_app/")({
 	loaderDeps: ({ search }) => ({ organizationId: search.organizationId }),
 	loader: async ({ context, deps }) => {
-		const user = await context.queryClient.ensureQueryData(authMeOptions());
+		const user = await ensureSignedInUser(context.queryClient);
 
 		return context.queryClient.ensureQueryData(
 			modulesQuery(readingOrganizationFor(user, deps.organizationId)),

@@ -11,9 +11,8 @@ export const Route = createFileRoute("/_app")({
 	validateSearch: selectedOrganizationSearchSchema,
 	search: { middlewares: [retainSearchParams(["organizationId"])] },
 	beforeLoad: async ({ context, location }) => {
-		try {
-			await context.queryClient.ensureQueryData(authMeOptions());
-		} catch {
+		const user = await context.queryClient.ensureQueryData(authMeOptions());
+		if (!user) {
 			throw redirect({
 				to: "/login",
 				search: {

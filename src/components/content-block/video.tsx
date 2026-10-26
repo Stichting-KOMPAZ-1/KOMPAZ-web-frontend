@@ -1,4 +1,4 @@
-import { Anchor } from "components/link/link";
+import { LinkAnchor } from "components/link/link";
 import * as m from "lib/paraglide/messages";
 
 import { embedVideoUrl } from "./content-block-utils";
@@ -26,9 +26,9 @@ const Video = ({ fileUrl, videoUrl, title }: Props) => {
 	const embedUrl = embedVideoUrl(videoUrl);
 	if (!embedUrl) {
 		return (
-			<Anchor href={videoUrl} className={style.link} target="_blank">
+			<LinkAnchor href={videoUrl} className={style.link} target="_blank">
 				{title ?? m.elearning_block_video_link()}
-			</Anchor>
+			</LinkAnchor>
 		);
 	}
 
