@@ -17,10 +17,9 @@ export const Route = createFileRoute(
 	"/delen/$organizationSlug/$moduleSlug/$eLearningSlug",
 )({
 	validateSearch: z.object({
-		module: z.optional(z.string()),
 		organizationId: z.optional(z.string()),
 	}),
-	search: { middlewares: [retainSearchParams(["module", "organizationId"])] },
+	search: { middlewares: [retainSearchParams(["organizationId"])] },
 	staticData: { organizationFixed: true },
 	loader: ({ context, params }) =>
 		Promise.all([

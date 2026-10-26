@@ -2,7 +2,6 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import ButtonLink from "components/button/button-link";
 import ContactSection from "components/contact/contact-section";
-import { sharedELearningParams } from "components/e-learning/e-learning-utils";
 import { Heading } from "components/heading/heading";
 import Icon from "components/icon/icon";
 import CopyLinkButton from "components/module/copy-link-button";
@@ -79,8 +78,13 @@ function ModulePage() {
 						items={module.eLearnings}
 					>
 						{(eLearning) => {
-							const params = eLearning.shareUrl
-								? sharedELearningParams(eLearning.shareUrl)
+							const slugs = eLearning.shareSlugs;
+							const params = slugs
+								? {
+										organizationSlug: slugs.organization,
+										moduleSlug: slugs.module,
+										eLearningSlug: slugs.eLearning,
+									}
 								: undefined;
 
 							return (
@@ -93,10 +97,7 @@ function ModulePage() {
 										"/delen/$organizationSlug/$moduleSlug/$eLearningSlug"
 									}
 									params={params}
-									search={{
-										module: moduleId,
-										organizationId: selectedOrganizationId,
-									}}
+									search={{ organizationId: selectedOrganizationId }}
 									highlight
 									action={<ShareELearningModal eLearning={eLearning} />}
 								/>

@@ -13,6 +13,7 @@ import {
 } from "components/e-learning/e-learning-utils";
 import { Heading } from "components/heading/heading";
 import Icon from "components/icon/icon";
+import { selectedOrganizationFor } from "components/organization/organization-utils";
 import PageError from "components/page/page-error";
 import PageLoading from "components/page/page-loading";
 import Pill from "components/pill/pill";
@@ -64,20 +65,25 @@ export const Route = createFileRoute(
 function SharedELearningPage() {
 	const params = Route.useParams();
 	const { data: user } = useQuery(authMeOptions());
-	const { module: moduleId, organizationId } = Route.useSearch();
+	const { organizationId } = Route.useSearch();
 	const { data: eLearning } = useSuspenseQuery(
 		sharedELearningShowThroughModuleOptions({ path: params }),
 	);
 	const nextChapter = findNextChapter(eLearning.numberedChapters, noProgress);
 	const nextPart = findNextPart(nextChapter, noProgress);
+	const currentOrganizationId =
+		user &&
+		(selectedOrganizationFor(user, organizationId) ?? user.organizationId);
+	const module =
+		eLearning.sharedBy?.id === currentOrganizationId ? eLearning.module : null;
 
 	return (
 		<div className={style.page}>
 			{user &&
-				(moduleId ? (
+				(module ? (
 					<ButtonLink
 						to="/modules/$moduleId"
-						params={{ moduleId }}
+						params={{ moduleId: module.id }}
 						search={{ organizationId }}
 						variant="link"
 						className={style.back}
