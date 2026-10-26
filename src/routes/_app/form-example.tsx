@@ -5,7 +5,7 @@ import Button from "components/button/button";
 import ButtonLink from "components/button/button-link";
 import { ErrorText } from "components/error-text/error-text";
 import { Form, FormButton, SubmitError } from "components/form";
-import { H1 } from "components/heading/heading";
+import { Heading } from "components/heading/heading";
 import Icon from "components/icon/icon";
 import Modal from "components/modal/modal";
 import Pill from "components/pill/pill";
@@ -127,7 +127,9 @@ function FormTest() {
 
 	return (
 		<div className={style.page}>
-			<H1 size="16-18">Form example</H1>
+			<Heading el="h1" size="16-18">
+				Form example
+			</Heading>
 
 			<Form
 				label="Form example"
@@ -230,7 +232,9 @@ function FormTest() {
 			)}
 			{mutation.isSuccess && <p className={style.success}>Success!</p>}
 
-			<H1 size="16-18">Button variants</H1>
+			<Heading el="h1" size="16-18">
+				Button variants
+			</Heading>
 			<div className={style.buttonShowcase}>
 				<Button>
 					<Icon name="check" />
@@ -290,7 +294,9 @@ function FormTest() {
 				</ButtonLink>
 			</div>
 
-			<H1 size="16-18">Pill variants</H1>
+			<Heading el="h1" size="16-18">
+				Pill variants
+			</Heading>
 			<div className={style.pillShowcase}>
 				<Pill>Uitgenodigd</Pill>
 				<Pill variant="accent-strong">Uitgenodigd</Pill>
@@ -301,7 +307,9 @@ function FormTest() {
 					With icon
 				</Pill>
 			</div>
-			<H1 size="16-18">Modal</H1>
+			<Heading el="h1" size="16-18">
+				Modal
+			</Heading>
 			<div className={style.buttonShowcase}>
 				<InviteModalExample />
 				<Modal
