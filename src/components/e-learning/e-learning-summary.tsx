@@ -32,7 +32,8 @@ const ELearningSummary = ({
 				<ButtonLink
 					variant="secondary"
 					className={style.action}
-					to={`/e-learnings/${eLearningId}/chapters/${chapter.id}`}
+					to="/e-learnings/$eLearningId/chapters/$chapterId"
+					params={{ eLearningId, chapterId: chapter.id }}
 				>
 					{m.elearning_summary_view()}
 					<Icon name="arrow-right" />

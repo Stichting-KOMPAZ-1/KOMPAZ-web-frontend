@@ -56,7 +56,8 @@ function ELearningPage() {
 		<div className={style.page}>
 			{moduleId ? (
 				<ButtonLink
-					to={`/modules/${moduleId}`}
+					to="/modules/$moduleId"
+					params={{ moduleId }}
 					variant="link"
 					className={style.back}
 				>

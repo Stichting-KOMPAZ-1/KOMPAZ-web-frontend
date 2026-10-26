@@ -1,3 +1,4 @@
+import { linkOptions } from "@tanstack/react-router";
 import type {
 	ChapterResource,
 	ELearningResource,
@@ -25,12 +26,18 @@ const buildSteps = (eLearning: ELearningResource): Step[] =>
 		...chapter.parts.map((part) => ({ kind: "part" as const, id: part.id })),
 	]);
 
-const stepPath = (step: Step | undefined, eLearningId: string) => {
+const stepLink = (step: Step | undefined, eLearningId: string) => {
 	if (!step) return undefined;
 
 	return step.kind === "chapter"
-		? `/e-learnings/${eLearningId}/chapters/${step.id}`
-		: `/e-learnings/${eLearningId}/parts/${step.id}`;
+		? linkOptions({
+				to: "/e-learnings/$eLearningId/chapters/$chapterId",
+				params: { eLearningId, chapterId: step.id },
+			})
+		: linkOptions({
+				to: "/e-learnings/$eLearningId/parts/$partId",
+				params: { eLearningId, partId: step.id },
+			});
 };
 
 export const stepLinks = (eLearning: ELearningResource, current: Step) => {
@@ -42,9 +49,14 @@ export const stepLinks = (eLearning: ELearningResource, current: Step) => {
 	const next = position === -1 ? undefined : steps[position + 1];
 
 	return {
-		previousTo: stepPath(steps[position - 1], eLearning.id),
+		previousTo: stepLink(steps[position - 1], eLearning.id),
 		// TODO: KOM-66 marks the e-learning as completed instead of leaving it
-		nextTo: stepPath(next, eLearning.id) ?? `/e-learnings/${eLearning.id}`,
+		nextTo:
+			stepLink(next, eLearning.id) ??
+			linkOptions({
+				to: "/e-learnings/$eLearningId",
+				params: { eLearningId: eLearning.id },
+			}),
 		isLastStep: !next,
 	};
 };

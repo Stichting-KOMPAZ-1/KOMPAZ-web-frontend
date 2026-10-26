@@ -1,3 +1,4 @@
+import type { LinkProps } from "@tanstack/react-router";
 import clsx from "clsx";
 import PartRow from "components/chapter-part/part-row";
 import StepNav from "components/e-learning/step-nav";
@@ -15,8 +16,8 @@ type Props = {
 	completedPartIds: ReadonlySet<string>;
 	chapterNumber?: number;
 	totalChapters?: number;
-	previousTo?: string;
-	nextTo?: string;
+	previousTo?: LinkProps;
+	nextTo?: LinkProps;
 	isLastStep?: boolean;
 	className?: string;
 };
