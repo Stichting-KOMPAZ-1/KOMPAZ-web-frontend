@@ -5,11 +5,9 @@ import Button from "components/button/button";
 import { H1 } from "components/heading/heading";
 import { LoginForm } from "components/login/login-form";
 import { problemDetail } from "lib/api/error-helpers";
-import {
-	authMeOptions,
-	authRedeemMutation,
-} from "lib/heyapi/@tanstack/react-query.gen";
+import { authRedeemMutation } from "lib/heyapi/@tanstack/react-query.gen";
 import * as m from "lib/paraglide/messages";
+import { fetchSignedInUser } from "lib/signed-in-user";
 import { makePageTitle } from "lib/title";
 import z from "zod";
 
@@ -28,12 +26,9 @@ export const Route = createFileRoute("/_auth/login")({
 	beforeLoad: async ({ context, search }) => {
 		if (search.token) return;
 
-		try {
-			await context.queryClient.ensureQueryData({
-				...authMeOptions(),
-				retry: false,
-			});
-		} catch {
+		if (
+			(await fetchSignedInUser(context.queryClient, { retry: false })) === null
+		) {
 			return;
 		}
 
