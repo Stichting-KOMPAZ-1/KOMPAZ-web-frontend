@@ -3,6 +3,7 @@ import env from "env";
 
 import { CSRF_HEADER, ensureCsrfCookie, readCsrfToken } from "./auth";
 import { client } from "./heyapi/client.gen";
+import { router } from "./router";
 
 client.setConfig({
 	baseUrl: env.apiBaseUrl,
@@ -42,6 +43,9 @@ client.interceptors.request.use(async (request: Request) => {
 client.interceptors.response.use((response) => {
 	if (response.status === UNAUTHORIZED || response.status === CSRF_MISMATCH) {
 		queryClient.clear();
+	}
+	if (response.status === UNAUTHORIZED) {
+		void router.invalidate();
 	}
 	return response;
 });

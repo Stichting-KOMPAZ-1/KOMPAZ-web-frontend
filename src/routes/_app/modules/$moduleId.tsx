@@ -27,9 +27,9 @@ import style from "./$moduleId.module.scss";
 export const Route = createFileRoute("/_app/modules/$moduleId")({
 	staticData: { organizationFixed: true },
 	loaderDeps: ({ search }) => ({ organizationId: search.organizationId }),
-	loader: async ({ context, params, deps }) => {
+	loader: async ({ context, params, deps, location }) => {
 		const path = { module: params.moduleId };
-		const user = await ensureSignedInUser(context.queryClient);
+		const user = await ensureSignedInUser(context.queryClient, location);
 		const organizationId = readingOrganizationFor(user, deps.organizationId);
 
 		return context.queryClient.ensureQueryData(
