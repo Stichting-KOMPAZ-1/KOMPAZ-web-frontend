@@ -1,11 +1,9 @@
-import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { useSearch } from "@tanstack/react-router";
-import {
-	authMeOptions,
-	organizationIndexOptions,
-} from "lib/heyapi/@tanstack/react-query.gen";
+import { organizationIndexOptions } from "lib/heyapi/@tanstack/react-query.gen";
 import type { UserResource } from "lib/heyapi/types.gen";
 import { canViewAnyOrganization } from "lib/permissions";
+import { useSignedInUser } from "lib/session";
 import z from "zod";
 
 export const selectedOrganizationSearchSchema = z.object({
@@ -30,7 +28,7 @@ export const readingOrganizationFor = (
 		: undefined;
 
 export const useSelectedOrganizationId = () => {
-	const { data: user } = useSuspenseQuery(authMeOptions());
+	const user = useSignedInUser();
 	const organizationId = useSearch({
 		strict: false,
 		select: (search) => search.organizationId,
@@ -40,7 +38,7 @@ export const useSelectedOrganizationId = () => {
 };
 
 export const useReadingOrganizationId = () => {
-	const { data: user } = useSuspenseQuery(authMeOptions());
+	const user = useSignedInUser();
 
 	return readingOrganizationFor(user, useSelectedOrganizationId());
 };
@@ -57,7 +55,7 @@ export const useSelectedOrganization = () => {
 };
 
 export const useOrganizationLogoUrl = () => {
-	const { data: user } = useSuspenseQuery(authMeOptions());
+	const user = useSignedInUser();
 	const selected = useSelectedOrganization();
 
 	if (!selected) return user.organizationLogoUrl;

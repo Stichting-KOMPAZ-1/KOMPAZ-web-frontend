@@ -28,14 +28,8 @@ export const Route = createFileRoute("/_auth/login")({
 	beforeLoad: async ({ context, search }) => {
 		if (search.token) return;
 
-		try {
-			await context.queryClient.ensureQueryData({
-				...authMeOptions(),
-				retry: false,
-			});
-		} catch {
-			return;
-		}
+		const user = await context.queryClient.ensureQueryData(authMeOptions());
+		if (!user) return;
 
 		throw redirect({ to: search.redirect ?? "/" });
 	},

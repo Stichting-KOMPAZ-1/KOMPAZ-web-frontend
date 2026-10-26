@@ -40,11 +40,7 @@ client.interceptors.request.use(async (request: Request) => {
 });
 
 client.interceptors.response.use((response) => {
-	const isSessionCheck = new URL(response.url).pathname.endsWith("/auth/me");
-	if (
-		(response.status === UNAUTHORIZED && !isSessionCheck) ||
-		response.status === CSRF_MISMATCH
-	) {
+	if (response.status === UNAUTHORIZED || response.status === CSRF_MISMATCH) {
 		queryClient.clear();
 	}
 	return response;

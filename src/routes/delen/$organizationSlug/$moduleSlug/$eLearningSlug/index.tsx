@@ -63,7 +63,7 @@ export const Route = createFileRoute(
 
 function SharedELearningPage() {
 	const params = Route.useParams();
-	const { data: user } = useQuery({ ...authMeOptions(), retry: false });
+	const { data: user } = useQuery(authMeOptions());
 	const { module: moduleId, organizationId } = Route.useSearch();
 	const { data: eLearning } = useSuspenseQuery(
 		sharedELearningShowThroughModuleOptions({ path: params }),
