@@ -24,6 +24,7 @@ const Checkboxes = ({ block }: Props) => {
 						}))}
 						value={checked}
 						onValueChange={setChecked}
+						size="small"
 						strikethrough
 					/>
 				</Field>

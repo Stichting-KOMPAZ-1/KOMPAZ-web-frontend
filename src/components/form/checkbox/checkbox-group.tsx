@@ -4,7 +4,7 @@ import { Fieldset } from "@base-ui/react/fieldset";
 import clsx from "clsx";
 
 import { FieldHint, FieldOptional } from "../field/field";
-import { CheckboxOption } from "./checkbox";
+import { CheckboxOption, type CheckboxSize } from "./checkbox";
 
 import style from "./checkbox.module.scss";
 
@@ -22,6 +22,7 @@ export type CheckboxGroupProps = Omit<
 	hint?: string;
 	options: CheckboxGroupOption[];
 	strikethrough?: boolean;
+	size?: CheckboxSize;
 	className?: string;
 };
 
@@ -31,12 +32,13 @@ export function CheckboxGroup({
 	optional = false,
 	options,
 	strikethrough,
+	size = "medium",
 	className,
 	...props
 }: CheckboxGroupProps) {
 	return (
 		<Fieldset.Root
-			className={clsx(style.group, className)}
+			className={clsx(style.group, style[`size-${size}`], className)}
 			render={<BaseCheckboxGroup {...props} />}
 		>
 			{legend && (
@@ -52,6 +54,7 @@ export function CheckboxGroup({
 						value={value}
 						label={label}
 						strikethrough={strikethrough}
+						size={size}
 					/>
 				</BaseField.Item>
 			))}
