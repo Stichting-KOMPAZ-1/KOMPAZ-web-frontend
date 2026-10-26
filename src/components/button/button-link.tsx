@@ -1,5 +1,6 @@
 import { createLink } from "@tanstack/react-router";
 import clsx from "clsx";
+import { BaseAnchor } from "components/link/link";
 import type React from "react";
 
 import type { ButtonSize, ButtonVariant } from "./button";
@@ -15,10 +16,9 @@ const ButtonAnchor = ({
 	size = "medium",
 	variant = "primary",
 	className,
-	children,
 	...props
 }: React.ComponentPropsWithRef<"a"> & StyleProps) => (
-	<a
+	<BaseAnchor
 		className={clsx(
 			style.button,
 			style[`size-${size}`],
@@ -26,9 +26,7 @@ const ButtonAnchor = ({
 			className,
 		)}
 		{...props}
-	>
-		{children}
-	</a>
+	/>
 );
 
 const ButtonLink = createLink(ButtonAnchor);
