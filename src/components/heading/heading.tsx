@@ -35,12 +35,3 @@ export const Heading = ({
 		</El>
 	);
 };
-
-type HeadingProps = Omit<TextProps, "el">;
-
-export const H1 = (props: HeadingProps) => <Heading el="h1" {...props} />;
-export const H2 = (props: HeadingProps) => <Heading el="h2" {...props} />;
-export const H3 = (props: HeadingProps) => <Heading el="h3" {...props} />;
-export const H4 = (props: HeadingProps) => <Heading el="h4" {...props} />;
-export const H5 = (props: HeadingProps) => <Heading el="h5" {...props} />;
-export const H6 = (props: HeadingProps) => <Heading el="h6" {...props} />;

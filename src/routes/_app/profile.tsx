@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { H1 } from "components/heading/heading";
+import { Heading } from "components/heading/heading";
 import * as m from "lib/paraglide/messages";
 import { makePageTitle } from "lib/title";
 
@@ -11,5 +11,9 @@ export const Route = createFileRoute("/_app/profile")({
 });
 
 function ProfilePage() {
-	return <H1 size="16-18">{m.profile_title()}</H1>;
+	return (
+		<Heading el="h1" size="16-18">
+			{m.profile_title()}
+		</Heading>
+	);
 }
