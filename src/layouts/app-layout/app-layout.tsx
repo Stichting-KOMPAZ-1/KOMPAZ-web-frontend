@@ -1,4 +1,5 @@
 import { Outlet } from "@tanstack/react-router";
+import Footer from "components/footer/footer";
 import AppHeader from "components/header/app-header";
 import type React from "react";
 
@@ -14,6 +15,7 @@ const AppLayout = ({ header = <AppHeader /> }: Props) => (
 		<main className={style.gridMain}>
 			<Outlet />
 		</main>
+		<Footer />
 	</div>
 );
 
