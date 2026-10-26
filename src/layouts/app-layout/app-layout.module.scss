@@ -7,14 +7,14 @@
 	--grid-gap: var(--unit-16);
 	--main-inset: calc(var(--gutter) + var(--grid-gap));
 	display: grid;
-	grid-template-rows: min-content 1fr;
+	grid-template-rows: min-content 1fr auto;
 	grid-template-columns:
 		var(--gutter)
 		[main-start]
 		repeat(4, 1fr)
 		[main-end]
 		var(--gutter);
-	gap: var(--grid-gap);
+	column-gap: var(--grid-gap);
 	width: 100cqi;
 	min-height: 100cqb;
 
@@ -40,4 +40,5 @@
 	display: grid;
 	grid-template-columns: subgrid;
 	grid-column: main;
+	padding-block-start: var(--grid-gap);
 }
