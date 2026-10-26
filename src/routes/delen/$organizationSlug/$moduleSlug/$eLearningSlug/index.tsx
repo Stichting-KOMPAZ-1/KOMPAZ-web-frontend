@@ -37,16 +37,11 @@ export const Route = createFileRoute(
 	loaderDeps: ({ search }) => ({ source: search.utm_source }),
 	staleTime: Infinity,
 	loader: async ({ context, params, deps, preload }) => {
-		const [eLearning, user] = await Promise.all([
-			context.queryClient.ensureQueryData(
-				sharedELearningShowThroughModuleOptions({ path: params }),
-			),
-			context.queryClient
-				.ensureQueryData({ ...authMeOptions(), retry: false })
-				.catch(() => undefined),
-		]);
+		const eLearning = await context.queryClient.ensureQueryData(
+			sharedELearningShowThroughModuleOptions({ path: params }),
+		);
 
-		if (!preload && !user) {
+		if (!preload) {
 			track("elearning_open", {
 				organization: params.organizationSlug,
 				elearning: params.eLearningSlug,
