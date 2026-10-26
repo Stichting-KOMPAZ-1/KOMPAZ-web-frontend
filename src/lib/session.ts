@@ -8,12 +8,6 @@ const requireUser = (user: AuthMeResponse) => {
 	return user;
 };
 
-// TODO KOM-114: drop the catch and retry once every backend answers null instead of 401
-export const fetchSignedInUser = (queryClient: QueryClient) =>
-	queryClient
-		.ensureQueryData({ ...authMeOptions(), retry: false })
-		.catch(() => null);
-
 export const ensureSignedInUser = async (queryClient: QueryClient) =>
 	requireUser(await queryClient.ensureQueryData(authMeOptions()));
 

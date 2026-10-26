@@ -5,9 +5,11 @@ import Button from "components/button/button";
 import { H1 } from "components/heading/heading";
 import { LoginForm } from "components/login/login-form";
 import { problemDetail } from "lib/api/error-helpers";
-import { authRedeemMutation } from "lib/heyapi/@tanstack/react-query.gen";
+import {
+	authMeOptions,
+	authRedeemMutation,
+} from "lib/heyapi/@tanstack/react-query.gen";
 import * as m from "lib/paraglide/messages";
-import { fetchSignedInUser } from "lib/session";
 import { makePageTitle } from "lib/title";
 import z from "zod";
 
@@ -26,7 +28,7 @@ export const Route = createFileRoute("/_auth/login")({
 	beforeLoad: async ({ context, search }) => {
 		if (search.token) return;
 
-		const user = await fetchSignedInUser(context.queryClient);
+		const user = await context.queryClient.ensureQueryData(authMeOptions());
 		if (!user) return;
 
 		throw redirect({ to: search.redirect ?? "/" });
