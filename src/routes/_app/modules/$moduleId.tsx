@@ -97,10 +97,7 @@ function ModulePage() {
 										"/delen/$organizationSlug/$moduleSlug/$eLearningSlug"
 									}
 									params={params}
-									search={{
-										module: moduleId,
-										organizationId: selectedOrganizationId,
-									}}
+									search={{ organizationId: selectedOrganizationId }}
 									highlight
 									action={<ShareELearningModal eLearning={eLearning} />}
 								/>

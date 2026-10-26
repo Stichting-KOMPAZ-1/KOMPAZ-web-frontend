@@ -64,7 +64,7 @@ export const Route = createFileRoute(
 function SharedELearningPage() {
 	const params = Route.useParams();
 	const { data: user } = useQuery(authMeOptions());
-	const { module: moduleId, organizationId } = Route.useSearch();
+	const { organizationId } = Route.useSearch();
 	const { data: eLearning } = useSuspenseQuery(
 		sharedELearningShowThroughModuleOptions({ path: params }),
 	);
@@ -74,10 +74,10 @@ function SharedELearningPage() {
 	return (
 		<div className={style.page}>
 			{user &&
-				(moduleId ? (
+				(eLearning.module ? (
 					<ButtonLink
 						to="/modules/$moduleId"
-						params={{ moduleId }}
+						params={{ moduleId: eLearning.module.id }}
 						search={{ organizationId }}
 						variant="link"
 						className={style.back}
