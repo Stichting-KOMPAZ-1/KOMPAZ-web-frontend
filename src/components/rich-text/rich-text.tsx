@@ -35,6 +35,7 @@ const RichTextLink = ({
 	href: string;
 	children: React.ReactNode;
 }) => {
+	if (!URL.canParse(href, window.location.href)) return children;
 	const url = new URL(href, window.location.href);
 
 	if (href.startsWith("#") || url.protocol === "mailto:") {
