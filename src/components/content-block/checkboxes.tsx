@@ -15,6 +15,8 @@ type Props = {
 const Checkboxes = ({ block }: Props) => {
 	const { checked, setChecked } = useStoredCheckboxes(block.id);
 	const titleId = useId();
+	const optionIds = new Set(block.checkboxes?.map(({ id }) => id));
+	const checkedOptions = checked.filter((id) => optionIds.has(id));
 
 	return (
 		<TitledBlock title={block.title} titleId={titleId}>
@@ -28,7 +30,7 @@ const Checkboxes = ({ block }: Props) => {
 								label,
 								value: id,
 							}))}
-							value={checked}
+							value={checkedOptions}
 							onValueChange={setChecked}
 							size="small"
 							strikethrough
