@@ -13,6 +13,7 @@ import {
 import Icon from "components/icon/icon";
 import PageError from "components/page/page-error";
 import PageLoading from "components/page/page-loading";
+import RouteError from "components/page/route-error";
 import { sharedELearningShowThroughModuleOptions } from "lib/heyapi/@tanstack/react-query.gen";
 import * as m from "lib/paraglide/messages";
 import { makePageTitle } from "lib/title";
@@ -40,7 +41,9 @@ export const Route = createFileRoute(
 			},
 		],
 	}),
-	errorComponent: () => <PageError>{m.elearning_load_error()}</PageError>,
+	errorComponent: ({ error }) => (
+		<RouteError error={error} fallback={m.elearning_load_error()} />
+	),
 	pendingComponent: PageLoading,
 	component: SharedChapterPage,
 });

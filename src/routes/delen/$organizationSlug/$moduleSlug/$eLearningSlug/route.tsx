@@ -3,8 +3,8 @@ import { createFileRoute, retainSearchParams } from "@tanstack/react-router";
 import { overviewLink } from "components/e-learning/e-learning-utils";
 import AppHeader from "components/header/app-header";
 import SharedHeader from "components/header/shared-header";
-import PageError from "components/page/page-error";
 import PageLoading from "components/page/page-loading";
+import RouteError from "components/page/route-error";
 import AppLayout from "layouts/app-layout/app-layout";
 import {
 	authMeOptions,
@@ -28,8 +28,8 @@ export const Route = createFileRoute(
 			),
 			context.queryClient.prefetchQuery(authMeOptions()),
 		]),
-	errorComponent: () => (
-		<PageError>{m.shared_elearning_unavailable()}</PageError>
+	errorComponent: ({ error }) => (
+		<RouteError error={error} fallback={m.shared_elearning_unavailable()} />
 	),
 	pendingComponent: PageLoading,
 	component: SharedELearningLayout,

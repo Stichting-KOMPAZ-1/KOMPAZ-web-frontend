@@ -12,8 +12,8 @@ import {
 import StepNav from "components/e-learning/step-nav";
 import { Heading } from "components/heading/heading";
 import Icon from "components/icon/icon";
-import PageError from "components/page/page-error";
 import PageLoading from "components/page/page-loading";
+import RouteError from "components/page/route-error";
 import {
 	sharedELearningPartThroughModuleOptions,
 	sharedELearningShowThroughModuleOptions,
@@ -44,7 +44,9 @@ export const Route = createFileRoute(
 	head: ({ loaderData }) => ({
 		meta: [{ title: makePageTitle(loaderData?.name ?? "") }],
 	}),
-	errorComponent: () => <PageError>{m.elearning_part_load_error()}</PageError>,
+	errorComponent: ({ error }) => (
+		<RouteError error={error} fallback={m.elearning_part_load_error()} />
+	),
 	pendingComponent: PageLoading,
 	component: SharedPartPage,
 });

@@ -1,7 +1,6 @@
 import * as m from "lib/paraglide/messages";
 import * as z from "zod";
 
-// TODO: Update this to accomodate (changes in) the project
 export const parseErrorString = (value: unknown, fallback?: string): string => {
 	const unknownError = fallback || m.error_unknown();
 	if (!value) return unknownError;
@@ -25,4 +24,11 @@ const zProblemDetail = z.object({ detail: z.string().min(1) });
 export const problemDetail = (error: unknown): string | undefined => {
 	const parsed = zProblemDetail.safeParse(error);
 	return parsed.success ? parsed.data.detail : undefined;
+};
+
+const zProblemStatus = z.object({ status: z.number() });
+
+export const problemStatus = (error: unknown): number | undefined => {
+	const parsed = zProblemStatus.safeParse(error);
+	return parsed.success ? parsed.data.status : undefined;
 };

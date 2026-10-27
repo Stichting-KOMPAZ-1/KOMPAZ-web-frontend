@@ -14,8 +14,8 @@ import {
 import { Heading } from "components/heading/heading";
 import Icon from "components/icon/icon";
 import { selectedOrganizationFor } from "components/organization/organization-utils";
-import PageError from "components/page/page-error";
 import PageLoading from "components/page/page-loading";
+import RouteError from "components/page/route-error";
 import Pill from "components/pill/pill";
 import { track } from "lib/analytics";
 import {
@@ -55,8 +55,8 @@ export const Route = createFileRoute(
 	head: ({ loaderData }) => ({
 		meta: [{ title: makePageTitle(loaderData?.name ?? "") }],
 	}),
-	errorComponent: () => (
-		<PageError>{m.shared_elearning_unavailable()}</PageError>
+	errorComponent: ({ error }) => (
+		<RouteError error={error} fallback={m.shared_elearning_unavailable()} />
 	),
 	pendingComponent: PageLoading,
 	component: SharedELearningPage,

@@ -13,10 +13,9 @@ import {
 	useSelectedOrganizationId,
 	useReadingOrganizationId,
 } from "components/organization/organization-utils";
-import PageError from "components/page/page-error";
 import PageLoading from "components/page/page-loading";
+import RouteError from "components/page/route-error";
 import Pill from "components/pill/pill";
-import { problemDetail } from "lib/api/error-helpers";
 import { moduleShowOptions } from "lib/heyapi/@tanstack/react-query.gen";
 import * as m from "lib/paraglide/messages";
 import { ensureSignedInUser } from "lib/session";
@@ -40,7 +39,7 @@ export const Route = createFileRoute("/_app/modules/$moduleId")({
 		meta: [{ title: makePageTitle(loaderData?.name ?? "") }],
 	}),
 	errorComponent: ({ error }) => (
-		<PageError>{problemDetail(error) ?? m.module_load_error()}</PageError>
+		<RouteError error={error} fallback={m.module_load_error()} />
 	),
 	pendingComponent: PageLoading,
 	component: ModulePage,
