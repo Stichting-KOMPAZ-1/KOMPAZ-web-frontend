@@ -53,14 +53,6 @@
 		cursor: default;
 		color: var(--color-text-disabled-soft);
 	}
-
-	.arrowIcon {
-		--icon-size: 1.5rem;
-
-		@include bp.desktop {
-			--icon-size: 2.5rem;
-		}
-	}
 }
 
 .slides {
@@ -127,8 +119,4 @@
 .label {
 	min-width: 0;
 	overflow-wrap: anywhere;
-}
-
-.counter {
-	font: var(--font-body-regular-14-16);
 }

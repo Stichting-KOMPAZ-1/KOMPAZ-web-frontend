@@ -78,7 +78,7 @@ const Carousel = ({ slides }: Props) => {
 					aria-controls={slidesId}
 					aria-label={m.elearning_block_carousel_previous()}
 				>
-					<Icon name="arrow-left" className={style.arrowIcon} />
+					<Icon name="arrow-left" size={24} />
 				</Button>
 
 				<div
@@ -129,11 +129,11 @@ const Carousel = ({ slides }: Props) => {
 					aria-controls={slidesId}
 					aria-label={m.elearning_block_carousel_next()}
 				>
-					<Icon name="arrow-right" className={style.arrowIcon} />
+					<Icon name="arrow-right" size={24} />
 				</Button>
 			</div>
 
-			<p className={style.counter} aria-hidden="true">
+			<p aria-hidden="true">
 				{current + 1}/{slides.length}
 			</p>
 		</section>
