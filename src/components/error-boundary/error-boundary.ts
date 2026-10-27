@@ -1,4 +1,4 @@
-import { Component, type ErrorInfo, type ReactNode } from "react";
+import { Component, type ReactNode } from "react";
 
 type ErrorBoundaryProps = Readonly<{
 	children: ReactNode;
@@ -18,9 +18,6 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarystate> {
 	static getDerivedStateFromError(error: Error) {
 		return { error };
 	}
-
-	// oxlint-disable-next-line no-unused-vars -- depends on project. Remove if not used
-	componentDidCatch(error: Error, info: ErrorInfo) {}
 
 	render() {
 		if (this.state.error) {
