@@ -1,3 +1,5 @@
+import { parseUrl } from "lib/url";
+
 const youtubePathId = (url: URL) => {
 	const host = url.hostname.replace(/^www\.|^m\./, "");
 	if (host === "youtu.be") return url.pathname.split("/")[1];
@@ -28,8 +30,8 @@ const vimeoId = (url: URL) => {
 };
 
 export const embedVideoUrl = (videoUrl: string) => {
-	if (!URL.canParse(videoUrl)) return undefined;
-	const url = new URL(videoUrl);
+	const url = parseUrl(videoUrl);
+	if (!url) return undefined;
 
 	const youtube = youtubeId(url);
 	if (youtube) return `https://www.youtube-nocookie.com/embed/${youtube}`;
