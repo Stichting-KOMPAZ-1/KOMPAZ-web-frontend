@@ -128,6 +128,12 @@
 
 	"error_unknown": "Unknown error.",
 
+	"error_page_title": "Something went wrong",
+	"error_page_body": "Please try again. If it keeps happening, come back later.",
+	"error_page_retry": "Try again",
+	"error_page_reload": "Reload page",
+	"error_page_home": "Back to home",
+
 	"not_found_title": "Not found",
 	"not_found_body": "This page does not exist or has moved.",
 	"not_found_home": "Back to home"

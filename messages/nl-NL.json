@@ -128,6 +128,12 @@
 
 	"error_unknown": "Onbekende fout.",
 
+	"error_page_title": "Er ging iets mis",
+	"error_page_body": "Probeer het opnieuw. Blijft het misgaan, kom dan later terug.",
+	"error_page_retry": "Opnieuw proberen",
+	"error_page_reload": "Pagina herladen",
+	"error_page_home": "Terug naar home",
+
 	"not_found_title": "Niet gevonden",
 	"not_found_body": "Deze pagina bestaat niet of is verplaatst.",
 	"not_found_home": "Terug naar home"
