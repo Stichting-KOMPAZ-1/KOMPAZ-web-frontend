@@ -7,6 +7,7 @@ import parse, {
 	Element,
 	type HTMLReactParserOptions,
 } from "html-react-parser";
+import { parseUrl } from "lib/url";
 
 import style from "./rich-text.module.scss";
 
@@ -35,7 +36,8 @@ const RichTextLink = ({
 	href: string;
 	children: React.ReactNode;
 }) => {
-	const url = new URL(href, window.location.href);
+	const url = parseUrl(href, window.location.href);
+	if (!url) return children;
 
 	if (href.startsWith("#") || url.protocol === "mailto:") {
 		return (
