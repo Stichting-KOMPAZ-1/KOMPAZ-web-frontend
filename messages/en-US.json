@@ -106,6 +106,12 @@
 	"elearning_part_load_error": "This part could not be loaded.",
 	"elearning_block_video": "Video",
 	"elearning_block_video_link": "Watch the video",
+	"elearning_block_carousel": "carousel",
+	"elearning_block_carousel_label": "Slides",
+	"elearning_block_carousel_slide": "slide",
+	"elearning_block_carousel_previous": "Previous slide",
+	"elearning_block_carousel_next": "Next slide",
+	"elearning_block_carousel_position": "{current} of {total}",
 
 	"shared_elearning_unavailable": "This e-learning is not available (anymore). Ask your care provider for a new link.",
 
