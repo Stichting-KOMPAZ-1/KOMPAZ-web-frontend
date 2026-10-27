@@ -5,6 +5,7 @@ import {
 	tableFeatures,
 	useTable,
 } from "@tanstack/react-table";
+import { useOverflowsInline } from "hooks/use-overflows-inline";
 
 import style from "./table.module.scss";
 
@@ -30,10 +31,14 @@ export const Table = <TData extends RowData>({
 	...label
 }: Props<TData>) => {
 	const table = useTable({ features, columns, data });
+	const { ref, overflows } = useOverflowsInline<HTMLElement>();
 
 	return (
-		// oxlint-disable-next-line jsx-a11y/no-noninteractive-tabindex -- a scrollable region needs focus so keyboard users can scroll it (WCAG 2.1.1)
-		<section className={style.scroller} tabIndex={0} {...label}>
+		<section
+			ref={ref}
+			className={style.scroller}
+			{...(overflows && { tabIndex: 0, ...label })}
+		>
 			<table className={style.table}>
 				<colgroup>
 					{table.getAllLeafColumns().map((column) => (
