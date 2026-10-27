@@ -71,8 +71,4 @@ export const translatedPathnames = createTranslatedPathnames({
 		"en-US": "/profile",
 		"nl-NL": "/profiel",
 	},
-	"/form-example": {
-		"en-US": "/form-example",
-		"nl-NL": "/formulier-voorbeeld",
-	},
 });
