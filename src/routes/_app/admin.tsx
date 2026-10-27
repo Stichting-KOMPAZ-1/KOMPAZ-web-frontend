@@ -6,8 +6,8 @@ import { ensureSignedInUser } from "lib/session";
 import { makePageTitle } from "lib/title";
 
 export const Route = createFileRoute("/_app/admin")({
-	beforeLoad: async ({ context }) => {
-		const user = await ensureSignedInUser(context.queryClient);
+	beforeLoad: async ({ context, location }) => {
+		const user = await ensureSignedInUser(context.queryClient, location);
 		if (!canManageOrganization(user)) throw redirect({ to: "/" });
 	},
 	head: () => ({

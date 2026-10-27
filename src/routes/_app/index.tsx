@@ -20,8 +20,8 @@ const modulesQuery = (organizationId: string | undefined) =>
 
 export const Route = createFileRoute("/_app/")({
 	loaderDeps: ({ search }) => ({ organizationId: search.organizationId }),
-	loader: async ({ context, deps }) => {
-		const user = await ensureSignedInUser(context.queryClient);
+	loader: async ({ context, deps, location }) => {
+		const user = await ensureSignedInUser(context.queryClient, location);
 
 		return context.queryClient.ensureQueryData(
 			modulesQuery(readingOrganizationFor(user, deps.organizationId)),
