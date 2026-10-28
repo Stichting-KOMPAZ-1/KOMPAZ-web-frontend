@@ -14,11 +14,11 @@ import { Heading } from "components/heading/heading";
 import Icon from "components/icon/icon";
 import PageError from "components/page/page-error";
 import PageLoading from "components/page/page-loading";
-import { notFoundOn404 } from "lib/api/error-helpers";
 import {
 	sharedELearningPartThroughModuleOptions,
 	sharedELearningShowThroughModuleOptions,
 } from "lib/heyapi/@tanstack/react-query.gen";
+import { notFoundOn404 } from "lib/not-found";
 import * as m from "lib/paraglide/messages";
 import { makePageTitle } from "lib/title";
 

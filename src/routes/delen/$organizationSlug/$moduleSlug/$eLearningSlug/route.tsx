@@ -6,11 +6,11 @@ import SharedHeader from "components/header/shared-header";
 import PageError from "components/page/page-error";
 import PageLoading from "components/page/page-loading";
 import AppLayout from "layouts/app-layout/app-layout";
-import { notFoundOn404 } from "lib/api/error-helpers";
 import {
 	authMeOptions,
 	sharedELearningShowThroughModuleOptions,
 } from "lib/heyapi/@tanstack/react-query.gen";
+import { notFoundOn404 } from "lib/not-found";
 import * as m from "lib/paraglide/messages";
 import z from "zod";
 
