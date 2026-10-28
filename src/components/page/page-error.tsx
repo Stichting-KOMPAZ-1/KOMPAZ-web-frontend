@@ -9,7 +9,9 @@ type Props = {
 
 const PageError = ({ children }: Props) => (
 	<div className={style.page}>
-		<SystemMessage variant="error">{children}</SystemMessage>
+		<SystemMessage variant="error" role="alert">
+			{children}
+		</SystemMessage>
 	</div>
 );
 

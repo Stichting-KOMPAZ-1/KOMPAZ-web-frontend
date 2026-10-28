@@ -15,9 +15,11 @@ import {
 } from "components/organization/organization-utils";
 import PageError from "components/page/page-error";
 import PageLoading from "components/page/page-loading";
+import PageNotFound from "components/page/page-not-found";
 import Pill from "components/pill/pill";
 import { problemDetail } from "lib/api/error-helpers";
 import { moduleShowOptions } from "lib/heyapi/@tanstack/react-query.gen";
+import { notFoundOn404 } from "lib/not-found";
 import * as m from "lib/paraglide/messages";
 import { ensureSignedInUser } from "lib/session";
 import { makePageTitle } from "lib/title";
@@ -32,9 +34,9 @@ export const Route = createFileRoute("/_app/modules/$moduleId")({
 		const user = await ensureSignedInUser(context.queryClient, location);
 		const organizationId = readingOrganizationFor(user, deps.organizationId);
 
-		return context.queryClient.ensureQueryData(
-			moduleShowOptions({ path, query: { organizationId } }),
-		);
+		return context.queryClient
+			.ensureQueryData(moduleShowOptions({ path, query: { organizationId } }))
+			.catch(notFoundOn404);
 	},
 	head: ({ loaderData }) => ({
 		meta: [{ title: makePageTitle(loaderData?.name ?? "") }],
@@ -42,6 +44,10 @@ export const Route = createFileRoute("/_app/modules/$moduleId")({
 	errorComponent: ({ error }) => (
 		<PageError>{problemDetail(error) ?? m.module_load_error()}</PageError>
 	),
+	notFoundComponent: ({ data }) => {
+		const detail = problemDetail(data);
+		return detail ? <PageError>{detail}</PageError> : <PageNotFound />;
+	},
 	pendingComponent: PageLoading,
 	component: ModulePage,
 });

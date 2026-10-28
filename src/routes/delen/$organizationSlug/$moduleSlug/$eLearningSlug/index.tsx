@@ -22,6 +22,7 @@ import {
 	authMeOptions,
 	sharedELearningShowThroughModuleOptions,
 } from "lib/heyapi/@tanstack/react-query.gen";
+import { notFoundOn404 } from "lib/not-found";
 import * as m from "lib/paraglide/messages";
 import { makePageTitle } from "lib/title";
 import z from "zod";
@@ -38,9 +39,11 @@ export const Route = createFileRoute(
 	loaderDeps: ({ search }) => ({ source: search.utm_source }),
 	staleTime: Infinity,
 	loader: async ({ context, params, deps, preload }) => {
-		const eLearning = await context.queryClient.ensureQueryData(
-			sharedELearningShowThroughModuleOptions({ path: params }),
-		);
+		const eLearning = await context.queryClient
+			.ensureQueryData(
+				sharedELearningShowThroughModuleOptions({ path: params }),
+			)
+			.catch(notFoundOn404);
 
 		if (!preload) {
 			track("elearning_open", {
@@ -56,6 +59,9 @@ export const Route = createFileRoute(
 		meta: [{ title: makePageTitle(loaderData?.name ?? "") }],
 	}),
 	errorComponent: () => (
+		<PageError>{m.shared_elearning_unavailable()}</PageError>
+	),
+	notFoundComponent: () => (
 		<PageError>{m.shared_elearning_unavailable()}</PageError>
 	),
 	pendingComponent: PageLoading,

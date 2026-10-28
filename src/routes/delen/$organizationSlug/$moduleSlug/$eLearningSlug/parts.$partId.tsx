@@ -18,6 +18,7 @@ import {
 	sharedELearningPartThroughModuleOptions,
 	sharedELearningShowThroughModuleOptions,
 } from "lib/heyapi/@tanstack/react-query.gen";
+import { notFoundOn404 } from "lib/not-found";
 import * as m from "lib/paraglide/messages";
 import { makePageTitle } from "lib/title";
 
@@ -29,14 +30,16 @@ export const Route = createFileRoute(
 	loader: async ({ context, params }) => {
 		const path = sharedELearningPath(params);
 		const [part] = await Promise.all([
-			context.queryClient.ensureQueryData(
-				sharedELearningPartThroughModuleOptions({
-					path: { ...path, part: params.partId },
-				}),
-			),
-			context.queryClient.ensureQueryData(
-				sharedELearningShowThroughModuleOptions({ path }),
-			),
+			context.queryClient
+				.ensureQueryData(
+					sharedELearningPartThroughModuleOptions({
+						path: { ...path, part: params.partId },
+					}),
+				)
+				.catch(notFoundOn404),
+			context.queryClient
+				.ensureQueryData(sharedELearningShowThroughModuleOptions({ path }))
+				.catch(notFoundOn404),
 		]);
 
 		return part;
@@ -45,6 +48,9 @@ export const Route = createFileRoute(
 		meta: [{ title: makePageTitle(loaderData?.name ?? "") }],
 	}),
 	errorComponent: () => <PageError>{m.elearning_part_load_error()}</PageError>,
+	notFoundComponent: () => (
+		<PageError>{m.shared_elearning_unavailable()}</PageError>
+	),
 	pendingComponent: PageLoading,
 	component: SharedPartPage,
 });

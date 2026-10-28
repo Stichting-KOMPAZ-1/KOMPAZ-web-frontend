@@ -10,7 +10,6 @@ export type ValidationProblemDetails = z.infer<
 	typeof zValidationProblemDetails
 >;
 
-// TODO: make sure this can handle the error types for your project
 export const normalizeFieldErrors = (errors: unknown): string[] => {
 	const errorArray = Array.isArray(errors) ? errors : [errors];
 	return errorArray.flatMap((error) => {
