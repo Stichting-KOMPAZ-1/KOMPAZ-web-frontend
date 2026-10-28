@@ -1,3 +1,4 @@
+import { notFound } from "@tanstack/react-router";
 import * as m from "lib/paraglide/messages";
 import * as z from "zod";
 
@@ -31,4 +32,9 @@ const zProblemStatus = z.object({ status: z.number() });
 export const problemStatus = (error: unknown): number | undefined => {
 	const parsed = zProblemStatus.safeParse(error);
 	return parsed.success ? parsed.data.status : undefined;
+};
+
+export const notFoundOn404 = (error: unknown): never => {
+	if (problemStatus(error) === 404) throw notFound({ data: error });
+	throw error;
 };

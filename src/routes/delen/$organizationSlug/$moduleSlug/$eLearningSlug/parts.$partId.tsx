@@ -12,8 +12,9 @@ import {
 import StepNav from "components/e-learning/step-nav";
 import { Heading } from "components/heading/heading";
 import Icon from "components/icon/icon";
+import PageError from "components/page/page-error";
 import PageLoading from "components/page/page-loading";
-import RouteError from "components/page/route-error";
+import { notFoundOn404 } from "lib/api/error-helpers";
 import {
 	sharedELearningPartThroughModuleOptions,
 	sharedELearningShowThroughModuleOptions,
@@ -29,14 +30,16 @@ export const Route = createFileRoute(
 	loader: async ({ context, params }) => {
 		const path = sharedELearningPath(params);
 		const [part] = await Promise.all([
-			context.queryClient.ensureQueryData(
-				sharedELearningPartThroughModuleOptions({
-					path: { ...path, part: params.partId },
-				}),
-			),
-			context.queryClient.ensureQueryData(
-				sharedELearningShowThroughModuleOptions({ path }),
-			),
+			context.queryClient
+				.ensureQueryData(
+					sharedELearningPartThroughModuleOptions({
+						path: { ...path, part: params.partId },
+					}),
+				)
+				.catch(notFoundOn404),
+			context.queryClient
+				.ensureQueryData(sharedELearningShowThroughModuleOptions({ path }))
+				.catch(notFoundOn404),
 		]);
 
 		return part;
@@ -44,8 +47,9 @@ export const Route = createFileRoute(
 	head: ({ loaderData }) => ({
 		meta: [{ title: makePageTitle(loaderData?.name ?? "") }],
 	}),
-	errorComponent: ({ error }) => (
-		<RouteError error={error} fallback={m.elearning_part_load_error()} />
+	errorComponent: () => <PageError>{m.elearning_part_load_error()}</PageError>,
+	notFoundComponent: () => (
+		<PageError>{m.shared_elearning_unavailable()}</PageError>
 	),
 	pendingComponent: PageLoading,
 	component: SharedPartPage,

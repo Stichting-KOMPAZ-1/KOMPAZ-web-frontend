@@ -13,7 +13,7 @@ import {
 import Icon from "components/icon/icon";
 import PageError from "components/page/page-error";
 import PageLoading from "components/page/page-loading";
-import RouteError from "components/page/route-error";
+import { notFoundOn404 } from "lib/api/error-helpers";
 import { sharedELearningShowThroughModuleOptions } from "lib/heyapi/@tanstack/react-query.gen";
 import * as m from "lib/paraglide/messages";
 import { makePageTitle } from "lib/title";
@@ -27,11 +27,13 @@ export const Route = createFileRoute(
 	"/delen/$organizationSlug/$moduleSlug/$eLearningSlug/chapters/$chapterId",
 )({
 	loader: ({ context, params }) =>
-		context.queryClient.ensureQueryData(
-			sharedELearningShowThroughModuleOptions({
-				path: sharedELearningPath(params),
-			}),
-		),
+		context.queryClient
+			.ensureQueryData(
+				sharedELearningShowThroughModuleOptions({
+					path: sharedELearningPath(params),
+				}),
+			)
+			.catch(notFoundOn404),
 	head: ({ loaderData, params }) => ({
 		meta: [
 			{
@@ -41,8 +43,9 @@ export const Route = createFileRoute(
 			},
 		],
 	}),
-	errorComponent: ({ error }) => (
-		<RouteError error={error} fallback={m.elearning_load_error()} />
+	errorComponent: () => <PageError>{m.elearning_load_error()}</PageError>,
+	notFoundComponent: () => (
+		<PageError>{m.shared_elearning_unavailable()}</PageError>
 	),
 	pendingComponent: PageLoading,
 	component: SharedChapterPage,

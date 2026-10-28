@@ -3,9 +3,10 @@ import { createFileRoute, retainSearchParams } from "@tanstack/react-router";
 import { overviewLink } from "components/e-learning/e-learning-utils";
 import AppHeader from "components/header/app-header";
 import SharedHeader from "components/header/shared-header";
+import PageError from "components/page/page-error";
 import PageLoading from "components/page/page-loading";
-import RouteError from "components/page/route-error";
 import AppLayout from "layouts/app-layout/app-layout";
+import { notFoundOn404 } from "lib/api/error-helpers";
 import {
 	authMeOptions,
 	sharedELearningShowThroughModuleOptions,
@@ -23,13 +24,18 @@ export const Route = createFileRoute(
 	staticData: { organizationFixed: true },
 	loader: ({ context, params }) =>
 		Promise.all([
-			context.queryClient.ensureQueryData(
-				sharedELearningShowThroughModuleOptions({ path: params }),
-			),
+			context.queryClient
+				.ensureQueryData(
+					sharedELearningShowThroughModuleOptions({ path: params }),
+				)
+				.catch(notFoundOn404),
 			context.queryClient.prefetchQuery(authMeOptions()),
 		]),
-	errorComponent: ({ error }) => (
-		<RouteError error={error} fallback={m.shared_elearning_unavailable()} />
+	errorComponent: () => (
+		<PageError>{m.shared_elearning_unavailable()}</PageError>
+	),
+	notFoundComponent: () => (
+		<PageError>{m.shared_elearning_unavailable()}</PageError>
 	),
 	pendingComponent: PageLoading,
 	component: SharedELearningLayout,

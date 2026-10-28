@@ -14,10 +14,11 @@ import {
 import { Heading } from "components/heading/heading";
 import Icon from "components/icon/icon";
 import { selectedOrganizationFor } from "components/organization/organization-utils";
+import PageError from "components/page/page-error";
 import PageLoading from "components/page/page-loading";
-import RouteError from "components/page/route-error";
 import Pill from "components/pill/pill";
 import { track } from "lib/analytics";
+import { notFoundOn404 } from "lib/api/error-helpers";
 import {
 	authMeOptions,
 	sharedELearningShowThroughModuleOptions,
@@ -38,9 +39,11 @@ export const Route = createFileRoute(
 	loaderDeps: ({ search }) => ({ source: search.utm_source }),
 	staleTime: Infinity,
 	loader: async ({ context, params, deps, preload }) => {
-		const eLearning = await context.queryClient.ensureQueryData(
-			sharedELearningShowThroughModuleOptions({ path: params }),
-		);
+		const eLearning = await context.queryClient
+			.ensureQueryData(
+				sharedELearningShowThroughModuleOptions({ path: params }),
+			)
+			.catch(notFoundOn404);
 
 		if (!preload) {
 			track("elearning_open", {
@@ -55,8 +58,11 @@ export const Route = createFileRoute(
 	head: ({ loaderData }) => ({
 		meta: [{ title: makePageTitle(loaderData?.name ?? "") }],
 	}),
-	errorComponent: ({ error }) => (
-		<RouteError error={error} fallback={m.shared_elearning_unavailable()} />
+	errorComponent: () => (
+		<PageError>{m.shared_elearning_unavailable()}</PageError>
+	),
+	notFoundComponent: () => (
+		<PageError>{m.shared_elearning_unavailable()}</PageError>
 	),
 	pendingComponent: PageLoading,
 	component: SharedELearningPage,

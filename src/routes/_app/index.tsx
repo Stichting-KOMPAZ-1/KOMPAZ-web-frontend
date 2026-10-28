@@ -6,8 +6,8 @@ import {
 	readingOrganizationFor,
 	useReadingOrganizationId,
 } from "components/organization/organization-utils";
+import PageError from "components/page/page-error";
 import PageLoading from "components/page/page-loading";
-import RouteError from "components/page/route-error";
 import { moduleIndexOptions } from "lib/heyapi/@tanstack/react-query.gen";
 import * as m from "lib/paraglide/messages";
 import { ensureSignedInUser } from "lib/session";
@@ -30,9 +30,7 @@ export const Route = createFileRoute("/_app/")({
 	head: () => ({
 		meta: [{ title: makePageTitle(m.library_title()) }],
 	}),
-	errorComponent: ({ error }) => (
-		<RouteError error={error} fallback={m.library_load_error()} />
-	),
+	errorComponent: () => <PageError>{m.library_load_error()}</PageError>,
 	pendingComponent: PageLoading,
 	component: LibraryPage,
 });
