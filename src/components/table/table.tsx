@@ -39,7 +39,7 @@ export const Table = <TData extends RowData>({
 			className={style.scroller}
 			{...(overflows && { tabIndex: 0, ...label })}
 		>
-			<table className={style.table}>
+			<table className={style.table} {...label}>
 				<colgroup>
 					{table.getAllLeafColumns().map((column) => (
 						<col
