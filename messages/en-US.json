@@ -112,6 +112,7 @@
 	"elearning_block_carousel_previous": "Previous slide",
 	"elearning_block_carousel_next": "Next slide",
 	"elearning_block_carousel_position": "{current} of {total}",
+	"elearning_block_table": "Table",
 
 	"shared_elearning_unavailable": "This e-learning is not available (anymore). Ask your care provider for a new link.",
 
