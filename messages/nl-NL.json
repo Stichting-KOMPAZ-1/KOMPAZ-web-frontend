@@ -106,6 +106,12 @@
 	"elearning_part_load_error": "Dit onderdeel kon niet worden geladen.",
 	"elearning_block_video": "Video",
 	"elearning_block_video_link": "Bekijk de video",
+	"elearning_block_carousel": "carrousel",
+	"elearning_block_carousel_label": "Slides",
+	"elearning_block_carousel_slide": "slide",
+	"elearning_block_carousel_previous": "Vorige slide",
+	"elearning_block_carousel_next": "Volgende slide",
+	"elearning_block_carousel_position": "{current} van {total}",
 
 	"shared_elearning_unavailable": "Deze e-learning is niet (meer) beschikbaar. Vraag je zorgverlener om een nieuwe link.",
 
