@@ -1,9 +1,11 @@
 import RichText from "components/rich-text/rich-text";
 import type { ContentBlockResource } from "lib/heyapi";
 
+import Carousel from "./carousel";
 import Checkboxes from "./checkboxes";
 import Image from "./image";
 import Instruction from "./instruction";
+import Table from "./table";
 import TitledBlock from "./titled-block";
 import Video from "./video";
 
@@ -39,10 +41,14 @@ const ContentBlock = ({ block }: Props) => {
 					/>
 				</TitledBlock>
 			);
+		case "Table":
+			return <Table block={block} />;
 		case "Instruction":
 			return <Instruction block={block} />;
 		case "Checkboxes":
 			return <Checkboxes block={block} />;
+		case "Carousel":
+			return <Carousel slides={block.slides} />;
 	}
 };
 
@@ -54,10 +60,14 @@ const hasContent = (block: ContentBlockResource) => {
 			return Boolean(block.fileUrl);
 		case "Video":
 			return Boolean(block.fileUrl || block.videoUrl);
+		case "Table":
+			return Boolean(block.table?.columns.length);
 		case "Instruction":
 			return Boolean(block.body || block.fileUrl);
 		case "Checkboxes":
 			return Boolean(block.body || block.checkboxes?.length);
+		case "Carousel":
+			return block.slides.length > 0;
 	}
 };
 

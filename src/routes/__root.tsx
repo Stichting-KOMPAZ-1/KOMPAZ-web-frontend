@@ -1,12 +1,12 @@
 import {
 	createRootRouteWithContext,
-	ErrorComponent,
 	HeadContent,
 	Outlet,
 	redirect,
 	Scripts,
 } from "@tanstack/react-router";
 import PageNotFound from "components/page/page-not-found";
+import RootError from "components/page/root-error";
 import {
 	baseLocale,
 	getUrlOrigin,
@@ -46,6 +46,6 @@ export const Route = createRootRouteWithContext<RouterContext>()({
 			<Scripts />
 		</>
 	),
-	errorComponent: (error) => <ErrorComponent error={error} />,
+	errorComponent: RootError,
 	notFoundComponent: PageNotFound,
 });

@@ -22,7 +22,7 @@ Three layers, in dependency order:
 exported there — they are only wired into `createFormHook` in
 `src/lib/forms/index.tsx`, and reached through `field.` at a call site.
 
-`src/routes/_app/form-example.tsx` is the living reference. Keep it working.
+`src/components/login/login-form.tsx` is the reference form.
 
 ## Writing a form
 

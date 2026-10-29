@@ -106,6 +106,13 @@
 	"elearning_part_load_error": "This part could not be loaded.",
 	"elearning_block_video": "Video",
 	"elearning_block_video_link": "Watch the video",
+	"elearning_block_carousel": "carousel",
+	"elearning_block_carousel_label": "Slides",
+	"elearning_block_carousel_slide": "slide",
+	"elearning_block_carousel_previous": "Previous slide",
+	"elearning_block_carousel_next": "Next slide",
+	"elearning_block_carousel_position": "{current} of {total}",
+	"elearning_block_table": "Table",
 
 	"shared_elearning_unavailable": "This e-learning is not available (anymore). Ask your care provider for a new link.",
 
@@ -127,6 +134,12 @@
 	"contact_subtitle": "Get in touch with us!",
 
 	"error_unknown": "Unknown error.",
+
+	"error_page_title": "Something went wrong",
+	"error_page_body": "Please try again. If it keeps happening, come back later.",
+	"error_page_retry": "Try again",
+	"error_page_reload": "Reload page",
+	"error_page_home": "Back to home",
 
 	"not_found_title": "Not found",
 	"not_found_body": "This page does not exist or has moved.",

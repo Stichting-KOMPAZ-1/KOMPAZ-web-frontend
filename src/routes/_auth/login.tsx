@@ -31,7 +31,11 @@ export const Route = createFileRoute("/_auth/login")({
 		const user = await context.queryClient.ensureQueryData(authMeOptions());
 		if (!user) return;
 
-		throw redirect({ to: search.redirect ?? "/" });
+		const target = new URL(search.redirect ?? "/", window.location.origin);
+		throw redirect({
+			to: target.pathname,
+			search: Object.fromEntries(target.searchParams),
+		});
 	},
 	component: LoginPage,
 });

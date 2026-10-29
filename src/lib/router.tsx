@@ -9,7 +9,7 @@ export type RouterContext = Readonly<{
 	queryClient: QueryClient;
 }>;
 
-const router = createRouter({
+export const router = createRouter({
 	routeTree,
 	context: {
 		// oxlint-disable-next-line typescript/no-non-null-assertion -- will immediately get instantiated

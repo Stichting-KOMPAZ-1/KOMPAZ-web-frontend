@@ -106,6 +106,13 @@
 	"elearning_part_load_error": "Dit onderdeel kon niet worden geladen.",
 	"elearning_block_video": "Video",
 	"elearning_block_video_link": "Bekijk de video",
+	"elearning_block_carousel": "carrousel",
+	"elearning_block_carousel_label": "Slides",
+	"elearning_block_carousel_slide": "slide",
+	"elearning_block_carousel_previous": "Vorige slide",
+	"elearning_block_carousel_next": "Volgende slide",
+	"elearning_block_carousel_position": "{current} van {total}",
+	"elearning_block_table": "Tabel",
 
 	"shared_elearning_unavailable": "Deze e-learning is niet (meer) beschikbaar. Vraag je zorgverlener om een nieuwe link.",
 
@@ -127,6 +134,12 @@
 	"contact_subtitle": "Neem contact met ons op!",
 
 	"error_unknown": "Onbekende fout.",
+
+	"error_page_title": "Er ging iets mis",
+	"error_page_body": "Probeer het opnieuw. Blijft het misgaan, kom dan later terug.",
+	"error_page_retry": "Opnieuw proberen",
+	"error_page_reload": "Pagina herladen",
+	"error_page_home": "Terug naar home",
 
 	"not_found_title": "Niet gevonden",
 	"not_found_body": "Deze pagina bestaat niet of is verplaatst.",
